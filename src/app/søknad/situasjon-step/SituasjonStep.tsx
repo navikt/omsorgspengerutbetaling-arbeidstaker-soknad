@@ -10,6 +10,11 @@ import SøknadStep from '../SøknadStep';
 import { SituasjonStepQuestions } from './config';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
+import { YesOrNo } from 'common/types/YesOrNo';
+
+function isYesOrNo(value: YesOrNo): boolean {
+    return value === YesOrNo.YES || value === YesOrNo.NO;
+}
 
 const HvaErDinSituasjon = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -42,34 +47,42 @@ const HvaErDinSituasjon = ({ onValidSubmit }: StepConfigProps) => {
                     validate={validateYesOrNoIsAnswered}
                 />
             </FormBlock>
-            <FormBlock>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.militærtjeneste}
-                    legend={intlHelper(intl, 'steg1.militærtjeneste')}
-                    validate={validateYesOrNoIsAnswered}
-                />
-            </FormBlock>
-            <FormBlock>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger}
-                    legend={intlHelper(intl, 'steg1.ulønnetPermisjonDirekteEtterForeldrepenger')}
-                    validate={validateYesOrNoIsAnswered}
-                />
-            </FormBlock>
-            <FormBlock>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.lovbestemtFerie}
-                    legend={intlHelper(intl, 'steg1.lovbestemtFerie')}
-                    validate={validateYesOrNoIsAnswered}
-                />
-            </FormBlock>
-            <FormBlock>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.annet}
-                    legend={intlHelper(intl, 'steg1.annet')}
-                    validate={validateYesOrNoIsAnswered}
-                />
-            </FormBlock>
+            {isYesOrNo(values[SøknadFormField.forutForDetteArbeidsforholdet]) && (
+                <FormBlock>
+                    <SøknadFormComponents.YesOrNoQuestion
+                        name={SøknadFormField.militærtjeneste}
+                        legend={intlHelper(intl, 'steg1.militærtjeneste')}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                </FormBlock>
+            )}
+            {isYesOrNo(values[SøknadFormField.militærtjeneste]) && (
+                <FormBlock>
+                    <SøknadFormComponents.YesOrNoQuestion
+                        name={SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger}
+                        legend={intlHelper(intl, 'steg1.ulønnetPermisjonDirekteEtterForeldrepenger')}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                </FormBlock>
+            )}
+            {isYesOrNo(values[SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]) && (
+                <FormBlock>
+                    <SøknadFormComponents.YesOrNoQuestion
+                        name={SøknadFormField.lovbestemtFerie}
+                        legend={intlHelper(intl, 'steg1.lovbestemtFerie')}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                </FormBlock>
+            )}
+            {isYesOrNo(values[SøknadFormField.lovbestemtFerie]) && (
+                <FormBlock>
+                    <SøknadFormComponents.YesOrNoQuestion
+                        name={SøknadFormField.annet}
+                        legend={intlHelper(intl, 'steg1.annet')}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                </FormBlock>
+            )}
 
             {/*{visibility.isVisible(SøknadFormField.fosterbarn) && (*/}
             {/*    <FormBlock margin="l">*/}
