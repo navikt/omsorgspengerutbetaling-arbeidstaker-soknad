@@ -1,4 +1,4 @@
-# Søknad om utbetaling av omsorgsdager for selvstendige og frilansere
+# Søknad om utbetaling av omsorgsdager for arbeidstakere
 
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 søknad om utbetaling av omsorgsdager for selvstendige og frilansere.
