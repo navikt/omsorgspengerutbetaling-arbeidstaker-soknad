@@ -8,6 +8,7 @@ import StepBanner from 'common/components/step-banner/StepBanner';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
+import ItemList from 'common/components/item-list/ItemList';
 
 const bem = bemUtils('introPage');
 
@@ -22,6 +23,14 @@ const bem = bemUtils('introPage');
 // const initialValues = {};
 // const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
 
+const listItems: string[] = [
+    'de har jobbet hos nåværende arbeidsgiver i mindre enn 4 uker, men har forut dette arbeidsforhold hatt et annet arbeidsforhold eller en ytelse fra NAV som likestilles med arbeidsforhold (dagpenger, foreldrepenger, pleiepenger, opplæringspenger, svangerskapspenger)',
+    'du har vært i militærtjeneste.',
+    'du har hatt ulønnet permisjon direkte etter en periode med foreldrepenger og har avtalt med arbeidsgiveren din at du skal gjenoppta arbeidet etter permisjonen.',
+    'du har hatt lovbestemt ferie.',
+    'annet (det må hete annet i søknaden + friteksfelt) - noen arbeidsgivere nekter å utbetale til tross for at arbeidstaker har rett og arbeidsgiver har forskutteringsplikt.'
+];
+
 const IntroPage: React.StatelessComponent = () => {
     const intl = useIntl();
 
@@ -33,6 +42,33 @@ const IntroPage: React.StatelessComponent = () => {
             <Box margin="xxxl">
                 <InformationPoster>
                     <p>{intlHelper(intl, 'informasjon.nar_kan_man_fa_utbetalt')}</p>
+
+                    <ul>
+                        <li>
+                            de har jobbet hos nåværende arbeidsgiver i mindre enn 4 uker, men har forut dette arbeidsforhold hatt et annet arbeidsforhold eller en ytelse fra NAV som likestilles med arbeidsforhold (dagpenger, foreldrepenger, pleiepenger, opplæringspenger, svangerskapspenger)
+                        </li>
+                        <p />
+                        <li>
+                            du har vært i militærtjeneste.
+                        </li>
+                        <p />
+                        <li>
+                            du har hatt ulønnet permisjon direkte etter en periode med foreldrepenger og har avtalt med arbeidsgiveren din at du skal gjenoppta arbeidet etter permisjonen.
+                        </li>
+                        <p />
+                        <li>
+                            du har hatt lovbestemt ferie.
+                        </li>
+                        <p />
+                        <li>
+                             annet (det må hete annet i søknaden + friteksfelt) - noen arbeidsgivere nekter å utbetale til tross for at arbeidstaker har rett og arbeidsgiver har forskutteringsplikt.
+                        </li>
+                        <p />
+                    </ul>
+                    <p />
+                    I disse tilfellene kan du søke om utbetaling fra NAV.
+
+
                 </InformationPoster>
             </Box>
             {/*<FormBlock>*/}
