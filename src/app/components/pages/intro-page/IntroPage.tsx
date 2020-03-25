@@ -1,11 +1,5 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import {
-    commonFieldErrorRenderer
-} from '@navikt/sif-common-core/lib/utils/commonFieldErrorRenderer';
-import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
@@ -17,16 +11,16 @@ import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
 
 const bem = bemUtils('introPage');
 
-enum PageFormField {
-    'erSelvstendigEllerFrilanser' = 'erSelvstendigEllerFrilanser'
-}
+// enum PageFormField {
+//     'erSelvstendigEllerFrilanser' = 'erSelvstendigEllerFrilanser'
+// }
 
-interface PageFormValues {
-    [PageFormField.erSelvstendigEllerFrilanser]: YesOrNo;
-}
+// interface PageFormValues {
+//     [PageFormField.erSelvstendigEllerFrilanser]: YesOrNo;
+// }
 
-const initialValues = {};
-const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
+// const initialValues = {};
+// const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
 
 const IntroPage: React.StatelessComponent = () => {
     const intl = useIntl();
@@ -38,50 +32,52 @@ const IntroPage: React.StatelessComponent = () => {
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
             <Box margin="xxxl">
                 <InformationPoster>
-                    <p>
-                        Som selvstendig næringsdrivende eller frilanser må du som hovedregel dekke de 3 første dagene
-                        selv. Du kan søke om utbetaling av omsorgspenger fra den 4. dagen du er hjemme med omsorgsdager.
-                    </p>
+                    <p>{intlHelper(intl, 'informasjon.nar_kan_man_fa_utbetalt')}</p>
                 </InformationPoster>
             </Box>
-            <FormBlock>
-                <PageForm.FormikWrapper
-                    onSubmit={() => null}
-                    initialValues={initialValues}
-                    renderForm={({ values: { erSelvstendigEllerFrilanser } }) => (
-                        <PageForm.Form
-                            fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}
-                            includeButtons={false}>
-                            <PageForm.YesOrNoQuestion
-                                name={PageFormField.erSelvstendigEllerFrilanser}
-                                legend="Er du selvstendig næringsdrivende eller frilanser?"
-                            />
-                            {erSelvstendigEllerFrilanser === YesOrNo.NO && (
-                                <Box margin="xl">
-                                    <AlertStripeInfo>
-                                        <p style={{ marginTop: 0, marginBottom: 0 }}>
-                                            Denne søknaden gjelder <strong>kun</strong> for selvstendig næringsdrivende
-                                            og frilansere som skal søke om utbetaling av omsorgspenger.
-                                        </p>
-                                        <p>
-                                            Hvis du er arbeidstaker, skal du ikke søke om utbetaling av omsorgspenger.
-                                            Arbeidsgiveren din skal utbetale deg lønn som vanlig de dagene du tar ut
-                                            omsorgsdager.
-                                        </p>
-                                    </AlertStripeInfo>
-                                </Box>
-                            )}
-                            {erSelvstendigEllerFrilanser === YesOrNo.YES && (
-                                <Box margin="xl" textAlignCenter={true}>
-                                    <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>
-                                        <FormattedMessage id="gotoApplicationLink.lenketekst" />
-                                    </Lenke>
-                                </Box>
-                            )}
-                        </PageForm.Form>
-                    )}
-                />
-            </FormBlock>
+            {/*<FormBlock>*/}
+            {/*    <PageForm.FormikWrapper*/}
+            {/*        onSubmit={() => null}*/}
+            {/*        initialValues={initialValues}*/}
+            {/*        renderForm={({ values: { erSelvstendigEllerFrilanser } }) => (*/}
+            {/*            <PageForm.Form*/}
+            {/*                fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}*/}
+            {/*                includeButtons={false}>*/}
+            {/*                <PageForm.YesOrNoQuestion*/}
+            {/*                    name={PageFormField.erSelvstendigEllerFrilanser}*/}
+            {/*                    legend="Er du selvstendig næringsdrivende eller frilanser?"*/}
+            {/*                />*/}
+            {/*                {erSelvstendigEllerFrilanser === YesOrNo.NO && (*/}
+            {/*                    <Box margin="xl">*/}
+            {/*                        <AlertStripeInfo>*/}
+            {/*                            <p style={{ marginTop: 0, marginBottom: 0 }}>*/}
+            {/*                                Denne søknaden gjelder <strong>kun</strong> for selvstendig næringsdrivende*/}
+            {/*                                og frilansere som skal søke om utbetaling av omsorgspenger.*/}
+            {/*                            </p>*/}
+            {/*                            <p>*/}
+            {/*                                Hvis du er arbeidstaker, skal du ikke søke om utbetaling av omsorgspenger.*/}
+            {/*                                Arbeidsgiveren din skal utbetale deg lønn som vanlig de dagene du tar ut*/}
+            {/*                                omsorgsdager.*/}
+            {/*                            </p>*/}
+            {/*                        </AlertStripeInfo>*/}
+            {/*                    </Box>*/}
+            {/*                )}*/}
+            {/*                {erSelvstendigEllerFrilanser === YesOrNo.YES && (*/}
+            {/*                    <Box margin="xl" textAlignCenter={true}>*/}
+            {/*                        <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>*/}
+            {/*                            <FormattedMessage id="gotoApplicationLink.lenketekst" />*/}
+            {/*                        </Lenke>*/}
+            {/*                    </Box>*/}
+            {/*                )}*/}
+            {/*            </PageForm.Form>*/}
+            {/*        )}*/}
+            {/*    />*/}
+            {/*</FormBlock>*/}
+            <Box margin="xl" textAlignCenter={true}>
+                <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>
+                    <FormattedMessage id="gotoApplicationLink.lenketekst" />
+                </Lenke>
+            </Box>
         </Page>
     );
 };

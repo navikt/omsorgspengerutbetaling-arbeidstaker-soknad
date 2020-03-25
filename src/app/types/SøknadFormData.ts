@@ -1,6 +1,5 @@
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
-import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
@@ -10,8 +9,11 @@ export enum SøknadFormField {
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
     // STEG 1: Kvalifisering
-    har_fosterbarn = 'har_fosterbarn',
-    fosterbarn = 'fosterbarn',
+    forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
+    militærtjeneste = 'militærtjeneste',
+    ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
+    lovbestemtFerie = 'lovbestemtFerie',
+    annet = 'annet',
 
     // STEG 2: Har betalt ut 10 første dager
     har_utbetalt_ti_dager = 'har_utbetalt_ti_dager',
@@ -56,8 +58,11 @@ export interface SøknadFormData {
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
     // STEG 1: Kvalifisering
-    [SøknadFormField.har_fosterbarn]: YesOrNo;
-    [SøknadFormField.fosterbarn]: Fosterbarn[];
+    [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo;
+    [SøknadFormField.militærtjeneste]: YesOrNo;
+    [SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]: YesOrNo;
+    [SøknadFormField.lovbestemtFerie]: YesOrNo;
+    [SøknadFormField.annet]: YesOrNo;
 
     // STEG 2: Har betalt ut 10 første dager
     [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo;
@@ -103,8 +108,11 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
     // STEG 1: Kvalifisering
-    [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fosterbarn]: [],
+    [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo.UNANSWERED,
+    [SøknadFormField.militærtjeneste]: YesOrNo.UNANSWERED,
+    [SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]: YesOrNo.UNANSWERED,
+    [SøknadFormField.lovbestemtFerie]: YesOrNo.UNANSWERED,
+    [SøknadFormField.annet]: YesOrNo.UNANSWERED,
 
     // STEG 2: Har betalt ut 10 første dager
     [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo.UNANSWERED,

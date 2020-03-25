@@ -29,9 +29,6 @@ describe('<Step>', () => {
 
     it('should render common <Step> content', () => {
         const { getByText } = renderResult;
-        expect(
-            getByText('Søknad om utbetaling av omsorgspenger til selvstendig næringsdrivende eller frilansere')
-        ).toBeTruthy();
         expect(getByText('Hva er din situasjon?')).toBeTruthy();
     });
 });

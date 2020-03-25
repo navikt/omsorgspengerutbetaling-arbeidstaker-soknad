@@ -1,4 +1,3 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { QuestionConfig, Questions } from '@navikt/sif-common-question-config';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { yesOrNoIsAnswered } from '../../utils/yesOrNoIsAnswered';
@@ -6,13 +5,21 @@ import { yesOrNoIsAnswered } from '../../utils/yesOrNoIsAnswered';
 const Q = SøknadFormField;
 
 const SituasjonStepConfig: QuestionConfig<SøknadFormData, SøknadFormField> = {
-    [Q.har_fosterbarn]: {
-        isAnswered: ({ har_fosterbarn }) => yesOrNoIsAnswered(har_fosterbarn)
+    [Q.forutForDetteArbeidsforholdet]: {
+        isAnswered: ({ forutForDetteArbeidsforholdet }) => yesOrNoIsAnswered(forutForDetteArbeidsforholdet)
     },
-    [Q.fosterbarn]: {
-        parentQuestion: Q.har_fosterbarn,
-        isIncluded: ({ har_fosterbarn }) => har_fosterbarn === YesOrNo.YES,
-        isAnswered: ({ fosterbarn }) => fosterbarn !== undefined && fosterbarn.length > 0
+    [Q.militærtjeneste]: {
+        isAnswered: ({ militærtjeneste }) => yesOrNoIsAnswered(militærtjeneste)
+    },
+    [Q.ulønnetPermisjonDirekteEtterForeldrepenger]: {
+        isAnswered: ({ ulønnetPermisjonDirekteEtterForeldrepenger }) =>
+            yesOrNoIsAnswered(ulønnetPermisjonDirekteEtterForeldrepenger)
+    },
+    [Q.lovbestemtFerie]: {
+        isAnswered: ({ lovbestemtFerie }) => yesOrNoIsAnswered(lovbestemtFerie)
+    },
+    [Q.annet]: {
+        isAnswered: ({ annet }) => yesOrNoIsAnswered(annet)
     }
 };
 
