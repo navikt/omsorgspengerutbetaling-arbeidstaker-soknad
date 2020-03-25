@@ -4,7 +4,6 @@ import { StepConfigInterface, StepConfigItemTexts, StepID } from 'app/config/ste
 import { SøknadFormData } from '../types/SøknadFormData';
 import {
     egenutbetalingIsValid,
-    inntektStepIsValid,
     medlemskapStepIsValid,
     periodeStepIsValid,
     situasjonStepIsValid,
@@ -36,6 +35,7 @@ export const inntektStepIsAvailable = (formData: SøknadFormData) =>
     periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
 
 export const medlemskapStepIsAvailable = (formData: SøknadFormData) =>
-    inntektStepIsAvailable(formData) && inntektStepIsValid(formData);
+    periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
+// inntektStepIsAvailable(formData) && inntektStepIsValid(formData);
 
 export const summaryStepAvailable = (formData: SøknadFormData) => medlemskapStepIsValid(formData);

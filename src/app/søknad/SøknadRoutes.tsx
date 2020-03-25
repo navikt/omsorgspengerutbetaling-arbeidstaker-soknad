@@ -14,13 +14,12 @@ import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import EgenutbetalingStep from './egenutbetaling-step/EgenutbetalingStep';
-import InntektStep from './inntekt-step/InntektStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import PeriodeStep from './periode-step/PeriodeStep';
 import HvaErDinSituasjon from './situasjon-step/SituasjonStep';
 import SøknadTempStorage from './SøknadTempStorage';
-import * as apiUtils from "../utils/apiUtils";
+import * as apiUtils from '../utils/apiUtils';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -54,7 +53,7 @@ function SøknadRoutes({ lastStepID }: SøknadRoutes) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
             try {
                 await SøknadTempStorage.persist(values, stepID);
-            } catch (error){
+            } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     navigateToLoginPage();
                 } else {
@@ -121,12 +120,12 @@ function SøknadRoutes({ lastStepID }: SøknadRoutes) {
                 />
             )} */}
 
-            {isAvailable(StepID.INNTEKT, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.INNTEKT)}
-                    render={() => <InntektStep onValidSubmit={() => navigateToNextStepFrom(StepID.INNTEKT)} />}
-                />
-            )}
+            {/*{isAvailable(StepID.INNTEKT, values) && (*/}
+            {/*    <Route*/}
+            {/*        path={getSøknadRoute(StepID.INNTEKT)}*/}
+            {/*        render={() => <InntektStep onValidSubmit={() => navigateToNextStepFrom(StepID.INNTEKT)} />}*/}
+            {/*    />*/}
+            {/*)}*/}
 
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route

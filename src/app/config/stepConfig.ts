@@ -59,7 +59,7 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
         [StepID.PERIODE]: {
             ...getStepConfigItemTextKeys(StepID.PERIODE),
             index: idx++,
-            nextStep: StepID.INNTEKT,
+            nextStep: StepID.MEDLEMSKAP,
             backLinkHref: getSøknadRoute(StepID.EGENUTBETALING)
         },
         // [StepID.LEGEERKLÆRING]: {
@@ -68,17 +68,17 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
         //     nextStep: StepID.INNTEKT,
         //     backLinkHref: getSøknadRoute(StepID.PERIODE)
         // },
-        [StepID.INNTEKT]: {
-            ...getStepConfigItemTextKeys(StepID.INNTEKT),
-            index: idx++,
-            nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.PERIODE)
-        },
+        // [StepID.INNTEKT]: {
+        //     ...getStepConfigItemTextKeys(StepID.INNTEKT),
+        //     index: idx++,
+        //     nextStep: StepID.MEDLEMSKAP,
+        //     backLinkHref: getSøknadRoute(StepID.PERIODE)
+        // },
         [StepID.MEDLEMSKAP]: {
             ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
             index: idx++,
             nextStep: StepID.OPPSUMMERING,
-            backLinkHref: getSøknadRoute(StepID.INNTEKT)
+            backLinkHref: getSøknadRoute(StepID.PERIODE)
         },
         [StepID.OPPSUMMERING]: {
             ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),
