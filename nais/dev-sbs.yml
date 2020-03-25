@@ -1,0 +1,52 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+    name: omsorgspengerutbetaling-arbeidstaker-soknad
+    namespace: default
+    labels:
+        team: dusseldorf
+spec:
+    image: {{ image }}
+    port: 8080
+    liveness:
+        path: /familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isAlive
+        initialDelay: 20
+        timeout: 1
+        periodSeconds: 5
+        failureThreshold: 10
+    readiness:
+        path: /familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isReady
+        initialDelay: 20
+        timeout: 1
+    resources:
+        limits:
+            cpu: 2000m
+            memory: 512Mi
+        requests:
+            cpu: 50m
+            memory: 128Mi
+    ingresses:
+        - https://www-q0.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker
+        - https://omsorgspengerutbetaling-arbeidstaker.nais.oera-q.local
+    replicas:
+        min: 1
+        max: 1
+        cpuThresholdPercentage: 90
+    prometheus:
+        enabled: true
+        path: /metrics
+    vault:
+        enabled: false
+    env:
+        - name: APPRES_CMS_URL
+          value: http://appres.nav.no
+        - name: API_URL
+          value: https://omsorgspengerutbetalingsoknad-api-q.nav.no
+        - name: PUBLIC_PATH
+          value: /familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker
+        - name: LOGIN_URL
+          value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/soknad
+        - name: UTILGJENGELIG
+          value: "off"
+        - name: MELLOMLAGRING
+          value: "on"
