@@ -11,10 +11,13 @@ import { SituasjonStepQuestions } from './config';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
+import FormikNBarnQuestion, { validateNBarnIsAnswered } from '../../components/formik-n-barn/FormikNBarnQuestion';
 
 function isYesOrNo(value: YesOrNo): boolean {
     return value === YesOrNo.YES || value === YesOrNo.NO;
 }
+
+
 
 const HvaErDinSituasjon = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -39,6 +42,12 @@ const HvaErDinSituasjon = ({ onValidSubmit }: StepConfigProps) => {
             <CounsellorPanel>
                 <p>{intlHelper(intl, 'informasjon.nar_kan_man_fa_utbetalt')}</p>
             </CounsellorPanel>
+
+            <FormikNBarnQuestion
+                name={SøknadFormField.nBarn}
+                legend={intlHelper(intl, 'steg1.hvorMangeBarn')}
+                validate={validateNBarnIsAnswered}
+            />
 
             <FormBlock>
                 <SøknadFormComponents.YesOrNoQuestion

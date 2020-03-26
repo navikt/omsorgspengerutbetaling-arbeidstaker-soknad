@@ -3,12 +3,16 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
+import { NBarn } from '../components/formik-n-barn/n-barn-types';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
-    // STEG 1: Kvalifisering
+    // STEG 1: Hva er din situasjon
+
+    nBarn = 'nBarn',
+
     forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
     militærtjeneste = 'militærtjeneste',
     ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
@@ -57,7 +61,10 @@ export interface SøknadFormData {
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
-    // STEG 1: Kvalifisering
+    // STEG 1
+
+    [SøknadFormField.nBarn]: NBarn;
+
     [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo;
     [SøknadFormField.militærtjeneste]: YesOrNo;
     [SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]: YesOrNo;
@@ -100,6 +107,7 @@ export interface SøknadFormData {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
 }
+
 // const mockPeriode = { fom: undefined, tom: undefined } as any;
 
 // const ugyldigTimer: any = 'x';
@@ -108,6 +116,9 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
     // STEG 1: Kvalifisering
+
+    [SøknadFormField.nBarn]: NBarn.UNANSWERED,
+
     [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo.UNANSWERED,
     [SøknadFormField.militærtjeneste]: YesOrNo.UNANSWERED,
     [SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]: YesOrNo.UNANSWERED,

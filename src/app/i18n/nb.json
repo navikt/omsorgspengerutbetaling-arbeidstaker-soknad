@@ -68,6 +68,7 @@
     "step.situasjon.den_andre_forelderen_ikke_kan_ta_seg_av_barnet.spm": "Jeg har innvilget ekstra dager fordi den andre forelderen ikke kan ta seg av barnet",
     "step.situasjon.har_barn_som_har_kronisk_sykdom_eller_funksjonshemming.spm": "Jeg har innvilget ekstra dager fordi jeg har barn som har kronisk sykdom/funksjonshemming",
 
+    "steg1.hvorMangeBarn": "Hvor mange barn, inkludert fosterbarn, har du i husstanden?",
     "steg1.forutForDetteArbeidsforholdet": "TODO: de har jobbet hos nåværende arbeidsgiver i mindre enn 4 uker, men har forut dette arbeidsforhold hatt et annet arbeidsforhold eller en ytelse fra NAV som likestilles med arbeidsforhold (dagpenger, foreldrepenger, pleiepenger, opplæringspenger, svangerskapspenger)",
     "steg1.militærtjeneste": "TODO: du har vært i militærtjeneste.",
     "steg1.ulønnetPermisjonDirekteEtterForeldrepenger": "TODO: du har hatt ulønnet permisjon direkte etter en periode med foreldrepenger og har avtalt med arbeidsgiveren din at du skal gjenoppta arbeidet etter permisjonen.",
@@ -295,6 +296,7 @@
     "fieldvalidation.timer_for_mange_timer": "Verdien må være mellom 0,5 og 7,5 timer",
     "fieldvalidation.dato_utenfor_gyldig_tidsrom": "Dato er utenfor gyldig tidsperiode",
     "fieldvalidation.tom_er_før_fom": "Til dato kan ikke være før fra dato",
+    "fieldvalidation.nBarn": "Du må oppgi antall barn.",
 
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
