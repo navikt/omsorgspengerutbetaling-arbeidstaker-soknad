@@ -1,92 +1,70 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { useFormikContext } from 'formik';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormBlock from 'common/components/form-block/FormBlock';
 import intlHelper from 'common/utils/intlUtils';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import SøknadFormComponents from '../SøknadFormComponents';
+import { HvorforSøkerDuDirekte, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadStep from '../SøknadStep';
-import { EgenutbetalingQuestions } from './config';
+import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
+import { PopoverOrientering } from 'nav-frontend-popover';
+import FormBlock from 'common/components/form-block/FormBlock';
+import { useFormikContext } from 'formik';
 
 const EgenutbetalingStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const visibility = EgenutbetalingQuestions.getVisbility(values);
+    // const visibility = EgenutbetalingQuestions.getVisbility(values);
 
-    const showSubmitButton = visibility.areAllQuestionsAnswered();
+    // const showSubmitButton = visibility.areAllQuestionsAnswered();
 
     return (
-        <SøknadStep id={StepID.EGENUTBETALING} onValidFormSubmit={onValidSubmit} showSubmitButton={showSubmitButton}>
+        <SøknadStep id={StepID.EGENUTBETALING} onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>{intlHelper(intl, 'step.egenutbetaling.counsellorpanel.content')}</CounsellorPanel>
+
             <FormBlock>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.har_utbetalt_ti_dager}
-                    legend={intlHelper(intl, 'step.egenutbetaling.ja_nei_spm.legend')}
-                    validate={validateYesOrNoIsAnswered}
+                <FormikRadioPanelGroup
+                    radios={[
+                        {
+                            label: intlHelper(intl, HvorforSøkerDuDirekte.forutForDetteArbeidsforholdet),
+                            value: HvorforSøkerDuDirekte.forutForDetteArbeidsforholdet
+                        },
+                        {
+                            label: intlHelper(intl, HvorforSøkerDuDirekte.inntektFraNav),
+                            value: HvorforSøkerDuDirekte.inntektFraNav
+                        },
+                        {
+                            label: intlHelper(intl, HvorforSøkerDuDirekte.militærtjeneste),
+                            value: HvorforSøkerDuDirekte.militærtjeneste
+                        },
+                        {
+                            label: intlHelper(intl, HvorforSøkerDuDirekte.ulønnetPermisjonDirekteEtterForeldrepenger),
+                            value: HvorforSøkerDuDirekte.ulønnetPermisjonDirekteEtterForeldrepenger
+                        },
+                        {
+                            label: intlHelper(intl, HvorforSøkerDuDirekte.lovbestemtFerie),
+                            value: HvorforSøkerDuDirekte.lovbestemtFerie
+                        },
+                        { label: intlHelper(intl, HvorforSøkerDuDirekte.annet), value: HvorforSøkerDuDirekte.annet }
+                    ]}
+                    legend={
+                        <LabelWithInfo
+                            infoPlassering={PopoverOrientering.Over}
+                            // info={"Hva slags info er dette ?"}
+                        >
+                            {intlHelper(intl, 'steg2.hvorforSøkerDuDirekte.legeng')}
+                        </LabelWithInfo>
+                    }
+                    name={SøknadFormField.hvorforSøkerDuDirekte}
+                    useTwoColumns={false}
                 />
             </FormBlock>
-            {visibility.isVisible(SøknadFormField.fisker_på_blad_B) && (
-                <>
-                    <FormBlock>
-                        <AlertStripeInfo>
-                            Som hovedregel må selvstendig næringsdrivende og frilansere dekke de 3 første omsorgsdagene
-                            selv. I noen tilfeller kan du få utbetaling fra 1. dag. Hvis du skal få utbetalt fra 1. dag
-                            må minst én av de neste punktene gjelde for deg.
-                        </AlertStripeInfo>
-                    </FormBlock>
-                    <FormBlock>
-                        <SøknadFormComponents.YesOrNoQuestion
-                            name={SøknadFormField.fisker_på_blad_B}
-                            legend={intlHelper(intl, 'step.har_utbetalt_de_første_ti_dagene.fisker_på_blad_B.spm')}
-                            validate={validateYesOrNoIsAnswered}
-                        />
-                    </FormBlock>
-                </>
-            )}
-            {visibility.isVisible(SøknadFormField.frivillig_forsikring) && (
+
+            {values[SøknadFormField.hvorforSøkerDuDirekte] === HvorforSøkerDuDirekte.annet && (
                 <FormBlock>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.frivillig_forsikring}
-                        legend={intlHelper(intl, 'step.har_utbetalt_de_første_ti_dagene.frivillig_forsikring.spm')}
-                        validate={validateYesOrNoIsAnswered}
-                    />
-                </FormBlock>
-            )}
-            {visibility.isVisible(SøknadFormField.nettop_startet_selvstendig_frilanser) && (
-                <FormBlock>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.nettop_startet_selvstendig_frilanser}
-                        legend={intlHelper(
-                            intl,
-                            'step.har_utbetalt_de_første_ti_dagene.nettop_startet_selvstendig_frilanser.spm'
-                        )}
-                        validate={validateYesOrNoIsAnswered}
-                    />
-                </FormBlock>
-            )}
-            {visibility.isVisible(SøknadFormField.innvilget_utvidet_rett) && (
-                <FormBlock>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.innvilget_utvidet_rett}
-                        legend={intlHelper(intl, 'step.har_utbetalt_de_første_ti_dagene.innvilget_utvidet_rett.spm')}
-                        validate={validateYesOrNoIsAnswered}
-                    />
-                </FormBlock>
-            )}
-            {visibility.isVisible(SøknadFormField.ingen_andre_barn_under_tolv) && (
-                <FormBlock>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.ingen_andre_barn_under_tolv}
-                        legend={intlHelper(
-                            intl,
-                            'step.har_utbetalt_de_første_ti_dagene.ingen_andre_barn_under_tolv.spm'
-                        )}
-                        validate={validateYesOrNoIsAnswered}
+                    <FormikTextarea
+                        label={intlHelper(intl, 'annet_beskrivelse_legen')}
+                        name={SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse}
                     />
                 </FormBlock>
             )}

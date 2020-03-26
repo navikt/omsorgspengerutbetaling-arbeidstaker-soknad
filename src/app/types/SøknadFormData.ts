@@ -5,6 +5,16 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { NBarn } from '../components/formik-n-barn/n-barn-types';
 
+export enum HvorforSøkerDuDirekte {
+    forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
+    inntektFraNav = 'inntektFraNav',
+    militærtjeneste = 'militærtjeneste',
+    ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
+    lovbestemtFerie = 'lovbestemtFerie',
+    annet = 'annet',
+    ikkeBesvart = 'ikkeBesvart'
+}
+
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
@@ -25,6 +35,10 @@ export enum SøknadFormField {
     annet = 'annet',
 
     // STEG 2: Har betalt ut 10 første dager
+
+    hvorforSøkerDuDirekte = 'hvorforSøkerDuDirekte',
+    hvorforSØkerDuDirekteAnnetBeskrivelse = 'hvorforSØkerDuDirekteAnnetBeskrivelse',
+
     har_utbetalt_ti_dager = 'har_utbetalt_ti_dager',
     innvilget_utvidet_rett = 'innvilget_utvidet_rett',
     ingen_andre_barn_under_tolv = 'ingen_andre_barn_under_tolv',
@@ -82,6 +96,10 @@ export interface SøknadFormData {
     [SøknadFormField.annet]: YesOrNo;
 
     // STEG 2: Har betalt ut 10 første dager
+
+    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte;
+    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: string;
+
     [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo;
     [SøknadFormField.innvilget_utvidet_rett]: YesOrNo;
     [SøknadFormField.ingen_andre_barn_under_tolv]: YesOrNo;
@@ -141,6 +159,10 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.annet]: YesOrNo.UNANSWERED,
 
     // STEG 2: Har betalt ut 10 første dager
+
+    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte.ikkeBesvart,
+    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: '',
+
     [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo.UNANSWERED,
     [SøknadFormField.innvilget_utvidet_rett]: YesOrNo.UNANSWERED,
     [SøknadFormField.ingen_andre_barn_under_tolv]: YesOrNo.UNANSWERED,
