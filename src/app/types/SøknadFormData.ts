@@ -13,6 +13,11 @@ export enum SøknadFormField {
 
     nBarn = 'nBarn',
 
+    stegEnSpørsmålEn = 'stegEnSpørsmålEn',
+    stegEnSpørsmålTo = 'stegEnSpørsmålTo',
+    stegEnSpørsmålTre = 'stegEnSpørsmålTre',
+    stegEnSpørsmålFire = 'stegEnSpørsmålFire',
+
     forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
     militærtjeneste = 'militærtjeneste',
     ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
@@ -64,6 +69,11 @@ export interface SøknadFormData {
     // STEG 1
 
     [SøknadFormField.nBarn]: NBarn;
+
+    [SøknadFormField.stegEnSpørsmålEn]: YesOrNo;
+    [SøknadFormField.stegEnSpørsmålTo]: YesOrNo;
+    [SøknadFormField.stegEnSpørsmålTre]: YesOrNo;
+    [SøknadFormField.stegEnSpørsmålFire]: YesOrNo;
 
     [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo;
     [SøknadFormField.militærtjeneste]: YesOrNo;
@@ -118,6 +128,11 @@ export const initialValues: SøknadFormData = {
     // STEG 1: Kvalifisering
 
     [SøknadFormField.nBarn]: NBarn.UNANSWERED,
+
+    [SøknadFormField.stegEnSpørsmålEn]: YesOrNo.UNANSWERED,
+    [SøknadFormField.stegEnSpørsmålTo]: YesOrNo.UNANSWERED,
+    [SøknadFormField.stegEnSpørsmålTre]: YesOrNo.UNANSWERED,
+    [SøknadFormField.stegEnSpørsmålFire]: YesOrNo.UNANSWERED,
 
     [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo.UNANSWERED,
     [SøknadFormField.militærtjeneste]: YesOrNo.UNANSWERED,
