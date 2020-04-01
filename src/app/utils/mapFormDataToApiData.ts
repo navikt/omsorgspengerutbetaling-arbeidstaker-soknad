@@ -24,11 +24,7 @@ export const mapFormDataToApiData = (
         harBekreftetOpplysninger,
 
         // STEG 1: Kvalifisering
-        forutForDetteArbeidsforholdet,
-        militærtjeneste,
-        ulønnetPermisjonDirekteEtterForeldrepenger,
-        lovbestemtFerie,
-        annet,
+
 
         // STEG 2: Har betalt ut 10 første dager
         har_utbetalt_ti_dager,
@@ -58,28 +54,6 @@ export const mapFormDataToApiData = (
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
-    const stegEn: YesNoSpørsmålOgSvar[] = [
-        {
-            spørsmål: intl.formatMessage({ id: 'steg1.forutForDetteArbeidsforholdet' }),
-            svar: mapYesOrNoToSvar(forutForDetteArbeidsforholdet)
-        },
-        {
-            spørsmål: intl.formatMessage({ id: 'steg1.militærtjeneste' }),
-            svar: mapYesOrNoToSvar(militærtjeneste)
-        },
-        {
-            spørsmål: intl.formatMessage({ id: 'steg1.ulønnetPermisjonDirekteEtterForeldrepenger' }),
-            svar: mapYesOrNoToSvar(ulønnetPermisjonDirekteEtterForeldrepenger)
-        },
-        {
-            spørsmål: intl.formatMessage({ id: 'steg1.lovbestemtFerie' }),
-            svar: mapYesOrNoToSvar(lovbestemtFerie)
-        },
-        {
-            spørsmål: intl.formatMessage({ id: 'steg1.annet' }),
-            svar: mapYesOrNoToSvar(annet)
-        }
-    ];
 
     const leggTilDisseHvis = (yesOrNo: YesOrNo): YesNoSpørsmålOgSvar[] => {
         return yesOrNo === YesOrNo.NO
@@ -158,7 +132,7 @@ export const mapFormDataToApiData = (
             intl.locale
         ), // medlemskap siden
         opphold: settInnOpphold(perioder_harVærtIUtlandet, perioder_utenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        spørsmål: [...stegEn, ...stegTo],
+        spørsmål: [...stegTo],
         arbeidsgivere: settInnArbeidsgivere(),
         bekreftelser: settInnBekreftelser(),
         utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),

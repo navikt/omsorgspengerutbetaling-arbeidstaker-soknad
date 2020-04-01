@@ -3,18 +3,22 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
-import { NBarn } from '../components/formik-n-barn/n-barn-types';
 import { Arbeidsgiver } from './Søkerdata';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
 export enum HvorforSøkerDuDirekte {
-    forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
-    inntektFraNav = 'inntektFraNav',
+    mindreEnnFireUker = 'forutForDetteArbeidsforholdet',
     militærtjeneste = 'militærtjeneste',
     ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
     lovbestemtFerie = 'lovbestemtFerie',
     annet = 'annet',
-    ikkeBesvart = 'ikkeBesvart'
+    ikkeBesvart = 'ikkeBesvart',
+}
+
+export enum HvorforSøkerDuDirekteSubFields {
+    harHattAnnetArbeidsforhold = 'harHattAnnetArbeidsforhold',
+    mottattPengerFraNavSomLikestillesMedNoe = 'mottattPengerFraNavSomLikestillesMedNoe',
+    ikkeBesvart = 'ikkeBesvart',
 }
 
 export enum ArbeidsforholdField {
@@ -42,25 +46,15 @@ export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.skalJobbeProsent]?: number;
 }
 
-
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
     // STEG 1: Hva er din situasjon
 
-    nBarn = 'nBarn',
-
-    stegEnSpørsmålEn = 'stegEnSpørsmålEn',
-    stegEnSpørsmålTo = 'stegEnSpørsmålTo',
-    stegEnSpørsmålTre = 'stegEnSpørsmålTre',
-    stegEnSpørsmålFire = 'stegEnSpørsmålFire',
-
-    forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
-    militærtjeneste = 'militærtjeneste',
-    ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
-    lovbestemtFerie = 'lovbestemtFerie',
-    annet = 'annet',
+    hvorforSøkerDuDirekte = 'hvorforSøkerDuDirekte',
+    hvorforSøkerDuDirekteSubfields = 'hvorforSøkerDuDirekteSubfields',
+    hvorforSØkerDuDirekteAnnetBeskrivelse = 'hvorforSØkerDuDirekteAnnetBeskrivelse',
 
     // STEG 2: Har betalt ut 10 første dager
 
@@ -69,8 +63,7 @@ export enum SøknadFormField {
     har_fosterbarn = 'har_fosterbarn',
     fosterbarn = 'fosterbarn',
 
-    hvorforSøkerDuDirekte = 'hvorforSøkerDuDirekte',
-    hvorforSØkerDuDirekteAnnetBeskrivelse = 'hvorforSØkerDuDirekteAnnetBeskrivelse',
+
 
     har_utbetalt_ti_dager = 'har_utbetalt_ti_dager',
     innvilget_utvidet_rett = 'innvilget_utvidet_rett',
@@ -114,19 +107,9 @@ export interface SøknadFormData {
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
     // STEG 1
-
-    [SøknadFormField.nBarn]: NBarn;
-
-    [SøknadFormField.stegEnSpørsmålEn]: YesOrNo;
-    [SøknadFormField.stegEnSpørsmålTo]: YesOrNo;
-    [SøknadFormField.stegEnSpørsmålTre]: YesOrNo;
-    [SøknadFormField.stegEnSpørsmålFire]: YesOrNo;
-
-    [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo;
-    [SøknadFormField.militærtjeneste]: YesOrNo;
-    [SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]: YesOrNo;
-    [SøknadFormField.lovbestemtFerie]: YesOrNo;
-    [SøknadFormField.annet]: YesOrNo;
+    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte;
+    [SøknadFormField.hvorforSøkerDuDirekteSubfields]: HvorforSøkerDuDirekteSubFields;
+    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: string;
 
     // STEG 2: Har betalt ut 10 første dager
 
@@ -135,8 +118,6 @@ export interface SøknadFormData {
     [SøknadFormField.har_fosterbarn]: YesOrNo;
     [SøknadFormField.fosterbarn]: Fosterbarn[];
 
-    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte;
-    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: string;
 
     [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo;
     [SøknadFormField.innvilget_utvidet_rett]: YesOrNo;
@@ -182,19 +163,10 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
     // STEG 1: Kvalifisering
+    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte.ikkeBesvart,
+    [SøknadFormField.hvorforSøkerDuDirekteSubfields]: HvorforSøkerDuDirekteSubFields.ikkeBesvart,
 
-    [SøknadFormField.nBarn]: NBarn.UNANSWERED,
-
-    [SøknadFormField.stegEnSpørsmålEn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.stegEnSpørsmålTo]: YesOrNo.UNANSWERED,
-    [SøknadFormField.stegEnSpørsmålTre]: YesOrNo.UNANSWERED,
-    [SøknadFormField.stegEnSpørsmålFire]: YesOrNo.UNANSWERED,
-
-    [SøknadFormField.forutForDetteArbeidsforholdet]: YesOrNo.UNANSWERED,
-    [SøknadFormField.militærtjeneste]: YesOrNo.UNANSWERED,
-    [SøknadFormField.ulønnetPermisjonDirekteEtterForeldrepenger]: YesOrNo.UNANSWERED,
-    [SøknadFormField.lovbestemtFerie]: YesOrNo.UNANSWERED,
-    [SøknadFormField.annet]: YesOrNo.UNANSWERED,
+    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: '',
 
     // STEG 2: Har betalt ut 10 første dager
 
@@ -203,8 +175,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,
     [SøknadFormField.fosterbarn]: [],
 
-    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte.ikkeBesvart,
-    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: '',
 
     [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo.UNANSWERED,
     [SøknadFormField.innvilget_utvidet_rett]: YesOrNo.UNANSWERED,
