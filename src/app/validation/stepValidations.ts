@@ -1,16 +1,15 @@
 import { YesOrNo } from 'common/types/YesOrNo';
-import { EgenutbetalingQuestions } from '../søknad/egenutbetaling-step/config';
+import { EgenutbetalingQuestions } from '../søknad/begrunnelse-step/config';
 import { SituasjonStepQuestions } from '../søknad/situasjon-step/config';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
-import { Utenlandsopphold, Virksomhet } from '@navikt/sif-common-forms/lib';
+import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import {
     delvisFraværIsValid,
     minimumEnUtbetalingsperiode,
     oppholdIsValid,
     perioderIsValid
 } from '../søknad/periode-step/periodeStepConfig';
-import { frilansIsValid, selvstendigIsValid } from '../søknad/inntekt-step/inntektStepConfig';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;
@@ -37,22 +36,6 @@ export const periodeStepIsValid = (formData: SøknadFormData) => {
         oppholdIsValid(perioderHarVærtIUtlandet, perioderUtenlandsopphold) &&
         minimumEnUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær)
     );
-    return isValid;
-};
-
-export const inntektStepIsValid = (formData: SøknadFormData) => {
-    const frilansHarHattInntektSomFrilanser: YesOrNo = formData[SøknadFormField.frilans_harHattInntektSomFrilanser];
-    const frilansStartdato: Date | undefined = formData[SøknadFormField.frilans_startdato];
-    const frilansJobberFortsattSomFrilans: YesOrNo | undefined =
-        formData[SøknadFormField.frilans_jobberFortsattSomFrilans];
-    const selvstendigHarHattInntektSomSN: YesOrNo | undefined =
-        formData[SøknadFormField.selvstendig_harHattInntektSomSN];
-    const selvstendigVirksomheter: Virksomhet[] | undefined = formData[SøknadFormField.selvstendig_virksomheter];
-
-    const isValid: boolean =
-        frilansIsValid(frilansHarHattInntektSomFrilanser, frilansStartdato, frilansJobberFortsattSomFrilans) &&
-        selvstendigIsValid(selvstendigHarHattInntektSomSN, selvstendigVirksomheter);
-        // && minimumEnVirksomhet(frilansJobberFortsattSomFrilans, selvstendigVirksomheter)
     return isValid;
 };
 

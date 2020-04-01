@@ -1,36 +1,31 @@
 import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
-import { YesOrNo } from 'common/types/YesOrNo';
 import { getArbeidsgiver } from 'app/api/api';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { navigateToLoginPage } from './navigationUtils';
 import { FormikProps } from 'formik';
-import { Arbeidsforhold, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
+import { Arbeidsforhold, ArbeidsforholdField, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import demoSøkerdata from '../demo/demoData';
 import { apiUtils } from './apiUtils';
 import { appIsRunningInDemoMode } from './envUtils';
+import { YesOrNo } from 'common/types/YesOrNo';
 
-const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
-
-export const calcRedusertProsentFromRedusertTimer = (timerNormalt: number, timerRedusert: number): number => {
-    return roundWithTwoDecimals((100 / timerNormalt) * timerRedusert);
-};
-
-export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, prosentRedusert: number): number => {
-    return roundWithTwoDecimals((timerNormalt / 100) * prosentRedusert);
-};
+// arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
 
 export const syndArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]
 ): Arbeidsforhold[] => {
-    return arbeidsgivere.map((organisasjon) => ({
-        ...organisasjon,
-        ...arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
-    }));
-};
+    const arbeidsforholdUpdatedList: Arbeidsforhold[] = arbeidsgivere.map((arbeidsgiver: Arbeidsgiver) => {
 
-export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[]) => {
-    return arbeidsforhold.filter((a) => a.erAnsattIPerioden === YesOrNo.YES);
+        const a: Arbeidsforhold | undefined = arbeidsforhold.find((f) => f.organisasjonsnummer === arbeidsgiver.organisasjonsnummer);
+
+        return {
+            ...arbeidsgiver,
+            [ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn]: a ? a[ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn]: YesOrNo.UNANSWERED,
+            [ArbeidsforholdField.harHattFraværHosArbeidsgiver]: a ? a[ArbeidsforholdField.harHattFraværHosArbeidsgiver]: YesOrNo.UNANSWERED
+        }
+    });
+    return arbeidsforholdUpdatedList
 };
 
 export const updateArbeidsforhold = (formikProps: FormikProps<SøknadFormData>, arbeidsgivere: Arbeidsgiver[]) => {
@@ -57,7 +52,6 @@ export async function getArbeidsgivere(
         return;
     }
     try {
-
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
         const { organisasjoner } = response.data;
         // søkerdata.setArbeidsgivere(organisasjoner); // TODO: Sjekk hva denne ble brukt til

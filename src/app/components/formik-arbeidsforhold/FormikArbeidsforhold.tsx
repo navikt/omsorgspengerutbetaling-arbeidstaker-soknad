@@ -1,21 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
-import { SkjemaGruppe } from 'nav-frontend-skjema';
-import Box from 'common/components/box/Box';
-import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredField } from 'common/validation/fieldValidations';
-
-import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
-import {
-    Arbeidsforhold,
-    ArbeidsforholdField,
-    ArbeidsforholdSkalJobbeSvar,
-    SøknadFormField
-} from '../../types/SøknadFormData';
-import { FormikInput, FormikRadioPanelGroup, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
+import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../types/SøknadFormData';
+import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from 'common/types/YesOrNo';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -32,65 +21,16 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                     <>
                         <FormikYesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
-                            name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
+                            name={getFieldName(ArbeidsforholdField.harHattFraværHosArbeidsgiver)}
                         />
-                        {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
-                            <Box padBottom="m">
-                                <FormikRadioPanelGroup<SøknadFormField>
-                                    legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
-                                    useTwoColumns={false}
-                                    name={getFieldName(ArbeidsforholdField.skalJobbe)}
-                                    validate={validateRequiredField}
-                                    radios={[
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
-                                            value: ArbeidsforholdSkalJobbeSvar.nei,
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
-                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke,
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
-                                            value: ArbeidsforholdSkalJobbeSvar.ja,
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.redusert'),
-                                            value: ArbeidsforholdSkalJobbeSvar.redusert,
-                                        }
-                                    ]}
+                        {
+                            arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
+                                <FormikYesOrNoQuestion
+                                    legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
+                                    name={getFieldName(ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn)}
                                 />
-                                {arbeidsforhold.skalJobbe && (
-                                    <>
-                                        <Box margin="xl">
-                                            <SkjemaGruppe
-                                                legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                                                    arbeidsforhold: arbeidsforhold.navn
-                                                })}>
-                                                <FormikInput<SøknadFormField>
-                                                    name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
-                                                    type="number"
-                                                    label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
-                                                    inputClassName="input--timer"
-                                                    validate={(value) => validateReduserteArbeidProsent(value, true)}
-                                                    value={arbeidsforhold.jobberNormaltTimer || ''}
-                                                    // labelRight={true}
-                                                    min={0}
-                                                    max={100}
-                                                    maxLength={2}
-                                                />
-                                            </SkjemaGruppe>
-                                        </Box>
-                                    </>
-                                )}
-                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
-                                    <RedusertArbeidsforholdPart
-                                        arbeidsforhold={arbeidsforhold}
-                                        getFieldName={getFieldName}
-                                    />
-                                )}
-                            </Box>
-                        )}
+                            )
+                        }
                     </>
                 );
             }}

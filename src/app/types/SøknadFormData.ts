@@ -1,6 +1,4 @@
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
-import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { Arbeidsgiver } from './Søkerdata';
@@ -12,22 +10,18 @@ export enum HvorforSøkerDuDirekte {
     ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
     lovbestemtFerie = 'lovbestemtFerie',
     annet = 'annet',
-    ikkeBesvart = 'ikkeBesvart',
+    ikkeBesvart = 'ikkeBesvart'
 }
 
 export enum HvorforSøkerDuDirekteSubFields {
     harHattAnnetArbeidsforhold = 'harHattAnnetArbeidsforhold',
     mottattPengerFraNavSomLikestillesMedNoe = 'mottattPengerFraNavSomLikestillesMedNoe',
-    ikkeBesvart = 'ikkeBesvart',
+    ikkeBesvart = 'ikkeBesvart'
 }
 
 export enum ArbeidsforholdField {
-    erAnsattIPerioden = 'erAnsattIPerioden',
-    skalJobbe = 'skalJobbe',
-    timerEllerProsent = 'timerEllerProsent',
-    jobberNormaltTimer = 'jobberNormaltTimer',
-    skalJobbeTimer = 'skalJobbeTimer',
-    skalJobbeProsent = 'skalJobbeProsent'
+    harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
+    arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn'
 }
 
 export enum ArbeidsforholdSkalJobbeSvar {
@@ -38,12 +32,8 @@ export enum ArbeidsforholdSkalJobbeSvar {
 }
 
 export interface Arbeidsforhold extends Arbeidsgiver {
-    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
-    [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
-    [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdField.jobberNormaltTimer]?: number;
-    [ArbeidsforholdField.skalJobbeTimer]?: number;
-    [ArbeidsforholdField.skalJobbeProsent]?: number;
+    [ArbeidsforholdField.harHattFraværHosArbeidsgiver]: YesOrNo;
+    [ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
 }
 
 export enum SøknadFormField {
@@ -63,15 +53,6 @@ export enum SøknadFormField {
     har_fosterbarn = 'har_fosterbarn',
     fosterbarn = 'fosterbarn',
 
-
-
-    har_utbetalt_ti_dager = 'har_utbetalt_ti_dager',
-    innvilget_utvidet_rett = 'innvilget_utvidet_rett',
-    ingen_andre_barn_under_tolv = 'ingen_andre_barn_under_tolv',
-    fisker_på_blad_B = 'fisker_på_blad_B',
-    frivillig_forsikring = 'frivillig_forsikring',
-    nettop_startet_selvstendig_frilanser = 'nettop_startet_selvstendig_frilanser',
-
     // STEG 3: Periode
     harPerioderMedFravær = 'harPerioderMedFravær',
     perioderMedFravær = 'perioderMedFravær',
@@ -81,19 +62,6 @@ export enum SøknadFormField {
     dagerMedDelvisFraværGroup = 'dagerMedDelvisFraværGroup',
     perioder_harVærtIUtlandet = 'perioder_harVærtIUtlandet',
     perioder_utenlandsopphold = 'perioder_utenlandsopphold',
-
-    // STEG 4: Conditional perioder i utlandet
-    hvis_utenlandsopphold_en_test_verdi = 'hvis_utenlandsopphold_en_test_verdi',
-
-    // STEG 5: Legeerklæring
-    legeerklæring = 'legeerklæring',
-
-    // STEG 6: Inntekt
-    frilans_harHattInntektSomFrilanser = 'frilans_harHattInntektSomFrilanser',
-    frilans_startdato = 'frilans_startdato',
-    frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
-    selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
-    selvstendig_virksomheter = 'selvstendig_virksomheter',
 
     // STEG 7: Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -118,14 +86,6 @@ export interface SøknadFormData {
     [SøknadFormField.har_fosterbarn]: YesOrNo;
     [SøknadFormField.fosterbarn]: Fosterbarn[];
 
-
-    [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo;
-    [SøknadFormField.innvilget_utvidet_rett]: YesOrNo;
-    [SøknadFormField.ingen_andre_barn_under_tolv]: YesOrNo;
-    [SøknadFormField.fisker_på_blad_B]: YesOrNo;
-    [SøknadFormField.frivillig_forsikring]: YesOrNo;
-    [SøknadFormField.nettop_startet_selvstendig_frilanser]: YesOrNo;
-
     // STEG 3: Periode
 
     [SøknadFormField.harPerioderMedFravær]: YesOrNo;
@@ -134,19 +94,6 @@ export interface SøknadFormData {
     [SøknadFormField.dagerMedDelvisFravær]: FraværDelerAvDag[];
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo;
     [SøknadFormField.perioder_utenlandsopphold]: Utenlandsopphold[];
-
-    // STEG 4: Conditional perioder i utlandet
-    [SøknadFormField.hvis_utenlandsopphold_en_test_verdi]: YesOrNo;
-
-    // STEG 5: Legeerklæring
-    [SøknadFormField.legeerklæring]: Attachment[];
-
-    // STEG 6: Inntekt
-    [SøknadFormField.frilans_harHattInntektSomFrilanser]: YesOrNo;
-    [SøknadFormField.frilans_startdato]?: Date;
-    [SøknadFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [SøknadFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
-    [SøknadFormField.selvstendig_virksomheter]?: Virksomhet[];
 
     // STEG 7: Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
@@ -175,14 +122,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,
     [SøknadFormField.fosterbarn]: [],
 
-
-    [SøknadFormField.har_utbetalt_ti_dager]: YesOrNo.UNANSWERED,
-    [SøknadFormField.innvilget_utvidet_rett]: YesOrNo.UNANSWERED,
-    [SøknadFormField.ingen_andre_barn_under_tolv]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fisker_på_blad_B]: YesOrNo.UNANSWERED,
-    [SøknadFormField.frivillig_forsikring]: YesOrNo.UNANSWERED,
-    [SøknadFormField.nettop_startet_selvstendig_frilanser]: YesOrNo.UNANSWERED,
-
     // STEG 3: Periode
     [SøknadFormField.harPerioderMedFravær]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioderMedFravær]: [],
@@ -190,15 +129,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.dagerMedDelvisFravær]: [],
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioder_utenlandsopphold]: [],
-
-    // STEG 4: Conditional perioder i utlandet
-    [SøknadFormField.hvis_utenlandsopphold_en_test_verdi]: YesOrNo.UNANSWERED,
-
-    // STEG 5: Legeerklæring
-    [SøknadFormField.legeerklæring]: [],
-
-    // STEG 6: Inntekt
-    [SøknadFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
 
     // STEG 7: Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,

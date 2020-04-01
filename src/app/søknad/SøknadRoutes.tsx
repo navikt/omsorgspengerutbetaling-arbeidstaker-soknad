@@ -13,14 +13,13 @@ import { SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import BegrunnelseStep from './egenutbetaling-step/BegrunnelseStepView';
+import BegrunnelseStep from './begrunnelse-step/BegrunnelseStepView';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import PeriodeStep from './periode-step/PeriodeStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
-import { getAktiveArbeidsforholdIPerioden } from '../utils/arbeidsforholdUtils';
 import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
 
 export interface KvitteringInfo {
@@ -170,7 +169,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                         if (values.harForståttRettigheterOgPlikter === true) {
                             // Only call reset if it has not been called before (prevent loop)
                             setTimeout(() => {
-                                setAntallArbeidsforhold(getAktiveArbeidsforholdIPerioden(values.arbeidsforhold).length);
+                                setAntallArbeidsforhold(values.arbeidsforhold.length);
                                 resetForm();
                             });
                         }
