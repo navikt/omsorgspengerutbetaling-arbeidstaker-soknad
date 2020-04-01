@@ -10,16 +10,12 @@ import { PopoverOrientering } from 'nav-frontend-popover';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 
-const EgenutbetalingStep = ({ onValidSubmit }: StepConfigProps) => {
+const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    // const visibility = EgenutbetalingQuestions.getVisbility(values);
-
-    // const showSubmitButton = visibility.areAllQuestionsAnswered();
-
     return (
-        <SøknadStep id={StepID.EGENUTBETALING} onValidFormSubmit={onValidSubmit}>
+        <SøknadStep id={StepID.BEGRUNNELSE} onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>{intlHelper(intl, 'step.egenutbetaling.counsellorpanel.content')}</CounsellorPanel>
 
             <FormBlock>
@@ -72,4 +68,4 @@ const EgenutbetalingStep = ({ onValidSubmit }: StepConfigProps) => {
     );
 };
 
-export default EgenutbetalingStep;
+export default BegrunnelseStepView;

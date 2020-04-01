@@ -9,4 +9,15 @@ export interface Person {
 
 export interface Søkerdata {
     person: Person;
+    setArbeidsgivere: (arbeidsgivere: Arbeidsgiver[]) => void;
+    arbeidsgivere?: Arbeidsgiver[];
+}
+
+export interface ArbeidsgiverResponse {
+    organisasjoner: Arbeidsgiver[]
+}
+
+export interface Arbeidsgiver {
+    navn: string;
+    organisasjonsnummer: string;
 }

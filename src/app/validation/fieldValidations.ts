@@ -4,7 +4,7 @@ import moment from 'moment';
 import {
     date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange
 } from 'common/utils/dateUtils';
-import { createFieldValidationError } from 'common/validation/fieldValidations';
+import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { datesCollide } from './dateValidationUtils';
@@ -31,7 +31,8 @@ export enum AppFieldValidationErrors {
     'timer_ikke_tall' = 'fieldvalidation.timer_ikke_tall',
     'timer_for_mange_timer' = 'fieldvalidation.timer_for_mange_timer',
     'dato_utenfor_gyldig_tidsrom' = 'fieldvalidation.dato_utenfor_gyldig_tidsrom',
-    'tom_er_før_fom' = 'fieldvalidation.tom_er_før_fom'
+    'tom_er_før_fom' = 'fieldvalidation.tom_er_før_fom',
+    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig'
 }
 
 export const createAppFieldValidationError = (
@@ -196,6 +197,18 @@ export const validateHours = ({ min, max }: { min?: number; max?: number }) => (
     }
     if ((min !== undefined && num < min) || (max !== undefined && value > max)) {
         return createFieldValidationError(AppFieldValidationErrors.timer_for_mange_timer);
+    }
+    return undefined;
+};
+
+export const validateReduserteArbeidProsent = (value: number | string, isRequired?: boolean): FieldValidationResult => {
+    if (isRequired && !hasValue(value)) {
+        return fieldIsRequiredError();
+    }
+    const prosent = typeof value === 'string' ? parseFloat(value) : value;
+
+    if (prosent < 1 || prosent > 100) {
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_prosentUgyldig);
     }
     return undefined;
 };

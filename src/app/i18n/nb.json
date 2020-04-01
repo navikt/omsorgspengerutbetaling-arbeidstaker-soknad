@@ -90,13 +90,20 @@
     "lovbestemtFerie": "Jeg har hatt lovbestemt ferie.",
     "annet": "Jeg søker av en annen grunn",
 
+    "begrunnelse.mindre_enn_fire_uker.1": "Valg 1",
+    "begrunnelse.mindre_enn_fire_uker.2": "Valg 2",
+    "begrunnelse.mindre_enn_fire_uker.3": "Valg 3",
+
     "annet_beskrivelse_legen": "Hvorfor søker du om omsorgspenger?",
 
+    "step.begrunnelse.stepTitle" : "Derfor søker du om omsorgspenger",
+    "step.begrunnelse.pageTitle" : "Begrunnelse",
+    "step.begrunnelse.stepIndicatorLabel" : "Begrunnelse",
+    "step.egenutbetaling.counsellorpanel.content": "I de aller fleste tilfeller skal arbeidsgiver utbetale deg omsorgspenger. I noen tilfeller har ikke arbeidsigver plikt til å utbetale til tross for at du har rett på omsorgspenger. I disse tilfellene kan du søke om utbetaling fra NAV.",
 
     "step.egenutbetaling.pageTitle": "Omsorgsdager du dekker selv",
     "step.egenutbetaling.stepTitle": "Omsorgsdager du dekker selv",
     "step.egenutbetaling.stepIndicatorLabel": "Omsorgsdager du dekker selv",
-    "step.egenutbetaling.counsellorpanel.content": "Som selvstendig næringsdrivende eller frilanser må du som hovedregel dekke de 3 første omsorgsdagene selv.",
 
     "step.egenutbetaling.ja_nei_spm.legend": "Har du utbetalt minst 3 omsorgsdager til deg selv i år?",
 

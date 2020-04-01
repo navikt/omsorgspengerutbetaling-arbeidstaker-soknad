@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { useFormikContext } from 'formik';
+import { FormikProps, useFormikContext } from 'formik';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../components/pages/welcoming-page/WelcomingPage';
@@ -13,13 +13,15 @@ import { SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import EgenutbetalingStep from './egenutbetaling-step/EgenutbetalingStep';
+import BegrunnelseStep from './egenutbetaling-step/BegrunnelseStepView';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import PeriodeStep from './periode-step/PeriodeStep';
-import HvaErDinSituasjon from './situasjon-step/SituasjonStep';
+import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
+import { getAktiveArbeidsforholdIPerioden } from '../utils/arbeidsforholdUtils';
+import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -32,13 +34,18 @@ const getKvitteringInfoFromApiData = (søkerdata: Søkerdata): KvitteringInfo | 
     };
 };
 
-interface SøknadRoutes {
+interface SøknadRoutesProps {
     lastStepID?: StepID;
+    formikProps: FormikProps<SøknadFormData>;
 }
 
-function SøknadRoutes({ lastStepID }: SøknadRoutes) {
+function SøknadRoutes(props: SøknadRoutesProps) {
+    const { lastStepID, formikProps } = props;
+
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
+    const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
+
     const { values, resetForm } = useFormikContext<SøknadFormData>();
 
     const history = useHistory();
@@ -79,10 +86,10 @@ function SøknadRoutes({ lastStepID }: SøknadRoutes) {
                             setTimeout(() => {
                                 if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
                                     SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
-                                        navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`, history);
+                                        navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`, history);
                                     });
                                 } else {
-                                    navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`, history);
+                                    navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`, history);
                                 }
                             })
                         }
@@ -90,18 +97,31 @@ function SøknadRoutes({ lastStepID }: SøknadRoutes) {
                 )}
             />
 
-            {isAvailable(StepID.SITUASJON, values) && (
+            {isAvailable(StepID.BEGRUNNELSE, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.SITUASJON)}
-                    render={() => <HvaErDinSituasjon onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)} />}
+                    path={getSøknadRoute(StepID.BEGRUNNELSE)}
+                    render={() => <BegrunnelseStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEGRUNNELSE)} />}
                 />
             )}
 
-            {isAvailable(StepID.EGENUTBETALING, values) && (
+            {isAvailable(StepID.SITUASJON, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.EGENUTBETALING)}
+                    path={getSøknadRoute(StepID.SITUASJON)}
                     render={() => (
-                        <EgenutbetalingStep onValidSubmit={() => navigateToNextStepFrom(StepID.EGENUTBETALING)} />
+                        <SøkerdataContextConsumer>
+                            {(søkerdata) => {
+                                if (søkerdata) {
+                                    return (
+                                        <SituasjonStepView
+                                            onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
+                                            søkerdata={søkerdata}
+                                            formikProps={formikProps}
+                                        />
+                                    );
+                                }
+                                return <div>Manglende søkerdata</div>;
+                            }}
+                        </SøkerdataContextConsumer>
                     )}
                 />
             )}
@@ -112,20 +132,6 @@ function SøknadRoutes({ lastStepID }: SøknadRoutes) {
                     render={() => <PeriodeStep onValidSubmit={() => navigateToNextStepFrom(StepID.PERIODE)} />}
                 />
             )}
-
-            {/* {isAvailable(StepID.LEGEERKLÆRING, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.LEGEERKLÆRING)}
-                    render={() => <LegeerklæringStep onValidSubmit={() => navigateToNextStep(StepID.LEGEERKLÆRING)} />}
-                />
-            )} */}
-
-            {/*{isAvailable(StepID.INNTEKT, values) && (*/}
-            {/*    <Route*/}
-            {/*        path={getSøknadRoute(StepID.INNTEKT)}*/}
-            {/*        render={() => <InntektStep onValidSubmit={() => navigateToNextStepFrom(StepID.INNTEKT)} />}*/}
-            {/*    />*/}
-            {/*)}*/}
 
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
@@ -157,7 +163,28 @@ function SøknadRoutes({ lastStepID }: SøknadRoutes) {
             {(isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) || søknadHasBeenSent) && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
+                    render={() => {
+                        // we clear form state here to ensure that no steps will be available
+                        // after the application has been sent. this is done in a setTimeout
+                        // because we do not want to update state during render.
+                        if (values.harForståttRettigheterOgPlikter === true) {
+                            // Only call reset if it has not been called before (prevent loop)
+                            setTimeout(() => {
+                                setAntallArbeidsforhold(getAktiveArbeidsforholdIPerioden(values.arbeidsforhold).length);
+                                resetForm();
+                            });
+                        }
+                        if (søknadHasBeenSent === false) {
+                            setSøknadHasBeenSent(true);
+                        }
+
+                        return (
+                            <ConfirmationPage
+                                numberOfArbeidsforhold={antallArbeidsforhold}
+                                kvitteringInfo={kvitteringInfo}
+                            />
+                        );
+                    }}
                 />
             )}
 

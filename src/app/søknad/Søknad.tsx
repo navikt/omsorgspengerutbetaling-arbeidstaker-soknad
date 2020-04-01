@@ -18,7 +18,7 @@ const Søknad = () => (
                 <SøknadFormComponents.FormikWrapper
                     initialValues={formData || initialValues}
                     onSubmit={() => null}
-                    renderForm={() => <SøknadRoutes lastStepID={lastStepID} />}
+                    renderForm={(formikProps) => <SøknadRoutes lastStepID={lastStepID} formikProps={formikProps} />}
                 />
             );
         }}

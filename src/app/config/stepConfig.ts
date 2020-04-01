@@ -3,8 +3,8 @@ import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {
+    'BEGRUNNELSE' = 'begrunnelse',
     'SITUASJON' = 'situasjon',
-    'EGENUTBETALING' = 'egenutbetaling',
     'PERIODE' = 'periode',
     'LEGEERKLÆRING' = 'legeerklaering',
     'INNTEKT' = 'inntekt',
@@ -44,36 +44,24 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
     let idx = 0;
 
     const config = {
+        [StepID.BEGRUNNELSE]: {
+            ...getStepConfigItemTextKeys(StepID.BEGRUNNELSE),
+            index: idx++,
+            nextStep: StepID.SITUASJON,
+            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
+        },
         [StepID.SITUASJON]: {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
-            nextStep: StepID.EGENUTBETALING,
-            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
-        },
-        [StepID.EGENUTBETALING]: {
-            ...getStepConfigItemTextKeys(StepID.EGENUTBETALING),
-            index: idx++,
             nextStep: StepID.PERIODE,
-            backLinkHref: getSøknadRoute(StepID.SITUASJON)
+            backLinkHref: getSøknadRoute(StepID.BEGRUNNELSE)
         },
         [StepID.PERIODE]: {
             ...getStepConfigItemTextKeys(StepID.PERIODE),
             index: idx++,
             nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.EGENUTBETALING)
+            backLinkHref: getSøknadRoute(StepID.SITUASJON)
         },
-        // [StepID.LEGEERKLÆRING]: {
-        //     ...getStepConfigItemTextKeys(StepID.LEGEERKLÆRING),
-        //     index: idx++,
-        //     nextStep: StepID.INNTEKT,
-        //     backLinkHref: getSøknadRoute(StepID.PERIODE)
-        // },
-        // [StepID.INNTEKT]: {
-        //     ...getStepConfigItemTextKeys(StepID.INNTEKT),
-        //     index: idx++,
-        //     nextStep: StepID.MEDLEMSKAP,
-        //     backLinkHref: getSøknadRoute(StepID.PERIODE)
-        // },
         [StepID.MEDLEMSKAP]: {
             ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
             index: idx++,

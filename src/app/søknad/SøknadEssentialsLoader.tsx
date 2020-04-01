@@ -5,7 +5,7 @@ import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
-import { Søkerdata } from '../types/Søkerdata';
+import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
 import * as apiUtils from '../utils/apiUtils';
@@ -64,7 +64,9 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             formData || { ...initialValues },
             lastStepID,
             {
-                person: søkerResponse.data
+                person: søkerResponse.data,
+                setArbeidsgivere: this.updateArbeidsgivere,
+                arbeidsgivere: []
             },
             () => {
                 this.stopLoading();
@@ -108,6 +110,17 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         // the contentLoadedRenderer() will be called while the user is still on the wrong route,
         // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
         setTimeout(this.stopLoading, 200);
+    }
+
+    updateArbeidsgivere(arbeidsgivere: Arbeidsgiver[]) {
+        const { person, setArbeidsgivere } = this.state.søkerdata!;
+        this.setState({
+            søkerdata: {
+                setArbeidsgivere,
+                arbeidsgivere,
+                person
+            }
+        });
     }
 
     render() {

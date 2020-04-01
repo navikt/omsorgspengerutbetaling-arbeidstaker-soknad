@@ -4,6 +4,7 @@ import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { NBarn } from '../components/formik-n-barn/n-barn-types';
+import { Arbeidsgiver } from './Søkerdata';
 
 export enum HvorforSøkerDuDirekte {
     forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
@@ -14,6 +15,32 @@ export enum HvorforSøkerDuDirekte {
     annet = 'annet',
     ikkeBesvart = 'ikkeBesvart'
 }
+
+export enum ArbeidsforholdField {
+    erAnsattIPerioden = 'erAnsattIPerioden',
+    skalJobbe = 'skalJobbe',
+    timerEllerProsent = 'timerEllerProsent',
+    jobberNormaltTimer = 'jobberNormaltTimer',
+    skalJobbeTimer = 'skalJobbeTimer',
+    skalJobbeProsent = 'skalJobbeProsent'
+}
+
+export enum ArbeidsforholdSkalJobbeSvar {
+    'ja' = 'ja',
+    'nei' = 'nei',
+    'redusert' = 'redusert',
+    'vetIkke' = 'vetIkke'
+}
+
+export interface Arbeidsforhold extends Arbeidsgiver {
+    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
+    [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
+    [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
+    [ArbeidsforholdField.jobberNormaltTimer]?: number;
+    [ArbeidsforholdField.skalJobbeTimer]?: number;
+    [ArbeidsforholdField.skalJobbeProsent]?: number;
+}
+
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -35,6 +62,8 @@ export enum SøknadFormField {
     annet = 'annet',
 
     // STEG 2: Har betalt ut 10 første dager
+
+    arbeidsforhold = 'arbeidsforhold',
 
     hvorforSøkerDuDirekte = 'hvorforSøkerDuDirekte',
     hvorforSØkerDuDirekteAnnetBeskrivelse = 'hvorforSØkerDuDirekteAnnetBeskrivelse',
@@ -96,6 +125,8 @@ export interface SøknadFormData {
     [SøknadFormField.annet]: YesOrNo;
 
     // STEG 2: Har betalt ut 10 første dager
+
+    [SøknadFormField.arbeidsforhold]: Arbeidsforhold[];
 
     [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte;
     [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: string;
@@ -159,6 +190,8 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.annet]: YesOrNo.UNANSWERED,
 
     // STEG 2: Har betalt ut 10 første dager
+
+    [SøknadFormField.arbeidsforhold]: [],
 
     [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte.ikkeBesvart,
     [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: '',

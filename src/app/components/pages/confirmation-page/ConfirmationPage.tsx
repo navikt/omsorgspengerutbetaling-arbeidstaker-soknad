@@ -13,6 +13,7 @@ import './confirmationPage.less';
 const bem = bemUtils('confirmationPage');
 
 interface Props {
+    numberOfArbeidsforhold: number;
     kvitteringInfo?: KvitteringInfo;
 }
 

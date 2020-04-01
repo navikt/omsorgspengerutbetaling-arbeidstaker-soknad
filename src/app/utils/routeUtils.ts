@@ -22,7 +22,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData)
     switch (path) {
         case StepID.SITUASJON:
             return situasjonStepIsAvailable(values);
-        case StepID.EGENUTBETALING:
+        case StepID.BEGRUNNELSE:
             return egenutbetalingStepIsAvailable(values);
         case StepID.PERIODE:
             return periodeStepIsAvailable(values);
