@@ -20,10 +20,8 @@ import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import { navigateTo, navigateToLoginPage } from '../../utils/navigationUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
-import FrilansSummary from './components/FrilansSummary';
 import MedlemskapSummaryView from './components/MedlemskapSummaryView';
 import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSummaryView';
-import SelvstendigSummary from './components/SelvstendigSummary';
 import { SpørsmålOgSvarSummaryView } from './components/SporsmalOgSvarSummaryView';
 import SummaryBlock from './components/SummaryBlock';
 import UtbetalingsperioderSummaryView from './components/UtbetalingsperioderSummaryView';
@@ -103,8 +101,6 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                     )}
                     <UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
-                    <FrilansSummary frilans={apiValues.frilans} />
-                    <SelvstendigSummary selvstendigVirksomheter={apiValues.selvstendigVirksomheter} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                 </Panel>
             </Box>

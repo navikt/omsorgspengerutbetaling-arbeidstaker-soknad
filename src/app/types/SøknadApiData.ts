@@ -74,17 +74,29 @@ export interface FosterbarnApi {
     etternavn: string;
 }
 
+export interface Bekreftelser {
+    harBekreftetOpplysninger: boolean;
+    harForståttRettigheterOgPlikter: boolean;
+}
+
+export interface OrganisasjonDetaljer {
+    navn: string;
+    organisasjonsnummer: string;
+    harHattFraværHosArbeidsgiver: boolean;
+    arbeidsgiverHarUtbetaltLønn: boolean;
+}
+
+export interface ArbeidsgiverDetaljer {
+    organisasjoner: OrganisasjonDetaljer[];
+}
+
 export interface SøknadApiData {
     språk: Locale;
-    bekreftelser: {
-        harBekreftetOpplysninger: boolean;
-        harForståttRettigheterOgPlikter: boolean;
-    };
-    spørsmål: YesNoSpørsmålOgSvar[];
-    fosterbarn?: FosterbarnApi[];
-    utbetalingsperioder: UtbetalingsperiodeApi[]; // perioder
-    opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
     bosteder: UtenlandsoppholdApiData[]; // medlemskap-siden
-    frilans?: Frilans;
-    selvstendigVirksomheter: VirksomhetApiData[];
+    opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
+    spørsmål: YesNoSpørsmålOgSvar[];
+    arbeidsgivere: ArbeidsgiverDetaljer;
+    bekreftelser: Bekreftelser;
+    utbetalingsperioder: UtbetalingsperiodeApi[]; // perioder
+    fosterbarn: FosterbarnApi[] | null;
 }

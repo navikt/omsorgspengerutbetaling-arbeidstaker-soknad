@@ -338,5 +338,8 @@
     "steg.footer.avbryt": "Avbryt og slett søknad",
     "steg.footer.fortsettSenere": "Avslutt og fortsett senere",
 
-    "informasjon.nar_kan_man_fa_utbetalt": "I de aller fleste tilfeller skal arbeidsgiver utbetale deg omsorgspenger. I noen tilfeller har ikke arbeidsigver plikt til å utbetale til tross for at du har rett på omsorgspenger. I disse tilfellene kan du søke om utbetaling fra NAV."
+    "informasjon.nar_kan_man_fa_utbetalt": "I de aller fleste tilfeller skal arbeidsgiver utbetale deg omsorgspenger. I noen tilfeller har ikke arbeidsigver plikt til å utbetale til tross for at du har rett på omsorgspenger. I disse tilfellene kan du søke om utbetaling fra NAV.",
+
+    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, foreldrepenger, pleiepenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>"
+
 }

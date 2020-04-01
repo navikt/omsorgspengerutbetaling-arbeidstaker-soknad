@@ -1,19 +1,21 @@
 import { IntlShape } from 'react-intl';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { Utenlandsopphold, Virksomhet } from '@navikt/sif-common-forms/lib';
+import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from 'common/utils/timeUtils';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import {
-    SøknadApiData, UtbetalingsperiodeApi, UtenlandsoppholdApiData, VirksomhetApiData,
-    YesNoSpørsmålOgSvar, YesNoSvar
+    ArbeidsgiverDetaljer,
+    Bekreftelser,
+    SøknadApiData,
+    UtbetalingsperiodeApi,
+    UtenlandsoppholdApiData,
+    YesNoSpørsmålOgSvar,
+    YesNoSvar
 } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
-import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import { mapVirksomhetToVirksomhetApiData } from './formToApiMaps/mapVirksomhetToApiData';
-import { yesOrNoIsAnswered } from './yesOrNoIsAnswered';
 
 // TODO: FIX MAPPING!!!
 export const mapFormDataToApiData = (
@@ -56,7 +58,6 @@ export const mapFormDataToApiData = (
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
-
     const stegEn: YesNoSpørsmålOgSvar[] = [
         {
             spørsmål: intl.formatMessage({ id: 'steg1.forutForDetteArbeidsforholdet' }),
@@ -125,16 +126,30 @@ export const mapFormDataToApiData = (
         ...leggTilDisseHvis(har_utbetalt_ti_dager)
     ];
 
-    const harBesvartFiskerPåBladB = yesOrNoIsAnswered(fisker_på_blad_B);
+    const settInnArbeidsgivere = (): ArbeidsgiverDetaljer => {
+        return {
+            organisasjoner: []
+        };
+    };
+
+    const settInnBekreftelser = (): Bekreftelser => {
+        return {
+            harForståttRettigheterOgPlikter,
+            harBekreftetOpplysninger
+        };
+    };
+
+    // språk: Locale;
+    // bosteder: UtenlandsoppholdApiData[]; // medlemskap-siden
+    // opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
+    // spørsmål: YesNoSpørsmålOgSvar[];
+    // arbeidsgivere: ArbeidsgiverDetaljer;
+    // bekreftelser: Bekreftelser;
+    // utbetalingsperioder: UtbetalingsperiodeApi[]; // perioder
+    // fosterbarn: FosterbarnApi[] | null;
 
     const apiData: SøknadApiData = {
         språk: (intl.locale as any) === 'en' ? 'nn' : (intl.locale as Locale),
-        bekreftelser: {
-            harForståttRettigheterOgPlikter,
-            harBekreftetOpplysninger
-        },
-        spørsmål: [...stegEn, ...stegTo],
-        utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
         bosteder: settInnBosteder(
             harBoddUtenforNorgeSiste12Mnd,
             utenlandsoppholdSiste12Mnd,
@@ -143,12 +158,11 @@ export const mapFormDataToApiData = (
             intl.locale
         ), // medlemskap siden
         opphold: settInnOpphold(perioder_harVærtIUtlandet, perioder_utenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        frilans: mapFrilansToApiData(frilans_jobberFortsattSomFrilans, frilans_startdato),
-        selvstendigVirksomheter: settInnVirksomheter(
-            selvstendig_harHattInntektSomSN,
-            selvstendig_virksomheter,
-            harBesvartFiskerPåBladB
-        )
+        spørsmål: [...stegEn, ...stegTo],
+        arbeidsgivere: settInnArbeidsgivere(),
+        bekreftelser: settInnBekreftelser(),
+        utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
+        fosterbarn: [] // TODO: Fiks denne, og de andre over som er manglende
     };
 
     return apiData;
@@ -218,17 +232,5 @@ const settInnOpphold = (
         ? periodeUtenlandsopphold.map((utenlandsopphold: Utenlandsopphold) => {
               return mapBostedUtlandToApiData(utenlandsopphold, locale);
           })
-        : [];
-};
-
-const settInnVirksomheter = (
-    harHattInntektSomSN?: YesOrNo,
-    virksomheter?: Virksomhet[],
-    harBesvartFiskerPåBladB?: boolean
-): VirksomhetApiData[] => {
-    return harHattInntektSomSN && harHattInntektSomSN === YesOrNo.YES && virksomheter
-        ? virksomheter.map((virksomhet: Virksomhet) =>
-              mapVirksomhetToVirksomhetApiData(virksomhet, harBesvartFiskerPåBladB)
-          )
         : [];
 };

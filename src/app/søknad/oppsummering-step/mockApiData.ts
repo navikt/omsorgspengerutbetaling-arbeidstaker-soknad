@@ -1,4 +1,3 @@
-import { Næringstype } from '@navikt/sif-common-forms/lib';
 import { SøknadApiData } from '../../types/SøknadApiData';
 
 export const mock1: SøknadApiData = {
@@ -105,33 +104,8 @@ export const mock1: SøknadApiData = {
             erEØSLand: true
         }
     ],
-    frilans: {
-        startdato: '2016-12-15',
-        jobberFortsattSomFrilans: true
+    arbeidsgivere: {
+        organisasjoner: []
     },
-    selvstendigVirksomheter: [
-        {
-            næringstyper: [Næringstype.FISKER, Næringstype.JORDBRUK, Næringstype.DAGMAMMA, Næringstype.ANNEN],
-            navnPåVirksomheten: 'Navn på virksomheten',
-            registrertINorge: false,
-            registrertILand: 'ST',
-            fraOgMed: '2013-03-04',
-            tilOgMed: null,
-            fiskerErPåBladB: true,
-            regnskapsfører: {
-                navn: 'Mr regnskapsfører',
-                telefon: '99887766'
-            }
-        },
-        {
-            næringstyper: [Næringstype.FISKER, Næringstype.JORDBRUK],
-            navnPåVirksomheten: 'Kål og ditt OG datt',
-            registrertINorge: false,
-            registrertILand: 'BI',
-            fraOgMed: '2018-03-01',
-            tilOgMed: '2019-03-07',
-            næringsinntekt: 12345678,
-            fiskerErPåBladB: false
-        }
-    ]
+    fosterbarn: []
 };
