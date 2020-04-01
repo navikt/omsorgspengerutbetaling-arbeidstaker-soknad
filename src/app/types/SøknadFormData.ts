@@ -5,6 +5,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { NBarn } from '../components/formik-n-barn/n-barn-types';
 import { Arbeidsgiver } from './Søkerdata';
+import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
 export enum HvorforSøkerDuDirekte {
     forutForDetteArbeidsforholdet = 'forutForDetteArbeidsforholdet',
@@ -64,6 +65,9 @@ export enum SøknadFormField {
     // STEG 2: Har betalt ut 10 første dager
 
     arbeidsforhold = 'arbeidsforhold',
+
+    har_fosterbarn = 'har_fosterbarn',
+    fosterbarn = 'fosterbarn',
 
     hvorforSøkerDuDirekte = 'hvorforSøkerDuDirekte',
     hvorforSØkerDuDirekteAnnetBeskrivelse = 'hvorforSØkerDuDirekteAnnetBeskrivelse',
@@ -127,6 +131,9 @@ export interface SøknadFormData {
     // STEG 2: Har betalt ut 10 første dager
 
     [SøknadFormField.arbeidsforhold]: Arbeidsforhold[];
+
+    [SøknadFormField.har_fosterbarn]: YesOrNo;
+    [SøknadFormField.fosterbarn]: Fosterbarn[];
 
     [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte;
     [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: string;
@@ -192,6 +199,9 @@ export const initialValues: SøknadFormData = {
     // STEG 2: Har betalt ut 10 første dager
 
     [SøknadFormField.arbeidsforhold]: [],
+
+    [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,
+    [SøknadFormField.fosterbarn]: [],
 
     [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte.ikkeBesvart,
     [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: '',

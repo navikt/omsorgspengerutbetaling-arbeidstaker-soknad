@@ -340,6 +340,37 @@
 
     "informasjon.nar_kan_man_fa_utbetalt": "I de aller fleste tilfeller skal arbeidsgiver utbetale deg omsorgspenger. I noen tilfeller har ikke arbeidsigver plikt til å utbetale til tross for at du har rett på omsorgspenger. I disse tilfellene kan du søke om utbetaling fra NAV.",
 
-    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, foreldrepenger, pleiepenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>"
+    "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
+
+    "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her mens du har pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
+    "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
+    "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
+    "arbeidsforhold.arbeidsforhold.redusert": "Ja, men jeg skal jobbe mindre enn vanlig",
+    "arbeidsforhold.iDag.spm": "Hvor mye jobber du vanligvis hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.utledet": "timer i uka",
+    "arbeidsforhold.hvorMye.spm": "Hvordan vil du oppgi hvor mye du skal jobbe?",
+    "arbeidsforhold.hvorMye.timer": "I timer",
+    "arbeidsforhold.hvorMye.prosent": "Som prosent av min vanlige stilling",
+    "arbeidsforhold.timer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidsforhold.timer.utledet": "timer i uka",
+    "arbeidsforhold.timer.utledet.medProsent": "timer i uka ({prosentRedusert} prosent av vanlig)",
+    "arbeidsforhold.prosent.spm": "Hvor mange prosent skal du jobbe?",
+    "arbeidsforhold.prosent.utledet": "prosent av {timer, plural, one {# time} other {# timer}}",
+    "arbeidsforhold.prosent.utledet.medTimer": "prosent av {timer, plural, one {# time} other {# timer}} ({timerRedusert} i uka)",
+    "arbeidsforhold.prosent.veileder": "Hvis du jobber deltid, skal du oppgi hvor mye du skal jobbe som andel av stillingen din. Hvis du til vanlig jobber 80 prosent, og skal jobbe halvparten av dette, skal du oppgi 50 prosent.",
+    "arbeidsforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
+    "arbeidsforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
+    "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
+    "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanlig",
+    "arbeidsforhold.oppsummering.svar.nei": "Skal ikke jobbe",
+    "arbeidsforhold.oppsummering.svar.vet_ikke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uken.",
+    "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig)",
+    "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+    "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uken.",
+
+    "steg.arbeidsforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
+    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, foreldrepenger, omsorgspenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
+    "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver."
 
 }
