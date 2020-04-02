@@ -56,7 +56,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
         <SøknadStep id={StepID.SITUASJON} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
             <>
 
-                // ARBEIDSGIVER
                 <Box padBottom="xxl">
                     <CounsellorPanel>
                         <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
@@ -65,7 +64,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 {arbeidsforhold.length > 0 && (
                     <>
                         {arbeidsforhold.map((forhold, index) => (
-                            <Box padBottom="l" key={forhold.organisasjonsnummer}>
+                            <Box padBottom="xl" key={forhold.organisasjonsnummer}>
                                 <FormSection titleTag="h4" title={forhold.navn} titleIcon={<BuildingIcon />}>
                                     <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                 </FormSection>
@@ -82,9 +81,9 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     </AlertStripe>
                 </Box>
 
-
-                // FOSTERBARN
-                <CounsellorPanel>Hvis du har fosterbarn legger du dem inn i søknaden.</CounsellorPanel>
+                <CounsellorPanel>
+                    <FormattedHTMLMessage id="fosterbarn.legend" />
+                </CounsellorPanel>
 
                 <FormBlock>
                     <SøknadFormComponents.YesOrNoQuestion

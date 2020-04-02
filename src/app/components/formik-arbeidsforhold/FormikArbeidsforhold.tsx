@@ -5,6 +5,7 @@ import intlHelper from 'common/utils/intlUtils';
 import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../types/SøknadFormData';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
+import FormBlock from 'common/components/form-block/FormBlock';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -19,18 +20,23 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as SøknadFormField;
                 return (
                     <>
-                        <FormikYesOrNoQuestion
-                            legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
-                            name={getFieldName(ArbeidsforholdField.harHattFraværHosArbeidsgiver)}
-                        />
-                        {
-                            arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
+                        <FormBlock>
+                            <FormikYesOrNoQuestion
+                                legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}
+                                name={getFieldName(ArbeidsforholdField.harHattFraværHosArbeidsgiver)}
+                            />
+                        </FormBlock>
+                        {arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
+                            <FormBlock>
                                 <FormikYesOrNoQuestion
-                                    legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
+                                    legend={intlHelper(
+                                        intl,
+                                        'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
+                                    )}
                                     name={getFieldName(ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn)}
                                 />
-                            )
-                        }
+                            </FormBlock>
+                        )}
                     </>
                 );
             }}
