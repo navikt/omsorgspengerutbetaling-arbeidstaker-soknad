@@ -102,9 +102,6 @@ export interface SøknadFormData {
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
 }
 
-// const mockPeriode = { fom: undefined, tom: undefined } as any;
-
-// const ugyldigTimer: any = 'x';
 export const initialValues: SøknadFormData = {
     [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,

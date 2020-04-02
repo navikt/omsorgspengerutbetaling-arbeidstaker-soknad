@@ -8,63 +8,46 @@ import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling
 import {
     ArbeidsgiverDetaljer,
     Bekreftelser,
+    FosterbarnApi,
     SøknadApiData,
     UtbetalingsperiodeApi,
     UtenlandsoppholdApiData,
+    YesNoSpørsmålOgSvar,
     YesNoSvar
 } from '../types/SøknadApiData';
-import { SøknadFormData } from '../types/SøknadFormData';
+import {
+    Arbeidsforhold,
+    ArbeidsforholdField,
+    HvorforSøkerDuDirekte,
+    HvorforSøkerDuDirekteSubFields,
+    SøknadFormData
+} from '../types/SøknadFormData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
+import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
-// TODO: FIX MAPPING!!!
 export const mapFormDataToApiData = (
     {
         harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger,
+        hvorforSøkerDuDirekte,
+        hvorforSøkerDuDirekteSubfields,
+        hvorforSØkerDuDirekteAnnetBeskrivelse,
+        arbeidsforhold,
+        har_fosterbarn,
+        fosterbarn,
 
-        // STEG 1: Kvalifisering
-
-
-        // STEG 2: Har betalt ut 10 første dager
-
-        // STEG 3: Periode
         perioderMedFravær,
         dagerMedDelvisFravær,
         perioder_harVærtIUtlandet,
         perioder_utenlandsopphold,
-
-        // STEG 7: Medlemskap
+        
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
         utenlandsoppholdNeste12Mnd
-
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
-
-    const settInnArbeidsgivere = (): ArbeidsgiverDetaljer => {
-        return {
-            organisasjoner: []
-        };
-    };
-
-    const settInnBekreftelser = (): Bekreftelser => {
-        return {
-            harForståttRettigheterOgPlikter,
-            harBekreftetOpplysninger
-        };
-    };
-
-    // språk: Locale;
-    // bosteder: UtenlandsoppholdApiData[]; // medlemskap-siden
-    // opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
-    // spørsmål: YesNoSpørsmålOgSvar[];
-    // arbeidsgivere: ArbeidsgiverDetaljer;
-    // bekreftelser: Bekreftelser;
-    // utbetalingsperioder: UtbetalingsperiodeApi[]; // perioder
-    // fosterbarn: FosterbarnApi[] | null;
-
     const apiData: SøknadApiData = {
         språk: (intl.locale as any) === 'en' ? 'nn' : (intl.locale as Locale),
         bosteder: settInnBosteder(
@@ -75,14 +58,59 @@ export const mapFormDataToApiData = (
             intl.locale
         ), // medlemskap siden
         opphold: settInnOpphold(perioder_harVærtIUtlandet, perioder_utenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        spørsmål: [],
-        arbeidsgivere: settInnArbeidsgivere(),
-        bekreftelser: settInnBekreftelser(),
+        spørsmål: settInnSpørsmål(hvorforSøkerDuDirekte, hvorforSøkerDuDirekteSubfields, intl),
+        arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
+        bekreftelser: settInnBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
-        fosterbarn: [] // TODO: Fiks denne, og de andre over som er manglende
+        fosterbarn: settInnFosterbarn(har_fosterbarn, fosterbarn)
     };
 
     return apiData;
+};
+
+function settInnBekreftelser(
+    harForståttRettigheterOgPlikter: boolean,
+    harBekreftetOpplysninger: boolean
+): Bekreftelser {
+    return {
+        harBekreftetOpplysninger,
+        harForståttRettigheterOgPlikter
+    };
+}
+
+function settInnFosterbarn(harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null {
+    return harFosterbarn === YesOrNo.YES
+        ? listeAvFosterbarn.map((fosterbarn: Fosterbarn) => {
+              return {
+                  fødselsnummer: fosterbarn.fødselsnummer,
+                  fornavn: fosterbarn.fornavn,
+                  etternavn: fosterbarn.etternavn
+              };
+          })
+        : null;
+}
+
+function settInnArbeidsgivere(listeAvArbeidsforhold: Arbeidsforhold[]): ArbeidsgiverDetaljer {
+    return {
+        organisasjoner: listeAvArbeidsforhold.map((arbeidsforhold: Arbeidsforhold) => {
+            return {
+                navn: arbeidsforhold.navn,
+                organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
+                harHattFraværHosArbeidsgiver:
+                    arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES,
+                arbeidsgiverHarUtbetaltLønn:
+                    arbeidsforhold[ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES
+            };
+        })
+    };
+}
+
+const settInnSpørsmål = (
+    hvorforSøkerDuDirekte: HvorforSøkerDuDirekte,
+    hvorforSøkerDuDirekteSubfields: HvorforSøkerDuDirekteSubFields,
+    intl: IntlShape
+): YesNoSpørsmålOgSvar[] => {
+    return []; // TODO: Hvordan mappe fra radioboksen til YesNoSpørsmålOgSvar ? Burde kanskje endres i backend
 };
 
 export const mapPeriodeTilUtbetalingsperiode = (
