@@ -1,8 +1,8 @@
 import axios from 'axios';
 import axiosConfig from '../../config/axiosConfig';
 import { ResourceType } from '../../types/ResourceType';
-import { getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
-import { deleteFile, getSøker, sendApplication, uploadFile } from '../api';
+import { getApiUrlByResourceType } from '../../utils/apiUtils';
+import { getSøker, sendApplication } from '../api';
 
 const mockedApiUrl = 'nav.no/api';
 jest.mock('./../../utils/apiUtils', () => {
@@ -29,21 +29,6 @@ describe('api', () => {
                 data,
                 axiosConfig
             );
-        });
-    });
-
-    describe('uploadFile', () => {
-        it('should send a multipart request with the specified file in a FormData object', () => {
-            const fileMock = new File([''], 'filename', { type: 'text/png' });
-            uploadFile(fileMock);
-            expect(sendMultipartPostRequest).toHaveBeenCalled();
-        });
-    });
-
-    describe('deleteFile', () => {
-        it('should call axios.delete on the specified url', () => {
-            deleteFile(mockedApiUrl);
-            expect(axios.delete).toHaveBeenCalledWith(mockedApiUrl, axiosConfig);
         });
     });
 });

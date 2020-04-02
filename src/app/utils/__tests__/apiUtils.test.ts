@@ -78,9 +78,5 @@ describe('apiUtils', () => {
         it('should return correct URL for ResourceType.SØKER', () => {
             expect(getApiUrlByResourceType(ResourceType.SØKER)).toEqual(`${mockedApiUrl}/${ResourceType.SØKER}`);
         });
-
-        it('should return correct URL for ResourceType.VEDLEGG', () => {
-            expect(getApiUrlByResourceType(ResourceType.VEDLEGG)).toEqual(`${mockedApiUrl}/${ResourceType.VEDLEGG}`);
-        });
     });
 });
