@@ -9,8 +9,6 @@ import { apiUtils } from './apiUtils';
 import { appIsRunningInDemoMode } from './envUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 
-// arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
-
 export const syndArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]

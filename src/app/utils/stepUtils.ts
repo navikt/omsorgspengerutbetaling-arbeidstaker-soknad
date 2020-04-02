@@ -2,6 +2,12 @@ import { IntlShape } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from 'app/config/stepConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
+import {
+    begrunnelseStepIsValid,
+    medlemskapStepIsValid,
+    periodeStepIsValid,
+    situasjonStepIsValid, welcomingPageIsValid
+} from '../validation/stepValidations';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -14,24 +20,16 @@ export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepCo
     };
 };
 
-export const situasjonStepIsAvailable = (formData: SøknadFormData) => true;
-// welcomingPageIsValid(formData);
+export const begrunnelseStepIsAvailable = (formData: SøknadFormData) => welcomingPageIsValid(formData);
 
-export const egenutbetalingStepIsAvailable = (formData: SøknadFormData) => true;
-// situasjonStepIsAvailable(formData) && situasjonStepIsValid(formData);
+export const situasjonStepIsAvailable = (formData: SøknadFormData) =>
+    begrunnelseStepIsAvailable(formData) && begrunnelseStepIsValid(formData);
 
-export const periodeStepIsAvailable = (formData: SøknadFormData) => true;
-// egenutbetalingStepIsAvailable(formData) && egenutbetalingIsValid(formData);
+export const periodeStepIsAvailable = (formData: SøknadFormData) =>
+    situasjonStepIsAvailable(formData) && situasjonStepIsValid(formData);
 
-export const legeerklæringStepAvailable = (formData: SøknadFormData) => true;
-// periodeStepIsValid(formData);
+export const medlemskapStepIsAvailable = (formData: SøknadFormData) =>
+    periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
 
-export const inntektStepIsAvailable = (formData: SøknadFormData) => true;
-// periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
-
-export const medlemskapStepIsAvailable = (formData: SøknadFormData) => true;
-// periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
-// inntektStepIsAvailable(formData) && inntektStepIsValid(formData);
-
-export const summaryStepAvailable = (formData: SøknadFormData) => true;
-// medlemskapStepIsValid(formData);
+export const summaryStepAvailable = (formData: SøknadFormData) =>
+    medlemskapStepIsAvailable(formData) && medlemskapStepIsValid(formData);

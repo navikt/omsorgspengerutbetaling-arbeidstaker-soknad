@@ -1,7 +1,7 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import {
-    legeerklæringStepIsValid, medlemskapStepIsValid, welcomingPageIsValid
+    medlemskapStepIsValid, welcomingPageIsValid
 } from '../stepValidations';
 
 jest.mock('./../fieldValidations', () => {
@@ -62,12 +62,6 @@ describe('stepValidation tests', () => {
             expect(medlemskapStepIsValid(formData as SøknadFormData)).toBe(false);
             formData[SøknadFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
             expect(medlemskapStepIsValid(formData as SøknadFormData)).toBe(false);
-        });
-    });
-
-    describe('legeerklæringStepIsValid', () => {
-        it('should always be valid', () => {
-            expect(legeerklæringStepIsValid()).toBe(true);
         });
     });
 });

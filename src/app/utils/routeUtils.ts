@@ -2,8 +2,11 @@ import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import {
-    egenutbetalingStepIsAvailable, inntektStepIsAvailable, medlemskapStepIsAvailable, periodeStepIsAvailable,
-    situasjonStepIsAvailable, summaryStepAvailable
+    begrunnelseStepIsAvailable,
+    medlemskapStepIsAvailable,
+    periodeStepIsAvailable,
+    situasjonStepIsAvailable,
+    summaryStepAvailable
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
@@ -20,14 +23,12 @@ export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): st
 
 export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData) => {
     switch (path) {
+        case StepID.BEGRUNNELSE:
+            return begrunnelseStepIsAvailable(values);
         case StepID.SITUASJON:
             return situasjonStepIsAvailable(values);
-        case StepID.BEGRUNNELSE:
-            return egenutbetalingStepIsAvailable(values);
         case StepID.PERIODE:
             return periodeStepIsAvailable(values);
-        case StepID.INNTEKT:
-            return inntektStepIsAvailable(values);
         case StepID.MEDLEMSKAP:
             return medlemskapStepIsAvailable(values);
         case StepID.OPPSUMMERING:
