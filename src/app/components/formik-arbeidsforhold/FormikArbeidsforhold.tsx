@@ -6,6 +6,7 @@ import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../typ
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -24,6 +25,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                             <FormikYesOrNoQuestion
                                 legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}
                                 name={getFieldName(ArbeidsforholdField.harHattFraværHosArbeidsgiver)}
+                                validate={validateYesOrNoIsAnswered}
                             />
                         </FormBlock>
                         {arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
@@ -34,6 +36,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
                                     )}
                                     name={getFieldName(ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn)}
+                                    validate={validateYesOrNoIsAnswered}
                                 />
                             </FormBlock>
                         )}

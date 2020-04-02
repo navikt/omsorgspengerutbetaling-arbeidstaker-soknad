@@ -14,6 +14,17 @@ import { FormikRadioPanelGroup, LabelWithInfo } from '@navikt/sif-common-formik/
 import { PopoverOrientering } from 'nav-frontend-popover';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
+import { FieldValidationResult } from 'common/validation/types';
+
+// (answer: YesOrNo) => FieldValidationResult;
+
+const validateRadiogroup = (value: HvorforSøkerDuDirekte): FieldValidationResult => {
+    return value === HvorforSøkerDuDirekte.ikkeBesvart
+        ? {
+              key: 'fieldvalidation.påkrevd'
+          }
+        : undefined;
+};
 
 const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -54,17 +65,9 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                     }
                     name={SøknadFormField.hvorforSøkerDuDirekte}
                     useTwoColumns={false}
+                    validate={validateRadiogroup}
                 />
             </FormBlock>
-
-            {/*{values[SøknadFormField.hvorforSøkerDuDirekte] === HvorforSøkerDuDirekte.annet && (*/}
-            {/*    <FormBlock>*/}
-            {/*        <FormikTextarea*/}
-            {/*            label={intlHelper(intl, 'annet_beskrivelse_legen')}*/}
-            {/*            name={SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse}*/}
-            {/*        />*/}
-            {/*    </FormBlock>*/}
-            {/*)}*/}
 
             {values[SøknadFormField.hvorforSøkerDuDirekte] === HvorforSøkerDuDirekte.mindreEnnFireUker && (
                 <FormBlock>
@@ -89,6 +92,7 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                         }
                         name={SøknadFormField.hvorforSøkerDuDirekteSubfields}
                         useTwoColumns={false}
+                        validate={validateRadiogroup}
                     />
                 </FormBlock>
             )}
