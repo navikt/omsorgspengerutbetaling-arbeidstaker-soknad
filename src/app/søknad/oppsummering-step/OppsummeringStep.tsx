@@ -26,6 +26,7 @@ import { SpørsmålOgSvarSummaryView } from './components/SporsmalOgSvarSummaryV
 import SummaryBlock from './components/SummaryBlock';
 import UtbetalingsperioderSummaryView from './components/UtbetalingsperioderSummaryView';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
+import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 
 interface Props {
     onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
@@ -86,7 +87,9 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                         mellomnavn={mellomnavn}
                         fødselsnummer={fødselsnummer}
                     />
+                    {/*TODO: Må finne ut hvor Begrunnelse sine radioknapper skal*/}
                     <SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />
+                    <ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />
                     {fosterbarn.length > 0 && (
                         <SummaryBlock header="Fosterbarn">
                             <SummaryList
