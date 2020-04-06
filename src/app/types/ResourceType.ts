@@ -3,5 +3,5 @@ export enum ResourceType {
     ARBEIDSGIVER = 'arbeidsgiver',
     SEND_SØKNAD = 'arbeidstaker/soknad',
     SØKER = 'arbeidstakerutbetaling/soker',
-    MELLOMLAGRING = 'mellomlagring-arbeidstaker'
+    MELLOMLAGRING = 'mellomlagring'
 }

@@ -49,4 +49,4 @@ spec:
         - name: UTILGJENGELIG
           value: "off"
         - name: MELLOMLAGRING
-          value: "off"
+          value: "on"

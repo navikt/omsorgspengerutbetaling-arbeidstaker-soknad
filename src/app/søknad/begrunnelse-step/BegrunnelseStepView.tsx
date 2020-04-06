@@ -43,7 +43,7 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                         value: HvorLengeJobbet.MER_ENN_FIRE_UKER
                     }}
                     useTwoColumns={true}
-                    name={[SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]}
+                    name={SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver}
                     legend={'Hvor lenge har du jobbet hos den nåværende arbeidsgiveren din?'}
                 />
             </FormBlock>
