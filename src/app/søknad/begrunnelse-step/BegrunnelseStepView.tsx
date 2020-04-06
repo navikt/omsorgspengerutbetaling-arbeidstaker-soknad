@@ -35,16 +35,16 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
             <FormBlock margin={'xl'}>
                 <FormikQuestion
                     firstAlternative={{
-                        label: 'Mindre enn fire uker',
+                        label: intlHelper(intl, "hvorLengeJobbet.mindre"),
                         value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
                     }}
                     secondAlternative={{
-                        label: 'Mer enn fire uker',
+                        label: intlHelper(intl, "hvorLengeJobbet.mer"),
                         value: HvorLengeJobbet.MER_ENN_FIRE_UKER
                     }}
                     useTwoColumns={true}
                     name={SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver}
-                    legend={'Hvor lenge har du jobbet hos den nåværende arbeidsgiveren din?'}
+                    legend={intlHelper(intl, "hvorLengeJobbet.spørsmål")}
                 />
             </FormBlock>
 

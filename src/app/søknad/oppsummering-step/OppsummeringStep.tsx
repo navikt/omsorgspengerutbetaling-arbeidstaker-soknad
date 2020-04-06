@@ -27,6 +27,7 @@ import SummaryBlock from './components/SummaryBlock';
 import UtbetalingsperioderSummaryView from './components/UtbetalingsperioderSummaryView';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
+import JobbHosNavaerendeArbeidsgiverSummaryView from './components/JobbHosNavaerendeArbeidsgiverSummaryView';
 
 interface Props {
     onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
@@ -62,6 +63,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
         person: { fornavn, mellomnavn, etternavn, fødselsnummer }
     } = søkerdata;
 
+    // const apiValues = mock1;
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
     const fosterbarn = apiValues.fosterbarn || [];
     return (
@@ -88,6 +90,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                         fødselsnummer={fødselsnummer}
                     />
                     {/*TODO: Må finne ut hvor Begrunnelse sine radioknapper skal*/}
+                    <JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />
                     <SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />
                     <ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />
                     {fosterbarn.length > 0 && (

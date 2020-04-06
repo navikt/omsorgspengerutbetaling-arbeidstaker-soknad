@@ -379,6 +379,10 @@
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, foreldrepenger, omsorgspenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "fosterbarn.legend": "Hvis du har fosterbarn legger du dem inn i søknaden.",
+
+    "hvorLengeJobbet.spørsmål": "Hvor lenge har du jobbet hos den nåværende arbeidsgiveren din?",
+    "hvorLengeJobbet.mindre": "Mindre enn fire uker",
+    "hvorLengeJobbet.mer": "Mer enn fire uker",
     "hvorLengeJobbet.fordi.legend": "Dette er fordi",
     "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "Jeg har hatt et annet arbeidsforhold",
     "hvorLengeJobbet.fordi.andreYtelser.label": "Jeg har hatt dagpenger, foreldrepenger, pleiepenger, omsorgspenger, opplæringspenger eller svangerskapspenger fra Nav",
