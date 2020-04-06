@@ -66,13 +66,13 @@ export const mock1: SøknadApiData = {
     arbeidsgivere: {
         organisasjoner: [
             {
-                navn: "Byggmakker",
+                navn: "Pengebingen",
                 organisasjonsnummer: "9999999",
                 harHattFraværHosArbeidsgiver: true,
                 arbeidsgiverHarUtbetaltLønn: false
             },
             {
-                navn: "Norsk tipping",
+                navn: "Blizard",
                 organisasjonsnummer: "9999999",
                 harHattFraværHosArbeidsgiver: false,
                 arbeidsgiverHarUtbetaltLønn: false

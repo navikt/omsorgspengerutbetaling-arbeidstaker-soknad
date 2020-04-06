@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
 import intlHelper from 'common/utils/intlUtils';
 import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../types/SøknadFormData';
@@ -7,6 +7,8 @@ import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import Box from 'common/components/box/Box';
+import AlertStripe from 'nav-frontend-alertstriper';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -29,7 +31,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                             />
                         </FormBlock>
                         {arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
-                            <FormBlock>
+                            <FormBlock paddingBottom={"xl"}>
                                 <FormikYesOrNoQuestion
                                     legend={intlHelper(
                                         intl,
@@ -40,6 +42,15 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                 />
                             </FormBlock>
                         )}
+                        {
+                            arbeidsforhold[ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES && (
+                                <Box margin="s" padBottom="xl">
+                                    <AlertStripe type="info">
+                                        <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
+                                    </AlertStripe>
+                                </Box>
+                            )
+                        }
                     </>
                 );
             }}

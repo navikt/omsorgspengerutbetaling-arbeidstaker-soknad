@@ -14,10 +14,11 @@ import { Søkerdata } from '../../types/Søkerdata';
 import FormikArbeidsforhold from '../../components/formik-arbeidsforhold/FormikArbeidsforhold';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import FormBlock from 'common/components/form-block/FormBlock';
-import { validateYesOrNoIsAnswered, validateRequiredList } from 'common/validation/fieldValidations';
+import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/FosterbarnListAndDialog';
 import { SituasjonStepQuestions } from './config';
 import SøknadFormComponents from '../SøknadFormComponents';
+import { Ingress } from 'nav-frontend-typografi';
 
 
 interface OwnProps {
@@ -55,6 +56,11 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     return (
         <SøknadStep id={StepID.SITUASJON} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
             <>
+                <Box padBottom={'xxl'}>
+                    <Ingress>
+                        <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
+                    </Ingress>
+                </Box>
 
                 <Box padBottom="xxl">
                     <CounsellorPanel>
@@ -79,6 +85,12 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     <AlertStripe type="info">
                         <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
                     </AlertStripe>
+                </Box>
+
+                <Box padBottom={'xxl'}>
+                    <Ingress>
+                        <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
+                    </Ingress>
                 </Box>
 
                 <CounsellorPanel>
