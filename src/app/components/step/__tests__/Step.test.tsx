@@ -29,6 +29,6 @@ describe('<Step>', () => {
 
     it('should render common <Step> content', () => {
         const { getByText } = renderResult;
-        expect(getByText('Hva er din situasjon?')).toBeTruthy();
+        expect(getByText('Din situasjon')).toBeTruthy();
     });
 });
