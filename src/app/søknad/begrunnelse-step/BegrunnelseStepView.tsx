@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { HvorLengeJobbet, HvorLengeJobbetFordi, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -11,6 +10,10 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 import { FieldValidationResult } from 'common/validation/types';
 import FormikQuestion from '../../components/formik-question/FormikQuestion';
+import Box from 'common/components/box/Box';
+import { Ingress } from 'nav-frontend-typografi';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 
 // (answer: YesOrNo) => FieldValidationResult;
 
@@ -27,24 +30,30 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
 
     const hvorLengeJobbet: HvorLengeJobbet = values[SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver];
+    const fordi: HvorLengeJobbetFordi = values[SøknadFormField.hvorLengeJobbetFordi];
 
     return (
         <SøknadStep id={StepID.BEGRUNNELSE} onValidFormSubmit={onValidSubmit}>
-            <CounsellorPanel>{intlHelper(intl, 'step.egenutbetaling.counsellorpanel.content')}</CounsellorPanel>
+            <Box>
+                <Ingress>
+                    <FormattedMessage id={'dinSituasjon.ingress'} />
+                </Ingress>
+            </Box>
+            {/*<CounsellorPanel>{intlHelper(intl, 'step.egenutbetaling.counsellorpanel.content')}</CounsellorPanel>*/}
 
             <FormBlock margin={'xl'}>
                 <FormikQuestion
                     firstAlternative={{
-                        label: intlHelper(intl, "hvorLengeJobbet.mindre"),
+                        label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
                         value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
                     }}
                     secondAlternative={{
-                        label: intlHelper(intl, "hvorLengeJobbet.mer"),
+                        label: intlHelper(intl, 'hvorLengeJobbet.mer'),
                         value: HvorLengeJobbet.MER_ENN_FIRE_UKER
                     }}
                     useTwoColumns={true}
                     name={SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver}
-                    legend={intlHelper(intl, "hvorLengeJobbet.spørsmål")}
+                    legend={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}
                 />
             </FormBlock>
 
@@ -61,12 +70,16 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                                 value: HvorLengeJobbetFordi.ANDRE_YTELSER
                             },
                             {
+                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.militærtjeneste.label'),
+                                value: HvorLengeJobbetFordi.MILITÆRTJENESTE
+                            },
+                            {
                                 label: intlHelper(intl, 'hvorLengeJobbet.fordi.lovbestemtFerie.label'),
                                 value: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
                             },
                             {
-                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.militærtjeneste.label'),
-                                value: HvorLengeJobbetFordi.MILITÆRTJENESTE
+                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.ingen.label'),
+                                value: HvorLengeJobbetFordi.INGEN
                             }
                         ]}
                         legend={
@@ -81,6 +94,23 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                         useTwoColumns={false}
                         validate={validateRadiogroup}
                     />
+                </FormBlock>
+            )}
+
+            {hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER && (
+                <FormBlock>
+                    <CounsellorPanel>
+                        <FormattedHTMLMessage id={'hvorLengeJobbet.merEnnFire.counsellor.html'} />
+                    </CounsellorPanel>
+                </FormBlock>
+            )}
+
+            {fordi === HvorLengeJobbetFordi.INGEN && (
+                <FormBlock>
+                    <AlertStripeFeil>
+                        For at du som arbeidstaker skal ha rett til utbetaling av omsorgspenger fra NAV, må det være én
+                        av situasjonene over som gjelder.
+                    </AlertStripeFeil>
                 </FormBlock>
             )}
         </SøknadStep>

@@ -96,7 +96,7 @@
 
     "annet_beskrivelse_legen": "Hvorfor søker du om omsorgspenger?",
 
-    "step.begrunnelse.stepTitle" : "Derfor søker du om omsorgspenger",
+    "step.begrunnelse.stepTitle" : "Om arbeidssituasjonen din",
     "step.begrunnelse.pageTitle" : "Begrunnelse",
     "step.begrunnelse.stepIndicatorLabel" : "Begrunnelse",
     "step.egenutbetaling.counsellorpanel.content": "I de aller fleste tilfeller skal arbeidsgiver utbetale deg omsorgspenger. I noen tilfeller har ikke arbeidsigver plikt til å utbetale til tross for at du har rett på omsorgspenger. I disse tilfellene kan du søke om utbetaling fra NAV.",
@@ -380,17 +380,21 @@
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "fosterbarn.legend": "Vi henter vanligvis informasjon om barn fra folkeregisteret, men vi har ikke tilgang til informasjon om fosterbarn der. Derfor må du selv legge inn opplysninger om eventuelle fosterbarn.",
 
-    "hvorLengeJobbet.spørsmål": "Hvor lenge har du jobbet hos den nåværende arbeidsgiveren din?",
-    "hvorLengeJobbet.mindre": "Mindre enn fire uker",
-    "hvorLengeJobbet.mer": "Mer enn fire uker",
-    "hvorLengeJobbet.fordi.legend": "Dette er fordi",
-    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "Jeg har hatt et annet arbeidsforhold",
-    "hvorLengeJobbet.fordi.andreYtelser.label": "Jeg har hatt dagpenger, foreldrepenger, pleiepenger, omsorgspenger, opplæringspenger eller svangerskapspenger fra Nav",
-    "hvorLengeJobbet.fordi.lovbestemtFerie.label": "Jeg har hatt lovbestemt ferie eller ulønnet permisjon etter foreldrepenger",
-    "hvorLengeJobbet.fordi.militærtjeneste.label": "Jeg har hatt militærtjeneste",
+    "hvorLengeJobbet.spørsmål": "Hvor lenge har du vært i jobb hos arbeidsgiveren din?",
+    "hvorLengeJobbet.mindre": "Mindre enn 4 uker",
+    "hvorLengeJobbet.mer": "Mer enn 4 uker",
+    "hvorLengeJobbet.fordi.legend": "Her velger du din situasjon. Jeg har jobbet mindre enn fire uker, fordi",
+
+    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "Jeg har byttet arbeidsgiver",
+    "hvorLengeJobbet.fordi.andreYtelser.label": "Jeg har mottatt dagpenger, foreldrepenger, pleiepenger, omsorgspenger, opplæringspenger eller svangerskapspenger fra Nav",
+    "hvorLengeJobbet.fordi.militærtjeneste.label": "Jeg har vært i militærtjeneste",
+    "hvorLengeJobbet.fordi.lovbestemtFerie.label": "Jeg har hatt ulønnet permisjon direkte etter en periode med foreldrepenger, og har avtalt med arbeidsgiveren min at jeg skal gjenoppta arbeidet etter permisjonen",
+    "hvorLengeJobbet.fordi.ingen.label": "Ingen av situasjonene over gjelder for meg",
 
     "dinSituasjon.arbeidsforhold.tittel": "Om arbeidsforhold",
     "dinSituasjon.fosterbarn.tittel": "Om fosterbarn",
 
-    "arbeidsforhold.harUtbetalingLønn.alertstripe": "Hvis arbeidsgiveren din allerede har utbetalt lønn for omsorgsdager, vil ikke også NAV utbetale for de dagene."
+    "arbeidsforhold.harUtbetalingLønn.alertstripe": "Hvis arbeidsgiveren din allerede har utbetalt lønn for omsorgsdager, vil ikke også NAV utbetale for de dagene.",
+    "dinSituasjon.ingress": "Om arbeidssituasjonen din",
+    "hvorLengeJobbet.merEnnFire.counsellor.html": "<div><span>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Arbeidsgiveren din må sende oss:<ul><li>en redegjørelse for hvorfor de ikke utbetaler omsorgspenger til deg</li><li>inntektsmelding</li></ul></span></div>"
 }
