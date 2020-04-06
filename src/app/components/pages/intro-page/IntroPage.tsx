@@ -8,19 +8,26 @@ import StepBanner from 'common/components/step-banner/StepBanner';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
+import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from 'common/types/YesOrNo';
+import FormBlock from 'common/components/form-block/FormBlock';
+import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 const bem = bemUtils('introPage');
 
-// enum PageFormField {
-//     'erSelvstendigEllerFrilanser' = 'erSelvstendigEllerFrilanser'
-// }
+enum PageFormField {
+    'noeSomGjelderForDeg' = 'noeSomGjelderForDeg'
+}
 
-// interface PageFormValues {
-//     [PageFormField.erSelvstendigEllerFrilanser]: YesOrNo;
-// }
+interface PageFormValues {
+    [PageFormField.noeSomGjelderForDeg]: YesOrNo;
+}
 
-// const initialValues = {};
-// const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
+const initialValues: PageFormValues = {
+    [PageFormField.noeSomGjelderForDeg]: YesOrNo.UNANSWERED
+};
+const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
 
 const IntroPage: React.StatelessComponent = () => {
     const intl = useIntl();
@@ -32,79 +39,82 @@ const IntroPage: React.StatelessComponent = () => {
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
             <Box margin="xxxl">
                 <InformationPoster>
-                    <p>{intlHelper(intl, 'informasjon.nar_kan_man_fa_utbetalt')}</p>
-
+                    <p>
+                        Hvis du ikke har rett på omsorgspenger hos arbeidsgiveren din, kan du likevel ha rett til det
+                        fra NAV. Dette kan være når du har vært mindre enn 4 uker i den nye jobben din fordi
+                    </p>
                     <ul>
-                        <li>
-                            de har jobbet hos nåværende arbeidsgiver i mindre enn 4 uker, men har forut dette arbeidsforhold hatt et annet arbeidsforhold eller en ytelse fra NAV som likestilles med arbeidsforhold (dagpenger, foreldrepenger, pleiepenger, opplæringspenger, svangerskapspenger)
-                        </li>
+                        <li>du har byttet arbeidsgiver.</li>
                         <p />
                         <li>
-                            du har vært i militærtjeneste.
+                            du har mottatt dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger,
+                            foreldrepenger eller svangerskapspenger.
                         </li>
                         <p />
-                        <li>
-                            du har hatt ulønnet permisjon direkte etter en periode med foreldrepenger og har avtalt med arbeidsgiveren din at du skal gjenoppta arbeidet etter permisjonen.
-                        </li>
+                        <li>du har vært i militærtjeneste.</li>
                         <p />
                         <li>
-                            du har hatt lovbestemt ferie.
+                            du har hatt ulønnet permisjon direkte etter en periode med foreldrepenger og har avtalt med
+                            arbeidsgiveren din at du skal gjenoppta arbeidet etter permisjonen.
                         </li>
                         <p />
-                        <li>
-                             annet (det må hete annet i søknaden + friteksfelt) - noen arbeidsgivere nekter å utbetale til tross for at arbeidstaker har rett og arbeidsgiver har forskutteringsplikt.
-                        </li>
+                        <li>du har hatt lovbestemt ferie. <a href={"https://www.arbeidstilsynet.no/arbeidsforhold/ferie/"}>Hva er lovbestemt ferie?</a></li>
                         <p />
                     </ul>
                     <p />
-                    I disse tilfellene kan du søke om utbetaling fra NAV.
-
-
+                    Hvis minst én av situasjonene over gjelder for deg, kan du gå til den digitale søknaden.
                 </InformationPoster>
             </Box>
-            {/*<FormBlock>*/}
-            {/*    <PageForm.FormikWrapper*/}
-            {/*        onSubmit={() => null}*/}
-            {/*        initialValues={initialValues}*/}
-            {/*        renderForm={({ values: { erSelvstendigEllerFrilanser } }) => (*/}
-            {/*            <PageForm.Form*/}
-            {/*                fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}*/}
-            {/*                includeButtons={false}>*/}
-            {/*                <PageForm.YesOrNoQuestion*/}
-            {/*                    name={PageFormField.erSelvstendigEllerFrilanser}*/}
-            {/*                    legend="Er du selvstendig næringsdrivende eller frilanser?"*/}
-            {/*                />*/}
-            {/*                {erSelvstendigEllerFrilanser === YesOrNo.NO && (*/}
-            {/*                    <Box margin="xl">*/}
-            {/*                        <AlertStripeInfo>*/}
-            {/*                            <p style={{ marginTop: 0, marginBottom: 0 }}>*/}
-            {/*                                Denne søknaden gjelder <strong>kun</strong> for selvstendig næringsdrivende*/}
-            {/*                                og frilansere som skal søke om utbetaling av omsorgspenger.*/}
-            {/*                            </p>*/}
-            {/*                            <p>*/}
-            {/*                                Hvis du er arbeidstaker, skal du ikke søke om utbetaling av omsorgspenger.*/}
-            {/*                                Arbeidsgiveren din skal utbetale deg lønn som vanlig de dagene du tar ut*/}
-            {/*                                omsorgsdager.*/}
-            {/*                            </p>*/}
-            {/*                        </AlertStripeInfo>*/}
-            {/*                    </Box>*/}
-            {/*                )}*/}
-            {/*                {erSelvstendigEllerFrilanser === YesOrNo.YES && (*/}
-            {/*                    <Box margin="xl" textAlignCenter={true}>*/}
-            {/*                        <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>*/}
-            {/*                            <FormattedMessage id="gotoApplicationLink.lenketekst" />*/}
-            {/*                        </Lenke>*/}
-            {/*                    </Box>*/}
-            {/*                )}*/}
-            {/*            </PageForm.Form>*/}
-            {/*        )}*/}
-            {/*    />*/}
-            {/*</FormBlock>*/}
-            <Box margin="xl" textAlignCenter={true}>
-                <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>
-                    <FormattedMessage id="gotoApplicationLink.lenketekst" />
-                </Lenke>
-            </Box>
+
+            <FormBlock margin="xxl">
+                <PageForm.FormikWrapper
+                    onSubmit={() => null}
+                    initialValues={initialValues}
+                    renderForm={({ values: { noeSomGjelderForDeg } }) => {
+                        const kanBrukeSøknaden = noeSomGjelderForDeg === YesOrNo.YES;
+                        const kanIkkeBrukeSøknaden = noeSomGjelderForDeg === YesOrNo.NO;
+                        return (
+                            <PageForm.Form
+                                fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}
+                                includeButtons={false}>
+                                <PageForm.YesOrNoQuestion
+                                    name={PageFormField.noeSomGjelderForDeg}
+                                    legend="Gjelder en av situasjonene beskrevet over for deg?"
+                                />
+
+                                {kanIkkeBrukeSøknaden && (
+                                    <Box margin="xl">
+                                        <AlertStripeInfo>
+                                            <>
+                                                <p style={{ marginTop: 0, marginBottom: 0 }}>
+                                                    <strong>
+                                                        Gjelder ingen av situasjonene for deg, og likevel utbetaler ikke
+                                                        arbeidsgiver omsorgspenger?
+                                                    </strong>
+                                                </p>
+                                                <p>
+                                                    I slike tilfeller sender du inn en søknad, og legger ved en
+                                                    redegjørelse fra arbeidsgiver om hvorfor de ikke utbetaler
+                                                    omsorgspenger til deg.
+                                                </p>
+                                            </>
+                                        </AlertStripeInfo>
+                                    </Box>
+                                )}
+                                {kanBrukeSøknaden && (
+                                    <>
+                                        <Box margin="xl" textAlignCenter={true}>
+                                            <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>
+                                                <FormattedMessage id="gotoApplicationLink.lenketekst" />
+                                            </Lenke>
+                                        </Box>
+                                    </>
+                                )}
+                            </PageForm.Form>
+                        );
+                    }}
+                />
+            </FormBlock>
         </Page>
     );
 };
