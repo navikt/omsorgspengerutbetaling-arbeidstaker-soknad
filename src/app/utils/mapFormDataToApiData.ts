@@ -119,8 +119,8 @@ function settInnFosterbarn(harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn
         ? listeAvFosterbarn.map((fosterbarn: Fosterbarn) => {
               return {
                   fødselsnummer: fosterbarn.fødselsnummer,
-                  fornavn: fosterbarn.fornavn,
-                  etternavn: fosterbarn.etternavn
+                  fornavn: fosterbarn.fornavn || null,
+                  etternavn: fosterbarn.etternavn || null
               };
           })
         : null;

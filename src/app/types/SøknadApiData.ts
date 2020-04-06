@@ -70,8 +70,8 @@ export interface VirksomhetApiData {
 
 export interface FosterbarnApi {
     fødselsnummer: string;
-    fornavn: string;
-    etternavn: string;
+    fornavn: string | null;
+    etternavn: string | null;
 }
 
 export interface Bekreftelser {
