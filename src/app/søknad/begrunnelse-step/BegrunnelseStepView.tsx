@@ -105,7 +105,7 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                 </FormBlock>
             )}
 
-            {fordi === HvorLengeJobbetFordi.INGEN && (
+            {hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && fordi === HvorLengeJobbetFordi.INGEN && (
                 <FormBlock>
                     <AlertStripeFeil>
                         For at du som arbeidstaker skal ha rett til utbetaling av omsorgspenger fra NAV, må det være én
