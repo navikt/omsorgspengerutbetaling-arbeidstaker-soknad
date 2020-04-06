@@ -20,7 +20,7 @@ export const getTextForBegrunnelse = (intl: IntlShape, begrunnelse: Begrunnelse 
         case Begrunnelse.MILITÆRTJENESTE:
             return intlHelper(intl, 'hvorLengeJobbet.fordi.militærtjeneste.label');
         default:
-            return null;
+            return "TODO: Legge til case for ingen passende valg";
     }
 };
 
@@ -36,7 +36,7 @@ const JobbHosNavaerendeArbeidsgiverSummaryView: React.FC<Props> = (props: Props)
             <Box margin={'s'}>
                 <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}>
                     <FormattedMessage
-                        id={merEnn4Uker ? 'hvorLengeJobbet.mindre' : 'hvorLengeJobbet.mindre'}
+                        id={merEnn4Uker ? 'hvorLengeJobbet.mer' : 'hvorLengeJobbet.mindre'}
                         tagName="span"
                     />
                 </SummaryBlock>
