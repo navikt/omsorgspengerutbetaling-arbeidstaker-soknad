@@ -26,33 +26,6 @@ import {
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
-const settInnBegrunnelse = (verdi: HvorLengeJobbetFordi): Begrunnelse | null => {
-    switch (verdi) {
-        case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD:
-            return Begrunnelse.ANNET_ARBEIDSFORHOLD;
-        case HvorLengeJobbetFordi.ANDRE_YTELSER:
-            return Begrunnelse.ANDRE_YTELSER;
-        case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON:
-            return Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
-        case HvorLengeJobbetFordi.MILITÆRTJENESTE:
-            return Begrunnelse.MILITÆRTJENESTE;
-        default:
-            return null;
-    }
-};
-
-const settInnJobbHosNåværendeArbeidsgiver = (
-    hvorLengeHarDuJobbetHosNåværendeArbeidsgiver: HvorLengeJobbet,
-    hvorLengeJobbetFordi: HvorLengeJobbetFordi
-): JobbHosNåværendeArbeidsgiver => {
-    return {
-        merEnn4Uker: hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER,
-        begrunnelse:
-            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
-                ? settInnBegrunnelse(hvorLengeJobbetFordi)
-                : null
-    };
-};
 
 export const mapFormDataToApiData = (
     {
@@ -111,6 +84,35 @@ function settInnBekreftelser(
         harForståttRettigheterOgPlikter
     };
 }
+
+const settInnBegrunnelse = (verdi: HvorLengeJobbetFordi): Begrunnelse | null => {
+    switch (verdi) {
+        case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD:
+            return Begrunnelse.ANNET_ARBEIDSFORHOLD;
+        case HvorLengeJobbetFordi.ANDRE_YTELSER:
+            return Begrunnelse.ANDRE_YTELSER;
+        case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON:
+            return Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
+        case HvorLengeJobbetFordi.MILITÆRTJENESTE:
+            return Begrunnelse.MILITÆRTJENESTE;
+        case HvorLengeJobbetFordi.INGEN: return null; // TODO: Oppdater ihht skisser
+        default:
+            return null;
+    }
+};
+
+const settInnJobbHosNåværendeArbeidsgiver = (
+    hvorLengeHarDuJobbetHosNåværendeArbeidsgiver: HvorLengeJobbet,
+    hvorLengeJobbetFordi: HvorLengeJobbetFordi
+): JobbHosNåværendeArbeidsgiver => {
+    return {
+        merEnn4Uker: hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER,
+        begrunnelse:
+            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
+                ? settInnBegrunnelse(hvorLengeJobbetFordi)
+                : null
+    };
+};
 
 function settInnFosterbarn(harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null {
     return harFosterbarn === YesOrNo.YES

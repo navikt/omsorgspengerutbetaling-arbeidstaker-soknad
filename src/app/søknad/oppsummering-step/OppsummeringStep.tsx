@@ -89,7 +89,6 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                         mellomnavn={mellomnavn}
                         fødselsnummer={fødselsnummer}
                     />
-                    {/*TODO: Må finne ut hvor Begrunnelse sine radioknapper skal*/}
                     <JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />
                     <SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />
                     <ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />
