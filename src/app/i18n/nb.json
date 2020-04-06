@@ -378,5 +378,10 @@
     "steg.arbeidsforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, foreldrepenger, omsorgspenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
-    "fosterbarn.legend": "Hvis du har fosterbarn legger du dem inn i søknaden."
+    "fosterbarn.legend": "Hvis du har fosterbarn legger du dem inn i søknaden.",
+    "hvorLengeJobbet.fordi.legend": "Dette er fordi",
+    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "Jeg har hatt et annet arbeidsforhold",
+    "hvorLengeJobbet.fordi.andreYtelser.label": "Jeg har hatt dagpenger, foreldrepenger, pleiepenger, omsorgspenger, opplæringspenger eller svangerskapspenger fra Nav",
+    "hvorLengeJobbet.fordi.lovbestemtFerie.label": "Jeg har hatt lovbestemt ferie eller ulønnet permisjon etter foreldrepenger",
+    "hvorLengeJobbet.fordi.militærtjeneste.label": "Jeg har hatt militærtjeneste"
 }

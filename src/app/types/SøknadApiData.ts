@@ -90,10 +90,23 @@ export interface ArbeidsgiverDetaljer {
     organisasjoner: OrganisasjonDetaljer[];
 }
 
+export interface JobbHosNåværendeArbeidsgiver {
+    merEnn4Uker: boolean;
+    begrunnelse: Begrunnelse | null;
+}
+
+export enum Begrunnelse {
+    ANNET_ARBEIDSFORHOLD = "ANNET_ARBEIDSFORHOLD",
+    ANDRE_YTELSER = "ANDRE_YTELSER",
+    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = "LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON",
+    MILITÆRTJENESTE = "MILITÆRTJENESTE"
+}
+
 export interface SøknadApiData {
     språk: Locale;
     bosteder: UtenlandsoppholdApiData[]; // medlemskap-siden
     opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
+    jobbHosNåværendeArbeidsgiver: JobbHosNåværendeArbeidsgiver;
     spørsmål: YesNoSpørsmålOgSvar[];
     arbeidsgivere: ArbeidsgiverDetaljer;
     bekreftelser: Bekreftelser;

@@ -7,31 +7,61 @@ import { decimalTimeToTime, timeToIso8601Duration } from 'common/utils/timeUtils
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import {
     ArbeidsgiverDetaljer,
+    Begrunnelse,
     Bekreftelser,
     FosterbarnApi,
+    JobbHosNåværendeArbeidsgiver,
     SøknadApiData,
     UtbetalingsperiodeApi,
     UtenlandsoppholdApiData,
-    YesNoSpørsmålOgSvar,
     YesNoSvar
 } from '../types/SøknadApiData';
 import {
     Arbeidsforhold,
     ArbeidsforholdField,
-    HvorforSøkerDuDirekte,
-    HvorforSøkerDuDirekteSubFields,
+    HvorLengeJobbet,
+    HvorLengeJobbetFordi,
     SøknadFormData
 } from '../types/SøknadFormData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
+const settInnBegrunnelse = (verdi: HvorLengeJobbetFordi): Begrunnelse | null => {
+    switch (verdi) {
+        case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD:
+            return Begrunnelse.ANNET_ARBEIDSFORHOLD;
+        case HvorLengeJobbetFordi.ANDRE_YTELSER:
+            return Begrunnelse.ANDRE_YTELSER;
+        case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON:
+            return Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
+        case HvorLengeJobbetFordi.MILITÆRTJENESTE:
+            return Begrunnelse.MILITÆRTJENESTE;
+        default:
+            return null;
+    }
+};
+
+const settInnJobbHosNåværendeArbeidsgiver = (
+    hvorLengeHarDuJobbetHosNåværendeArbeidsgiver: HvorLengeJobbet,
+    hvorLengeJobbetFordi: HvorLengeJobbetFordi
+): JobbHosNåværendeArbeidsgiver => {
+    return {
+        merEnn4Uker: hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER,
+        begrunnelse:
+            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
+                ? settInnBegrunnelse(hvorLengeJobbetFordi)
+                : null
+    };
+};
+
 export const mapFormDataToApiData = (
     {
         harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger,
-        hvorforSøkerDuDirekte,
-        hvorforSøkerDuDirekteSubfields,
-        hvorforSØkerDuDirekteAnnetBeskrivelse,
+
+        hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
+        hvorLengeJobbetFordi,
+
         arbeidsforhold,
         har_fosterbarn,
         fosterbarn,
@@ -40,7 +70,7 @@ export const mapFormDataToApiData = (
         dagerMedDelvisFravær,
         perioder_harVærtIUtlandet,
         perioder_utenlandsopphold,
-        
+
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
@@ -58,7 +88,11 @@ export const mapFormDataToApiData = (
             intl.locale
         ), // medlemskap siden
         opphold: settInnOpphold(perioder_harVærtIUtlandet, perioder_utenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        spørsmål: settInnSpørsmål(hvorforSøkerDuDirekte, hvorforSøkerDuDirekteSubfields, intl),
+        jobbHosNåværendeArbeidsgiver: settInnJobbHosNåværendeArbeidsgiver(
+            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
+            hvorLengeJobbetFordi
+        ),
+        spørsmål: [],
         arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
         bekreftelser: settInnBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
@@ -104,14 +138,6 @@ function settInnArbeidsgivere(listeAvArbeidsforhold: Arbeidsforhold[]): Arbeidsg
         })
     };
 }
-
-const settInnSpørsmål = (
-    hvorforSøkerDuDirekte: HvorforSøkerDuDirekte,
-    hvorforSøkerDuDirekteSubfields: HvorforSøkerDuDirekteSubFields,
-    intl: IntlShape
-): YesNoSpørsmålOgSvar[] => {
-    return []; // TODO: Hvordan mappe fra radioboksen til YesNoSpørsmålOgSvar ? Burde kanskje endres i backend
-};
 
 export const mapPeriodeTilUtbetalingsperiode = (
     perioderMedFravær: Periode[],

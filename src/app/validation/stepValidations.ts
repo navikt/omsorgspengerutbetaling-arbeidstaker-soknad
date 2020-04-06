@@ -2,8 +2,8 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import {
     Arbeidsforhold,
     ArbeidsforholdField,
-    HvorforSøkerDuDirekte,
-    HvorforSøkerDuDirekteSubFields,
+    HvorLengeJobbet,
+    HvorLengeJobbetFordi,
     SøknadFormData,
     SøknadFormField
 } from '../types/SøknadFormData';
@@ -21,12 +21,12 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Søkn
     harForståttRettigheterOgPlikter === true;
 
 export const begrunnelseStepIsValid = (formData: SøknadFormData): boolean => {
-    const { hvorforSøkerDuDirekte, hvorforSøkerDuDirekteSubfields } = formData;
+    const { hvorLengeHarDuJobbetHosNåværendeArbeidsgiver, hvorLengeJobbetFordi } = formData;
 
     return (
-        hvorforSøkerDuDirekte !== HvorforSøkerDuDirekte.ikkeBesvart &&
-        (hvorforSøkerDuDirekte !== HvorforSøkerDuDirekte.mindreEnnFireUker ||
-            hvorforSøkerDuDirekteSubfields !== HvorforSøkerDuDirekteSubFields.ikkeBesvart)
+        hvorLengeHarDuJobbetHosNåværendeArbeidsgiver !== HvorLengeJobbet.IKKE_BESVART &&
+        (hvorLengeHarDuJobbetHosNåværendeArbeidsgiver !== HvorLengeJobbet.MINDRE_ENN_FIRE_UKER ||
+            hvorLengeJobbetFordi !== HvorLengeJobbetFordi.IKKE_BESVART)
     );
 };
 

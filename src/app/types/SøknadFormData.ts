@@ -4,31 +4,23 @@ import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling
 import { Arbeidsgiver } from './Søkerdata';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
-export enum HvorforSøkerDuDirekte {
-    mindreEnnFireUker = 'forutForDetteArbeidsforholdet',
-    militærtjeneste = 'militærtjeneste',
-    ulønnetPermisjonDirekteEtterForeldrepenger = 'ulønnetPermisjonDirekteEtterForeldrepenger',
-    lovbestemtFerie = 'lovbestemtFerie',
-    annet = 'annet',
-    ikkeBesvart = 'ikkeBesvart'
+export enum HvorLengeJobbet {
+    MINDRE_ENN_FIRE_UKER = 'MINDRE_ENN_FIRE_UKER',
+    MER_ENN_FIRE_UKER = 'MER_ENN_FIRE_UKER',
+    IKKE_BESVART = 'IKKE_BESVART'
 }
 
-export enum HvorforSøkerDuDirekteSubFields {
-    harHattAnnetArbeidsforhold = 'harHattAnnetArbeidsforhold',
-    mottattPengerFraNavSomLikestillesMedNoe = 'mottattPengerFraNavSomLikestillesMedNoe',
-    ikkeBesvart = 'ikkeBesvart'
+export enum HvorLengeJobbetFordi {
+    ANNET_ARBEIDSFORHOLD = "ANNET_ARBEIDSFORHOLD",
+    ANDRE_YTELSER = "ANDRE_YTELSER",
+    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = "LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON",
+    MILITÆRTJENESTE = "MILITÆRTJENESTE",
+    IKKE_BESVART = "IKKE_BESVART"
 }
 
 export enum ArbeidsforholdField {
     harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
     arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn'
-}
-
-export enum ArbeidsforholdSkalJobbeSvar {
-    'ja' = 'ja',
-    'nei' = 'nei',
-    'redusert' = 'redusert',
-    'vetIkke' = 'vetIkke'
 }
 
 export interface Arbeidsforhold extends Arbeidsgiver {
@@ -41,13 +33,10 @@ export enum SøknadFormField {
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
     // STEG 1: Hva er din situasjon
-
-    hvorforSøkerDuDirekte = 'hvorforSøkerDuDirekte',
-    hvorforSøkerDuDirekteSubfields = 'hvorforSøkerDuDirekteSubfields',
-    hvorforSØkerDuDirekteAnnetBeskrivelse = 'hvorforSØkerDuDirekteAnnetBeskrivelse',
+    hvorLengeHarDuJobbetHosNåværendeArbeidsgiver = 'hvorLengeHarDuJobbetHosNåværendeArbeidsgiver',
+    hvorLengeJobbetFordi = 'hvorLengeJobbetFordi',
 
     // STEG 2: Har betalt ut 10 første dager
-
     arbeidsforhold = 'arbeidsforhold',
 
     har_fosterbarn = 'har_fosterbarn',
@@ -75,9 +64,10 @@ export interface SøknadFormData {
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
     // STEG 1
-    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte;
-    [SøknadFormField.hvorforSøkerDuDirekteSubfields]: HvorforSøkerDuDirekteSubFields;
-    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: string;
+
+    [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet;
+    [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi;
+
 
     // STEG 2: Har betalt ut 10 første dager
 
@@ -107,13 +97,10 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
     // STEG 1: Kvalifisering
-    [SøknadFormField.hvorforSøkerDuDirekte]: HvorforSøkerDuDirekte.ikkeBesvart,
-    [SøknadFormField.hvorforSøkerDuDirekteSubfields]: HvorforSøkerDuDirekteSubFields.ikkeBesvart,
-
-    [SøknadFormField.hvorforSØkerDuDirekteAnnetBeskrivelse]: '',
+    [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet.IKKE_BESVART,
+    [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi.IKKE_BESVART,
 
     // STEG 2: Har betalt ut 10 første dager
-
     [SøknadFormField.arbeidsforhold]: [],
 
     [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,

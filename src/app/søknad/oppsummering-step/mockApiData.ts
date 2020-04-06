@@ -1,10 +1,14 @@
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { Begrunnelse, SøknadApiData } from '../../types/SøknadApiData';
 
 export const mock1: SøknadApiData = {
     språk: 'nb',
     bekreftelser: {
         harForståttRettigheterOgPlikter: false,
         harBekreftetOpplysninger: false
+    },
+    jobbHosNåværendeArbeidsgiver: {
+        merEnn4Uker: false,
+        begrunnelse: Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
     },
     spørsmål: [
         {
