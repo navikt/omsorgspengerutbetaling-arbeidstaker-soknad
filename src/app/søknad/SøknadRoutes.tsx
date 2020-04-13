@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { FormikProps, useFormikContext } from 'formik';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
@@ -26,12 +25,12 @@ export interface KvitteringInfo {
     søkernavn: string;
 }
 
-const getKvitteringInfoFromApiData = (søkerdata: Søkerdata): KvitteringInfo | undefined => {
-    const { fornavn, mellomnavn, etternavn } = søkerdata.person;
-    return {
-        søkernavn: formatName(fornavn, etternavn, mellomnavn)
-    };
-};
+// const getKvitteringInfoFromApiData = (søkerdata: Søkerdata): KvitteringInfo | undefined => {
+//     const { fornavn, mellomnavn, etternavn } = søkerdata.person;
+//     return {
+//         søkernavn: formatName(fornavn, etternavn, mellomnavn)
+//     };
+// };
 
 interface SøknadRoutesProps {
     lastStepID?: StepID;
@@ -42,8 +41,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
     const { lastStepID, formikProps } = props;
 
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
-    const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
-    const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
 
     const { values, resetForm } = useFormikContext<SøknadFormData>();
 
@@ -145,8 +142,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                     render={() => (
                         <OppsummeringStep
                             onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
-                                const info = getKvitteringInfoFromApiData(søkerdata);
-                                setKvitteringInfo(info);
                                 setSøknadHasBeenSent(true);
                                 resetForm();
                                 if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -169,7 +164,9 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                         if (values.harForståttRettigheterOgPlikter === true) {
                             // Only call reset if it has not been called before (prevent loop)
                             setTimeout(() => {
-                                setAntallArbeidsforhold(values.arbeidsforhold.length);
+
+                                // TODO: MÅ LAGRE FORMDATA ET STED...FØR RESETTING AV FORM.
+
                                 resetForm();
                             });
                         }
@@ -177,12 +174,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                             setSøknadHasBeenSent(true);
                         }
 
-                        return (
-                            <ConfirmationPage
-                                numberOfArbeidsforhold={antallArbeidsforhold}
-                                kvitteringInfo={kvitteringInfo}
-                            />
-                        );
+                        return <ConfirmationPage />;
                     }}
                 />
             )}
