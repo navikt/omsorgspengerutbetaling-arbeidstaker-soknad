@@ -1,12 +1,12 @@
 import React from 'react';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import { prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { Knapp } from 'nav-frontend-knapper';
 import { FraværDelerAvDag, Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
 import { SøknadFormField } from '../../../types/SøknadFormData';
 import { GYLDIG_TIDSROM } from '../../../validation/constants';
-import { validateAll, validateDateInRange } from '../../../validation/fieldValidations';
+import { validateAll, validateDateInRange, validateDateNotInFuture } from '../../../validation/fieldValidations';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import FraværTimerSelect from './FraværTimerSelect';
 
@@ -51,11 +51,15 @@ const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({ index, 
             <div className={bem.element('dateWrapper')}>
                 <SøknadFormComponents.DatePicker
                     label="Dato"
-                    validate={validateAll([validateRequiredField, validateDateInRange(GYLDIG_TIDSROM)])}
+                    validate={validateAll([
+                        validateRequiredField,
+                        validateDateInRange(GYLDIG_TIDSROM),
+                        validateDateNotInFuture()
+                    ])}
                     name={`${SøknadFormField.dagerMedDelvisFravær}.${index}.dato` as SøknadFormField}
                     dateLimitations={{
                         minDato: GYLDIG_TIDSROM.from,
-                        maksDato: GYLDIG_TIDSROM.to,
+                        maksDato: dateToday,
                         ugyldigeTidsperioder
                     }}
                 />

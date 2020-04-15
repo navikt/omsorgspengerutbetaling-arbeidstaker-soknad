@@ -122,7 +122,7 @@ export const validateTomAfterFom = (fom: Date) => (date: Date) => {
     }
 };
 
-export const validateTomNotInFuture = () => (date: Date) => {
+export const validateDateNotInFuture = () => (date: Date) => {
     if (moment(date).isAfter(dateToday)) {
         return createFieldValidationError(AppFieldValidationErrors.tom_er_i_fremtiden);
     }

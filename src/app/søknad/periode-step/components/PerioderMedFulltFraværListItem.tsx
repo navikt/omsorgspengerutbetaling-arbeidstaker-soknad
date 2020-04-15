@@ -10,7 +10,7 @@ import {
     validateAll,
     validateDateInRange,
     validateTomAfterFom,
-    validateTomNotInFuture
+    validateDateNotInFuture
 } from '../../../validation/fieldValidations';
 import SøknadFormComponents from '../../SøknadFormComponents';
 
@@ -53,7 +53,7 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                             validateRequiredField,
                             ...(periode?.fom ? [validateTomAfterFom(periode.fom)] : []),
                             validateDateInRange(tomDateRange),
-                            validateTomNotInFuture()
+                            validateDateNotInFuture()
                         ]),
                         label: 'Til og med',
                         name: `${SøknadFormField.perioderMedFravær}.${index}.tom` as SøknadFormField,
