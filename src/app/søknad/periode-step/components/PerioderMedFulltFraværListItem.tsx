@@ -1,13 +1,16 @@
 import React from 'react';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { Knapp } from 'nav-frontend-knapper';
 import { Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
 import { SøknadFormField } from '../../../types/SøknadFormData';
 import { GYLDIG_TIDSROM } from '../../../validation/constants';
 import {
-    validateAll, validateDateInRange, validateTomAfterFom
+    validateAll,
+    validateDateInRange,
+    validateTomAfterFom,
+    validateTomNotInFuture
 } from '../../../validation/fieldValidations';
 import SøknadFormComponents from '../../SøknadFormComponents';
 
@@ -41,7 +44,7 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                         name: `${SøknadFormField.perioderMedFravær}.${index}.fom` as SøknadFormField,
                         dateLimitations: {
                             minDato: GYLDIG_TIDSROM.from,
-                            maksDato: GYLDIG_TIDSROM.to,
+                            maksDato: dateToday,
                             ugyldigeTidsperioder: disabledPerioder || []
                         }
                     }}
@@ -49,13 +52,14 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                         validate: validateAll([
                             validateRequiredField,
                             ...(periode?.fom ? [validateTomAfterFom(periode.fom)] : []),
-                            validateDateInRange(tomDateRange)
+                            validateDateInRange(tomDateRange),
+                            validateTomNotInFuture()
                         ]),
                         label: 'Til og med',
                         name: `${SøknadFormField.perioderMedFravær}.${index}.tom` as SøknadFormField,
                         dateLimitations: {
                             minDato: tomDateRange.from,
-                            maksDato: tomDateRange.to,
+                            maksDato: dateToday,
                             ugyldigeTidsperioder: disabledPerioder || []
                         }
                     }}

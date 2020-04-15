@@ -2,7 +2,7 @@ import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import moment from 'moment';
 import {
-    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange
+    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange, dateToday
 } from 'common/utils/dateUtils';
 import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
@@ -32,6 +32,7 @@ export enum AppFieldValidationErrors {
     'timer_for_mange_timer' = 'fieldvalidation.timer_for_mange_timer',
     'dato_utenfor_gyldig_tidsrom' = 'fieldvalidation.dato_utenfor_gyldig_tidsrom',
     'tom_er_før_fom' = 'fieldvalidation.tom_er_før_fom',
+    'tom_er_i_fremtiden' = 'fieldvalidation.tom_er_i_fremtiden',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig'
 }
 
@@ -118,6 +119,12 @@ export const harLikeDager = (dager: FraværDelerAvDag[]): boolean => {
 export const validateTomAfterFom = (fom: Date) => (date: Date) => {
     if (moment(date).isBefore(fom)) {
         return createFieldValidationError(AppFieldValidationErrors.tom_er_før_fom);
+    }
+};
+
+export const validateTomNotInFuture = () => (date: Date) => {
+    if (moment(date).isAfter(dateToday)) {
+        return createFieldValidationError(AppFieldValidationErrors.tom_er_i_fremtiden);
     }
 };
 

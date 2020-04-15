@@ -315,6 +315,7 @@
     "fieldvalidation.timer_for_mange_timer": "Verdien må være mellom 0,5 og 7,5 timer",
     "fieldvalidation.dato_utenfor_gyldig_tidsrom": "Dato er utenfor gyldig tidsperiode",
     "fieldvalidation.tom_er_før_fom": "Til dato kan ikke være før fra dato",
+    "fieldvalidation.tom_er_i_fremtiden": "Det er ikke mulig å søke frem i tid",
     "fieldvalidation.nBarn": "Du må oppgi antall barn.",
 
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
