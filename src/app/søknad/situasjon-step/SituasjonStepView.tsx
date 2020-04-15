@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -20,7 +19,6 @@ import { SituasjonStepQuestions } from './config';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { Ingress } from 'nav-frontend-typografi';
 
-
 interface OwnProps {
     søkerdata: Søkerdata;
     formikProps: FormikProps<SøknadFormData>;
@@ -33,7 +31,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { values } = useFormikContext<SøknadFormData>();
     const visibility = SituasjonStepQuestions.getVisbility(values);
-
 
     useEffect(() => {
         const today = dateToday;
@@ -70,7 +67,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 {arbeidsforhold.length > 0 && (
                     <>
                         {arbeidsforhold.map((forhold, index) => (
-                            <Box padBottom="xl" key={forhold.organisasjonsnummer}>
+                            <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
                                 <FormSection titleTag="h4" title={forhold.navn} titleIcon={<BuildingIcon />}>
                                     <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                 </FormSection>
@@ -80,12 +77,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 )}
 
                 {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
-
-                <Box margin="s" padBottom="xl">
-                    <AlertStripe type="info">
-                        <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
-                    </AlertStripe>
-                </Box>
 
                 <Box padBottom={'xxl'}>
                     <Ingress>
