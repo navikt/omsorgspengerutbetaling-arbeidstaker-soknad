@@ -41,6 +41,22 @@ function SøknadRoutes(props: SøknadRoutesProps) {
     const { lastStepID, formikProps } = props;
 
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
+    const [søkerdata, setSøkerdata] = React.useState<Søkerdata | undefined>(undefined);
+    const [søknadApiData, setSøknadApiData] = React.useState<SøknadApiData | undefined>(undefined);
+
+    // const søknadApiDataMock = mock1;
+    // const søkerdataMock: Søkerdata = {
+    //     person: {
+    //         etternavn: "Duck",
+    //         fornavn: "Skrue",
+    //         mellomnavn: "Mc",
+    //         kjønn: "mann",
+    //         fødselsnummer: "17108102454",
+    //         myndig: true
+    //     },
+    //     setArbeidsgivere: (arbeidsgivere: Arbeidsgiver[]) => null,
+    //     arbeidsgivere: []
+    // };
 
     const { values, resetForm } = useFormikContext<SøknadFormData>();
 
@@ -105,12 +121,12 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                     path={getSøknadRoute(StepID.SITUASJON)}
                     render={() => (
                         <SøkerdataContextConsumer>
-                            {(søkerdata) => {
-                                if (søkerdata) {
+                            {(søkerData) => {
+                                if (søkerData) {
                                     return (
                                         <SituasjonStepView
                                             onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
-                                            søkerdata={søkerdata}
+                                            søkerdata={søkerData}
                                             formikProps={formikProps}
                                         />
                                     );
@@ -141,8 +157,10 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                     path={getSøknadRoute(StepID.OPPSUMMERING)}
                     render={() => (
                         <OppsummeringStep
-                            onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
+                            onApplicationSent={(apiData: SøknadApiData, sokerdata: Søkerdata) => {
                                 setSøknadHasBeenSent(true);
+                                setSøkerdata(sokerdata);
+                                setSøknadApiData(apiData);
                                 resetForm();
                                 if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
                                     SøknadTempStorage.purge();
@@ -164,9 +182,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                         if (values.harForståttRettigheterOgPlikter === true) {
                             // Only call reset if it has not been called before (prevent loop)
                             setTimeout(() => {
-
-                                // TODO: MÅ LAGRE FORMDATA ET STED...FØR RESETTING AV FORM.
-
                                 resetForm();
                             });
                         }
@@ -174,7 +189,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                             setSøknadHasBeenSent(true);
                         }
 
-                        return <ConfirmationPage />;
+                        return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
                     }}
                 />
             )}

@@ -12,116 +12,19 @@ import AlertStripe from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { useFormikContext } from 'formik';
-import { SøknadFormData } from '../../../types/SøknadFormData';
-import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { formatName } from 'common/utils/personUtils';
-import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 
 const bem = bemUtils('confirmationPage');
 
-const settInnTilArbeidsgiverPaneler = (
-    søkerdata: Søkerdata,
-    apiData: SøknadApiData,
-    intl: IntlShape
-): JSX.Element[] => {
-                        const { fornavn, mellomnavn, etternavn } = søkerdata.person;
-                        const søkersNavn: string = formatName(fornavn, etternavn, mellomnavn);
-                        const søknadsNavn = 'omsorgspenger';
-                        const startdato = 'TODO:startdato';
+export interface OwnProps {
+    søkerdata: Søkerdata | undefined;
+    søknadApiData: SøknadApiData | undefined;
+}
 
-                        // const a: string[] = apiData.utbetalingsperioder.map((periode) => {
-                        //     return 'Fra og med:' + periode.fraOgMed + '. Til og med: ' + periode.tilOgMed + '.';
-                        // });
-
-                        const listeAvTilArbeidsgiverPaneler: JSX.Element[] = apiData.arbeidsgivere.organisasjoner.map(
-                            (organisasjon, index) => {
-                                const arbeidsgiverNavn = organisasjon.navn;
-
-                                return (
-                                    <div
-                                        key={`tilArbeidsgiverPaneler_${index}`}
-                                        className={'pagebreak tilArbeidsgiverPanel'}>
-                                        <Panel border={true} className={'luftOver'}>
-                                            <Undertittel>Til {arbeidsgiverNavn}</Undertittel>
-
-                                            <p>NAV har mottatt følgende opplysninger:</p>
-
-                                            <p>
-                                                <b>
-                                                    {søkersNavn} er ansatt hos {arbeidsgiverNavn}{' '}
-                                                </b>
-                                            </p>
-                                            <p>
-                                                <b>
-                                                    {søkersNavn} søker om {søknadsNavn} for perioden:
-                                                </b>
-                                            </p>
-                                            <ul>
-                                                <li>
-                                                    <b>- TODO: 1.apr 2020 til 1. april.</b>
-                                                </li>
-                                            </ul>
-                                            <Panel border={true} className={'luftOver'}>
-                                                <AlertStripe type="advarsel" form="inline">
-                                                    For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at
-                                                    inntektsmeldingen blir sendt til oss så snart som mulig.
-                                                    <p>
-                                                        <b>
-                                                            Det er viktig at du krysser av for at inntektsmeldingen
-                                                            gjelder {søknadsNavn}.
-                                                        </b>
-                                                    </p>
-                                                    <div>
-                                                        Hvis inntektsmeldingen allerede er sendt, kan du se bort fra
-                                                        denne meldingen.
-                                                    </div>
-                                                </AlertStripe>
-                                            </Panel>
-
-                                            <div>
-                                                <h4>Slik sender du inntektsmeldingen</h4>
-
-                                                <p>
-                                                    Inntektsmeldingen sender fra arbeidsgivers eget lønns- og
-                                                    personalsystem eller fra altinn.no. Meldingen inneholder
-                                                    inntektsopplysninger og annen informasjon NAV må ha for å behandle
-                                                    søknaden arbeidstaker har sendt. Husk å velge riktig
-                                                    inntektsmelding.
-                                                </p>
-                                                <p>
-                                                    Fyll inn startdato som samsvarer med søkers.{' '}
-                                                    <b>
-                                                        {søkersNavn} har søkt {søknadsNavn} fra {startdato}.
-                                                    </b>
-                                                    Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare
-                                                    dette dere imellom før du sender inntektsmeldingen.
-                                                    <p>
-                                                        Du får mer informasjon om inntektsmeldingen på{' '}
-                                                        <a
-                                                            href={
-                                                                'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
-                                                            }>
-                                                            nav.no/inntektsmeldingen
-                                                        </a>
-                                                    </p>
-                                                </p>
-                                            </div>
-                                        </Panel>
-                                    </div>
-                                );
-                            }
-                        );
-
-                        return listeAvTilArbeidsgiverPaneler;
-                    };
-
-const ConfirmationPage = (): JSX.Element => {
-    const { values } = useFormikContext<SøknadFormData>();
-    const søkerdata = React.useContext(SøkerdataContext);
+const ConfirmationPage = (props: OwnProps): JSX.Element => {
+    const { søkerdata, søknadApiData } = props;
     const intl = useIntl();
 
-    const apiData: SøknadApiData = mapFormDataToApiData(values, intl);
     // const apiData: SøknadApiData = mock1;
 
     return (
@@ -180,13 +83,97 @@ const ConfirmationPage = (): JSX.Element => {
                 </div>
             </Box>
 
-            {
-                søkerdata && (
-                    <Box margin="xl">{settInnTilArbeidsgiverPaneler(søkerdata, apiData, intl)}</Box>
-                )
-            }
+            {søkerdata && søknadApiData && <Box margin="xl">{settInnTilArbeidsgiverPaneler(søkerdata, søknadApiData, intl)}</Box>}
         </Page>
     );
+};
+
+const settInnTilArbeidsgiverPaneler = (
+    søkerdata: Søkerdata,
+    apiData: SøknadApiData,
+    intl: IntlShape
+): JSX.Element[] => {
+    const { fornavn, mellomnavn, etternavn } = søkerdata.person;
+    const søkersNavn: string = formatName(fornavn, etternavn, mellomnavn);
+    const søknadsNavn = 'omsorgspenger';
+    const startdato = 'TODO:startdato';
+
+    // const a: string[] = apiData.utbetalingsperioder.map((periode) => {
+    //     return 'Fra og med:' + periode.fraOgMed + '. Til og med: ' + periode.tilOgMed + '.';
+    // });
+
+    const listeAvTilArbeidsgiverPaneler: JSX.Element[] = apiData.arbeidsgivere.organisasjoner.map(
+        (organisasjon, index) => {
+            const arbeidsgiverNavn = organisasjon.navn;
+
+            return (
+                <div key={`tilArbeidsgiverPaneler_${index}`} className={'pagebreak tilArbeidsgiverPanel'}>
+                    <Panel border={true} className={'luftOver'}>
+                        <Undertittel>Til {arbeidsgiverNavn}</Undertittel>
+
+                        <p>NAV har mottatt følgende opplysninger:</p>
+
+                        <p>
+                            <b>
+                                {søkersNavn} er ansatt hos {arbeidsgiverNavn}{' '}
+                            </b>
+                        </p>
+                        <p>
+                            <b>
+                                {søkersNavn} søker om {søknadsNavn} for perioden:
+                            </b>
+                        </p>
+                        <ul>
+                            <li>
+                                <b>- TODO: 1.apr 2020 til 1. april.</b>
+                            </li>
+                        </ul>
+                        <Panel border={true} className={'luftOver'}>
+                            <AlertStripe type="advarsel" form="inline">
+                                For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen
+                                blir sendt til oss så snart som mulig.
+                                <p>
+                                    <b>
+                                        Det er viktig at du krysser av for at inntektsmeldingen gjelder {søknadsNavn}.
+                                    </b>
+                                </p>
+                                <div>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</div>
+                            </AlertStripe>
+                        </Panel>
+
+                        <div>
+                            <h4>Slik sender du inntektsmeldingen</h4>
+
+                            <p>
+                                Inntektsmeldingen sender fra arbeidsgivers eget lønns- og personalsystem eller fra
+                                altinn.no. Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for
+                                å behandle søknaden arbeidstaker har sendt. Husk å velge riktig inntektsmelding.
+                            </p>
+                            <div>
+                                Fyll inn startdato som samsvarer med søkers.{' '}
+                                <b>
+                                    {søkersNavn} har søkt {søknadsNavn} fra {startdato}.
+                                </b>
+                                Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før
+                                du sender inntektsmeldingen.
+                                <p>
+                                    Du får mer informasjon om inntektsmeldingen på{' '}
+                                    <a
+                                        href={
+                                            'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
+                                        }>
+                                        nav.no/inntektsmeldingen
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </Panel>
+                </div>
+            );
+        }
+    );
+
+    return listeAvTilArbeidsgiverPaneler;
 };
 
 export default ConfirmationPage;
