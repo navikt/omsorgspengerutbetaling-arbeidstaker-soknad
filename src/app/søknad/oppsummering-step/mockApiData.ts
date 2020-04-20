@@ -79,6 +79,7 @@ export const mock1: SøknadApiData = {
             }
         ]
     },
+    andreUtbetalinger: [],
     fosterbarn: []
 };
 
@@ -148,5 +149,6 @@ export const mock2: SøknadApiData = {
     arbeidsgivere: {
         organisasjoner: []
     },
+    andreUtbetalinger: [],
     fosterbarn: []
 };

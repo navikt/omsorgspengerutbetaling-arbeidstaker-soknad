@@ -27,7 +27,8 @@ import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiDa
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
 
-export const mapFormDataToApiData = (
+export const
+    mapFormDataToApiData = (
     {
         harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger,
@@ -69,6 +70,7 @@ export const mapFormDataToApiData = (
         arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
         bekreftelser: settInnBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
+        andreUtbetalinger: [], // TODO: Hva skal legges til her??
         fosterbarn: settInnFosterbarn(har_fosterbarn, fosterbarn)
     };
 

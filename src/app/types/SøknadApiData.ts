@@ -111,5 +111,19 @@ export interface SøknadApiData {
     arbeidsgivere: ArbeidsgiverDetaljer;
     bekreftelser: Bekreftelser;
     utbetalingsperioder: UtbetalingsperiodeApi[]; // perioder
+    andreUtbetalinger: string[];
     fosterbarn: FosterbarnApi[] | null;
 }
+
+// data class Arbeidstakerutbetalingsøknad(
+//     val språk: Språk,
+//     val bosteder: List<Bosted>,
+//     val opphold: List<Opphold>,
+//     val jobbHosNåværendeArbeidsgiver: JobbHosNåværendeArbeidsgiver,
+//     val spørsmål: List<SpørsmålOgSvar>,
+//     val arbeidsgivere: ArbeidsgiverDetaljer,
+//     val bekreftelser: Bekreftelser,
+//     val utbetalingsperioder: List<Utbetalingsperiode>,
+//     val andreUtbetalinger: List<String>,
+//     val fosterbarn: List<FosterBarn>? = listOf()
+// )
