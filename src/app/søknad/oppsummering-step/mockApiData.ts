@@ -10,6 +10,7 @@ export const mock1: SøknadApiData = {
         merEnn4Uker: false,
         begrunnelse: Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
     },
+    vedlegg: [],
     spørsmål: [],
     utbetalingsperioder: [
         {
@@ -93,6 +94,7 @@ export const mock2: SøknadApiData = {
         merEnn4Uker: true,
         begrunnelse: null
     },
+    vedlegg: [],
     spørsmål: [],
     utbetalingsperioder: [
         {

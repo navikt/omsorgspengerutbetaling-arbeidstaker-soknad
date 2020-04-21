@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -26,6 +26,9 @@ import UtenlandsoppholdISøkeperiodeSummaryView from './components/Utenlandsopph
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import JobbHosNavaerendeArbeidsgiverSummaryView from './components/JobbHosNavaerendeArbeidsgiverSummaryView';
 import FosterbarnSummaryView from './components/FosterbarnSummaryView';
+import SummaryBlock from './components/SummaryBlock';
+import UploadedDocumentsList from '../../components/uploaded-documents-list/UploadedDocumentsList';
+import SummaryList from 'common/components/summary-list/SummaryList';
 
 interface Props {
     onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
@@ -92,8 +95,31 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                     <ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />
                     <FosterbarnSummaryView fosterbarn={fosterbarn} />
                     <UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />
+                    {apiValues.andreUtbetalinger.length > 0 && (
+                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søkt_om_andre_utbetalinger')}>
+                            <SummaryList
+                                items={apiValues.andreUtbetalinger}
+                                itemRenderer={(utbetaling) => (
+                                    <span>{intlHelper(intl, `andre_utbetalinger.${utbetaling}`)}</span>
+                                )}
+                            />
+                        </SummaryBlock>
+                    )}
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
+
+                    {apiValues.vedlegg.length === 0 && apiValues.jobbHosNåværendeArbeidsgiver.merEnn4Uker && (
+                        <Box margin={'s'}>
+                            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
+                                <FormattedHTMLMessage id={'steg.oppsummering.dokumenter.ikkelastetopp'} />
+                            </SummaryBlock>
+                        </Box>
+                    )}
+                    {apiValues.vedlegg.length > 0 && (
+                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
+                            <UploadedDocumentsList includeDeletionFunctionality={false} />
+                        </SummaryBlock>
+                    )}
                 </Panel>
             </Box>
 

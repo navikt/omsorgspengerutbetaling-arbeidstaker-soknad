@@ -107,6 +107,7 @@ export interface SøknadApiData {
     bosteder: UtenlandsoppholdApiData[]; // medlemskap-siden
     opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
     jobbHosNåværendeArbeidsgiver: JobbHosNåværendeArbeidsgiver;
+    vedlegg: string[];
     spørsmål: YesNoSpørsmålOgSvar[];
     arbeidsgivere: ArbeidsgiverDetaljer;
     bekreftelser: Bekreftelser;

@@ -3,6 +3,8 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { Arbeidsgiver } from './Søkerdata';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
+import { Attachment } from 'common/types/Attachment';
+import { AndreUtbetalinger } from './AndreUtbetalinger';
 
 export enum HvorLengeJobbet {
     MINDRE_ENN_FIRE_UKER = 'MINDRE_ENN_FIRE_UKER',
@@ -11,12 +13,12 @@ export enum HvorLengeJobbet {
 }
 
 export enum HvorLengeJobbetFordi {
-    ANNET_ARBEIDSFORHOLD = "ANNET_ARBEIDSFORHOLD",
-    ANDRE_YTELSER = "ANDRE_YTELSER",
-    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = "LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON",
-    MILITÆRTJENESTE = "MILITÆRTJENESTE",
-    INGEN = "INGEN",
-    IKKE_BESVART = "IKKE_BESVART"
+    ANNET_ARBEIDSFORHOLD = 'ANNET_ARBEIDSFORHOLD',
+    ANDRE_YTELSER = 'ANDRE_YTELSER',
+    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = 'LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON',
+    MILITÆRTJENESTE = 'MILITÆRTJENESTE',
+    INGEN = 'INGEN',
+    IKKE_BESVART = 'IKKE_BESVART'
 }
 
 export enum ArbeidsforholdField {
@@ -37,6 +39,9 @@ export enum SøknadFormField {
     hvorLengeHarDuJobbetHosNåværendeArbeidsgiver = 'hvorLengeHarDuJobbetHosNåværendeArbeidsgiver',
     hvorLengeJobbetFordi = 'hvorLengeJobbetFordi',
 
+    // Optional vedlegg step
+    dokumenter = 'dokumenter',
+
     // STEG 2: Har betalt ut 10 første dager
     arbeidsforhold = 'arbeidsforhold',
 
@@ -52,6 +57,9 @@ export enum SøknadFormField {
     dagerMedDelvisFraværGroup = 'dagerMedDelvisFraværGroup',
     perioder_harVærtIUtlandet = 'perioder_harVærtIUtlandet',
     perioder_utenlandsopphold = 'perioder_utenlandsopphold',
+
+    har_søkt_andre_utbetalinger = 'har_søkt_andre_utbetalinger',
+    andre_utbetalinger = 'andre_utbetalinger',
 
     // STEG 7: Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -69,9 +77,10 @@ export interface SøknadFormData {
     [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet;
     [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi;
 
+    // Optional vedlegg step
+    [SøknadFormField.dokumenter]: Attachment[];
 
     // STEG 2: Har betalt ut 10 første dager
-
     [SøknadFormField.arbeidsforhold]: Arbeidsforhold[];
 
     [SøknadFormField.har_fosterbarn]: YesOrNo;
@@ -85,6 +94,9 @@ export interface SøknadFormData {
     [SøknadFormField.dagerMedDelvisFravær]: FraværDelerAvDag[];
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo;
     [SøknadFormField.perioder_utenlandsopphold]: Utenlandsopphold[];
+
+    [SøknadFormField.har_søkt_andre_utbetalinger]: YesOrNo;
+    [SøknadFormField.andre_utbetalinger]: AndreUtbetalinger[];
 
     // STEG 7: Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
@@ -101,6 +113,9 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet.IKKE_BESVART,
     [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi.IKKE_BESVART,
 
+    // Optional vedlegg step
+    [SøknadFormField.dokumenter]: [],
+
     // STEG 2: Har betalt ut 10 første dager
     [SøknadFormField.arbeidsforhold]: [],
 
@@ -114,6 +129,9 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.dagerMedDelvisFravær]: [],
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioder_utenlandsopphold]: [],
+
+    [SøknadFormField.har_søkt_andre_utbetalinger]: YesOrNo.UNANSWERED,
+    [SøknadFormField.andre_utbetalinger]: [],
 
     // STEG 7: Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,

@@ -391,5 +391,16 @@
 
     "arbeidsforhold.harUtbetalingLønn.alertstripe": "Hvis arbeidsgiveren din allerede har utbetalt lønn for omsorgsdager, vil ikke også NAV utbetale for de dagene.",
     "dinSituasjon.ingress": "Om arbeidssituasjonen din",
-    "hvorLengeJobbet.merEnnFire.counsellor.html": "<div><span>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Arbeidsgiveren din må sende oss:<ul><li>en redegjørelse for hvorfor de ikke utbetaler omsorgspenger til deg</li><li>inntektsmelding</li></ul></span></div>"
+    "hvorLengeJobbet.merEnnFire.counsellor.html": "<div><span>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Arbeidsgiveren din må sende oss:<ul><li>en redegjørelse for hvorfor de ikke utbetaler omsorgspenger til deg</li><li>inntektsmelding</li></ul></span></div>",
+    "step.vedlegg.stepIndicatorLabel": "Last opp dokumenter",
+    "step.vedlegg.stepTitle": "A: Hva skal det stå her?",
+    "step.vedlegg.pageTitle": "Last opp dokumenter",
+    "steg.dokumenter.vedlegg": "Last opp bilde av dokumentene (maks 3 bilder)",
+    "steg.oppsummering.dokumenter.header": "C: Hva skal det stå her?",
+    "steg.oppsummering.dokumenter.ikkelastetopp": "Ikke lastet opp, må ettersendes",
+    "step.periode.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalinger fra NAV i forbindelse med koronasituasjonen?",
+    "step.periode.hvilke_utbetalinger.spm": "Hvilke andre utbetalinger fra NAV har du søkt om?",
+    "andre_utbetalinger.dagpenger": "Dagpenger",
+    "andre_utbetalinger.sykepenger": "Sykepenger",
+    "steg.oppsummering.søkt_om_andre_utbetalinger": "Andre utbetalinger det er søkt om fra NAV"
 }

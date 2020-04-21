@@ -19,6 +19,7 @@ import SøknadStep from '../SøknadStep';
 import DagerMedDelvisFraværList from './components/DagerMedDelvisFraværList';
 import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList';
 import './periodeStep.less';
+import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
@@ -170,6 +171,34 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                             />
                         </FormBlock>
                     )}
+                    <FormBlock>
+                        <SøknadFormComponents.YesOrNoQuestion
+                            name={SøknadFormField.har_søkt_andre_utbetalinger}
+                            legend={intlHelper(intl, 'step.periode.har_søkt_andre_utbetalinger.spm')}
+                            validate={validateYesOrNoIsAnswered}
+                        />
+                        {values.har_søkt_andre_utbetalinger === YesOrNo.YES && (
+                            <FormBlock>
+                                <SøknadFormComponents.CheckboxPanelGroup
+                                    name={SøknadFormField.andre_utbetalinger}
+                                    legend={intlHelper(intl, 'step.periode.hvilke_utbetalinger.spm')}
+                                    checkboxes={[
+                                        {
+                                            id: AndreUtbetalinger.dagpenger,
+                                            value: AndreUtbetalinger.dagpenger,
+                                            label: intlHelper(intl, 'andre_utbetalinger.dagpenger')
+                                        },
+                                        {
+                                            id: AndreUtbetalinger.sykepenger,
+                                            value: AndreUtbetalinger.sykepenger,
+                                            label: intlHelper(intl, 'andre_utbetalinger.sykepenger')
+                                        }
+                                    ]}
+                                    validate={validateRequiredList}
+                                />
+                            </FormBlock>
+                        )}
+                    </FormBlock>
                 </>
             )}
         </SøknadStep>

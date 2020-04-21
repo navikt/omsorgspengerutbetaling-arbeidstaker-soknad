@@ -1,9 +1,10 @@
-import { SøknadFormData } from '../types/SøknadFormData';
+import { HvorLengeJobbet, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {
     'BEGRUNNELSE' = 'begrunnelse',
+    'DOKUMENTER' = 'vedlegg',
     'SITUASJON' = 'situasjon',
     'PERIODE' = 'periode',
     'MEDLEMSKAP' = 'medlemskap',
@@ -41,18 +42,39 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
 export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface => {
     let idx = 0;
 
-    const config = {
+    const skalViseDokumenterStep: boolean = formData
+        ? formData[SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver] === HvorLengeJobbet.MER_ENN_FIRE_UKER
+        : false;
+
+    const delEn = {
         [StepID.BEGRUNNELSE]: {
             ...getStepConfigItemTextKeys(StepID.BEGRUNNELSE),
             index: idx++,
-            nextStep: StepID.SITUASJON,
+            nextStep: skalViseDokumenterStep ? StepID.DOKUMENTER : StepID.SITUASJON,
             backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
-        },
+        }
+    };
+
+    let optionalDelVedlegg = {};
+    if (skalViseDokumenterStep) {
+        optionalDelVedlegg = {
+            [StepID.DOKUMENTER]: {
+                ...getStepConfigItemTextKeys(StepID.DOKUMENTER),
+                index: idx++,
+                nextStep: StepID.SITUASJON,
+                backLinkHref: getSøknadRoute(StepID.BEGRUNNELSE)
+            }
+        };
+    }
+
+    const delTo = {
         [StepID.SITUASJON]: {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
             nextStep: StepID.PERIODE,
-            backLinkHref: getSøknadRoute(StepID.BEGRUNNELSE)
+            backLinkHref: skalViseDokumenterStep
+                ? getSøknadRoute(StepID.DOKUMENTER)
+                : getSøknadRoute(StepID.BEGRUNNELSE)
         },
         [StepID.PERIODE]: {
             ...getStepConfigItemTextKeys(StepID.PERIODE),
@@ -75,7 +97,11 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
         }
     };
 
-    return config;
+    return {
+        ...delEn,
+        ...optionalDelVedlegg,
+        ...delTo
+    };
 };
 
 export interface StepConfigProps {

@@ -2,12 +2,19 @@ import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import moment from 'moment';
 import {
-    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange, dateToday
+    date1YearAgo,
+    date1YearFromNow,
+    DateRange,
+    dateRangesCollide,
+    dateRangesExceedsRange,
+    dateToday
 } from 'common/utils/dateUtils';
 import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { datesCollide } from './dateValidationUtils';
+import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
+import { Attachment } from 'common/types/Attachment';
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
@@ -33,7 +40,8 @@ export enum AppFieldValidationErrors {
     'dato_utenfor_gyldig_tidsrom' = 'fieldvalidation.dato_utenfor_gyldig_tidsrom',
     'tom_er_før_fom' = 'fieldvalidation.tom_er_før_fom',
     'tom_er_i_fremtiden' = 'fieldvalidation.tom_er_i_fremtiden',
-    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig'
+    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
+    'for_mange_dokumenter' = 'fieldvalidation.for_mange_dokumenter'
 }
 
 export const createAppFieldValidationError = (
@@ -216,6 +224,17 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
 
     if (prosent < 1 || prosent > 100) {
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_prosentUgyldig);
+    }
+    return undefined;
+};
+
+// export const validateDocuments = (attachments: Attachment[]): FieldValidationResult => undefined;
+export const validateDocuments = (attachments: Attachment[]): FieldValidationResult => {
+    const uploadedAttachments = attachments.filter((attachment) => {
+        return attachment ? attachmentHasBeenUploaded(attachment) : false;
+    });
+    if (uploadedAttachments.length > 3) {
+        return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
     }
     return undefined;
 };

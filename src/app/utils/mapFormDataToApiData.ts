@@ -25,6 +25,7 @@ import {
 } from '../types/SøknadFormData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
+import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 
 
 export const
@@ -36,6 +37,8 @@ export const
         hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
         hvorLengeJobbetFordi,
 
+        dokumenter,
+
         arbeidsforhold,
         har_fosterbarn,
         fosterbarn,
@@ -44,6 +47,9 @@ export const
         dagerMedDelvisFravær,
         perioder_harVærtIUtlandet,
         perioder_utenlandsopphold,
+
+        har_søkt_andre_utbetalinger,
+        andre_utbetalinger,
 
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
@@ -66,11 +72,12 @@ export const
             hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
             hvorLengeJobbetFordi
         ),
+        vedlegg: dokumenter.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         spørsmål: [],
         arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
         bekreftelser: settInnBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
-        andreUtbetalinger: [], // TODO: Hva skal legges til her??
+        andreUtbetalinger: har_søkt_andre_utbetalinger === YesOrNo.YES ? [...andre_utbetalinger] : [],
         fosterbarn: settInnFosterbarn(har_fosterbarn, fosterbarn)
     };
 
