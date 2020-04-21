@@ -14,7 +14,6 @@ import { navigateToLoginPage } from '../../utils/navigationUtils';
 import { validateDocuments } from '../../validation/fieldValidations';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadStep from '../SøknadStep';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 
 const DokumenterStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -28,13 +27,13 @@ const DokumenterStep = ({ onValidSubmit }: StepConfigProps) => {
             onValidFormSubmit={onValidSubmit}
             useValidationErrorSummary={true}
             buttonDisabled={hasPendingUploads}>
-            <FormBlock>
-                <CounsellorPanel>
-                    <p>
-                        B: Hva skal det stå her?
-                    </p>
-                </CounsellorPanel>
-            </FormBlock>
+            {/*<FormBlock>*/}
+            {/*    <CounsellorPanel>*/}
+            {/*        <p>*/}
+            {/*            B: Hva skal det stå her?*/}
+            {/*        </p>*/}
+            {/*    </CounsellorPanel>*/}
+            {/*</FormBlock>*/}
 
             <FormBlock>
                 <HelperTextPanel>

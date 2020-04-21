@@ -75,7 +75,15 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
 
             <Box margin="xl">
                 <div className={'skrivUtKnapp'}>
-                    <Knapp type={'hoved'}>Skriv ut denne siden nå</Knapp>
+                    <Knapp
+                        type={'hoved'}
+                        onClick={() => {
+                            window.print();
+                            return false;
+                        }}
+                    >
+                        Skriv ut denne siden nå
+                    </Knapp>
                 </div>
                 <div className={'kviteringsBlokk'}>
                     Hvis du ikke kan skrive ut denne informasjonssiden, kan du ta bilde av den. Husk også å ta bilde av
