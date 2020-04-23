@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { HvorLengeJobbet, HvorLengeJobbetFordi, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -10,12 +10,18 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 import { FieldValidationResult } from 'common/validation/types';
 import FormikQuestion from '../../components/formik-question/FormikQuestion';
-import Box from 'common/components/box/Box';
-import { Ingress } from 'nav-frontend-typografi';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 
 // (answer: YesOrNo) => FieldValidationResult;
+
+const validateFormikQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
+    return value === HvorLengeJobbet.IKKE_BESVART
+        ? {
+              key: 'fieldvalidation.påkrevd'
+          }
+        : undefined;
+};
 
 const validateRadiogroup = (value: HvorLengeJobbetFordi): FieldValidationResult => {
     return value === HvorLengeJobbetFordi.IKKE_BESVART
@@ -34,14 +40,7 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <SøknadStep id={StepID.BEGRUNNELSE} onValidFormSubmit={onValidSubmit}>
-            <Box>
-                <Ingress>
-                    <FormattedMessage id={'dinSituasjon.ingress'} />
-                </Ingress>
-            </Box>
-            {/*<CounsellorPanel>{intlHelper(intl, 'step.egenutbetaling.counsellorpanel.content')}</CounsellorPanel>*/}
-
-            <FormBlock margin={'xl'}>
+            <FormBlock margin={'xxl'}>
                 <FormikQuestion
                     firstAlternative={{
                         label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
@@ -54,6 +53,7 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                     useTwoColumns={true}
                     name={SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver}
                     legend={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}
+                    validate={validateFormikQuestion}
                 />
             </FormBlock>
 

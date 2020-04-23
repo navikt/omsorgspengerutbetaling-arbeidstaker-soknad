@@ -41,6 +41,7 @@ function FormikQuestion<FieldName, FieldValueType>(
             }
             name={name}
             useTwoColumns={useTwoColumns}
+            validate={props.validate}
         />
     );
 }

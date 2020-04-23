@@ -41,28 +41,27 @@ const IntroPage: React.StatelessComponent = () => {
                 <InformationPoster>
                     <p>
                         Hvis du ikke har rett på omsorgspenger hos arbeidsgiveren din, kan du likevel ha rett til det
-                        fra NAV. Dette kan være når du har vært mindre enn 4 uker i den nye jobben din fordi
+                        fra NAV. Dette kan være når du har vært mindre enn 4 uker i den nye jobben din, men direkte før
+                        det,​
                     </p>
                     <ul>
-                        <li>du har byttet arbeidsgiver.</li>
+                        <li>jobbet du hos en annen arbeidsgiver​</li>
                         <p />
                         <li>
-                            du har mottatt dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger,
+                            mottok du dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger,
                             foreldrepenger eller svangerskapspenger.
                         </li>
                         <p />
-                        <li>du har vært i militærtjeneste.</li>
+                        <li>var du i militærtjeneste. ​</li>
                         <p />
                         <li>
-                            du har hatt ulønnet permisjon direkte etter en periode med foreldrepenger og har avtalt med
-                            arbeidsgiveren din at du skal gjenoppta arbeidet etter permisjonen.
+                            hadde du ulønnet permisjon direkte etter en periode med foreldrepenger, og du har nå
+                            gjenopptatt arbeidet etter permisjonen.​
                         </li>
-                        <p />
-                        <li>du har hatt lovbestemt ferie. <a href={"https://www.arbeidstilsynet.no/arbeidsforhold/ferie/"}>Hva er lovbestemt ferie?</a></li>
                         <p />
                     </ul>
                     <p />
-                    Hvis minst én av situasjonene over gjelder for deg, kan du gå til den digitale søknaden.
+                    Hvis minst én av situasjonene over gjelder for deg, kan du gå til den digitale søknaden.​
                 </InformationPoster>
             </Box>
 
@@ -89,13 +88,13 @@ const IntroPage: React.StatelessComponent = () => {
                                                 <p style={{ marginTop: 0, marginBottom: 0 }}>
                                                     <strong>
                                                         Gjelder ingen av situasjonene for deg, og likevel utbetaler ikke
-                                                        arbeidsgiver omsorgspenger?
+                                                        arbeidsgiver omsorgspenger?​
                                                     </strong>
                                                 </p>
                                                 <p>
-                                                    I slike tilfeller sender du inn en søknad, og legger ved en
-                                                    redegjørelse fra arbeidsgiver om hvorfor de ikke utbetaler
-                                                    omsorgspenger til deg.
+                                                    I slike tilfeller sender du inn en søknad. I søknaden må du laste
+                                                    opp en skriftlig forklaring fra arbeidsgiveren din om hvorfor de
+                                                    ikke utbetaler omsorgspenger til deg. ​
                                                 </p>
                                             </>
                                         </AlertStripeInfo>

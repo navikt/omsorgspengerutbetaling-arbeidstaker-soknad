@@ -378,12 +378,12 @@
     "hvorLengeJobbet.spørsmål": "Hvor lenge har du vært i jobb hos arbeidsgiveren din?",
     "hvorLengeJobbet.mindre": "Mindre enn 4 uker",
     "hvorLengeJobbet.mer": "Mer enn 4 uker",
-    "hvorLengeJobbet.fordi.legend": "Her velger du din situasjon. Jeg har jobbet mindre enn fire uker, fordi",
+    "hvorLengeJobbet.fordi.legend": "Her velger du din situasjon. Jeg har jobbet mindre enn 4 uker i den nye jobben min, men direkte før det,",
 
-    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "Jeg har byttet arbeidsgiver",
-    "hvorLengeJobbet.fordi.andreYtelser.label": "Jeg har mottatt dagpenger, foreldrepenger, pleiepenger, omsorgspenger, opplæringspenger eller svangerskapspenger fra Nav",
-    "hvorLengeJobbet.fordi.militærtjeneste.label": "Jeg har vært i militærtjeneste",
-    "hvorLengeJobbet.fordi.lovbestemtFerie.label": "Jeg har hatt ulønnet permisjon direkte etter en periode med foreldrepenger, og har avtalt med arbeidsgiveren min at jeg skal gjenoppta arbeidet etter permisjonen",
+    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobbet jeg hos en annen arbeidsgiver",
+    "hvorLengeJobbet.fordi.andreYtelser.label": "mottok jeg dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger, foreldrepenger eller svangerskapspenger.",
+    "hvorLengeJobbet.fordi.militærtjeneste.label": "var jeg i militærtjeneste.",
+    "hvorLengeJobbet.fordi.lovbestemtFerie.label": "hadde jeg ulønnet permisjon direkte etter en periode med foreldrepenger, og jeg har nå gjenopptatt arbeidet etter permisjonen.",
     "hvorLengeJobbet.fordi.ingen.label": "Ingen av situasjonene over gjelder for meg",
 
     "dinSituasjon.arbeidsforhold.tittel": "Om arbeidsforhold",
