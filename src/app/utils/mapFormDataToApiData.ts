@@ -27,9 +27,7 @@ import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiDa
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 
-
-export const
-    mapFormDataToApiData = (
+export const mapFormDataToApiData = (
     {
         harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger,
@@ -72,7 +70,10 @@ export const
             hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
             hvorLengeJobbetFordi
         ),
-        vedlegg: dokumenter.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
+        vedlegg:
+            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER
+                ? dokumenter.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!)
+                : [],
         spørsmål: [],
         arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
         bekreftelser: settInnBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
@@ -104,7 +105,8 @@ const settInnBegrunnelse = (verdi: HvorLengeJobbetFordi): Begrunnelse | null => 
             return Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
         case HvorLengeJobbetFordi.MILITÆRTJENESTE:
             return Begrunnelse.MILITÆRTJENESTE;
-        case HvorLengeJobbetFordi.INGEN: return null; // TODO: Oppdater ihht skisser
+        case HvorLengeJobbetFordi.INGEN:
+            return null; // TODO: Oppdater ihht skisser
         default:
             return null;
     }
