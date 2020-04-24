@@ -94,76 +94,58 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
                 </div>
             </Box>
 
-            {søkerdata && søknadApiData && (
-                <Box margin="xl">{settInnTilArbeidsgiverPaneler(søkerdata, søknadApiData, intl)}</Box>
-            )}
+            {søkerdata && <Box margin="xl">{settInnTilArbeidsgiverPaneler(intl, søkerdata, søknadApiData)}</Box>}
         </Page>
     );
 };
 
-const settInnTilArbeidsgiverPaneler = (
-    søkerdata: Søkerdata,
-    apiData: SøknadApiData,
-    intl: IntlShape
-): JSX.Element[] => {
-    const { fornavn, mellomnavn, etternavn } = søkerdata.person;
+const settInnTilArbeidsgiverPaneler = (intl: IntlShape, søkerdata: Søkerdata, apiData?: SøknadApiData): JSX.Element => {
+    const { fornavn, mellomnavn, etternavn } = søkerdata?.person;
     const søkersNavn: string = formatName(fornavn, etternavn, mellomnavn);
     const søknadsNavn = 'omsorgspenger';
-    // const startdato = 'TODO:startdato';
 
-    const listeAvTilArbeidsgiverPaneler: JSX.Element[] = apiData.arbeidsgivere.organisasjoner.map(
-        (organisasjon, index) => {
-            // const arbeidsgiverNavn = organisasjon.navn;
+    return (
+        <div className={'pagebreak tilArbeidsgiverPanel'}>
+            <Panel border={true} className={'luftOver'}>
+                <Undertittel>Informasjon til arbeidsgiver</Undertittel>
 
-            return (
-                <div key={`tilArbeidsgiverPaneler_${index}`} className={'pagebreak tilArbeidsgiverPanel'}>
-                    <Panel border={true} className={'luftOver'}>
-                        <Undertittel>Informasjon til arbeidsgiver</Undertittel>
+                <p>NAV har mottatt følgende opplysninger:</p>
 
-                        <p>NAV har mottatt følgende opplysninger:</p>
-
+                <p>
+                    <b>{søkersNavn} søker om omsorgspenger</b>
+                </p>
+                <Panel border={true} className={'luftOver'}>
+                    <AlertStripe type="advarsel" form="inline">
+                        For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen blir
+                        sendt til oss så snart som mulig.
                         <p>
-                            <b>{søkersNavn} søker om omsorgspenger</b>
+                            <b>Det er viktig at du krysser av for at inntektsmeldingen gjelder {søknadsNavn}.</b>
                         </p>
-                        <Panel border={true} className={'luftOver'}>
-                            <AlertStripe type="advarsel" form="inline">
-                                For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen
-                                blir sendt til oss så snart som mulig.
-                                <p>
-                                    <b>
-                                        Det er viktig at du krysser av for at inntektsmeldingen gjelder {søknadsNavn}.
-                                    </b>
-                                </p>
-                                <div>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</div>
-                            </AlertStripe>
-                        </Panel>
+                        <div>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</div>
+                    </AlertStripe>
+                </Panel>
 
-                        <div>
-                            <h4>Slik sender du inntektsmeldingen</h4>
+                <div>
+                    <h4>Slik sender du inntektsmeldingen</h4>
 
-                            <p>
-                                Inntektsmeldingen sender fra arbeidsgivers eget lønns- og personalsystem eller fra
-                                altinn.no. Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for
-                                å behandle søknaden arbeidstaker har sendt. Husk å velge inntektsmelding for
-                                omsorgspenger.
-                            </p>
-                            <p>
-                                Du får mer informasjon om inntektsmeldingen på{' '}
-                                <a
-                                    href={
-                                        'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
-                                    }>
-                                    nav.no/inntektsmeldingen
-                                </a>
-                            </p>
-                        </div>
-                    </Panel>
+                    <p>
+                        Inntektsmeldingen sender fra arbeidsgivers eget lønns- og personalsystem eller fra altinn.no.
+                        Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden
+                        arbeidstaker har sendt. Husk å velge inntektsmelding for omsorgspenger.
+                    </p>
+                    <p>
+                        Du får mer informasjon om inntektsmeldingen på{' '}
+                        <a
+                            href={
+                                'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
+                            }>
+                            nav.no/inntektsmeldingen
+                        </a>
+                    </p>
                 </div>
-            );
-        }
+            </Panel>
+        </div>
     );
-
-    return listeAvTilArbeidsgiverPaneler;
 };
 
 export default ConfirmationPage;
