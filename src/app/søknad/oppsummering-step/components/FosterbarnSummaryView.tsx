@@ -19,7 +19,6 @@ const FosterbarnSummaryView: React.FC<Props> = (props: Props) => {
                         itemRenderer={(barn: FosterbarnApi) => (
                             <>
                                 {barn.fødselsnummer}
-                                {/* TODO: Inkludere navn på fosterbarn? { - {formatName(barn.fornavn, barn.etternavn)}}*/}
                             </>
                         )}
                     />

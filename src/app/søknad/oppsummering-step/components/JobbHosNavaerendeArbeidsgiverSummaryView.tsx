@@ -20,7 +20,7 @@ export const getTextForBegrunnelse = (intl: IntlShape, begrunnelse: Begrunnelse 
         case Begrunnelse.MILITÆRTJENESTE:
             return intlHelper(intl, 'hvorLengeJobbet.fordi.militærtjeneste.label');
         default:
-            return "TODO: Legge til case for ingen passende valg";
+            return intlHelper(intl, 'hvorLengeJobbet.fordi.ingen.label');
     }
 };
 
