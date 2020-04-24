@@ -41,7 +41,7 @@ const JobbHosNavaerendeArbeidsgiverSummaryView: React.FC<Props> = (props: Props)
                     />
                 </SummaryBlock>
                 {!merEnn4Uker && (
-                    <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.fordi.legend')}>
+                    <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.fordi.legend-part2')}>
                         {getTextForBegrunnelse(intl, begrunnelse)}
                     </SummaryBlock>
                 )}

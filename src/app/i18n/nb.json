@@ -381,6 +381,8 @@
     "hvorLengeJobbet.mindre": "Mindre enn 4 uker",
     "hvorLengeJobbet.mer": "Mer enn 4 uker",
     "hvorLengeJobbet.fordi.legend": "Her velger du din situasjon. Jeg har jobbet mindre enn 4 uker i den nye jobben min, men direkte før det,",
+    "hvorLengeJobbet.fordi.legend-part1": "Her velger du din situasjon.",
+    "hvorLengeJobbet.fordi.legend-part2": "Jeg har jobbet mindre enn 4 uker i den nye jobben min, men direkte før det,",
 
     "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobbet jeg hos en annen arbeidsgiver",
     "hvorLengeJobbet.fordi.andreYtelser.label": "mottok jeg dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger, foreldrepenger eller svangerskapspenger.",
