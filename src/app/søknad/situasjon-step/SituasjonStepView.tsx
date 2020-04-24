@@ -76,7 +76,11 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     </>
                 )}
 
-                {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
+                {arbeidsforhold.length === 0 && (
+                    <Box padBottom={'xxl'}>
+                        <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
+                    </Box>
+                )}
 
                 <Box padBottom={'xxl'}>
                     <Ingress>

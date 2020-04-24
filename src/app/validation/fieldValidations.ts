@@ -41,7 +41,8 @@ export enum AppFieldValidationErrors {
     'tom_er_før_fom' = 'fieldvalidation.tom_er_før_fom',
     'tom_er_i_fremtiden' = 'fieldvalidation.tom_er_i_fremtiden',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
-    'for_mange_dokumenter' = 'fieldvalidation.for_mange_dokumenter'
+    'for_mange_dokumenter' = 'fieldvalidation.for_mange_dokumenter',
+    'ingen_dokumenter' = 'fieldvalidation.ingen_dokumenter'
 }
 
 export const createAppFieldValidationError = (
@@ -228,11 +229,13 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     return undefined;
 };
 
-// export const validateDocuments = (attachments: Attachment[]): FieldValidationResult => undefined;
 export const validateDocuments = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => {
         return attachment ? attachmentHasBeenUploaded(attachment) : false;
     });
+    if (uploadedAttachments.length === 0) {
+        return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
+    }
     if (uploadedAttachments.length > 3) {
         return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
     }

@@ -21,8 +21,6 @@ import FileUploadErrors from '../../components/file-upload-errors/FileUploadErro
 import UploadedDocumentsList from '../../components/uploaded-documents-list/UploadedDocumentsList';
 import PictureScanningGuide from '../../components/picture-scanning-guide/PictureScanningGuide';
 
-// (answer: YesOrNo) => FieldValidationResult;
-
 const validateFormikQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
         ? {

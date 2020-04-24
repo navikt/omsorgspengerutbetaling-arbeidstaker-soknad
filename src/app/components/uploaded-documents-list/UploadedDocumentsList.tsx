@@ -23,7 +23,7 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
         return file && file.name ? fileExtensionIsValid(file.name) : false;
     });
 
-    if (!containsAnyUploadedAttachments(dokumenter)) {
+    if (dokumenter && !containsAnyUploadedAttachments(dokumenter)) {
         return null;
     }
 

@@ -71,8 +71,14 @@ export const mapFormDataToApiData = (
             hvorLengeJobbetFordi
         ),
         vedlegg:
-            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER
-                ? dokumenter.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!)
+            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER && dokumenter
+                ? dokumenter
+                      .filter((attachment) => {
+                          return attachment?.file?.name && typeof attachment.file.name === 'string'
+                              ? !attachmentUploadHasFailed(attachment)
+                              : false;
+                      })
+                      .map(({ url }) => url!)
                 : [],
         spørsmål: [],
         arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
