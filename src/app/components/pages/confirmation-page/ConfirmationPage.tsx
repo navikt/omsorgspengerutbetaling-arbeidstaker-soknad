@@ -38,17 +38,19 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
                 </Box>
             </div>
             <Box margin="xl">
-                <Ingress>
-                    <FormattedMessage id="page.confirmation.undertittel" />
-                </Ingress>
+                <div className={'infopanelInfoForsvinner'}>
+                    <Ingress>
+                        <FormattedMessage id="page.confirmation.undertittel" />
+                    </Ingress>
+                    <Panel border={true} className={'luftOver'}>
+                        <AlertStripe type="advarsel" form="inline">
+                            Obs! Denne informasjonen forsvinner når du lukker den. Det er derfor viktig at du leser
+                            gjennom før du går videre.
+                            <div>Siden kan printes ut, slik at du kan gi utskrift til arbeidsgiveren din.</div>
+                        </AlertStripe>
+                    </Panel>
+                </div>
 
-                <Panel border={true} className={'luftOver'}>
-                    <AlertStripe type="advarsel" form="inline">
-                        Obs! Denne informasjonen forsvinner når du lukker den. Det er derfor viktig at du leser gjennom
-                        før du går videre.
-                        <div>Siden kan printes ut, slik at du kan gi utskrift til arbeidsgiveren din.</div>
-                    </AlertStripe>
-                </Panel>
                 <ul className="checklist">
                     <li>
                         <AlertStripe type="info" form="inline">
@@ -73,25 +75,28 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
                 </ul>
             </Box>
 
-            <Box margin="xl">
+            <Box margin="xl" padBottom={'xl'}>
                 <div className={'skrivUtKnapp'}>
                     <Knapp
                         type={'hoved'}
                         onClick={() => {
                             window.print();
                             return false;
-                        }}
-                    >
+                        }}>
                         Skriv ut denne siden nå
                     </Knapp>
                 </div>
+            </Box>
+            <Box padBottom={'xl'}>
                 <div className={'kviteringsBlokk'}>
                     Hvis du ikke kan skrive ut denne informasjonssiden, kan du ta bilde av den. Husk også å ta bilde av
                     informasjonen som kommer under, som du kan gi til arbeidsgiver.
                 </div>
             </Box>
 
-            {søkerdata && søknadApiData && <Box margin="xl">{settInnTilArbeidsgiverPaneler(søkerdata, søknadApiData, intl)}</Box>}
+            {søkerdata && søknadApiData && (
+                <Box margin="xl">{settInnTilArbeidsgiverPaneler(søkerdata, søknadApiData, intl)}</Box>
+            )}
         </Page>
     );
 };
@@ -104,38 +109,22 @@ const settInnTilArbeidsgiverPaneler = (
     const { fornavn, mellomnavn, etternavn } = søkerdata.person;
     const søkersNavn: string = formatName(fornavn, etternavn, mellomnavn);
     const søknadsNavn = 'omsorgspenger';
-    const startdato = 'TODO:startdato';
-
-    // const a: string[] = apiData.utbetalingsperioder.map((periode) => {
-    //     return 'Fra og med:' + periode.fraOgMed + '. Til og med: ' + periode.tilOgMed + '.';
-    // });
+    // const startdato = 'TODO:startdato';
 
     const listeAvTilArbeidsgiverPaneler: JSX.Element[] = apiData.arbeidsgivere.organisasjoner.map(
         (organisasjon, index) => {
-            const arbeidsgiverNavn = organisasjon.navn;
+            // const arbeidsgiverNavn = organisasjon.navn;
 
             return (
                 <div key={`tilArbeidsgiverPaneler_${index}`} className={'pagebreak tilArbeidsgiverPanel'}>
                     <Panel border={true} className={'luftOver'}>
-                        <Undertittel>Til {arbeidsgiverNavn}</Undertittel>
+                        <Undertittel>Informasjon til arbeidsgiver</Undertittel>
 
                         <p>NAV har mottatt følgende opplysninger:</p>
 
                         <p>
-                            <b>
-                                {søkersNavn} er ansatt hos {arbeidsgiverNavn}{' '}
-                            </b>
+                            <b>{søkersNavn} søker om omsorgspenger</b>
                         </p>
-                        <p>
-                            <b>
-                                {søkersNavn} søker om {søknadsNavn} for perioden:
-                            </b>
-                        </p>
-                        <ul>
-                            <li>
-                                <b>- TODO: 1.apr 2020 til 1. april.</b>
-                            </li>
-                        </ul>
                         <Panel border={true} className={'luftOver'}>
                             <AlertStripe type="advarsel" form="inline">
                                 For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen
@@ -155,25 +144,18 @@ const settInnTilArbeidsgiverPaneler = (
                             <p>
                                 Inntektsmeldingen sender fra arbeidsgivers eget lønns- og personalsystem eller fra
                                 altinn.no. Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for
-                                å behandle søknaden arbeidstaker har sendt. Husk å velge riktig inntektsmelding.
+                                å behandle søknaden arbeidstaker har sendt. Husk å velge inntektsmelding for
+                                omsorgspenger.
                             </p>
-                            <div>
-                                Fyll inn startdato som samsvarer med søkers.{' '}
-                                <b>
-                                    {søkersNavn} har søkt {søknadsNavn} fra {startdato}.
-                                </b>
-                                Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før
-                                du sender inntektsmeldingen.
-                                <p>
-                                    Du får mer informasjon om inntektsmeldingen på{' '}
-                                    <a
-                                        href={
-                                            'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
-                                        }>
-                                        nav.no/inntektsmeldingen
-                                    </a>
-                                </p>
-                            </div>
+                            <p>
+                                Du får mer informasjon om inntektsmeldingen på{' '}
+                                <a
+                                    href={
+                                        'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
+                                    }>
+                                    nav.no/inntektsmeldingen
+                                </a>
+                            </p>
                         </div>
                     </Panel>
                 </div>

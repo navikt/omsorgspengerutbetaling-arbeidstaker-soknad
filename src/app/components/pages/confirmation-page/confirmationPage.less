@@ -11,22 +11,54 @@ ul.checklist {
     padding: 0 0 0 1.5rem;
     li {
         list-style: none;
-        margin-bottom: 1rem;
-        padding-left: 3rem;
         margin-bottom: 1.5rem;
-
     }
 }
 
-.skrivUtKnapp {
-    margin-top: 3rem;
-    margin-left: 4rem;
+
+@media (min-width: 769px) {
+    ul.checklist {
+        li {
+            padding-left: 3rem;
+        }
+    }
+
+    .skrivUtKnapp {
+        margin-top: 3rem;
+        margin-left: 6.5rem;
+    }
+
+    .kviteringsBlokk {
+        margin-top: 1rem;
+        margin-left: 6.5rem;
+    }
+
+    .infopanelInfoForsvinner {
+        padding-left: 40px;
+    }
 }
 
-.kviteringsBlokk {
-    margin-top: 1rem;
-    margin-left: 4rem;
+@media (max-width: 768px) {
+    ul.checklist {
+        li {
+            padding-left: 1rem;
+        }
+    }
+
+    .skrivUtKnapp {
+        text-align: center;
+    }
+
+    .kviteringsBlokk {
+        margin-top: 1rem;
+        margin-left: 1rem;
+    }
+
+    .infopanelInfoForsvinner {
+        margin-left: 12px;
+    }
 }
+
 
 .luftOver {
     margin-top: 1rem;
@@ -41,3 +73,4 @@ ul.checklist {
 .tilArbeidsgiverPanel {
     margin-top: 3rem;
 }
+
