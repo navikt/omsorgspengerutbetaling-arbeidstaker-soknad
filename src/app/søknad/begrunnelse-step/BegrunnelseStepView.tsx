@@ -12,6 +12,14 @@ import { FieldValidationResult } from 'common/validation/types';
 import FormikQuestion from '../../components/formik-question/FormikQuestion';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
+import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
+import { navigateToLoginPage } from '../../utils/navigationUtils';
+import { validateDocuments } from '../../validation/fieldValidations';
+import Box from 'common/components/box/Box';
+import FileUploadErrors from '../../components/file-upload-errors/FileUploadErrors';
+import UploadedDocumentsList from '../../components/uploaded-documents-list/UploadedDocumentsList';
+import PictureScanningGuide from '../../components/picture-scanning-guide/PictureScanningGuide';
 
 // (answer: YesOrNo) => FieldValidationResult;
 
@@ -38,8 +46,15 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
     const hvorLengeJobbet: HvorLengeJobbet = values[SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver];
     const fordi: HvorLengeJobbetFordi = values[SøknadFormField.hvorLengeJobbetFordi];
 
+    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
+    const hasPendingUploads: boolean = (values.dokumenter || []).find((a: any) => a.pending === true) !== undefined;
+
     return (
-        <SøknadStep id={StepID.BEGRUNNELSE} onValidFormSubmit={onValidSubmit}>
+        <SøknadStep
+            id={StepID.BEGRUNNELSE}
+            onValidFormSubmit={onValidSubmit}
+            useValidationErrorSummary={true}
+            buttonDisabled={hasPendingUploads}>
             <FormBlock margin={'xxl'}>
                 <FormikQuestion
                     firstAlternative={{
@@ -97,6 +112,15 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                 </FormBlock>
             )}
 
+            {hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && fordi === HvorLengeJobbetFordi.INGEN && (
+                <FormBlock>
+                    <AlertStripeFeil>
+                        For at du som arbeidstaker skal ha rett til utbetaling av omsorgspenger fra NAV, må det være én
+                        av situasjonene over som gjelder.
+                    </AlertStripeFeil>
+                </FormBlock>
+            )}
+
             {hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER && (
                 <FormBlock>
                     <CounsellorPanel>
@@ -105,13 +129,32 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                 </FormBlock>
             )}
 
-            {hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && fordi === HvorLengeJobbetFordi.INGEN && (
-                <FormBlock>
-                    <AlertStripeFeil>
-                        For at du som arbeidstaker skal ha rett til utbetaling av omsorgspenger fra NAV, må det være én
-                        av situasjonene over som gjelder.
-                    </AlertStripeFeil>
-                </FormBlock>
+            {hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER && (
+                <div>
+                    <FormBlock>
+                        <HelperTextPanel>
+                            <PictureScanningGuide />
+                        </HelperTextPanel>
+                    </FormBlock>
+                    <FormBlock>
+                        <FormikFileUploader
+                            name={SøknadFormField.dokumenter}
+                            label={intlHelper(intl, 'steg.dokumenter.vedlegg')}
+                            onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                            onFileInputClick={() => {
+                                setFilesThatDidntGetUploaded([]);
+                            }}
+                            onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
+                            validate={validateDocuments}
+                        />
+                    </FormBlock>
+                    <Box margin="m">
+                        <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
+                    </Box>
+                    <Box margin="l">
+                        <UploadedDocumentsList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
+                    </Box>
+                </div>
             )}
         </SøknadStep>
     );

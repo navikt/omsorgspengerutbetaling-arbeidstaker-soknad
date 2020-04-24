@@ -70,8 +70,8 @@ const IntroPage: React.StatelessComponent = () => {
                     onSubmit={() => null}
                     initialValues={initialValues}
                     renderForm={({ values: { noeSomGjelderForDeg } }) => {
-                        const kanBrukeSøknaden = noeSomGjelderForDeg === YesOrNo.YES;
-                        const kanIkkeBrukeSøknaden = noeSomGjelderForDeg === YesOrNo.NO;
+                        const skalViseGåTilSøknadLink = noeSomGjelderForDeg !== YesOrNo.UNANSWERED;
+                        const skalViseInfoPanel = noeSomGjelderForDeg === YesOrNo.NO;
                         return (
                             <PageForm.Form
                                 fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}
@@ -81,7 +81,7 @@ const IntroPage: React.StatelessComponent = () => {
                                     legend="Gjelder en av situasjonene beskrevet over for deg?"
                                 />
 
-                                {kanIkkeBrukeSøknaden && (
+                                {skalViseInfoPanel && (
                                     <Box margin="xl">
                                         <AlertStripeInfo>
                                             <>
@@ -100,7 +100,7 @@ const IntroPage: React.StatelessComponent = () => {
                                         </AlertStripeInfo>
                                     </Box>
                                 )}
-                                {kanBrukeSøknaden && (
+                                {skalViseGåTilSøknadLink && (
                                     <>
                                         <Box margin="xl" textAlignCenter={true}>
                                             <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>

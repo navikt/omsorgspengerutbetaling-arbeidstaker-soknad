@@ -1,4 +1,4 @@
-import { HvorLengeJobbet, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
@@ -42,39 +42,18 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
 export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface => {
     let idx = 0;
 
-    const skalViseDokumenterStep: boolean = formData
-        ? formData[SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver] === HvorLengeJobbet.MER_ENN_FIRE_UKER
-        : false;
-
-    const delEn = {
+    return {
         [StepID.BEGRUNNELSE]: {
             ...getStepConfigItemTextKeys(StepID.BEGRUNNELSE),
             index: idx++,
-            nextStep: skalViseDokumenterStep ? StepID.DOKUMENTER : StepID.SITUASJON,
+            nextStep: StepID.SITUASJON,
             backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
-        }
-    };
-
-    let optionalDelVedlegg = {};
-    if (skalViseDokumenterStep) {
-        optionalDelVedlegg = {
-            [StepID.DOKUMENTER]: {
-                ...getStepConfigItemTextKeys(StepID.DOKUMENTER),
-                index: idx++,
-                nextStep: StepID.SITUASJON,
-                backLinkHref: getSøknadRoute(StepID.BEGRUNNELSE)
-            }
-        };
-    }
-
-    const delTo = {
+        },
         [StepID.SITUASJON]: {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
             nextStep: StepID.PERIODE,
-            backLinkHref: skalViseDokumenterStep
-                ? getSøknadRoute(StepID.DOKUMENTER)
-                : getSøknadRoute(StepID.BEGRUNNELSE)
+            backLinkHref: getSøknadRoute(StepID.BEGRUNNELSE)
         },
         [StepID.PERIODE]: {
             ...getStepConfigItemTextKeys(StepID.PERIODE),
@@ -95,12 +74,6 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
             nextButtonLabel: 'step.sendButtonLabel',
             nextButtonAriaLabel: 'step.sendButtonAriaLabel'
         }
-    };
-
-    return {
-        ...delEn,
-        ...optionalDelVedlegg,
-        ...delTo
     };
 };
 

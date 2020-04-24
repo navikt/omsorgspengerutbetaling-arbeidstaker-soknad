@@ -8,7 +8,7 @@ import RouteConfig from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
-import { HvorLengeJobbet, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
@@ -20,7 +20,6 @@ import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
 import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
-import DokumenterStep from './dokumenter-step/DokumenterStep';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -46,8 +45,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [søkerdata, setSøkerdata] = React.useState<Søkerdata | undefined>(undefined);
     const [søknadApiData, setSøknadApiData] = React.useState<SøknadApiData | undefined>(undefined);
-
-    const skalViseVedleggSteg: boolean = values[SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver] === HvorLengeJobbet.MER_ENN_FIRE_UKER;
 
     // const søknadApiDataMock = mock1;
     // const søkerdataMock: Søkerdata = {
@@ -116,17 +113,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                 <Route
                     path={getSøknadRoute(StepID.BEGRUNNELSE)}
                     render={() => <BegrunnelseStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEGRUNNELSE)} />}
-                />
-            )}
-
-            {isAvailable(StepID.DOKUMENTER, values) && skalViseVedleggSteg && (
-                <Route
-                    path={getSøknadRoute(StepID.DOKUMENTER)}
-                    render={() =>
-                        <DokumenterStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.DOKUMENTER)}
-                        />
-                    }
                 />
             )}
 
