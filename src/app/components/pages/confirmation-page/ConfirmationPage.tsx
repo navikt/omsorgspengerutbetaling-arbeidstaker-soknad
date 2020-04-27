@@ -7,12 +7,12 @@ import Page from 'common/components/page/Page';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import './confirmationPage.less';
-import { Panel } from 'nav-frontend-paneler';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from 'common/utils/personUtils';
+import Panel from 'nav-frontend-paneler/lib';
 
 const bem = bemUtils('confirmationPage');
 
