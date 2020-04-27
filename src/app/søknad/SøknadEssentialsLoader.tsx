@@ -42,7 +42,6 @@ const SøknadEssentialsLoader = (props: Props) => {
         }
     }, [state]);
 
-
     async function loadAppEssentials() {
         try {
             if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
