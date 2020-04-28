@@ -29,7 +29,7 @@ const server = express();
 
 server.use(express.json());
 server.use((req, res, next) => {
-    const allowedOrigins = ['https://pleiepengesoknad-mock.nais.oera.no', 'http://localhost:8083'];
+    const allowedOrigins = ['http://localhost:8080'];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
         res.set('Access-Control-Allow-Origin', requestOrigin);
@@ -45,12 +45,24 @@ server.use((req, res, next) => {
     next();
 });
 
-const søkerMock = {
+const søkerMock1 = {
+    aktørId: "1234567890",
     fornavn: 'Test',
-    mellomnavn: undefined,
+    mellomnavn: null,
     etternavn: 'Testesen',
-    fodselsnummer: '12345123456',
-    myndig: true
+    myndig: true,
+    fødselsnummer: '12345123456',
+    fødselsdato: "2020-01-01",
+};
+
+const søkerMock2 = {
+    aktørId: "1234567890",
+    fornavn: null,
+    mellomnavn: null,
+    etternavn: null,
+    myndig: true,
+    fødselsnummer: '12345123456',
+    fødselsdato: "2020-01-01",
 };
 
 const barnMock = {
@@ -66,6 +78,7 @@ const arbeidsgivereMock = {
         { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' }
     ]
 };
+
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
 const isJSON = (str) => {
@@ -92,7 +105,7 @@ const readFileSync = (path) => {
 const existsSync = (path) => fs.existsSync(path);
 
 const startServer = () => {
-    const port = process.env.PORT || 8082;
+    const port = 8083;
 
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
@@ -102,7 +115,11 @@ const startServer = () => {
     });
 
     server.get('/soker', (req, res) => {
-        res.send(søkerMock);
+        res.send(søkerMock1);
+    });
+
+    server.get('/arbeidstakerutbetaling/soker', (req, res) => {
+        res.send(søkerMock1);
     });
 
     server.post('/vedlegg', (req, res) => {
