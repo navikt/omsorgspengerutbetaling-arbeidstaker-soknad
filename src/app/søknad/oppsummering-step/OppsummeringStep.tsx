@@ -85,9 +85,9 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                 <Panel border={true}>
                     <NavnOgFodselsnummerSummaryView
                         intl={intl}
-                        fornavn={fornavn}
-                        etternavn={etternavn}
-                        mellomnavn={mellomnavn}
+                        fornavn={fornavn || undefined}
+                        etternavn={etternavn || undefined}
+                        mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
                     <JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />

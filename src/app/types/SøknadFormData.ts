@@ -139,3 +139,5 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: []
 };
+
+export const isFormData = (formdata: unknown): formdata is FormData => true; // TODO: Implement

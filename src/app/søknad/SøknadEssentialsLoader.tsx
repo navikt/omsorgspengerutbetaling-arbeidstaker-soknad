@@ -1,42 +1,42 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getSøker } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
-import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
-import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { isSøkerdata, Person, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
+import { initialValues, isFormData, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
 import * as apiUtils from '../utils/apiUtils';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import SøknadTempStorage from './SøknadTempStorage';
+import { søkerApiResponseToPerson } from '../utils/typeUtils';
 
 interface Props {
-    contentLoadedRenderer: (
-        søkerdata: Søkerdata | undefined,
-        formData: SøknadFormData | undefined,
-        lastStepID: StepID | undefined
-    ) => React.ReactNode;
+    contentLoadedRenderer: (søkerdata: Søkerdata, formData: SøknadFormData, lastStepID: StepID | undefined) => React.ReactNode;
 }
 
 interface State {
     isLoading: boolean;
-    lastStepID?: StepID;
     formData: SøknadFormData;
     søkerdata?: Søkerdata;
-
+    lastStepID?: StepID;
 }
 
-const initialState: State = { isLoading: true, lastStepID: undefined, formData: initialValues };
+const initialState: State = {
+    isLoading: true,
+    lastStepID: undefined,
+    formData: initialValues
+};
 
-// extends React.Component<Props, State>
 const SøknadEssentialsLoader = (props: Props) => {
+    const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
+    const { contentLoadedRenderer } = props;
+    const { isLoading, søkerdata, formData, lastStepID } = state;
 
-    const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = React.useState(initialState);
-
-    React.useEffect(() => {
+    useEffect(() => {
         if (isLoading) {
             loadAppEssentials();
         }
@@ -45,26 +45,31 @@ const SøknadEssentialsLoader = (props: Props) => {
     async function loadAppEssentials() {
         try {
             if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                const [søkerResponse, tempStorage] = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
-                handleSøkerdataFetchSuccess(søkerResponse, tempStorage);
+                const [søkerApiResponse, tempStorage]: Array<
+                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
+                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
+                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
             } else {
-                const søkerResponse = await getSøker();
-                handleSøkerdataFetchSuccess(søkerResponse);
+                const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
+                handleSøkerdataFetchSuccess(søkerApiResponse);
             }
         } catch (response) {
             handleSøkerdataFetchError(response);
         }
     }
 
-    const handleSøkerdataFetchSuccess = (søkerResponse: AxiosResponse, tempStorageResponse?: AxiosResponse) => {
+    const handleSøkerdataFetchSuccess = (
+        søkerResponse: AxiosResponse<SøkerApiResponse>,
+        tempStorageResponse?: AxiosResponse<TemporaryStorage>
+    ) => {
+        const person: Person = søkerApiResponseToPerson(søkerResponse.data);
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
-        const søknadFormData = tempStorage?.formData;
-        const maybeStoredLastStepID = tempStorage?.metadata?.lastStepID;
+        const søknadFormData: SøknadFormData | undefined = tempStorage?.formData;
+        const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
 
         const updatedSokerData: Søkerdata = {
-            person: søkerResponse.data,
-            setArbeidsgivere: updateArbeidsgivere,
-            arbeidsgivere: []
+            person,
+            arbeidsgivere: [] // TODO: Må EssentialsLoader få dataen først på steget hvor det blir gjort oppslag?
         };
 
         setState({
@@ -72,20 +77,6 @@ const SøknadEssentialsLoader = (props: Props) => {
             lastStepID: maybeStoredLastStepID,
             formData: søknadFormData || { ...initialValues },
             søkerdata: updatedSokerData ? updatedSokerData : state.søkerdata
-        });
-        // callback
-        //     () => {
-        //         stopLoading();
-        //         if (userIsCurrentlyOnErrorPage()) {
-        //             window.location.assign(getRouteUrl(routeConfig.WELCOMING_PAGE_ROUTE));
-        //         }
-        //     }
-    };
-
-    const stopLoading = () => {
-        setState({
-            ...state,
-            isLoading: false
         });
     };
 
@@ -95,38 +86,18 @@ const SøknadEssentialsLoader = (props: Props) => {
         } else if (!userIsCurrentlyOnErrorPage()) {
             window.location.assign(getRouteUrl(routeConfig.ERROR_PAGE_ROUTE));
         }
-        // this timeout is set because if isLoading is updated in the state too soon,
-        // the contentLoadedRenderer() will be called while the user is still on the wrong route,
-        // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
-        setTimeout(stopLoading, 200);
     };
 
-    const updateArbeidsgivere = (arbeidsgivere: Arbeidsgiver[]) => {
-        const { person, setArbeidsgivere } = state.søkerdata!; // TODO: Få fjernet !
-        setState({
-            ...state,
-            søkerdata: {
-                setArbeidsgivere,
-                arbeidsgivere,
-                person
-            }
-        });
-    };
-
-    const { contentLoadedRenderer } = props;
-    const { isLoading, søkerdata, formData, lastStepID } = state;
-
-    if (isLoading) {
-        return <LoadingPage />;
+    if (søkerdata && isSøkerdata(søkerdata) && formData && isFormData(formData) && !isLoading) {
+        return (
+            <>
+                <SøkerdataContextProvider value={søkerdata}>
+                    {contentLoadedRenderer(søkerdata, formData, lastStepID)}
+                </SøkerdataContextProvider>
+            </>
+        );
     }
-
-    return (
-        <>
-            <SøkerdataContextProvider value={søkerdata}>
-                {contentLoadedRenderer(søkerdata, formData, lastStepID)}
-            </SøkerdataContextProvider>
-        </>
-    );
+    return <LoadingPage />;
 };
 
 export default SøknadEssentialsLoader;

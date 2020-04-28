@@ -64,7 +64,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
 
     if (history.location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE && lastStepID) {
         setTimeout(() => {
-            navigateTo(lastStepID, history);
+            navigateTo(lastStepID, history); // TODO: Dette blir blinking. Send heller direkte til riktig step
         });
     }
 

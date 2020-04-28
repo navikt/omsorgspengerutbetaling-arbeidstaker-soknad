@@ -3,13 +3,13 @@ import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
-import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
+import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { Arbeidsforhold, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadStep from '../SøknadStep';
 import { FormikProps, useFormikContext } from 'formik';
-import { Søkerdata } from '../../types/Søkerdata';
+import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
 import FormikArbeidsforhold from '../../components/formik-arbeidsforhold/FormikArbeidsforhold';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -18,6 +18,7 @@ import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/Fos
 import { SituasjonStepQuestions } from './config';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { Ingress } from 'nav-frontend-typografi';
+import { AxiosResponse } from 'axios';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -27,18 +28,36 @@ interface OwnProps {
 type SituasjonStepViewProps = StepConfigProps & OwnProps;
 
 const SituasjonStepView = (props: SituasjonStepViewProps) => {
-    const { onValidSubmit, søkerdata, formikProps } = props;
+    const { onValidSubmit, formikProps } = props;
     const [isLoading, setIsLoading] = useState(false);
     const { values } = useFormikContext<SøknadFormData>();
     const visibility = SituasjonStepQuestions.getVisbility(values);
 
     useEffect(() => {
-        const today = dateToday;
+        const today: Date = dateToday;
 
         const fetchData = async () => {
             if (today) {
-                await getArbeidsgivere(today, today, formikProps, søkerdata);
-                setIsLoading(false);
+                const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(today, today);
+
+                const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
+
+                if (isArbeidsgivere(maybeArbeidsgivere)) {
+                    const arbeidsgivere = maybeArbeidsgivere;
+                    setIsLoading(false);
+
+                    const updatedArbeidsforholds: Arbeidsforhold[] = syncArbeidsforholdWithArbeidsgivere(
+                        arbeidsgivere,
+                        formikProps.values[SøknadFormField.arbeidsforhold]
+                    );
+                    if (updatedArbeidsforholds.length > 0) {
+                        formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
+                    } else {
+                        // TODO: Handle it. And make this more readable...
+                    }
+                } else {
+                    // TODO: Handle it
+                }
             }
         };
 

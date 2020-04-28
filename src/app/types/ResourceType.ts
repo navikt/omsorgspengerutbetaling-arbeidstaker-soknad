@@ -5,5 +5,4 @@ export enum ResourceType {
     SØKER = 'arbeidstakerutbetaling/soker',
     MELLOMLAGRING = 'mellomlagring',
     VEDLEGG = 'vedlegg'
-
 }

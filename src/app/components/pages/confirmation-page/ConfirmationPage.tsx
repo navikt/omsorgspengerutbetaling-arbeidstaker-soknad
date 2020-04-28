@@ -101,7 +101,8 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
 
 const settInnTilArbeidsgiverPaneler = (intl: IntlShape, søkerdata: Søkerdata, apiData?: SøknadApiData): JSX.Element => {
     const { fornavn, mellomnavn, etternavn } = søkerdata?.person;
-    const søkersNavn: string = formatName(fornavn, etternavn, mellomnavn);
+    const søkersNavn: string | undefined =
+        fornavn && etternavn ? formatName(fornavn, etternavn, mellomnavn || undefined) : 'UKJENT BRUKER';
     const søknadsNavn = 'omsorgspenger';
 
     return (

@@ -1,15 +1,14 @@
-import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
+import { Arbeidsgiver, ArbeidsgiverResponse } from 'app/types/Søkerdata';
 import { getArbeidsgiver } from 'app/api/api';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { navigateToLoginPage } from './navigationUtils';
 import { FormikProps } from 'formik';
 import { Arbeidsforhold, ArbeidsforholdField, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
-import demoSøkerdata from '../demo/demoData';
 import { apiUtils } from './apiUtils';
-import { appIsRunningInDemoMode } from './envUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { AxiosResponse } from 'axios';
 
-export const syndArbeidsforholdWithArbeidsgivere = (
+export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]
 ): Arbeidsforhold[] => {
@@ -27,7 +26,7 @@ export const syndArbeidsforholdWithArbeidsgivere = (
 };
 
 export const updateArbeidsforhold = (formikProps: FormikProps<SøknadFormData>, arbeidsgivere: Arbeidsgiver[]) => {
-    const updatedArbeidsforhold: Arbeidsforhold[] = syndArbeidsforholdWithArbeidsgivere(
+    const updatedArbeidsforhold: Arbeidsforhold[] = syncArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
         formikProps.values[SøknadFormField.arbeidsforhold]
     );
@@ -36,28 +35,17 @@ export const updateArbeidsforhold = (formikProps: FormikProps<SøknadFormData>, 
     }
 };
 
-export type SøknadFormikProps = FormikProps<SøknadFormData> & { submitForm: () => Promise<void> };
-
-export async function getArbeidsgivere(
+export const getArbeidsgivere = async (
     fromDate: Date,
-    toDate: Date,
-    formikProps: SøknadFormikProps,
-    søkerdata: Søkerdata
-) {
-    if (appIsRunningInDemoMode()) {
-        søkerdata.setArbeidsgivere(demoSøkerdata.arbeidsgivere);
-        updateArbeidsforhold(formikProps, demoSøkerdata.arbeidsgivere);
-        return;
-    }
+    toDate: Date
+): Promise<AxiosResponse<ArbeidsgiverResponse> | null> => {
     try {
-        const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
-        const { organisasjoner } = response.data;
-        // søkerdata.setArbeidsgivere(organisasjoner); // TODO: Sjekk hva denne ble brukt til
-
-        updateArbeidsforhold(formikProps, organisasjoner);
+        const response: AxiosResponse<ArbeidsgiverResponse> = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
+        return response;
     } catch (error) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
         }
+        return null;
     }
-}
+};
