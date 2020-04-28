@@ -26,6 +26,7 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
     const intl = useIntl();
 
     // const apiData: SøknadApiData = mock1;
+    // TODO: Må ikke kunne trykke back. Alternativt, hvis man trykker back så må man komme til Velkommen.
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>

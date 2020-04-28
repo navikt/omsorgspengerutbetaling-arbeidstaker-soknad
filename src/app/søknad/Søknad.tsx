@@ -1,6 +1,6 @@
 import * as React from 'react';
 import IkkeMyndigPage from '../components/pages/ikke-myndig-page/IkkeMyndigPage';
-import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import SøknadEssentialsLoader from './SøknadEssentialsLoader';
 import SøknadFormComponents from './SøknadFormComponents';
 import SøknadRoutes from './SøknadRoutes';
@@ -15,7 +15,7 @@ const Søknad = () => (
             }
             return (
                 <SøknadFormComponents.FormikWrapper
-                    initialValues={formData || initialValues}
+                    initialValues={formData}
                     onSubmit={() => null}
                     renderForm={(formikProps) => <SøknadRoutes lastStepID={lastStepID} formikProps={formikProps} />}
                 />

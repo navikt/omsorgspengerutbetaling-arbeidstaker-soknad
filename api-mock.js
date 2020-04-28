@@ -111,7 +111,9 @@ const startServer = () => {
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/arbeidsgiver', (req, res) => {
-        res.send(arbeidsgivereMock);
+        setTimeout(() => {
+            res.send(arbeidsgivereMock);
+        }, 5000)
     });
 
     server.get('/soker', (req, res) => {
@@ -136,6 +138,10 @@ const startServer = () => {
     server.get('/barn', (req, res) => res.send(barnMock));
 
     server.post('/soknad', (req, res) => {
+        res.sendStatus(200);
+    });
+
+    server.post('/arbeidstaker/soknad', (req, res) => {
         res.sendStatus(200);
     });
 

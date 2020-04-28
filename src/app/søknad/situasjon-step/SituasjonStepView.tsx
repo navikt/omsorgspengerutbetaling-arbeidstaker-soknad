@@ -19,6 +19,7 @@ import { SituasjonStepQuestions } from './config';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { Ingress } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
+import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -29,7 +30,7 @@ type SituasjonStepViewProps = StepConfigProps & OwnProps;
 
 const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const { onValidSubmit, formikProps } = props;
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { values } = useFormikContext<SøknadFormData>();
     const visibility = SituasjonStepQuestions.getVisbility(values);
 
@@ -62,7 +63,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
         };
 
         if (today) {
-            setIsLoading(true);
             fetchData();
         }
     }, []);
@@ -83,7 +83,15 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                         <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
                     </CounsellorPanel>
                 </Box>
-                {arbeidsforhold.length > 0 && (
+
+                {isLoading && (
+                    <div
+                        style={{ display: 'flex', justifyContent: 'center', minHeight: '15rem', alignItems: 'center' }}>
+                        <LoadingSpinner type="XXL" />
+                    </div>
+                )}
+
+                {!isLoading && arbeidsforhold.length > 0 && (
                     <>
                         {arbeidsforhold.map((forhold, index) => (
                             <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
@@ -95,7 +103,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     </>
                 )}
 
-                {arbeidsforhold.length === 0 && (
+                {!isLoading && arbeidsforhold.length === 0 && (
                     <Box padBottom={'xxl'}>
                         <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
                     </Box>
