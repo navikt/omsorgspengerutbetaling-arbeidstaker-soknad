@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { FormikProps, useFormikContext } from 'formik';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
@@ -20,6 +20,8 @@ import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
 import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
+import Modal from '@navikt/sif-common-formik/lib/components/formik-modal-form-and-list/modal/Modal';
+import { Knapp } from 'nav-frontend-knapper';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -42,9 +44,10 @@ function SøknadRoutes(props: SøknadRoutesProps) {
 
     const { values, resetForm } = useFormikContext<SøknadFormData>();
 
-    const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
-    const [søkerdata, setSøkerdata] = React.useState<Søkerdata | undefined>(undefined);
-    const [søknadApiData, setSøknadApiData] = React.useState<SøknadApiData | undefined>(undefined);
+    const [søknadHasBeenSent, setSøknadHasBeenSent] = useState(false);
+    const [søkerdata, setSøkerdata] = useState<Søkerdata | undefined>(undefined);
+    const [søknadApiData, setSøknadApiData] = useState<SøknadApiData | undefined>(undefined);
+    const [hasBeenClosed, setHasBeenClosed] = useState<boolean>(false);
 
     // const søknadApiDataMock = mock1;
     // const søkerdataMock: Søkerdata = {
@@ -62,11 +65,11 @@ function SøknadRoutes(props: SøknadRoutesProps) {
 
     const history = useHistory();
 
-    if (history.location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE && lastStepID) {
-        setTimeout(() => {
-            navigateTo(lastStepID, history); // TODO: Dette blir blinking. Send heller direkte til riktig step
-        });
-    }
+    // if (history.location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE && lastStepID) {
+    //     setTimeout(() => {
+    //         navigateTo(lastStepID, history); // TODO: Dette blir blinking. Send heller direkte til riktig step
+    //     });
+    // }
 
     async function navigateToNextStepFrom(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -92,21 +95,46 @@ function SøknadRoutes(props: SøknadRoutesProps) {
         <Switch>
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                render={() => (
-                    <WelcomingPage
-                        onValidSubmit={() =>
-                            setTimeout(() => {
-                                if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                                    SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
-                                        navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`, history);
-                                    });
-                                } else {
-                                    navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`, history);
+                render={() => {
+                    return (
+                        <div>
+                            <WelcomingPage
+                                onValidSubmit={() =>
+                                    setTimeout(() => {
+                                        if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
+                                            SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
+                                                navigateTo(
+                                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`,
+                                                    history
+                                                );
+                                            });
+                                        } else {
+                                            navigateTo(
+                                                `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`,
+                                                history
+                                            );
+                                        }
+                                    })
                                 }
-                            })
-                        }
-                    />
-                )}
+                            />
+                            {lastStepID && ( // TODO: Dette er WIP
+                                <Modal
+                                    isOpen={!!lastStepID && !hasBeenClosed}
+                                    onRequestClose={() => {
+                                        setHasBeenClosed(true);
+                                        navigateTo(lastStepID, history);
+                                    }}
+                                    contentLabel="Fortsette på påbegynt søknad?">
+                                    <div style={{ padding: '2rem 2.5rem' }}>
+                                        <div>Du har en påbegynt søknad lagret hos oss.</div>
+                                        <Knapp type={'hoved'} onChange={() => {setHasBeenClosed(true)}}>Fortsett på den lagrede søknaden</Knapp>
+                                        <Knapp type={'hoved'} onChange={() => {setHasBeenClosed(true)}}>Start på ny søknad</Knapp>
+                                    </div>
+                                </Modal>
+                            )}
+                        </div>
+                    );
+                }}
             />
 
             {isAvailable(StepID.BEGRUNNELSE, values) && (
