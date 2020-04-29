@@ -3,7 +3,9 @@ import {
     gyldigArbeidsgiver1,
     gyldigArbeidsgiver2,
     gyldigPerson,
-    gyldigSøkerdata1, gyldigSøkerdata2,
+    gyldigSøkerdata1,
+    gyldigSøkerdata2,
+    gyldigSøknadFormData,
     listeAvBådeUgyldigeOgGyldigeArbeidsgivere,
     listeAvGydligeArbeidsgivere,
     listeAvUgyldigeArbeidsgivere,
@@ -18,8 +20,18 @@ import {
     ugyldigPerson3,
     ugyldigPerson4,
     ugyldigPerson5,
-    ugyldigSøkerdata1, ugyldigSøkerdata2, ugyldigSøkerdata3, ugyldigSøkerdata4, ugyldigSøkerdata5
+    ugyldigSøkerdata1,
+    ugyldigSøkerdata2,
+    ugyldigSøkerdata3,
+    ugyldigSøkerdata4,
+    ugyldigSøkerdata5,
+    ugyldigSøknadFormData1,
+    ugyldigSøknadFormData2,
+    ugyldigSøknadFormData3,
+    ugyldigSøknadFormData4,
+    ugyldigSøknadFormData5
 } from '../mockData/typeGuardsMockData';
+import { isSøknadFormData } from '../SøknadFormData';
 
 describe('Type Guards', () => {
 
@@ -61,6 +73,17 @@ describe('Type Guards', () => {
             expect(isSøkerdata(ugyldigSøkerdata3)).toBe(false);
             expect(isSøkerdata(ugyldigSøkerdata4)).toBe(false);
             expect(isSøkerdata(ugyldigSøkerdata5)).toBe(false);
+        })
+    })
+
+    describe('SøknadFormData', () => {
+        it('isSøknadFormData evaluerer riktig', () => {
+            expect(isSøknadFormData(gyldigSøknadFormData)).toBe(true);
+            expect(isSøknadFormData(ugyldigSøknadFormData1)).toBe(false);
+            expect(isSøknadFormData(ugyldigSøknadFormData2)).toBe(false);
+            expect(isSøknadFormData(ugyldigSøknadFormData3)).toBe(false);
+            expect(isSøknadFormData(ugyldigSøknadFormData4)).toBe(false);
+            expect(isSøknadFormData(ugyldigSøknadFormData5)).toBe(false);
         })
     })
 });

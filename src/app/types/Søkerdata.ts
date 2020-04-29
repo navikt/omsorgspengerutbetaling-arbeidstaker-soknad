@@ -19,7 +19,6 @@ export interface SøkerApiResponse {
 
 export interface Søkerdata {
     person: Person;
-    arbeidsgivere: Arbeidsgiver[];
 }
 
 export interface ArbeidsgiverResponse {
@@ -36,9 +35,7 @@ export const isSøkerdata = (maybeSøkerdata: any): maybeSøkerdata is Søkerdat
         maybeSøkerdata &&
         typeof maybeSøkerdata === 'object' &&
         maybeSøkerdata.person &&
-        isPerson(maybeSøkerdata.person) &&
-        maybeSøkerdata.arbeidsgivere &&
-        isArbeidsgivere(maybeSøkerdata.arbeidsgivere)
+        isPerson(maybeSøkerdata.person)
     ) {
         return true;
     }

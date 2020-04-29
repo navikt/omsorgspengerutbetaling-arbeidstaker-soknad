@@ -140,4 +140,13 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: []
 };
 
-export const isFormData = (formdata: unknown): formdata is FormData => true; // TODO: Implement
+export const isSøknadFormData = (søknadFormData: any): søknadFormData is SøknadFormData => {
+    if (
+        søknadFormData &&
+        søknadFormData[SøknadFormField.harForståttRettigheterOgPlikter] !== undefined
+        // TODO: Denne kan gjøres mer grundig
+    ){
+        return true;
+    }
+    return false;
+};

@@ -7,5 +7,5 @@ interface TemporaryStorageMetadata {
 
 export interface TemporaryStorage {
     metadata: TemporaryStorageMetadata;
-    formData: SøknadFormData;
+    formData: SøknadFormData | {};
 }

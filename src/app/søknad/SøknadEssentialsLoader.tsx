@@ -6,7 +6,7 @@ import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import { isSøkerdata, Person, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
-import { initialValues, isFormData, SøknadFormData } from '../types/SøknadFormData';
+import { initialValues, isSøknadFormData, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
 import * as apiUtils from '../utils/apiUtils';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
@@ -15,7 +15,11 @@ import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 
 interface Props {
-    contentLoadedRenderer: (søkerdata: Søkerdata, formData: SøknadFormData, lastStepID: StepID | undefined) => React.ReactNode;
+    contentLoadedRenderer: (
+        søkerdata: Søkerdata,
+        formData: SøknadFormData,
+        lastStepID: StepID | undefined
+    ) => React.ReactNode;
 }
 
 interface State {
@@ -64,18 +68,17 @@ const SøknadEssentialsLoader = (props: Props) => {
     ) => {
         const person: Person = søkerApiResponseToPerson(søkerResponse.data);
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
-        const søknadFormData: SøknadFormData | undefined = tempStorage?.formData;
+        const søknadFormData: SøknadFormData | undefined | {} = tempStorage?.formData;
         const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
 
         const updatedSokerData: Søkerdata = {
-            person,
-            arbeidsgivere: [] // TODO: Må EssentialsLoader få dataen først på steget hvor det blir gjort oppslag?
+            person
         };
 
         setState({
             isLoading: false,
             lastStepID: maybeStoredLastStepID,
-            formData: søknadFormData || { ...initialValues },
+            formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
             søkerdata: updatedSokerData ? updatedSokerData : state.søkerdata
         });
     };
@@ -88,7 +91,7 @@ const SøknadEssentialsLoader = (props: Props) => {
         }
     };
 
-    if (søkerdata && isSøkerdata(søkerdata) && formData && isFormData(formData) && !isLoading) {
+    if (søkerdata && isSøkerdata(søkerdata) && formData && isSøknadFormData(formData) && !isLoading) {
         return (
             <>
                 <SøkerdataContextProvider value={søkerdata}>
