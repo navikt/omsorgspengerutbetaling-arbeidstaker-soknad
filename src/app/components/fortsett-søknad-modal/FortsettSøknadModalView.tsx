@@ -12,6 +12,7 @@ interface Props {
     onStartNySøknad: () => void;
 }
 
+// TODO: Flytte til sif-common-core, og bruke intl
 const FortsettSøknadModalView: React.FC<Props> = (props: Props) => {
     const { isOpen, onRequestClose, onFortsettPåSøknad, onStartNySøknad } = props;
     return (
@@ -21,7 +22,7 @@ const FortsettSøknadModalView: React.FC<Props> = (props: Props) => {
                     <CounsellorPanel type={'plakat'} kompakt={true} fargetema={'info'}>
                         <div>
                             Du har en påbegynt søknad lagret hos oss. Velg en av alternativene under for om du øsker å
-                            fortsette på den lagrede søknaden, eller om du øsnker å starte på en ny søknad.
+                            fortsette på den lagrede søknaden, eller om du ønsker å starte på en ny søknad.
                         </div>
                     </CounsellorPanel>
                 </Box>

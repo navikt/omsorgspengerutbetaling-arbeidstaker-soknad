@@ -12,3 +12,4 @@ export const navigateToLoginPage = () => window.location.assign(loginUrl);
 export const navigateToNAVno = () => window.location.assign(navNoUrl);
 export const userIsCurrentlyOnErrorPage = () => window.location.pathname === getRouteUrl(routeConfig.ERROR_PAGE_ROUTE);
 export const navigateToWelcomePage = () => window.location.assign(welcomePageUrl);
+export const assignErrorUrl = () => window.location.assign(getRouteUrl(routeConfig.ERROR_PAGE_ROUTE));

@@ -1,11 +1,13 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
 import { ResourceType } from '../types/ResourceType';
 import { SøknadApiData } from '../types/SøknadApiData';
-import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
 import { ArbeidsgiverResponse, SøkerApiResponse } from '../types/Søkerdata';
+import { assignErrorUrl, navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 
-export const getSøker: () => Promise<AxiosResponse<SøkerApiResponse>> = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
+export const getSøker: () => Promise<AxiosResponse<SøkerApiResponse>> = () =>
+    axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
 
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<ArbeidsgiverResponse>> =>
     axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
@@ -20,3 +22,11 @@ export const uploadFile = (file: File) => {
 };
 
 export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
+
+export const handleSøkerdataFetchError = (response: AxiosError) => {
+    if (isForbidden(response) || isUnauthorized(response)) {
+        navigateToLoginPage();
+    } else if (!userIsCurrentlyOnErrorPage()) {
+        assignErrorUrl();
+    }
+};

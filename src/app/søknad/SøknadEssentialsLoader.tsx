@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { AxiosError, AxiosResponse } from 'axios';
-import { getSøker } from '../api/api';
+import { AxiosResponse } from 'axios';
+import { getSøker, handleSøkerdataFetchError } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
-import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import { isSøkerdata, Person, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, isSøknadFormData, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
-import * as apiUtils from '../utils/apiUtils';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
-import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 
@@ -81,14 +78,6 @@ const SøknadEssentialsLoader = (props: Props) => {
             formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
             søkerdata: updatedSokerData ? updatedSokerData : state.søkerdata
         });
-    };
-
-    const handleSøkerdataFetchError = (response: AxiosError) => {
-        if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
-            navigateToLoginPage();
-        } else if (!userIsCurrentlyOnErrorPage()) {
-            window.location.assign(getRouteUrl(routeConfig.ERROR_PAGE_ROUTE));
-        }
     };
 
     if (søkerdata && isSøkerdata(søkerdata) && formData && isSøknadFormData(formData) && !isLoading) {

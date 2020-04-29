@@ -21,7 +21,7 @@ import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
 import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
 import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
-import { AxiosResponse } from 'axios';
+import { handleSøkerdataFetchError } from '../api/api';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -35,7 +35,7 @@ export interface KvitteringInfo {
 // };
 
 interface SøknadRoutesProps {
-    lastStepID?: StepID;
+    lastStepID: StepID | undefined;
     formikProps: FormikProps<SøknadFormData>;
 }
 
@@ -88,20 +88,16 @@ function SøknadRoutes(props: SøknadRoutesProps) {
 
     const startPåNySøknad = async () => {
         try {
-            const axiosResponsePromise: AxiosResponse<any> = await SøknadTempStorage.purge();
-            if (axiosResponsePromise && axiosResponsePromise.status && axiosResponsePromise.status === 200) {
-                setHasBeenClosed(true);
-                formikProps.setFormikState((prevState) => {
-                    return {
-                        ...prevState,
-                        values: initialValues
-                    };
-                });
-            } else {
-                // TODO: Handle it
-            }
+            await SøknadTempStorage.purge();
+            setHasBeenClosed(true);
+            formikProps.setFormikState((prevState) => {
+                return {
+                    ...prevState,
+                    values: initialValues
+                };
+            });
         } catch (e) {
-            // TODO: Handle purge error
+            handleSøkerdataFetchError(e);
         }
     };
 
