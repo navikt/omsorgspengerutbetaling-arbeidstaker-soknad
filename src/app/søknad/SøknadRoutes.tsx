@@ -8,7 +8,7 @@ import RouteConfig from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
@@ -20,8 +20,9 @@ import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
 import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
-import Modal from '@navikt/sif-common-formik/lib/components/formik-modal-form-and-list/modal/Modal';
-import { Knapp } from 'nav-frontend-knapper';
+import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
+import { AxiosResponse } from 'axios';
+import { LocationState } from 'history';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -41,9 +42,8 @@ interface SøknadRoutesProps {
 
 function SøknadRoutes(props: SøknadRoutesProps) {
     const { lastStepID, formikProps } = props;
-
     const { values, resetForm } = useFormikContext<SøknadFormData>();
-
+    const history = useHistory();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = useState(false);
     const [søkerdata, setSøkerdata] = useState<Søkerdata | undefined>(undefined);
     const [søknadApiData, setSøknadApiData] = useState<SøknadApiData | undefined>(undefined);
@@ -62,14 +62,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
     //     setArbeidsgivere: (arbeidsgivere: Arbeidsgiver[]) => null,
     //     arbeidsgivere: []
     // };
-
-    const history = useHistory();
-
-    // if (history.location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE && lastStepID) {
-    //     setTimeout(() => {
-    //         navigateTo(lastStepID, history); // TODO: Dette blir blinking. Send heller direkte til riktig step
-    //     });
-    // }
 
     async function navigateToNextStepFrom(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -91,6 +83,29 @@ function SøknadRoutes(props: SøknadRoutesProps) {
         });
     }
 
+    const fortsettPåPåbegyntSøknad = async (lastStepId: StepID) => {
+        navigateTo(lastStepId, history);
+    };
+
+    const startPåNySøknad = async () => {
+        try {
+            const axiosResponsePromise: AxiosResponse<any> = await SøknadTempStorage.purge();
+            if (axiosResponsePromise && axiosResponsePromise.status && axiosResponsePromise.status === 200) {
+                setHasBeenClosed(true);
+                formikProps.setFormikState(prevState => {
+                    return {
+                        ...prevState,
+                        values: initialValues
+                    }
+                })
+            } else {
+                // TODO: Handle it
+            }
+        } catch (e) {
+            // TODO: Handle purge error
+        }
+    };
+
     return (
         <Switch>
             <Route
@@ -99,7 +114,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                     return (
                         <div>
                             <WelcomingPage
-                                onValidSubmit={() =>
+                                onValidSubmit={() => {
                                     setTimeout(() => {
                                         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
                                             SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
@@ -114,23 +129,18 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                                                 history
                                             );
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                             />
                             {lastStepID && ( // TODO: Dette er WIP
-                                <Modal
+                                <FortsettSøknadModalView
                                     isOpen={!!lastStepID && !hasBeenClosed}
                                     onRequestClose={() => {
-                                        setHasBeenClosed(true);
-                                        navigateTo(lastStepID, history);
+                                        startPåNySøknad();
                                     }}
-                                    contentLabel="Fortsette på påbegynt søknad?">
-                                    <div style={{ padding: '2rem 2.5rem' }}>
-                                        <div>Du har en påbegynt søknad lagret hos oss.</div>
-                                        <Knapp type={'hoved'} onChange={() => {setHasBeenClosed(true)}}>Fortsett på den lagrede søknaden</Knapp>
-                                        <Knapp type={'hoved'} onChange={() => {setHasBeenClosed(true)}}>Start på ny søknad</Knapp>
-                                    </div>
-                                </Modal>
+                                    onFortsettPåSøknad={() => fortsettPåPåbegyntSøknad(lastStepID)}
+                                    onStartNySøknad={startPåNySøknad}
+                                />
                             )}
                         </div>
                     );

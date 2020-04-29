@@ -111,9 +111,11 @@ const startServer = () => {
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/arbeidsgiver', (req, res) => {
-        setTimeout(() => {
-            res.send(arbeidsgivereMock);
-        }, 5000)
+        // Kan brukes for å se spinneren på arbeidstaker steget.
+        // setTimeout(() => {
+        //     res.send(arbeidsgivereMock);
+        // }, 5000)
+        res.send(arbeidsgivereMock);
     });
 
     server.get('/soker', (req, res) => {

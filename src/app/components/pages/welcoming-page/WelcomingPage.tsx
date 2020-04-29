@@ -21,6 +21,7 @@ interface WelcomingPageState {
 
 type Props = Omit<StepConfigProps, 'formValues'> & WrappedComponentProps;
 
+// TODO: Skrive om denne komponenten til en functional component
 class WelcomingPage extends React.Component<Props, WelcomingPageState> {
     constructor(props: Props) {
         super(props);
