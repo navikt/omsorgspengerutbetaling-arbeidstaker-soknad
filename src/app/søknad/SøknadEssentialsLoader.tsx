@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
-import { getSøker, handleSøkerdataFetchError } from '../api/api';
+import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
-import { isSøkerdata, Person, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
+import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, isSøknadFormData, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
+import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 
 interface Props {
     contentLoadedRenderer: (
@@ -34,6 +35,7 @@ const initialState: State = {
 
 const SøknadEssentialsLoader = (props: Props) => {
     const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
+    const [receivedErroFromApi, setReceivedErrorFromApi] = useState<boolean>(false);
     const { contentLoadedRenderer } = props;
     const { isLoading, søkerdata, formData, lastStepID } = state;
 
@@ -55,7 +57,10 @@ const SøknadEssentialsLoader = (props: Props) => {
                 handleSøkerdataFetchSuccess(søkerApiResponse);
             }
         } catch (response) {
-            handleSøkerdataFetchError(response);
+            const willRedirect = redirectIfForbiddenOrUnauthorized(response);
+            if (!willRedirect) {
+                setReceivedErrorFromApi(true);
+            }
         }
     }
 
@@ -63,21 +68,26 @@ const SøknadEssentialsLoader = (props: Props) => {
         søkerResponse: AxiosResponse<SøkerApiResponse>,
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
     ) => {
-        const person: Person = søkerApiResponseToPerson(søkerResponse.data);
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
         const søknadFormData: SøknadFormData | undefined | {} = tempStorage?.formData;
         const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
 
-        const updatedSokerData: Søkerdata = {
-            person
-        };
+        const updatedSokerData: Søkerdata | undefined = isSøkerApiResponse(søkerResponse.data)
+            ? {
+                  person: søkerApiResponseToPerson(søkerResponse.data)
+              }
+            : undefined;
 
         setState({
             isLoading: false,
             lastStepID: maybeStoredLastStepID,
             formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
-            søkerdata: updatedSokerData ? updatedSokerData : state.søkerdata
+            søkerdata: updatedSokerData
         });
+        if (!isSøkerApiResponse(søkerResponse.data)) {
+            setReceivedErrorFromApi(true);
+            // TODO: Log - response from server is not of type SøkerApiResponse
+        }
     };
 
     if (søkerdata && isSøkerdata(søkerdata) && formData && isSøknadFormData(formData) && !isLoading) {
@@ -89,6 +99,10 @@ const SøknadEssentialsLoader = (props: Props) => {
             </>
         );
     }
+    if (receivedErroFromApi) {
+        return <GeneralErrorPage />;
+    }
+
     return <LoadingPage />;
 };
 

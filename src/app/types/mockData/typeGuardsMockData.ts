@@ -1,4 +1,4 @@
-import { Arbeidsgiver, Person, Søkerdata } from '../Søkerdata';
+import { Arbeidsgiver, Person, SøkerApiResponse, Søkerdata } from '../Søkerdata';
 import {
     HvorLengeJobbet,
     HvorLengeJobbetFordi,
@@ -115,5 +115,23 @@ export const ugyldigSøknadFormData5: any = {
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: []
+};
+
+export const gyldigSøkerApiResponse: SøkerApiResponse = {
+    aktørId: 'string',
+    fødselsdato: 'string',
+    fødselsnummer: 'string',
+    fornavn: 'string',
+    mellomnavn: 'string',
+    etternavn: 'string',
+    myndig: true
+};
+export const ugyldigSøkerApiResponse: any = {
+    aktørId: 'string',
+    fødselsdato: 'string',
+    fødselsnummer: 'string',
+    fornavn: 'string',
+    mellomnavn: 'string',
+    etternavn: 'string',
 };
 

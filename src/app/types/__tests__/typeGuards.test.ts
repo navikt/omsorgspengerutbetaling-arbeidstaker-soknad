@@ -1,8 +1,8 @@
-import { isArbeidsgiver, isArbeidsgivere, isPerson, isSøkerdata } from '../Søkerdata';
+import { isArbeidsgiver, isArbeidsgivere, isPerson, isSøkerApiResponse, isSøkerdata } from '../Søkerdata';
 import {
     gyldigArbeidsgiver1,
     gyldigArbeidsgiver2,
-    gyldigPerson,
+    gyldigPerson, gyldigSøkerApiResponse,
     gyldigSøkerdata1,
     gyldigSøkerdata2,
     gyldigSøknadFormData,
@@ -19,7 +19,7 @@ import {
     ugyldigPerson2,
     ugyldigPerson3,
     ugyldigPerson4,
-    ugyldigPerson5,
+    ugyldigPerson5, ugyldigSøkerApiResponse,
     ugyldigSøkerdata1,
     ugyldigSøkerdata2,
     ugyldigSøkerdata3,
@@ -32,9 +32,10 @@ import {
     ugyldigSøknadFormData5
 } from '../mockData/typeGuardsMockData';
 import { isSøknadFormData } from '../SøknadFormData';
+import { isString } from 'formik';
+import { isStringOrNull } from '../typeGuardUtilities';
 
 describe('Type Guards', () => {
-
     describe('Person', () => {
         it('isPerson evaluerer riktig', () => {
             expect(isPerson(gyldigPerson)).toBe(true);
@@ -73,8 +74,8 @@ describe('Type Guards', () => {
             expect(isSøkerdata(ugyldigSøkerdata3)).toBe(false);
             expect(isSøkerdata(ugyldigSøkerdata4)).toBe(false);
             expect(isSøkerdata(ugyldigSøkerdata5)).toBe(false);
-        })
-    })
+        });
+    });
 
     describe('SøknadFormData', () => {
         it('isSøknadFormData evaluerer riktig', () => {
@@ -84,6 +85,38 @@ describe('Type Guards', () => {
             expect(isSøknadFormData(ugyldigSøknadFormData3)).toBe(false);
             expect(isSøknadFormData(ugyldigSøknadFormData4)).toBe(false);
             expect(isSøknadFormData(ugyldigSøknadFormData5)).toBe(false);
-        })
-    })
+        });
+    });
+
+    describe('formik typeguards test', () => {
+        it('isString', () => {
+            expect(isString(undefined)).toBe(false);
+            expect(isString(null)).toBe(false);
+            expect(isString({})).toBe(false);
+            expect(isString('')).toBe(true);
+            expect(isString('a string')).toBe(true);
+        });
+    });
+
+    describe('typeGuardUtilities', () => {
+        it('isStringOrNull', () => {
+            expect(isStringOrNull('undefined')).toBe(true);
+            expect(isStringOrNull('')).toBe(true);
+            expect(isStringOrNull(null)).toBe(true);
+            expect(isStringOrNull(undefined)).toBe(false);
+            expect(isStringOrNull({})).toBe(false);
+        });
+    });
+
+    describe('isSøkerApiResponse', () => {
+        it('isSøkerApiResponse', () => {
+            expect(isSøkerApiResponse(gyldigSøkerApiResponse)).toBe(true);
+            expect(isSøkerApiResponse(ugyldigSøkerApiResponse)).toBe(false);
+            expect(isSøkerApiResponse(null)).toBe(false);
+            expect(isSøkerApiResponse(undefined)).toBe(false);
+            expect(isSøkerApiResponse(false)).toBe(false);
+            expect(isSøkerApiResponse({})).toBe(false);
+            expect(isSøkerApiResponse('string')).toBe(false);
+        });
+    });
 });

@@ -127,7 +127,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                                     });
                                 }}
                             />
-                            {lastStepID && ( // TODO: Dette er WIP
+                            {lastStepID && (
                                 <FortsettSøknadModalView
                                     isOpen={!!lastStepID && !hasBeenClosed}
                                     onRequestClose={() => {

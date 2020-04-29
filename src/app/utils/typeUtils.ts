@@ -9,3 +9,4 @@ export const søkerApiResponseToPerson = (søkerApiResponse: SøkerApiResponse):
         myndig: søkerApiResponse.myndig
     };
 };
+

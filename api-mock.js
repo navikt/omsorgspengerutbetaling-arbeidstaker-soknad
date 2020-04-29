@@ -125,7 +125,7 @@ const startServer = () => {
     server.get('/arbeidstakerutbetaling/soker', (req, res) => {
         setTimeout(() => {
             res.send(søkerMock1);
-        }, 1000)
+        }, 2000)
     });
 
     server.post('/vedlegg', (req, res) => {
@@ -166,8 +166,10 @@ const startServer = () => {
 
     });
     server.delete('/mellomlagring', (req, res) => {
-        writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
-        res.sendStatus(202);
+        setTimeout(() => {
+            writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
+            res.sendStatus(202);
+        }, 2000);
     });
 
     server.listen(port, () => {

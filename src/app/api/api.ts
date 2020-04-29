@@ -5,6 +5,7 @@ import { SøknadApiData } from '../types/SøknadApiData';
 import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
 import { ArbeidsgiverResponse, SøkerApiResponse } from '../types/Søkerdata';
 import { assignErrorUrl, navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
+import { WillRedirect } from '../types/types';
 
 export const getSøker: () => Promise<AxiosResponse<SøkerApiResponse>> = () =>
     axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
@@ -22,6 +23,15 @@ export const uploadFile = (file: File) => {
 };
 
 export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
+
+export const redirectIfForbiddenOrUnauthorized = (response: AxiosError): WillRedirect => {
+    if (isForbidden(response) || isUnauthorized(response)) {
+        navigateToLoginPage();
+        return WillRedirect.Yes;
+    } else {
+        return WillRedirect.No;
+    }
+};
 
 export const handleSøkerdataFetchError = (response: AxiosError) => {
     if (isForbidden(response) || isUnauthorized(response)) {
