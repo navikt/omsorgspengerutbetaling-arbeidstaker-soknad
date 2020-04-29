@@ -35,7 +35,7 @@ const initialState: State = {
 
 const SøknadEssentialsLoader = (props: Props) => {
     const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
-    const [receivedErroFromApi, setReceivedErrorFromApi] = useState<boolean>(false);
+    const [apiCallError, setApiCallError] = useState<boolean>(false);
     const { contentLoadedRenderer } = props;
     const { isLoading, søkerdata, formData, lastStepID } = state;
 
@@ -59,7 +59,7 @@ const SøknadEssentialsLoader = (props: Props) => {
         } catch (response) {
             const willRedirect = redirectIfForbiddenOrUnauthorized(response);
             if (!willRedirect) {
-                setReceivedErrorFromApi(true);
+                setApiCallError(true);
             }
         }
     }
@@ -85,12 +85,12 @@ const SøknadEssentialsLoader = (props: Props) => {
             søkerdata: updatedSokerData
         });
         if (!isSøkerApiResponse(søkerResponse.data)) {
-            setReceivedErrorFromApi(true);
+            setApiCallError(true);
             // TODO: Log - response from server is not of type SøkerApiResponse
         }
     };
 
-    if (søkerdata && isSøkerdata(søkerdata) && formData && isSøknadFormData(formData) && !isLoading) {
+    if (isSøkerdata(søkerdata) && isSøknadFormData(formData) && !isLoading) {
         return (
             <>
                 <SøkerdataContextProvider value={søkerdata}>
@@ -99,10 +99,9 @@ const SøknadEssentialsLoader = (props: Props) => {
             </>
         );
     }
-    if (receivedErroFromApi) {
+    if (apiCallError) {
         return <GeneralErrorPage />;
     }
-
     return <LoadingPage />;
 };
 
