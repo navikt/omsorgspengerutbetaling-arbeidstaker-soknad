@@ -22,7 +22,6 @@ import * as apiUtils from '../utils/apiUtils';
 import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
 import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
 import { AxiosResponse } from 'axios';
-import { LocationState } from 'history';
 
 export interface KvitteringInfo {
     søkernavn: string;
@@ -92,12 +91,12 @@ function SøknadRoutes(props: SøknadRoutesProps) {
             const axiosResponsePromise: AxiosResponse<any> = await SøknadTempStorage.purge();
             if (axiosResponsePromise && axiosResponsePromise.status && axiosResponsePromise.status === 200) {
                 setHasBeenClosed(true);
-                formikProps.setFormikState(prevState => {
+                formikProps.setFormikState((prevState) => {
                     return {
                         ...prevState,
                         values: initialValues
-                    }
-                })
+                    };
+                });
             } else {
                 // TODO: Handle it
             }
