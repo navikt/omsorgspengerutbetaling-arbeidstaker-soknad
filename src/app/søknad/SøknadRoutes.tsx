@@ -19,48 +19,22 @@ import PeriodeStep from './periode-step/PeriodeStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
-import { SøkerdataContextConsumer } from '../context/SøkerdataContext';
 import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
 import { handleSøkerdataFetchError } from '../api/api';
 
-export interface KvitteringInfo {
-    søkernavn: string;
-}
-
-// const getKvitteringInfoFromApiData = (søkerdata: Søkerdata): KvitteringInfo | undefined => {
-//     const { fornavn, mellomnavn, etternavn } = søkerdata.person;
-//     return {
-//         søkernavn: formatName(fornavn, etternavn, mellomnavn)
-//     };
-// };
-
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
+    søkerdata: Søkerdata;
     formikProps: FormikProps<SøknadFormData>;
 }
 
-function SøknadRoutes(props: SøknadRoutesProps) {
-    const { lastStepID, formikProps } = props;
+const SøknadRoutes = (props: SøknadRoutesProps) => {
+    const { lastStepID, formikProps, søkerdata } = props;
     const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = useState(false);
-    const [søkerdata, setSøkerdata] = useState<Søkerdata | undefined>(undefined);
     const [søknadApiData, setSøknadApiData] = useState<SøknadApiData | undefined>(undefined);
     const [hasBeenClosed, setHasBeenClosed] = useState<boolean>(false);
-
-    // const søknadApiDataMock = mock1;
-    // const søkerdataMock: Søkerdata = {
-    //     person: {
-    //         etternavn: "Duck",
-    //         fornavn: "Skrue",
-    //         mellomnavn: "Mc",
-    //         kjønn: "mann",
-    //         fødselsnummer: "17108102454",
-    //         myndig: true
-    //     },
-    //     setArbeidsgivere: (arbeidsgivere: Arbeidsgiver[]) => null,
-    //     arbeidsgivere: []
-    // };
 
     async function navigateToNextStepFrom(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -112,6 +86,7 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                                 onValidSubmit={() => {
                                     setTimeout(() => {
                                         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
+                                            // TODO: Handle call error
                                             SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
                                                 navigateTo(
                                                     `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`,
@@ -153,20 +128,11 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                 <Route
                     path={getSøknadRoute(StepID.SITUASJON)}
                     render={() => (
-                        <SøkerdataContextConsumer>
-                            {(søkerData) => {
-                                if (søkerData) {
-                                    return (
-                                        <SituasjonStepView
-                                            onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
-                                            søkerdata={søkerData}
-                                            formikProps={formikProps}
-                                        />
-                                    );
-                                }
-                                return <div>Manglende søkerdata</div>;
-                            }}
-                        </SøkerdataContextConsumer>
+                        <SituasjonStepView
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
+                            søkerdata={søkerdata}
+                            formikProps={formikProps}
+                        />
                     )}
                 />
             )}
@@ -190,9 +156,9 @@ function SøknadRoutes(props: SøknadRoutesProps) {
                     path={getSøknadRoute(StepID.OPPSUMMERING)}
                     render={() => (
                         <OppsummeringStep
-                            onApplicationSent={(apiData: SøknadApiData, sokerdata: Søkerdata) => {
+                            søkerdata={søkerdata}
+                            onApplicationSent={(apiData: SøknadApiData) => {
                                 setSøknadHasBeenSent(true);
-                                setSøkerdata(sokerdata);
                                 setSøknadApiData(apiData);
                                 resetForm();
                                 if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -232,6 +198,6 @@ function SøknadRoutes(props: SøknadRoutesProps) {
             <Redirect to={RouteConfig.WELCOMING_PAGE_ROUTE} />
         </Switch>
     );
-}
+};
 
 export default SøknadRoutes;

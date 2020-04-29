@@ -9,7 +9,6 @@ import Panel from 'nav-frontend-paneler';
 import { sendApplication } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -31,22 +30,22 @@ import UploadedDocumentsList from '../../components/uploaded-documents-list/Uplo
 import SummaryList from 'common/components/summary-list/SummaryList';
 
 interface Props {
-    onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
+    søkerdata: Søkerdata;
+    onApplicationSent: (apiValues: SøknadApiData) => void;
 }
 
-const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }) => {
+const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, søkerdata }) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
-    const søkerdata = React.useContext(SøkerdataContext);
     const history = useHistory();
 
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
-    async function navigate(data: SøknadApiData, søker: Søkerdata) {
+    async function navigate(data: SøknadApiData) {
         setSendingInProgress(true);
         try {
             await sendApplication(data);
-            onApplicationSent(apiValues, søker);
+            onApplicationSent(apiValues);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                 navigateToLoginPage();
@@ -54,10 +53,6 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                 navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
             }
         }
-    }
-
-    if (!søkerdata) {
-        return null;
     }
 
     const {
@@ -72,7 +67,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
             id={StepID.OPPSUMMERING}
             onValidFormSubmit={() => {
                 setTimeout(() => {
-                    navigate(apiValues, søkerdata); // La view oppdatere seg først
+                    navigate(apiValues); // La view oppdatere seg først
                 });
             }}
             useValidationErrorSummary={false}

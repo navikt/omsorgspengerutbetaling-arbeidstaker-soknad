@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios';
 import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
-import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, isSøknadFormData, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
@@ -91,13 +90,7 @@ const SøknadEssentialsLoader = (props: Props) => {
     };
 
     if (isSøkerdata(søkerdata) && isSøknadFormData(formData) && !isLoading) {
-        return (
-            <>
-                <SøkerdataContextProvider value={søkerdata}>
-                    {contentLoadedRenderer(søkerdata, formData, lastStepID)}
-                </SøkerdataContextProvider>
-            </>
-        );
+        return <>{contentLoadedRenderer(søkerdata, formData, lastStepID)}</>;
     }
     if (apiCallError) {
         return <GeneralErrorPage />;
