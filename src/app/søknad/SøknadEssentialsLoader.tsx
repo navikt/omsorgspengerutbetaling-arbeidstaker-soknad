@@ -38,9 +38,11 @@ const SøknadEssentialsLoader = (props: Props) => {
     const [apiCallError, setApiCallError] = useState<boolean>(false);
     const { contentLoadedRenderer } = props;
     const { isLoading, søkerdata, formData, lastStepID } = state;
+    const [doApiCalls, setDoApiCalls] = useState<boolean>(false);
 
     useEffect(() => {
-        if (isLoading) {
+        if (doApiCalls) {
+            setDoApiCalls(false);
             loadAppEssentials();
         }
     }, [state]);
