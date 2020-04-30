@@ -46,6 +46,7 @@ export const getArbeidsgivere = async (
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
         }
+        // TODO: Return error and handle
         return null;
     }
 };
