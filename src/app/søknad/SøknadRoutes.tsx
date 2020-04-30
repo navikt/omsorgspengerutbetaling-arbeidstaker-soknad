@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { FormikProps, useFormikContext } from 'formik';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
@@ -20,7 +20,9 @@ import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
 import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
-import { handleSøkerdataFetchError } from '../api/api';
+import { redirectIfForbiddenOrUnauthorized } from '../api/api';
+import { WillRedirect } from '../types/types';
+import LoadingPage from '../components/pages/loading-page/LoadingPage';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -35,6 +37,8 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
     const [søknadHasBeenSent, setSøknadHasBeenSent] = useState(false);
     const [søknadApiData, setSøknadApiData] = useState<SøknadApiData | undefined>(undefined);
     const [hasBeenClosed, setHasBeenClosed] = useState<boolean>(false);
+    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function navigateToNextStepFrom(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -44,7 +48,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     navigateToLoginPage();
                 } else {
-                    navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
+                    setShowErrorMessage(true)
                 }
             }
         }
@@ -71,14 +75,26 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 };
             });
         } catch (e) {
-            handleSøkerdataFetchError(e);
+            const willRedirect = redirectIfForbiddenOrUnauthorized(e);
+            if (willRedirect === WillRedirect.No) {
+                setShowErrorMessage(true);
+            } else {
+                setIsLoading(true)
+            }
         }
     };
 
+    if (isLoading) {
+        return(<LoadingPage />);
+    }
+    if (showErrorMessage) {
+        return (<GeneralErrorPage/>);
+    }
     return (
         <Switch>
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
+                exact={true}
                 render={() => {
                     return (
                         <div>
@@ -120,6 +136,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             {isAvailable(StepID.BEGRUNNELSE, values) && (
                 <Route
                     path={getSøknadRoute(StepID.BEGRUNNELSE)}
+                    exact={true}
                     render={() => <BegrunnelseStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEGRUNNELSE)} />}
                 />
             )}
@@ -127,6 +144,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             {isAvailable(StepID.SITUASJON, values) && (
                 <Route
                     path={getSøknadRoute(StepID.SITUASJON)}
+                    exact={true}
                     render={() => (
                         <SituasjonStepView
                             onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
@@ -140,6 +158,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             {isAvailable(StepID.PERIODE, values) && (
                 <Route
                     path={getSøknadRoute(StepID.PERIODE)}
+                    exact={true}
                     render={() => <PeriodeStep onValidSubmit={() => navigateToNextStepFrom(StepID.PERIODE)} />}
                 />
             )}
@@ -147,6 +166,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
+                    exact={true}
                     render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />}
                 />
             )}
@@ -154,6 +174,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             {isAvailable(StepID.OPPSUMMERING, values) && (
                 <Route
                     path={getSøknadRoute(StepID.OPPSUMMERING)}
+                    exact={true}
                     render={() => (
                         <OppsummeringStep
                             søkerdata={søkerdata}
@@ -162,7 +183,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                                 setSøknadApiData(apiData);
                                 resetForm();
                                 if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                                    SøknadTempStorage.purge();
+                                    SøknadTempStorage.purge(); // TODO: Hva skjer her ved 401 eller 5xx?
                                 }
                                 navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                             }}
@@ -171,31 +192,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 />
             )}
 
-            {(isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) || søknadHasBeenSent) && (
+            {søknadHasBeenSent && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    render={() => {
-                        // we clear form state here to ensure that no steps will be available
-                        // after the application has been sent. this is done in a setTimeout
-                        // because we do not want to update state during render.
-                        if (values.harForståttRettigheterOgPlikter === true) {
-                            // Only call reset if it has not been called before (prevent loop)
-                            setTimeout(() => {
-                                resetForm();
-                            });
-                        }
-                        if (søknadHasBeenSent === false) {
-                            setSøknadHasBeenSent(true);
-                        }
-
-                        return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
-                    }}
+                    render={() => <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />}
                 />
             )}
 
-            <Route path={RouteConfig.ERROR_PAGE_ROUTE} component={GeneralErrorPage} />
-
-            <Redirect to={RouteConfig.WELCOMING_PAGE_ROUTE} />
+            <Route component={() => (<GeneralErrorPage />)} />
         </Switch>
     );
 };

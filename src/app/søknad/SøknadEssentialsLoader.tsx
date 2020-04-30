@@ -10,6 +10,7 @@ import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
+import { WillRedirect } from '../types/types';
 
 interface Props {
     contentLoadedRenderer: (
@@ -57,8 +58,10 @@ const SøknadEssentialsLoader = (props: Props) => {
             }
         } catch (response) {
             const willRedirect = redirectIfForbiddenOrUnauthorized(response);
-            if (!willRedirect) {
+            if (willRedirect === WillRedirect.No) {
                 setApiCallError(true);
+            } else {
+                setState({...state, isLoading: true})
             }
         }
     }

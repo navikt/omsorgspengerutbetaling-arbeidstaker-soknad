@@ -10,6 +10,10 @@ import './generalErrorPage.less';
 
 const GeneralErrorPage: React.FunctionComponent = () => {
     const intl = useIntl();
+
+    // TODO: Logg
+    // TODO: Endre tekster til " noe feil / side ikke funnet "
+
     return (
         <Page title={intlHelper(intl, 'page.generalErrorPage.sidetittel')}>
             <div className={'generalErrorPage'}>

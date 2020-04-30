@@ -33,8 +33,9 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData)
             return medlemskapStepIsAvailable(values);
         case StepID.OPPSUMMERING:
             return summaryStepAvailable(values);
-        case RouteConfig.SØKNAD_SENDT_ROUTE:
+        case RouteConfig.SØKNAD_SENDT_ROUTE: {
             return values[SøknadFormField.harBekreftetOpplysninger];
+        }
     }
     return true;
 };

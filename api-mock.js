@@ -122,12 +122,6 @@ const startServer = () => {
         res.send(søkerMock1);
     });
 
-    server.get('/arbeidstakerutbetaling/soker', (req, res) => {
-        setTimeout(() => {
-            res.send(søkerMock1);
-        }, 2000)
-    });
-
     server.post('/vedlegg', (req, res) => {
         res.set('Access-Control-Expose-Headers', 'Location');
         res.set('Location', 'nav.no');
@@ -142,10 +136,6 @@ const startServer = () => {
     server.get('/barn', (req, res) => res.send(barnMock));
 
     server.post('/soknad', (req, res) => {
-        res.sendStatus(200);
-    });
-
-    server.post('/arbeidstaker/soknad', (req, res) => {
         res.sendStatus(200);
     });
 
