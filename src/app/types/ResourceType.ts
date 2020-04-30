@@ -1,8 +1,8 @@
 export enum ResourceType {
     BARN = 'barn',
     ARBEIDSGIVER = 'arbeidsgiver',
-    SEND_SØKNAD = 'arbeidstaker/soknad',
-    SØKER = 'arbeidstakerutbetaling/soker',
+    SEND_SØKNAD = 'soknad',
+    SØKER = 'soker',
     MELLOMLAGRING = 'mellomlagring',
     VEDLEGG = 'vedlegg'
 }
