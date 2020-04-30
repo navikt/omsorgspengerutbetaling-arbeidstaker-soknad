@@ -17,6 +17,11 @@
         "max-classes-per-file": false,
         "jsdoc-format": false,
         "prefer-conditional-expression": false,
-        "prettier": true
-    }
+        "prettier": true,
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
+    },
+    "plugins": [
+        "react-hooks"
+    ]
 }
