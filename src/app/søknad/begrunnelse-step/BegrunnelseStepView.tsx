@@ -135,6 +135,7 @@ const BegrunnelseStepView = ({ onValidSubmit }: StepConfigProps) => {
                         </HelperTextPanel>
                     </FormBlock>
                     <FormBlock>
+                        {/* TODO: Fix nullpointer: Cannot read property 'split' of undefined*/}
                         <FormikFileUploader
                             name={SøknadFormField.dokumenter}
                             label={intlHelper(intl, 'steg.dokumenter.vedlegg')}
