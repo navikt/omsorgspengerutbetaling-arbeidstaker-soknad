@@ -42,7 +42,6 @@ const SøknadEssentialsLoader = (props: Props) => {
 
     useEffect(() => {
         if (doApiCalls) {
-            setDoApiCalls(false);
             loadAppEssentials();
         }
     }, [state]);
@@ -54,12 +53,15 @@ const SøknadEssentialsLoader = (props: Props) => {
                     AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
                 > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
                 handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
+                setDoApiCalls(false);
             } else {
                 const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
                 handleSøkerdataFetchSuccess(søkerApiResponse);
+                setDoApiCalls(false);
             }
         } catch (response) {
             const willRedirect = redirectIfForbiddenOrUnauthorized(response);
+            setDoApiCalls(false);
             if (willRedirect === WillRedirect.No) {
                 setApiCallError(true);
             } else {
