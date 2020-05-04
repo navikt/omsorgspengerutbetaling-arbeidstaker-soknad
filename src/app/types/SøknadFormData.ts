@@ -1,10 +1,10 @@
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
-import { Arbeidsgiver } from './Søkerdata';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { Attachment } from 'common/types/Attachment';
 import { AndreUtbetalinger } from './AndreUtbetalinger';
+import { Ansettelseslengde, Utbetalingsperiode } from './SøknadApiData';
+import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 
 export enum HvorLengeJobbet {
     MINDRE_ENN_FIRE_UKER = 'MINDRE_ENN_FIRE_UKER',
@@ -21,47 +21,74 @@ export enum HvorLengeJobbetFordi {
     IKKE_BESVART = 'IKKE_BESVART'
 }
 
-export enum ArbeidsforholdField {
-    harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
-    arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn'
+export enum AnsettelseslengdeFormDataFields {
+    hvorLengeJobbet = 'hvorLengeJobbet',
+    begrunnelse = 'begrunnelse',
+    ingenAvSituasjoneneForklaring = 'ingenAvSituasjoneneForklaring'
 }
 
-export interface Arbeidsforhold extends Arbeidsgiver {
-    [ArbeidsforholdField.harHattFraværHosArbeidsgiver]: YesOrNo;
-    [ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
+export interface AnsettelseslengdeFormData {
+    [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet;
+    [AnsettelseslengdeFormDataFields.begrunnelse]: HvorLengeJobbetFordi;
+    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: string | null;
+}
+
+export enum ArbeidsforholdFormDataFields {
+    navn = 'navn',
+    organisasjonsnummer = 'organisasjonsnummer',
+    harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
+    arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn',
+    ansettelseslengde = 'ansettelseslengde',
+    harPerioderMedFravær = 'harPerioderMedFravær',
+    perioderMedFravær = 'perioderMedFravær',
+    harDagerMedDelvisFravær = 'harDagerMedDelvisFravær',
+    dagerMedDelvisFravær = 'dagerMedDelvisFravær',
+    dokumenter = 'dokumenter'
+}
+
+export interface ArbeidsforholdFormData {
+    [ArbeidsforholdFormDataFields.navn]: string | null;
+    [ArbeidsforholdFormDataFields.organisasjonsnummer]: string;
+    [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo;
+    [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
+    [ArbeidsforholdFormDataFields.ansettelseslengde]: AnsettelseslengdeFormData;
+    [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo;
+    [ArbeidsforholdFormDataFields.perioderMedFravær]: Periode[];
+    [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo;
+    [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: FraværDelerAvDag[];
+    [ArbeidsforholdFormDataFields.dokumenter]: Attachment[];
+}
+
+export interface AnnetArbeidsforholdFormData {
+    navn: string | null;
+    organisasjonsnummer: string | null;
+    harHattFraværHosArbeidsgiver: YesOrNo;
+    arbeidsgiverHarUtbetaltLønn: YesOrNo;
+    ansettelseslengde: Ansettelseslengde;
+    perioder: Utbetalingsperiode[];
 }
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
-    // STEG 1: Hva er din situasjon
-    hvorLengeHarDuJobbetHosNåværendeArbeidsgiver = 'hvorLengeHarDuJobbetHosNåværendeArbeidsgiver',
-    hvorLengeJobbetFordi = 'hvorLengeJobbetFordi',
-
-    // Optional vedlegg step
-    dokumenter = 'dokumenter',
-
-    // STEG 2: Har betalt ut 10 første dager
+    // STEG 1: Situasjon
     arbeidsforhold = 'arbeidsforhold',
+    harAnnetArbeidsforhold = 'harAnnetArbeidsforhold',
+    annetArbeidsforhold = 'annetArbeidsforhold',
 
-    har_fosterbarn = 'har_fosterbarn',
+    harFosterbarn = 'harFosterbarn',
     fosterbarn = 'fosterbarn',
 
-    // STEG 3: Periode
-    harPerioderMedFravær = 'harPerioderMedFravær',
-    perioderMedFravær = 'perioderMedFravær',
-    perioderMedFraværGroup = 'perioderMedFraværGroup',
-    harDagerMedDelvisFravær = 'harDagerMedDelvisFravær',
-    dagerMedDelvisFravær = 'dagerMedDelvisFravær',
-    dagerMedDelvisFraværGroup = 'dagerMedDelvisFraværGroup',
+    // STEG 2: Periode
+
+    // STEG 3: ANNET
     perioder_harVærtIUtlandet = 'perioder_harVærtIUtlandet',
     perioder_utenlandsopphold = 'perioder_utenlandsopphold',
-
     har_søkt_andre_utbetalinger = 'har_søkt_andre_utbetalinger',
     andre_utbetalinger = 'andre_utbetalinger',
 
-    // STEG 7: Medlemskap
+    // STEG 4: Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
@@ -72,33 +99,24 @@ export interface SøknadFormData {
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
-    // STEG 1
+    // STEG 1: Situasjon
+    [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
+    [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo;
+    [SøknadFormField.annetArbeidsforhold]: AnnetArbeidsforholdFormData | null;
 
-    [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet;
-    [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi;
-
-    // Optional vedlegg step
-    [SøknadFormField.dokumenter]: Attachment[];
-
-    // STEG 2: Har betalt ut 10 første dager
-    [SøknadFormField.arbeidsforhold]: Arbeidsforhold[];
-
-    [SøknadFormField.har_fosterbarn]: YesOrNo;
+    [SøknadFormField.harFosterbarn]: YesOrNo;
     [SøknadFormField.fosterbarn]: Fosterbarn[];
 
-    // STEG 3: Periode
+    // STEG 2:
 
-    [SøknadFormField.harPerioderMedFravær]: YesOrNo;
-    [SøknadFormField.perioderMedFravær]: Periode[];
-    [SøknadFormField.harDagerMedDelvisFravær]: YesOrNo;
-    [SøknadFormField.dagerMedDelvisFravær]: FraværDelerAvDag[];
+    // STEG 3
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo;
     [SøknadFormField.perioder_utenlandsopphold]: Utenlandsopphold[];
 
     [SøknadFormField.har_søkt_andre_utbetalinger]: YesOrNo;
     [SøknadFormField.andre_utbetalinger]: AndreUtbetalinger[];
 
-    // STEG 7: Medlemskap
+    // STEG 4:
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
@@ -109,31 +127,24 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
-    // STEG 1: Kvalifisering
-    [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet.IKKE_BESVART,
-    [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi.IKKE_BESVART,
-
-    // Optional vedlegg step
-    [SøknadFormField.dokumenter]: [],
-
-    // STEG 2: Har betalt ut 10 første dager
+    // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
+    [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo.UNANSWERED,
+    [SøknadFormField.annetArbeidsforhold]: null,
 
-    [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,
+    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
     [SøknadFormField.fosterbarn]: [],
 
-    // STEG 3: Periode
-    [SøknadFormField.harPerioderMedFravær]: YesOrNo.UNANSWERED,
-    [SøknadFormField.perioderMedFravær]: [],
-    [SøknadFormField.harDagerMedDelvisFravær]: YesOrNo.UNANSWERED,
-    [SøknadFormField.dagerMedDelvisFravær]: [],
+    // STEG 2:
+
+    // STEG 3
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioder_utenlandsopphold]: [],
 
     [SøknadFormField.har_søkt_andre_utbetalinger]: YesOrNo.UNANSWERED,
     [SøknadFormField.andre_utbetalinger]: [],
 
-    // STEG 7: Medlemskap
+    // STEG 4:
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
@@ -145,7 +156,7 @@ export const isSøknadFormData = (søknadFormData: any): søknadFormData is Søk
         søknadFormData &&
         søknadFormData[SøknadFormField.harForståttRettigheterOgPlikter] !== undefined
         // TODO: Denne kan gjøres mer grundig
-    ){
+    ) {
         return true;
     }
     return false;

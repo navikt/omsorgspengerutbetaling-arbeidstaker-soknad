@@ -85,36 +85,44 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                         mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
-                    <JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />
-                    <SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />
-                    <ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />
+
+                    {/*<JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />*/}
+                    {/*<SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />*/}
+                    {/*<ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />*/}
+
                     <FosterbarnSummaryView fosterbarn={fosterbarn} />
-                    <UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />
-                    {apiValues.andreUtbetalinger.length > 0 && (
-                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søkt_om_andre_utbetalinger')}>
-                            <SummaryList
-                                items={apiValues.andreUtbetalinger}
-                                itemRenderer={(utbetaling) => (
-                                    <span>{intlHelper(intl, `andre_utbetalinger.${utbetaling}`)}</span>
-                                )}
-                            />
-                        </SummaryBlock>
-                    )}
+
+                    {/*<UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />*/}
+                    {/*{apiValues.andreUtbetalinger.length > 0 && (*/}
+                    {/*    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søkt_om_andre_utbetalinger')}>*/}
+                    {/*        <SummaryList*/}
+                    {/*            items={apiValues.andreUtbetalinger}*/}
+                    {/*            itemRenderer={(utbetaling) => (*/}
+                    {/*                <span>{intlHelper(intl, `andre_utbetalinger.${utbetaling}`)}</span>*/}
+                    {/*            )}*/}
+                    {/*        />*/}
+                    {/*    </SummaryBlock>*/}
+                    {/*)}*/}
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
 
-                    {apiValues.vedlegg.length === 0 && apiValues.jobbHosNåværendeArbeidsgiver.merEnn4Uker && (
-                        <Box margin={'s'}>
-                            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
-                                <FormattedHTMLMessage id={'steg.oppsummering.dokumenter.ikkelastetopp'} />
-                            </SummaryBlock>
-                        </Box>
-                    )}
-                    {apiValues.vedlegg.length > 0 && (
-                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
-                            <UploadedDocumentsList includeDeletionFunctionality={false} />
-                        </SummaryBlock>
-                    )}
+                    {/*{apiValues.vedlegg.length === 0 && apiValues.jobbHosNåværendeArbeidsgiver.merEnn4Uker && (*/}
+                    {/*    <Box margin={'s'}>*/}
+                    {/*        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>*/}
+                    {/*            <FormattedHTMLMessage id={'steg.oppsummering.dokumenter.ikkelastetopp'} />*/}
+                    {/*        </SummaryBlock>*/}
+                    {/*    </Box>*/}
+                    {/*)}*/}
+
+                    {/* TODO: Fix senere */}
+                    {/*{apiValues.vedlegg.length > 0 && (*/}
+                    {/*    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>*/}
+                    {/*        <UploadedDocumentsList*/}
+                    {/*            attachments={}    */}
+                    {/*            includeDeletionFunctionality={false} */}
+                    {/*        />*/}
+                    {/*    </SummaryBlock>*/}
+                    {/*)}*/}
                 </Panel>
             </Box>
 

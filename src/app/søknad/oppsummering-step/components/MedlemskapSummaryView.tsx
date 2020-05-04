@@ -2,12 +2,12 @@ import React from 'react';
 import { apiStringDateToDate, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import moment from 'moment';
 import SummaryList from 'common/components/summary-list/SummaryList';
-import { UtenlandsoppholdApiData } from '../../../types/SøknadApiData';
+import { Bosted } from '../../../types/SøknadApiData';
 import { renderUtenlandsoppholdIPeriodenSummary } from './renderUtenlandsoppholdSummary';
 import SummaryBlock from './SummaryBlock';
 
 export interface Props {
-    bosteder: UtenlandsoppholdApiData[];
+    bosteder: Bosted[];
 }
 
 const MedlemskapSummaryView = (props: Props) => {

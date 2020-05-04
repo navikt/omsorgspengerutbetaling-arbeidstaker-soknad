@@ -45,7 +45,7 @@ const SøknadEssentialsLoader = (props: Props) => {
             loadAppEssentials();
             setDoApiCalls(false);
         }
-    }, [state]);
+    }, [state, doApiCalls]);
 
     async function loadAppEssentials() {
         try {

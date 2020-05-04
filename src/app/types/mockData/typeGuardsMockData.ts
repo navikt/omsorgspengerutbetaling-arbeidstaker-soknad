@@ -1,13 +1,6 @@
 import { Arbeidsgiver, Person, SøkerApiResponse, Søkerdata } from '../Søkerdata';
-import {
-    HvorLengeJobbet,
-    HvorLengeJobbetFordi,
-    initialValues,
-    SøknadFormData,
-    SøknadFormField
-} from '../SøknadFormData';
+import { initialValues, SøknadFormData, SøknadFormField } from '../SøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
-
 
 
 export const gyldigPerson: Person = {
@@ -97,20 +90,25 @@ export const ugyldigSøknadFormData4: any = 'ugyldig SøknadFormData';
 export const ugyldigSøknadFormData5: any = {
     // [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,
-    [SøknadFormField.hvorLengeHarDuJobbetHosNåværendeArbeidsgiver]: HvorLengeJobbet.IKKE_BESVART,
-    [SøknadFormField.hvorLengeJobbetFordi]: HvorLengeJobbetFordi.IKKE_BESVART,
-    [SøknadFormField.dokumenter]: [],
+
+    // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
-    [SøknadFormField.har_fosterbarn]: YesOrNo.UNANSWERED,
+    [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo.UNANSWERED,
+    [SøknadFormField.annetArbeidsforhold]: null,
+
+    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
     [SøknadFormField.fosterbarn]: [],
-    [SøknadFormField.harPerioderMedFravær]: YesOrNo.UNANSWERED,
-    [SøknadFormField.perioderMedFravær]: [],
-    [SøknadFormField.harDagerMedDelvisFravær]: YesOrNo.UNANSWERED,
-    [SøknadFormField.dagerMedDelvisFravær]: [],
+
+    // STEG 2:
+
+    // STEG 3
     [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioder_utenlandsopphold]: [],
+
     [SøknadFormField.har_søkt_andre_utbetalinger]: YesOrNo.UNANSWERED,
     [SøknadFormField.andre_utbetalinger]: [],
+
+    // STEG 4:
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,

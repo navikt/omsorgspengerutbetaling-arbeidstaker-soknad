@@ -3,167 +3,81 @@ import { SøkerApiResponse } from '../src/app/types/Søkerdata';
 
 export const mock1: SøknadApiData = {
     språk: 'nb',
-    bekreftelser: {
-        harForståttRettigheterOgPlikter: false,
-        harBekreftetOpplysninger: false
-    },
-    jobbHosNåværendeArbeidsgiver: {
-        merEnn4Uker: false,
-        begrunnelse: Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
-    },
-    vedlegg: [],
-    spørsmål: [],
-    utbetalingsperioder: [
-        {
-            fraOgMed: '2020-03-02',
-            tilOgMed: '2020-03-03'
-        },
-        {
-            fraOgMed: '2020-03-04',
-            tilOgMed: '2020-03-05'
-        },
-        {
-            fraOgMed: '2020-03-09',
-            tilOgMed: '2020-03-09',
-            lengde: 'PT5H0M'
-        },
-        {
-            fraOgMed: '2020-03-10',
-            tilOgMed: '2020-03-10',
-            lengde: 'PT4H0M'
-        }
-    ],
     bosteder: [
         {
-            landnavn: 'Vietnam',
-            landkode: 'VN',
-            fraOgMed: '2020-02-01',
-            tilOgMed: '2020-02-10',
-            erEØSLand: true
+            fraOgMed: '2000-01-31',
+            tilOgMed: '2001-01-31',
+            landkode: 'abc',
+            landnavn: 'Abcland',
+            erEØSLand: false
         },
         {
-            landnavn: 'Madagaskar',
-            landkode: 'MG',
-            fraOgMed: '2020-04-21',
-            tilOgMed: '2020-04-30',
-            erEØSLand: true
+            fraOgMed: '2002-01-31',
+            tilOgMed: '2003-01-31',
+            landkode: 'def',
+            landnavn: 'Defland',
+            erEØSLand: false
         }
     ],
     opphold: [
         {
-            landnavn: 'Hviterussland',
-            landkode: 'BY',
-            fraOgMed: '2020-02-01',
-            tilOgMed: '2020-02-15',
-            erEØSLand: true
+            fraOgMed: '2000-01-31',
+            tilOgMed: '2001-01-31',
+            landkode: 'abc',
+            landnavn: 'Abcland',
+            erEØSLand: false
         },
         {
-            landnavn: 'Wallis- og Futunaøyene',
-            landkode: 'WF',
-            fraOgMed: '2020-02-24',
-            tilOgMed: '2020-02-29',
-            erEØSLand: true
+            fraOgMed: '2002-01-31',
+            tilOgMed: '2003-01-31',
+            landkode: 'def',
+            landnavn: 'Defland',
+            erEØSLand: false
         }
     ],
-    arbeidsgivere: {
-        organisasjoner: [
-            {
-                navn: 'Pengebingen',
-                organisasjonsnummer: '9999999',
-                harHattFraværHosArbeidsgiver: true,
-                arbeidsgiverHarUtbetaltLønn: false
+    arbeidsgivere: [
+        {
+            navn: 'Starcraft',
+            organisasjonsnummer: '999999999',
+            harHattFraværHosArbeidsgiver: true,
+            arbeidsgiverHarUtbetaltLønn: false,
+            ansettelseslengde: {
+                merEnn4Uker: false,
+                begrunnelse: Begrunnelse.INGEN_AV_SITUASJONENE,
+                ingenAvSituasjoneneForklaring: 'En spesiell annen begrunnelse'
             },
-            {
-                navn: 'Blizard',
-                organisasjonsnummer: '9999999',
-                harHattFraværHosArbeidsgiver: false,
-                arbeidsgiverHarUtbetaltLønn: false
-            }
-        ]
-    },
-    andreUtbetalinger: [],
-    fosterbarn: []
-};
-
-export const mock2: SøknadApiData = {
-    språk: 'nb',
+            perioder: [
+                {
+                    fraOgMed: '2002-01-21',
+                    tilOgMed: '2002-01-31',
+                    lengde: null
+                }
+            ]
+        }
+    ],
     bekreftelser: {
-        harForståttRettigheterOgPlikter: false,
-        harBekreftetOpplysninger: false
-    },
-    jobbHosNåværendeArbeidsgiver: {
-        merEnn4Uker: true,
-        begrunnelse: null
-    },
-    vedlegg: [],
-    spørsmål: [],
-    utbetalingsperioder: [
-        {
-            fraOgMed: '2020-03-02',
-            tilOgMed: '2020-03-03'
-        },
-        {
-            fraOgMed: '2020-03-04',
-            tilOgMed: '2020-03-05'
-        },
-        {
-            fraOgMed: '2020-03-09',
-            tilOgMed: '2020-03-09',
-            lengde: 'PT5H0M'
-        },
-        {
-            fraOgMed: '2020-03-10',
-            tilOgMed: '2020-03-10',
-            lengde: 'PT4H0M'
-        }
-    ],
-    bosteder: [
-        {
-            landnavn: 'Vietnam',
-            landkode: 'VN',
-            fraOgMed: '2020-02-01',
-            tilOgMed: '2020-02-10',
-            erEØSLand: true
-        },
-        {
-            landnavn: 'Madagaskar',
-            landkode: 'MG',
-            fraOgMed: '2020-04-21',
-            tilOgMed: '2020-04-30',
-            erEØSLand: true
-        }
-    ],
-    opphold: [
-        {
-            landnavn: 'Hviterussland',
-            landkode: 'BY',
-            fraOgMed: '2020-02-01',
-            tilOgMed: '2020-02-15',
-            erEØSLand: true
-        },
-        {
-            landnavn: 'Wallis- og Futunaøyene',
-            landkode: 'WF',
-            fraOgMed: '2020-02-24',
-            tilOgMed: '2020-02-29',
-            erEØSLand: true
-        }
-    ],
-    arbeidsgivere: {
-        organisasjoner: []
+        harBekreftetOpplysninger: true,
+        harForståttRettigheterOgPlikter: true
     },
     andreUtbetalinger: [],
-    fosterbarn: []
+    fosterbarn: [
+        {
+            fødselsnummer: '12345678903',
+            fornavn: 'Doffen',
+            etternavn: 'Duck'
+        }
+    ],
+    vedlegg: ['location/1', 'location/3', 'location/1']
 };
 
 export const sokerApiData: SøkerApiResponse = {
-    'aktørId': '1661665247617',
-    'fødselsdato': '1981-10-17',
-    'fødselsnummer': '17108102454',
-    'fornavn': 'LOTTE',
-    'mellomnavn': null,
-    'etternavn': 'FAMILIE 5',
-    'myndig': true
+    aktørId: '1661665247617',
+    fødselsdato: '1981-10-17',
+    fødselsnummer: '17108102454',
+    fornavn: 'LOTTE',
+    mellomnavn: null,
+    etternavn: 'FAMILIE 5',
+    myndig: true
 };
 
-export const mellomlagringResponse1 = {}
+export const mellomlagringResponse1 = {};

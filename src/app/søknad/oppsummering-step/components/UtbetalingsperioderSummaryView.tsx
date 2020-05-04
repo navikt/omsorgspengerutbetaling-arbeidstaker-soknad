@@ -4,11 +4,11 @@ import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/Sum
 import { Time } from 'common/types/Time';
 import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
 import { iso8601DurationToTime, timeToString } from 'common/utils/timeUtils';
-import { UtbetalingsperiodeApi } from '../../../types/SøknadApiData';
+import { Utbetalingsperiode } from '../../../types/SøknadApiData';
 import SummaryBlock from './SummaryBlock';
 
 export interface Props {
-    utbetalingsperioder: UtbetalingsperiodeApi[];
+    utbetalingsperioder: Utbetalingsperiode[];
 }
 
 interface UtbetalingsperiodeDag {
@@ -36,7 +36,7 @@ function UtbetalingsperioderSummaryView({ utbetalingsperioder = [] }: Props) {
                 <SummaryBlock header={'Hele dager med fravær'}>
                     <SummaryList
                         items={perioder}
-                        itemRenderer={(periode: UtbetalingsperiodeApi) => (
+                        itemRenderer={(periode: Utbetalingsperiode) => (
                             <span>
                                 Fra og med {prettifyDate(apiStringDateToDate(periode.fraOgMed))}, til og med{' '}
                                 {prettifyDate(apiStringDateToDate(periode.tilOgMed))}

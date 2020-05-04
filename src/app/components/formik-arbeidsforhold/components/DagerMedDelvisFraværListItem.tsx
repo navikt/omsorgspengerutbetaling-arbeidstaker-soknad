@@ -4,13 +4,13 @@ import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateU
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { Knapp } from 'nav-frontend-knapper';
 import { FraværDelerAvDag, Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
-import { SøknadFormField } from '../../../types/SøknadFormData';
 import { GYLDIG_TIDSROM } from '../../../validation/constants';
 import { validateAll, validateDateInRange, validateDateNotInFuture } from '../../../validation/fieldValidations';
-import SøknadFormComponents from '../../SøknadFormComponents';
 import FraværTimerSelect from './FraværTimerSelect';
+import { FormikDatepicker } from '@navikt/sif-common-formik/lib';
 
 interface Props {
+    name: string;
     index: number;
     dag: FraværDelerAvDag;
     disabledDager?: FraværDelerAvDag[];
@@ -39,7 +39,13 @@ const getFjernLabel = (dato?: Date, timer?: number): string => {
     return 'Fjern dag med delvis fravær (dato og antall timer ikke valgt)';
 };
 
-const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({ index, dag, disabledDager, onRemove }) => {
+const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({
+    name,
+    index,
+    dag,
+    disabledDager,
+    onRemove
+}) => {
     const ugyldigeTidsperioder = disabledDager
         ?.filter((d) => d.dato)
         .map((d) => ({
@@ -49,14 +55,14 @@ const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({ index, 
     return (
         <div className={bem.classNames(bem.block, bem.modifierConditional('firstRow', index === 0))}>
             <div className={bem.element('dateWrapper')}>
-                <SøknadFormComponents.DatePicker
+                <FormikDatepicker
                     label="Dato"
                     validate={validateAll([
                         validateRequiredField,
                         validateDateInRange(GYLDIG_TIDSROM),
                         validateDateNotInFuture()
                     ])}
-                    name={`${SøknadFormField.dagerMedDelvisFravær}.${index}.dato` as SøknadFormField}
+                    name={`${name}.${index}.dato`}
                     dateLimitations={{
                         minDato: GYLDIG_TIDSROM.from,
                         maksDato: dateToday,
@@ -65,7 +71,7 @@ const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({ index, 
                 />
             </div>
             <div className={bem.element('hoursWrapper')}>
-                <FraværTimerSelect index={index} />
+                <FraværTimerSelect name={name} index={index} />
             </div>
             {onRemove && (
                 <div className={bem.element('deleteButtonWrapper')}>

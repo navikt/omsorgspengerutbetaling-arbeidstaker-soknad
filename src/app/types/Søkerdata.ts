@@ -46,7 +46,7 @@ export interface ArbeidsgiverResponse {
 }
 
 export interface Arbeidsgiver {
-    navn: string;
+    navn: string | null;
     organisasjonsnummer: string;
 }
 
@@ -96,8 +96,6 @@ export const isArbeidsgiver = (maybeArbeidsgiver: any): maybeArbeidsgiver is Arb
     if (
         maybeArbeidsgiver &&
         typeof maybeArbeidsgiver === 'object' &&
-        (maybeArbeidsgiver as Arbeidsgiver).navn &&
-        typeof (maybeArbeidsgiver as Arbeidsgiver).navn === 'string' &&
         (maybeArbeidsgiver as Arbeidsgiver).organisasjonsnummer &&
         typeof (maybeArbeidsgiver as Arbeidsgiver).organisasjonsnummer === 'string'
     ) {

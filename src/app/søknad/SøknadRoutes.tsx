@@ -12,7 +12,6 @@ import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import BegrunnelseStep from './begrunnelse-step/BegrunnelseStepView';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import PeriodeStep from './periode-step/PeriodeStep';
@@ -23,6 +22,7 @@ import FortsettSøknadModalView from '../components/fortsett-søknad-modal/Forts
 import { redirectIfForbiddenOrUnauthorized } from '../api/api';
 import { WillRedirect } from '../types/types';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
+import AnnetStepView from './annet-step/AnnetStep';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -48,7 +48,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     navigateToLoginPage();
                 } else {
-                    setShowErrorMessage(true)
+                    setShowErrorMessage(true);
                 }
             }
         }
@@ -79,16 +79,16 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             if (willRedirect === WillRedirect.No) {
                 setShowErrorMessage(true);
             } else {
-                setIsLoading(true)
+                setIsLoading(true);
             }
         }
     };
 
     if (isLoading) {
-        return(<LoadingPage />);
+        return <LoadingPage />;
     }
     if (showErrorMessage) {
-        return (<GeneralErrorPage/>);
+        return <GeneralErrorPage />;
     }
     return (
         <Switch>
@@ -105,13 +105,13 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                                             // TODO: Handle call error
                                             SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
                                                 navigateTo(
-                                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`,
+                                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
                                                     history
                                                 );
                                             });
                                         } else {
                                             navigateTo(
-                                                `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.BEGRUNNELSE}`,
+                                                `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
                                                 history
                                             );
                                         }
@@ -133,14 +133,6 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 }}
             />
 
-            {isAvailable(StepID.BEGRUNNELSE, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.BEGRUNNELSE)}
-                    exact={true}
-                    render={() => <BegrunnelseStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEGRUNNELSE)} />}
-                />
-            )}
-
             {isAvailable(StepID.SITUASJON, values) && (
                 <Route
                     path={getSøknadRoute(StepID.SITUASJON)}
@@ -160,6 +152,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                     path={getSøknadRoute(StepID.PERIODE)}
                     exact={true}
                     render={() => <PeriodeStep onValidSubmit={() => navigateToNextStepFrom(StepID.PERIODE)} />}
+                />
+            )}
+
+            {isAvailable(StepID.ANNET, values) && (
+                <Route
+                    path={getSøknadRoute(StepID.ANNET)}
+                    exact={true}
+                    render={() => <AnnetStepView onValidSubmit={() => navigateToNextStepFrom(StepID.ANNET)} />}
                 />
             )}
 
@@ -199,12 +199,16 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 />
             )}
 
-            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} exact={true} component={() => {
-                navigateTo(RouteConfig.WELCOMING_PAGE_ROUTE, history);
-                return <LoadingPage />
-            }} />
+            <Route
+                path={RouteConfig.SØKNAD_ROUTE_PREFIX}
+                exact={true}
+                component={() => {
+                    navigateTo(RouteConfig.WELCOMING_PAGE_ROUTE, history);
+                    return <LoadingPage />;
+                }}
+            />
 
-            <Route component={() => (<GeneralErrorPage />)} />
+            <Route component={() => <GeneralErrorPage />} />
         </Switch>
     );
 };

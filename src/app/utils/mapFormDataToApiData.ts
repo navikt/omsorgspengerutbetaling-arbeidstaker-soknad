@@ -6,49 +6,51 @@ import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from 'common/utils/timeUtils';
 import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import {
+    Ansettelseslengde,
     ArbeidsgiverDetaljer,
     Begrunnelse,
     Bekreftelser,
+    Bosted,
     FosterbarnApi,
-    JobbHosNåværendeArbeidsgiver,
     SøknadApiData,
-    UtbetalingsperiodeApi,
-    UtenlandsoppholdApiData,
-    YesNoSvar
+    Utbetalingsperiode
 } from '../types/SøknadApiData';
 import {
-    Arbeidsforhold,
-    ArbeidsforholdField,
+    AnsettelseslengdeFormData,
+    AnsettelseslengdeFormDataFields,
+    ArbeidsforholdFormData,
+    ArbeidsforholdFormDataFields,
     HvorLengeJobbet,
     HvorLengeJobbetFordi,
     SøknadFormData
 } from '../types/SøknadFormData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
-import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
+import { Attachment } from 'common/types/Attachment';
+import { notUndefined } from '../types/typeGuardUtilities';
 
 export const mapFormDataToApiData = (
     {
         harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger,
 
-        hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
-        hvorLengeJobbetFordi,
-
-        dokumenter,
-
+        // STEG 1: Situasjon
         arbeidsforhold,
-        har_fosterbarn,
+        harAnnetArbeidsforhold,
+        annetArbeidsforhold,
+
+        harFosterbarn,
         fosterbarn,
 
-        perioderMedFravær,
-        dagerMedDelvisFravær,
+        // STEG 2: Periode
+
+        // STEG 3: ANNET
         perioder_harVærtIUtlandet,
         perioder_utenlandsopphold,
-
         har_søkt_andre_utbetalinger,
         andre_utbetalinger,
 
+        // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
@@ -64,28 +66,13 @@ export const mapFormDataToApiData = (
             skalBoUtenforNorgeNeste12Mnd,
             utenlandsoppholdNeste12Mnd,
             intl.locale
-        ), // medlemskap siden
-        opphold: settInnOpphold(perioder_harVærtIUtlandet, perioder_utenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        jobbHosNåværendeArbeidsgiver: settInnJobbHosNåværendeArbeidsgiver(
-            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver,
-            hvorLengeJobbetFordi
         ),
-        vedlegg:
-            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER && dokumenter
-                ? dokumenter
-                      .filter((attachment) => {
-                          return attachment?.file?.name && typeof attachment.file.name === 'string'
-                              ? !attachmentUploadHasFailed(attachment)
-                              : false;
-                      })
-                      .map(({ url }) => url!)
-                : [],
-        spørsmål: [],
-        arbeidsgivere: settInnArbeidsgivere(arbeidsforhold),
+        opphold: settInnOpphold(perioder_harVærtIUtlandet, perioder_utenlandsopphold, intl.locale), // periode siden, har du oppholdt
+        arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer(arbeidsforhold),
         bekreftelser: settInnBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
-        utbetalingsperioder: mapPeriodeTilUtbetalingsperiode(perioderMedFravær, dagerMedDelvisFravær),
         andreUtbetalinger: har_søkt_andre_utbetalinger === YesOrNo.YES ? [...andre_utbetalinger] : [],
-        fosterbarn: settInnFosterbarn(har_fosterbarn, fosterbarn)
+        fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
+        vedlegg: collectAllAttachmentsAndMapToListOfString(arbeidsforhold)
     };
 
     return apiData;
@@ -101,37 +88,7 @@ function settInnBekreftelser(
     };
 }
 
-const settInnBegrunnelse = (verdi: HvorLengeJobbetFordi): Begrunnelse | null => {
-    switch (verdi) {
-        case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD:
-            return Begrunnelse.ANNET_ARBEIDSFORHOLD;
-        case HvorLengeJobbetFordi.ANDRE_YTELSER:
-            return Begrunnelse.ANDRE_YTELSER;
-        case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON:
-            return Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
-        case HvorLengeJobbetFordi.MILITÆRTJENESTE:
-            return Begrunnelse.MILITÆRTJENESTE;
-        case HvorLengeJobbetFordi.INGEN:
-            return null; // TODO: Oppdater ihht skisser
-        default:
-            return null;
-    }
-};
-
-const settInnJobbHosNåværendeArbeidsgiver = (
-    hvorLengeHarDuJobbetHosNåværendeArbeidsgiver: HvorLengeJobbet,
-    hvorLengeJobbetFordi: HvorLengeJobbetFordi
-): JobbHosNåværendeArbeidsgiver => {
-    return {
-        merEnn4Uker: hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MER_ENN_FIRE_UKER,
-        begrunnelse:
-            hvorLengeHarDuJobbetHosNåværendeArbeidsgiver === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
-                ? settInnBegrunnelse(hvorLengeJobbetFordi)
-                : null
-    };
-};
-
-function settInnFosterbarn(harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null {
+export const settInnFosterbarn = (harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null => {
     return harFosterbarn === YesOrNo.YES
         ? listeAvFosterbarn.map((fosterbarn: Fosterbarn) => {
               return {
@@ -141,38 +98,108 @@ function settInnFosterbarn(harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn
               };
           })
         : null;
-}
+};
 
-function settInnArbeidsgivere(listeAvArbeidsforhold: Arbeidsforhold[]): ArbeidsgiverDetaljer {
+export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[]
+): ArbeidsgiverDetaljer[] => {
+    return listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) => {
+        return {
+            navn: arbeidsforhold[ArbeidsforholdFormDataFields.navn],
+            organisasjonsnummer: arbeidsforhold[ArbeidsforholdFormDataFields.organisasjonsnummer],
+            harHattFraværHosArbeidsgiver: yesOrNoToBoolean(
+                arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]
+            ),
+            arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(
+                arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]
+            ),
+            ansettelseslengde: mapAnsettelseslengde(arbeidsforhold[ArbeidsforholdFormDataFields.ansettelseslengde]),
+            perioder: mapPeriodeTilUtbetalingsperiode(
+                arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær],
+                arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
+            )
+        };
+    });
+};
+
+export const mapAnsettelseslengde = (ansettelseslengdeFormData: AnsettelseslengdeFormData): Ansettelseslengde => {
+    // TODO: Legg til validering (f eks merEnn4Uker -> begrunnelse === null
     return {
-        organisasjoner: listeAvArbeidsforhold.map((arbeidsforhold: Arbeidsforhold) => {
-            return {
-                navn: arbeidsforhold.navn,
-                organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
-                harHattFraværHosArbeidsgiver:
-                    arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES,
-                arbeidsgiverHarUtbetaltLønn:
-                    arbeidsforhold[ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES
-            };
-        })
+        merEnn4Uker: hvorLengeJobbetToBoolean(
+            ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet]
+        ),
+        begrunnelse: hvorLengeJobbetFordiToBegrunnelse(
+            ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.begrunnelse]
+        ),
+        ingenAvSituasjoneneForklaring:
+            ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]
     };
-}
+};
+
+export const hvorLengeJobbetToBoolean = (hvorLengeJobbet: HvorLengeJobbet): boolean => {
+    switch (hvorLengeJobbet) {
+        case HvorLengeJobbet.MINDRE_ENN_FIRE_UKER:
+            return false;
+        case HvorLengeJobbet.MER_ENN_FIRE_UKER:
+            return true;
+        case HvorLengeJobbet.IKKE_BESVART: {
+            // TODO: Log feil
+            return false;
+        }
+        default: {
+            // TODO: Log feil
+            return false;
+        }
+    }
+};
+
+export const hvorLengeJobbetFordiToBegrunnelse = (hvorLengeJobbetFordi: HvorLengeJobbetFordi): Begrunnelse | null => {
+    switch (hvorLengeJobbetFordi) {
+        case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD:
+            return Begrunnelse.ANNET_ARBEIDSFORHOLD;
+        case HvorLengeJobbetFordi.ANDRE_YTELSER:
+            return Begrunnelse.ANDRE_YTELSER;
+        case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON:
+            return Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
+        case HvorLengeJobbetFordi.MILITÆRTJENESTE:
+            return Begrunnelse.MILITÆRTJENESTE;
+        case HvorLengeJobbetFordi.INGEN:
+            return Begrunnelse.INGEN_AV_SITUASJONENE;
+        default: {
+            return null;
+        }
+    }
+};
+
+export const yesOrNoToBoolean = (yesOrNo: YesOrNo) => {
+    switch (yesOrNo) {
+        case YesOrNo.YES:
+            return true;
+        case YesOrNo.NO:
+            return false;
+        case YesOrNo.UNANSWERED:
+            return false;
+        case YesOrNo.DO_NOT_KNOW:
+            return false;
+    }
+};
 
 export const mapPeriodeTilUtbetalingsperiode = (
     perioderMedFravær: Periode[],
     dagerMedDelvisFravær: FraværDelerAvDag[]
-): UtbetalingsperiodeApi[] => {
-    const periodeMappedTilUtbetalingsperiode: UtbetalingsperiodeApi[] = perioderMedFravær.map(
-        (periode: Periode): UtbetalingsperiodeApi => {
+): Utbetalingsperiode[] => {
+    const periodeMappedTilUtbetalingsperiode: Utbetalingsperiode[] = perioderMedFravær.map(
+        (periode: Periode): Utbetalingsperiode => {
             return {
                 fraOgMed: formatDateToApiFormat(periode.fom),
-                tilOgMed: formatDateToApiFormat(periode.tom)
+                tilOgMed: formatDateToApiFormat(periode.tom),
+                lengde: null
             };
         }
     );
 
-    const fraværDeleravDagMappedTilUtbetalingsperiode: UtbetalingsperiodeApi[] = dagerMedDelvisFravær.map(
-        (fravær: FraværDelerAvDag): UtbetalingsperiodeApi => {
+    const fraværDeleravDagMappedTilUtbetalingsperiode: Utbetalingsperiode[] = dagerMedDelvisFravær.map(
+        (fravær: FraværDelerAvDag): Utbetalingsperiode => {
             const duration: string = timeToIso8601Duration(decimalTimeToTime(fravær.timer));
             return {
                 fraOgMed: formatDateToApiFormat(fravær.dato),
@@ -185,17 +212,13 @@ export const mapPeriodeTilUtbetalingsperiode = (
     return [...periodeMappedTilUtbetalingsperiode, ...fraværDeleravDagMappedTilUtbetalingsperiode];
 };
 
-export const mapYesOrNoToSvar = (input: YesOrNo): YesNoSvar => {
-    return input === YesOrNo.YES;
-};
-
 const settInnBosteder = (
     harBoddUtenforNorgeSiste12Mnd: YesOrNo,
     utenlandsoppholdSiste12Mnd: Utenlandsopphold[],
     skalBoUtenforNorgeNeste12Mnd: YesOrNo,
     utenlandsoppholdNeste12Mnd: Utenlandsopphold[],
     locale: string
-): UtenlandsoppholdApiData[] => {
+): Bosted[] => {
     const mappedSiste12Mnd =
         harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES
             ? utenlandsoppholdSiste12Mnd.map((utenlandsopphold: Utenlandsopphold) => {
@@ -223,4 +246,20 @@ const settInnOpphold = (
               return mapBostedUtlandToApiData(utenlandsopphold, locale);
           })
         : [];
+};
+
+export const collectAllAttachmentsAndMapToListOfString = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[]
+): string[] => {
+    return listeAvArbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter]
+                .map((attachment: Attachment) => {
+                    return attachment.url;
+                })
+                .filter((maybeString: string | undefined) => {
+                    return notUndefined<string>(maybeString);
+                }) as string[]; // TODO: Fix type
+        })
+        .flat();
 };

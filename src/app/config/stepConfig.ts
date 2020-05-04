@@ -3,10 +3,9 @@ import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {
-    'BEGRUNNELSE' = 'begrunnelse',
-    'DOKUMENTER' = 'vedlegg',
     'SITUASJON' = 'situasjon',
     'PERIODE' = 'periode',
+    'ANNET' = 'annet',
     'MEDLEMSKAP' = 'medlemskap',
     'OPPSUMMERING' = 'oppsummering'
 }
@@ -43,29 +42,29 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
     let idx = 0;
 
     return {
-        [StepID.BEGRUNNELSE]: {
-            ...getStepConfigItemTextKeys(StepID.BEGRUNNELSE),
-            index: idx++,
-            nextStep: StepID.SITUASJON,
-            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
-        },
         [StepID.SITUASJON]: {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
             nextStep: StepID.PERIODE,
-            backLinkHref: getSøknadRoute(StepID.BEGRUNNELSE)
+            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
         },
         [StepID.PERIODE]: {
             ...getStepConfigItemTextKeys(StepID.PERIODE),
             index: idx++,
-            nextStep: StepID.MEDLEMSKAP,
+            nextStep: StepID.ANNET,
             backLinkHref: getSøknadRoute(StepID.SITUASJON)
+        },
+        [StepID.ANNET]: {
+            ...getStepConfigItemTextKeys(StepID.ANNET),
+            index: idx++,
+            nextStep: StepID.MEDLEMSKAP,
+            backLinkHref: getSøknadRoute(StepID.PERIODE)
         },
         [StepID.MEDLEMSKAP]: {
             ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
             index: idx++,
             nextStep: StepID.OPPSUMMERING,
-            backLinkHref: getSøknadRoute(StepID.PERIODE)
+            backLinkHref: getSøknadRoute(StepID.ANNET)
         },
         [StepID.OPPSUMMERING]: {
             ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),

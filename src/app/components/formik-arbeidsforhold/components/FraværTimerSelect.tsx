@@ -1,18 +1,14 @@
 import React from 'react';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { SøknadFormField } from '../../../types/SøknadFormData';
-import SøknadFormComponents from '../../SøknadFormComponents';
+import { FormikSelect } from '@navikt/sif-common-formik/lib';
 
 interface Props {
+    name: string;
     index: number;
 }
 
-const FraværTimerSelect: React.FunctionComponent<Props> = ({ index }) => (
-    <SøknadFormComponents.Select
-        bredde="s"
-        label="Antall timer"
-        name={`${SøknadFormField.dagerMedDelvisFravær}.${index}.timer` as SøknadFormField}
-        validate={validateRequiredField}>
+const FraværTimerSelect: React.FunctionComponent<Props> = ({ name, index }) => (
+    <FormikSelect bredde="s" label="Antall timer" name={`${name}.${index}.timer`} validate={validateRequiredField}>
         <option />
         <option value="0.5">0,5 time</option>
         <option value="1">1 time</option>
@@ -29,7 +25,7 @@ const FraværTimerSelect: React.FunctionComponent<Props> = ({ index }) => (
         <option value="6.5">6,5 timer</option>
         <option value="7">7 timer</option>
         <option value="7.5">7,5 timer</option>
-    </SøknadFormComponents.Select>
+    </FormikSelect>
 );
 
 export default FraværTimerSelect;
