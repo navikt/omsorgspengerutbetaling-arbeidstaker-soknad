@@ -1,4 +1,5 @@
-import { Begrunnelse, SøknadApiData } from '../../types/SøknadApiData';
+import { Begrunnelse, SøknadApiData } from '../src/app/types/SøknadApiData';
+import { SøkerApiResponse } from '../src/app/types/Søkerdata';
 
 export const mock1: SøknadApiData = {
     språk: 'nb',
@@ -67,14 +68,14 @@ export const mock1: SøknadApiData = {
     arbeidsgivere: {
         organisasjoner: [
             {
-                navn: "Pengebingen",
-                organisasjonsnummer: "9999999",
+                navn: 'Pengebingen',
+                organisasjonsnummer: '9999999',
                 harHattFraværHosArbeidsgiver: true,
                 arbeidsgiverHarUtbetaltLønn: false
             },
             {
-                navn: "Blizard",
-                organisasjonsnummer: "9999999",
+                navn: 'Blizard',
+                organisasjonsnummer: '9999999',
                 harHattFraværHosArbeidsgiver: false,
                 arbeidsgiverHarUtbetaltLønn: false
             }
@@ -154,3 +155,15 @@ export const mock2: SøknadApiData = {
     andreUtbetalinger: [],
     fosterbarn: []
 };
+
+export const sokerApiData: SøkerApiResponse = {
+    'aktørId': '1661665247617',
+    'fødselsdato': '1981-10-17',
+    'fødselsnummer': '17108102454',
+    'fornavn': 'LOTTE',
+    'mellomnavn': null,
+    'etternavn': 'FAMILIE 5',
+    'myndig': true
+};
+
+export const mellomlagringResponse1 = {}

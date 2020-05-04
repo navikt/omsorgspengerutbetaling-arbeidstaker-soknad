@@ -91,6 +91,8 @@ const SøknadEssentialsLoader = (props: Props) => {
         if (!isSøkerApiResponse(søkerResponse.data)) {
             setApiCallError(true);
             // TODO: Log - response from server is not of type SøkerApiResponse
+            // tslint:disable-next-line:no-console
+            console.warn("søkerApiResponse invalid (SøknadEssentialsLoader)");
         }
     };
 
