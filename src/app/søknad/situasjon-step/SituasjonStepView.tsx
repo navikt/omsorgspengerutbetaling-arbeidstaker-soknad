@@ -61,7 +61,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     // TODO: Legg på expected og received
                     logToSentryOrConsole(
                         "listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)",
-                        Severity.Error
+                        Severity.Critical
                     );
                 }
             }

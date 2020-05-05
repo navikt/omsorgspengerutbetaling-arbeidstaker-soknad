@@ -94,7 +94,7 @@ const SøknadEssentialsLoader = (props: Props) => {
             setApiCallError(true);
             logToSentryOrConsole(
                 "søkerApiResponse invalid (SøknadEssentialsLoader)",
-                Severity.Error
+                Severity.Critical
             );
         }
     };

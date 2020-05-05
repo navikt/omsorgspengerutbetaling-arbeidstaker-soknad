@@ -78,7 +78,7 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                 const getArbeidsforholdFormDataFieldName = (field: ArbeidsforholdFormDataFields) =>
                     `${name}.${index}.${field}`;
                 const getAnsettelseslengdeFormDataFieldName = (field: AnsettelseslengdeFormDataFields) =>
-                    `${name}.${index}.${getArbeidsforholdFormDataFieldName(
+                    `${getArbeidsforholdFormDataFieldName(
                         ArbeidsforholdFormDataFields.ansettelseslengde
                     )}.${field}`;
                 return (

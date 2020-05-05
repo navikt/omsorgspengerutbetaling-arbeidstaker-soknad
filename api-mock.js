@@ -156,10 +156,12 @@ const startServer = () => {
 
     });
     server.delete('/mellomlagring', (req, res) => {
-        setTimeout(() => {
-            writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
-            res.sendStatus(202);
-        }, 2000);
+        // setTimeout(() => {
+        //     writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
+        //     res.sendStatus(202);
+        // }, 2000);
+        writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
+        res.sendStatus(202);
     });
 
     server.listen(port, () => {

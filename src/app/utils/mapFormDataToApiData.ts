@@ -147,14 +147,14 @@ export const mapHvorLengeJobbetToBoolean = (hvorLengeJobbet: HvorLengeJobbet): b
         case HvorLengeJobbet.IKKE_BESVART: {
             logToSentryOrConsole(
                 `Mapping Error in mapHvorLengeJobbetToBoolean. Case: ${HvorLengeJobbet.IKKE_BESVART}. Det skal ikke være mulig å komme til oppsummeringssiden uten å ha valgt enten mer eller mindre enn fire uker`,
-                Severity.Error
+                Severity.Critical
             );
             return false;
         }
         default: {
             logToSentryOrConsole(
                 `Mapping Error in mapHvorLengeJobbetToBoolean. Case: Default. Det skal ikke være mulig å oppnå Default`,
-                Severity.Error
+                Severity.Critical
             );
             return false;
         }
