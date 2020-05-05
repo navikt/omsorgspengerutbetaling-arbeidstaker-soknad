@@ -10,7 +10,6 @@ import { ArbeidsforholdFormData, SøknadFormData, SøknadFormField } from '../..
 import SøknadStep from '../SøknadStep';
 import { FormikProps, useFormikContext } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
-import FormikArbeidsforhold from '../../components/formik-arbeidsforhold/FormikArbeidsforhold';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
@@ -20,6 +19,9 @@ import { Ingress } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { logToSentryOrConsole } from '../../utils/sentryUtils';
+import { Severity } from '@sentry/types';
+import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -46,19 +48,21 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
                 if (isArbeidsgivere(maybeArbeidsgivere)) {
                     const arbeidsgivere = maybeArbeidsgivere;
-                    setIsLoading(false);
-
                     const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
                         arbeidsgivere,
                         formikProps.values[SøknadFormField.arbeidsforhold]
                     );
                     if (updatedArbeidsforholds.length > 0) {
                         formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
-                    } else {
-                        // TODO: Handle it. And make this more readable...
                     }
+                    setIsLoading(false);
+
                 } else {
-                    // TODO: Log typeerror for Arbeidsgiverresponse
+                    // TODO: Legg på expected og received
+                    logToSentryOrConsole(
+                        "listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)",
+                        Severity.Error
+                    );
                 }
             }
         };
@@ -100,7 +104,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                         {arbeidsforhold.map((forhold, index) => (
                             <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
                                 <FormSection titleTag="h4" title={forhold.navn || forhold.organisasjonsnummer} titleIcon={<BuildingIcon />}>
-                                    <FormikArbeidsforhold arbeidsforholdFormData={forhold} index={index} />
+                                    <FormikArbeidsforholdDelEn arbeidsforholdFormData={forhold} index={index} />
                                 </FormSection>
                             </Box>
                         ))}

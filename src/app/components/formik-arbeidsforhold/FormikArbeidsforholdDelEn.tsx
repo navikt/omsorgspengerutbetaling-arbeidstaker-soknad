@@ -15,7 +15,7 @@ interface Props {
     index: number;
 }
 
-const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
+const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
     const intl = useIntl();
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
@@ -43,14 +43,16 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforholdFo
                                 />
                             </FormBlock>
                         )}
-                        {arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] ===
-                            YesOrNo.YES && (
-                            <Box margin="s" padBottom="xl">
-                                <AlertStripe type="info">
-                                    <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
-                                </AlertStripe>
-                            </Box>
-                        )}
+                        {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] ===
+                            YesOrNo.YES &&
+                            arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] ===
+                                YesOrNo.YES && (
+                                <Box margin="s" padBottom="xl">
+                                    <AlertStripe type="info">
+                                        <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
+                                    </AlertStripe>
+                                </Box>
+                            )}
                     </>
                 );
             }}
@@ -58,4 +60,4 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforholdFo
     );
 };
 
-export default FormikArbeidsforhold;
+export default FormikArbeidsforholdDelEn;

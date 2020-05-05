@@ -14,6 +14,8 @@ import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList
 import { FraværDelerAvDag, Periode } from '../../../@types/omsorgspengerutbetaling-schema';
 import DagerMedDelvisFraværList from './components/DagerMedDelvisFraværList';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import intlHelper from 'common/utils/intlUtils';
+import { useIntl } from 'react-intl';
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
@@ -21,14 +23,13 @@ interface Props {
 }
 
 const FormikArbeidsforholdDelTrePeriodeView: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
+    const intl = useIntl();
     // TODO: validateField og validateForm funker? (sikkert ikke)
     const { validateField, validateForm } = useFormikContext<SøknadFormData>();
 
     const kanIkkeFortsette =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO &&
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.NO;
-
-    // TODO: FORTSETT HER. Periodetinga er lagt til på hvert ArbeidsforholdFormData. Så nå skal bare tinga under rettes....
 
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
@@ -44,7 +45,7 @@ const FormikArbeidsforholdDelTrePeriodeView: React.FunctionComponent<Props> = ({
                                 name={getArbeidsforholdFormDataFieldName(
                                     ArbeidsforholdFormDataFields.harPerioderMedFravær
                                 )}
-                                legend="Søker du om utbetaling for hele dager med fravær fra jobb?"
+                                legend={intlHelper(intl, "periode.heledager.spm")}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </FormBlock>
@@ -111,7 +112,7 @@ const FormikArbeidsforholdDelTrePeriodeView: React.FunctionComponent<Props> = ({
                                 name={getArbeidsforholdFormDataFieldName(
                                     ArbeidsforholdFormDataFields.harDagerMedDelvisFravær
                                 )}
-                                legend="Søker du om utbetaling for dager med delvis fravær fra jobb?"
+                                legend={intlHelper(intl, "periode.delvisdag.spm")}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </FormBlock>

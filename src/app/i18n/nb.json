@@ -425,6 +425,9 @@
 
     "step.annet.stepIndicatorLabel": "Dager du har opplyst at du har vært hjemme med barn",
     "step.annet.stepTitle": "Dager du har opplyst at du har vært hjemme med barn",
-    "step.annet.pageTitle": "Dager du har opplyst at du har vært hjemme med barn"
+    "step.annet.pageTitle": "Dager du har opplyst at du har vært hjemme med barn",
+
+    "periode.heledager.spm": "Har du hatt hele dager med fravær fra jobb?",
+    "periode.delvisdag.spm": "Har du hatt dager med delvis fravær fra jobb?"
 
 }

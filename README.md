@@ -8,9 +8,7 @@ søknad om utbetaling av omsorgsdager for selvstendige og frilansere.
 For å kjøre opp app-en i dev:
 
 1.  `npm install`.
-2.  `npm run start`.
-
-TODO: Legg til beskrivelse av bruke av mock backend
+2.  `npm run dev`.
 
 For å kjøre enhetstester:
 

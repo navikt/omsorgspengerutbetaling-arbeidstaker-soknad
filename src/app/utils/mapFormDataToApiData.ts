@@ -28,6 +28,8 @@ import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiDa
 import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { Attachment } from 'common/types/Attachment';
 import { notUndefined } from '../types/typeGuardUtilities';
+import { logToSentryOrConsole } from './sentryUtils';
+import { Severity } from '@sentry/types';
 
 export const mapFormDataToApiData = (
     {
@@ -125,7 +127,7 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
 export const mapAnsettelseslengde = (ansettelseslengdeFormData: AnsettelseslengdeFormData): Ansettelseslengde => {
     // TODO: Legg til validering (f eks merEnn4Uker -> begrunnelse === null
     return {
-        merEnn4Uker: hvorLengeJobbetToBoolean(
+        merEnn4Uker: mapHvorLengeJobbetToBoolean(
             ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet]
         ),
         begrunnelse: hvorLengeJobbetFordiToBegrunnelse(
@@ -136,18 +138,24 @@ export const mapAnsettelseslengde = (ansettelseslengdeFormData: Ansettelseslengd
     };
 };
 
-export const hvorLengeJobbetToBoolean = (hvorLengeJobbet: HvorLengeJobbet): boolean => {
+export const mapHvorLengeJobbetToBoolean = (hvorLengeJobbet: HvorLengeJobbet): boolean => {
     switch (hvorLengeJobbet) {
         case HvorLengeJobbet.MINDRE_ENN_FIRE_UKER:
             return false;
         case HvorLengeJobbet.MER_ENN_FIRE_UKER:
             return true;
         case HvorLengeJobbet.IKKE_BESVART: {
-            // TODO: Log feil
+            logToSentryOrConsole(
+                `Mapping Error in mapHvorLengeJobbetToBoolean. Case: ${HvorLengeJobbet.IKKE_BESVART}. Det skal ikke være mulig å komme til oppsummeringssiden uten å ha valgt enten mer eller mindre enn fire uker`,
+                Severity.Error
+            );
             return false;
         }
         default: {
-            // TODO: Log feil
+            logToSentryOrConsole(
+                `Mapping Error in mapHvorLengeJobbetToBoolean. Case: Default. Det skal ikke være mulig å oppnå Default`,
+                Severity.Error
+            );
             return false;
         }
     }
