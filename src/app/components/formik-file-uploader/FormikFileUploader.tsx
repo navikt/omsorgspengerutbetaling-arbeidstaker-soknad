@@ -1,27 +1,31 @@
 import * as React from 'react';
 import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
-import { ArrayHelpers, useFormikContext } from 'formik';
+import { ArrayHelpers } from 'formik';
 import { Attachment, PersistedFile } from 'common/types/Attachment';
 import {
-    attachmentShouldBeProcessed, attachmentShouldBeUploaded, attachmentUploadHasFailed,
-    getPendingAttachmentFromFile, isFileObject, VALID_EXTENSIONS
+    attachmentShouldBeProcessed,
+    attachmentShouldBeUploaded,
+    attachmentUploadHasFailed,
+    getPendingAttachmentFromFile,
+    isFileObject,
+    VALID_EXTENSIONS
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
-import SøknadFormComponents from '../../søknad/SøknadFormComponents';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';
+import FileInput from '@navikt/sif-common-formik/lib/components/formik-file-input/file-input/FileInput';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
 export type FieldArrayRemoveFn = (index: number) => undefined;
 
 interface FormikFileUploader {
-    name: SøknadFormField;
+    name: string;
     label: string;
     validate?: FormikValidateFunction;
     onFileInputClick?: () => void;
     onErrorUploadingAttachments: (files: File[]) => void;
     onUnauthorizedOrForbiddenUpload: () => void;
+    listOfAttachments: Attachment[];
 }
 
 type Props = FormikFileUploader;
@@ -31,9 +35,9 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     onFileInputClick,
     onErrorUploadingAttachments,
     onUnauthorizedOrForbiddenUpload,
+    listOfAttachments,
     ...otherProps
 }) => {
-    const { values } = useFormikContext<SøknadFormData>();
     async function uploadAttachment(attachment: Attachment) {
         const { file } = attachment;
         if (isFileObject(file)) {
@@ -109,12 +113,14 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     }
 
     return (
-        <SøknadFormComponents.FileInput
+        <FileInput
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
+            // TODO: Fix typeerror
+            // @ts-ignore
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
                 const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
-                await uploadAttachments([...(values as any)[name], ...attachments], replace);
+                await uploadAttachments([...listOfAttachments, ...attachments], replace);
             }}
             onClick={onFileInputClick}
             {...otherProps}

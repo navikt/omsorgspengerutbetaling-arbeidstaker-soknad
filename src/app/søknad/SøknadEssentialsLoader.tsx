@@ -1,144 +1,111 @@
-import * as React from 'react';
-import { AxiosError, AxiosResponse } from 'axios';
-import { getSøker } from '../api/api';
+import React, { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
+import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
-import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
-import { SøkerdataContextProvider } from '../context/SøkerdataContext';
-import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
-import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
+import { initialValues, isSøknadFormData, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
-import * as apiUtils from '../utils/apiUtils';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
-import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import SøknadTempStorage from './SøknadTempStorage';
+import { søkerApiResponseToPerson } from '../utils/typeUtils';
+import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
+import { WillRedirect } from '../types/types';
+import { Severity } from '@sentry/browser';
+import { logToSentryOrConsole } from '../utils/sentryUtils';
 
 interface Props {
     contentLoadedRenderer: (
-        søkerdata: Søkerdata | undefined,
-        formData: SøknadFormData | undefined,
+        søkerdata: Søkerdata,
+        formData: SøknadFormData,
         lastStepID: StepID | undefined
     ) => React.ReactNode;
 }
 
 interface State {
     isLoading: boolean;
-    lastStepID?: StepID;
     formData: SøknadFormData;
     søkerdata?: Søkerdata;
+    lastStepID?: StepID;
 }
 
-class SøknadEssentialsLoader extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = { isLoading: true, lastStepID: undefined, formData: initialValues };
+const initialState: State = {
+    isLoading: true,
+    lastStepID: undefined,
+    formData: initialValues
+};
 
-        this.updateSøkerdata = this.updateSøkerdata.bind(this);
-        this.stopLoading = this.stopLoading.bind(this);
-        this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
-        this.handleSøkerdataFetchError = this.handleSøkerdataFetchError.bind(this);
+const SøknadEssentialsLoader = (props: Props) => {
+    const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
+    const [apiCallError, setApiCallError] = useState<boolean>(false);
+    const { contentLoadedRenderer } = props;
+    const { isLoading, søkerdata, formData, lastStepID } = state;
+    const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
 
-        this.loadAppEssentials();
-    }
+    useEffect(() => {
+        if (doApiCalls) {
+            loadAppEssentials();
+            setDoApiCalls(false);
+        }
+    }, [state, doApiCalls]);
 
-    async loadAppEssentials() {
+    async function loadAppEssentials() {
         try {
             if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                const [søkerResponse, tempStorage] = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
-                this.handleSøkerdataFetchSuccess(søkerResponse, tempStorage);
+                const [søkerApiResponse, tempStorage]: Array<
+                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
+                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
+                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
             } else {
-                const søkerResponse = await getSøker();
-                this.handleSøkerdataFetchSuccess(søkerResponse);
+                const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
+                handleSøkerdataFetchSuccess(søkerApiResponse);
             }
         } catch (response) {
-            this.handleSøkerdataFetchError(response);
+            const willRedirect = redirectIfForbiddenOrUnauthorized(response);
+            if (willRedirect === WillRedirect.No) {
+                setApiCallError(true);
+            } else {
+                setState({...state, isLoading: true})
+            }
         }
     }
 
-    handleSøkerdataFetchSuccess(søkerResponse: AxiosResponse, tempStorageResponse?: AxiosResponse) {
+    const handleSøkerdataFetchSuccess = (
+        søkerResponse: AxiosResponse<SøkerApiResponse>,
+        tempStorageResponse?: AxiosResponse<TemporaryStorage>
+    ) => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
-        const formData = tempStorage?.formData;
-        const lastStepID = tempStorage?.metadata?.lastStepID;
+        const søknadFormData: SøknadFormData | undefined | {} = tempStorage?.formData;
+        const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
 
-        this.updateSøkerdata(
-            formData || { ...initialValues },
-            lastStepID,
-            {
-                person: søkerResponse.data,
-                setArbeidsgivere: this.updateArbeidsgivere,
-                arbeidsgivere: []
-            },
-            () => {
-                this.stopLoading();
-                if (userIsCurrentlyOnErrorPage()) {
-                    window.location.assign(getRouteUrl(routeConfig.WELCOMING_PAGE_ROUTE));
-                }
-            }
-        );
-    }
+        const updatedSokerData: Søkerdata | undefined = isSøkerApiResponse(søkerResponse.data)
+            ? {
+                  person: søkerApiResponseToPerson(søkerResponse.data)
+              }
+            : undefined;
 
-    updateSøkerdata(
-        formData: SøknadFormData,
-        lastStepID: StepID | undefined,
-        søkerdata: Søkerdata,
-        callback?: () => void
-    ) {
-        this.setState(
-            {
-                isLoading: false,
-                lastStepID,
-                formData,
-                søkerdata: søkerdata ? søkerdata : this.state.søkerdata
-            },
-            callback
-        );
-    }
-
-    stopLoading() {
-        this.setState({
-            isLoading: false
+        setState({
+            isLoading: false,
+            lastStepID: maybeStoredLastStepID,
+            formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
+            søkerdata: updatedSokerData
         });
-    }
-
-    handleSøkerdataFetchError(response: AxiosError) {
-        if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
-            navigateToLoginPage();
-        } else if (!userIsCurrentlyOnErrorPage()) {
-            window.location.assign(getRouteUrl(routeConfig.ERROR_PAGE_ROUTE));
+        if (!isSøkerApiResponse(søkerResponse.data)) {
+            setApiCallError(true);
+            logToSentryOrConsole(
+                "søkerApiResponse invalid (SøknadEssentialsLoader)",
+                Severity.Error
+            );
         }
-        // this timeout is set because if isLoading is updated in the state too soon,
-        // the contentLoadedRenderer() will be called while the user is still on the wrong route,
-        // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
-        setTimeout(this.stopLoading, 200);
+    };
+
+    if (isSøkerdata(søkerdata) && isSøknadFormData(formData) && !isLoading) {
+        return <>{contentLoadedRenderer(søkerdata, formData, lastStepID)}</>;
     }
-
-    updateArbeidsgivere(arbeidsgivere: Arbeidsgiver[]) {
-        const { person, setArbeidsgivere } = this.state.søkerdata!;
-        this.setState({
-            søkerdata: {
-                setArbeidsgivere,
-                arbeidsgivere,
-                person
-            }
-        });
+    if (apiCallError) {
+        return <GeneralErrorPage />;
     }
-
-    render() {
-        const { contentLoadedRenderer } = this.props;
-        const { isLoading, søkerdata, formData, lastStepID } = this.state;
-
-        if (isLoading) {
-            return <LoadingPage />;
-        }
-
-        return (
-            <>
-                <SøkerdataContextProvider value={søkerdata}>
-                    {contentLoadedRenderer(søkerdata, formData, lastStepID)}
-                </SøkerdataContextProvider>
-            </>
-        );
-    }
-}
+    return <LoadingPage />;
+};
 
 export default SøknadEssentialsLoader;

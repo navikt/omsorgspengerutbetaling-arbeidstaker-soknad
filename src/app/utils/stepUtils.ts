@@ -3,10 +3,11 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from 'app/config/stepConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
 import {
-    begrunnelseStepIsValid,
+    annetStepIsValid,
     medlemskapStepIsValid,
     periodeStepIsValid,
-    situasjonStepIsValid, welcomingPageIsValid
+    situasjonStepIsValid,
+    welcomingPageIsValid
 } from '../validation/stepValidations';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -20,16 +21,16 @@ export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepCo
     };
 };
 
-export const begrunnelseStepIsAvailable = (formData: SøknadFormData) => welcomingPageIsValid(formData);
-
-export const situasjonStepIsAvailable = (formData: SøknadFormData) =>
-    begrunnelseStepIsAvailable(formData) && begrunnelseStepIsValid(formData);
+export const situasjonStepIsAvailable = (formData: SøknadFormData) => welcomingPageIsValid(formData);
 
 export const periodeStepIsAvailable = (formData: SøknadFormData) =>
     situasjonStepIsAvailable(formData) && situasjonStepIsValid(formData);
 
-export const medlemskapStepIsAvailable = (formData: SøknadFormData) =>
+export const annetStepIsAvailable = (formData: SøknadFormData) =>
     periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
+
+export const medlemskapStepIsAvailable = (formData: SøknadFormData) =>
+    annetStepIsAvailable(formData) && annetStepIsValid(formData);
 
 export const summaryStepAvailable = (formData: SøknadFormData) =>
     medlemskapStepIsAvailable(formData) && medlemskapStepIsValid(formData);

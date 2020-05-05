@@ -4,3 +4,4 @@ export const getEnvironmentVariable = (variableName: string) => (window as any).
 
 export const appIsRunningInDemoMode = () => isFeatureEnabled(Feature.DEMO_MODE);
 
+export const isRunningLocally = (hostname: string) => hostname.includes('localhost');

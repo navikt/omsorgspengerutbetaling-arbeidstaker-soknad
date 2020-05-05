@@ -6,20 +6,24 @@ import { Attachment } from 'common/types/Attachment';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { deleteFile } from '../../api/api';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { ArbeidsforholdFormData, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 
 interface Props {
+    attachments: Attachment[];
+    formikFieldName: string;
     includeDeletionFunctionality: boolean;
     wrapNoAttachmentsInBox?: boolean;
 }
 
 const UploadedDocumentsList: React.FunctionComponent<Props> = ({
+    attachments,
+    formikFieldName,
     wrapNoAttachmentsInBox,
     includeDeletionFunctionality
 }) => {
     const { values, setFieldValue } = useFormikContext<SøknadFormData>();
 
-    const dokumenter: Attachment[] = values.dokumenter.filter(({ file }: Attachment) => {
+    const dokumenter: Attachment[] = attachments.filter(({ file }: Attachment) => {
         return file && file.name ? fileExtensionIsValid(file.name) : false;
     });
 
@@ -33,13 +37,13 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
                 attachments={dokumenter}
                 onRemoveAttachmentClick={(attachment: Attachment) => {
                     attachment.pending = true;
-                    setFieldValue(SøknadFormField.dokumenter, dokumenter);
+                    setFieldValue(formikFieldName, dokumenter);
                     deleteFile(attachment.url!).then(
                         () => {
-                            setFieldValue(SøknadFormField.dokumenter, removeElementFromArray(attachment, dokumenter));
+                            setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
                         },
                         () => {
-                            setFieldValue(SøknadFormField.dokumenter, removeElementFromArray(attachment, dokumenter));
+                            setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
                         }
                     );
                 }}

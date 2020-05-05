@@ -2,7 +2,7 @@ import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import {
-    begrunnelseStepIsAvailable,
+    annetStepIsAvailable,
     medlemskapStepIsAvailable,
     periodeStepIsAvailable,
     situasjonStepIsAvailable,
@@ -23,18 +23,19 @@ export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): st
 
 export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData) => {
     switch (path) {
-        case StepID.BEGRUNNELSE:
-            return begrunnelseStepIsAvailable(values);
         case StepID.SITUASJON:
             return situasjonStepIsAvailable(values);
         case StepID.PERIODE:
             return periodeStepIsAvailable(values);
+        case StepID.ANNET:
+            return annetStepIsAvailable(values);
         case StepID.MEDLEMSKAP:
             return medlemskapStepIsAvailable(values);
         case StepID.OPPSUMMERING:
             return summaryStepAvailable(values);
-        case RouteConfig.SØKNAD_SENDT_ROUTE:
+        case RouteConfig.SØKNAD_SENDT_ROUTE: {
             return values[SøknadFormField.harBekreftetOpplysninger];
+        }
+        default: return true;
     }
-    return true;
 };

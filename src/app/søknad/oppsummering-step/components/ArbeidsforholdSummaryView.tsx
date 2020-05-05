@@ -11,22 +11,21 @@ import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
 
 interface Props {
-    arbeidsgiverDetaljer: ArbeidsgiverDetaljer;
+    arbeidsgivere: ArbeidsgiverDetaljer[];
 }
 
 const bem = bemUtils('arbeidsforholdSummary');
 
 const ArbeidsforholdSummaryView: React.FC<Props> = (props: Props) => {
     const intl = useIntl();
-    const { arbeidsgiverDetaljer } = props;
-    const organisasjoner: OrganisasjonDetaljer[] = arbeidsgiverDetaljer.organisasjoner;
+    const { arbeidsgivere } = props;
 
     return (
         <Box margin="xl">
             <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-                {organisasjoner.length > 0 ? (
+                {arbeidsgivere.length > 0 ? (
                     <SummaryList
-                        items={organisasjoner}
+                        items={arbeidsgivere}
                         itemRenderer={(organisasjon: OrganisasjonDetaljer) => {
                             const orgInfo = {
                                 navn: organisasjon.navn,

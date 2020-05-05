@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
 import intlHelper from 'common/utils/intlUtils';
-import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../types/SøknadFormData';
+import { ArbeidsforholdFormDataFields, ArbeidsforholdFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -11,46 +11,48 @@ import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
 
 interface Props {
-    arbeidsforhold: Arbeidsforhold;
+    arbeidsforholdFormData: ArbeidsforholdFormData;
     index: number;
 }
 
-const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, index }) => {
+const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
     const intl = useIntl();
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }) => {
-                const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as SøknadFormField;
+                const getFieldName = (field: ArbeidsforholdFormDataFields) => `${name}.${index}.${field}`;
                 return (
                     <>
                         <FormBlock>
                             <FormikYesOrNoQuestion
                                 legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}
-                                name={getFieldName(ArbeidsforholdField.harHattFraværHosArbeidsgiver)}
+                                name={getFieldName(ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver)}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </FormBlock>
-                        {arbeidsforhold[ArbeidsforholdField.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
-                            <FormBlock paddingBottom={"xl"}>
+                        {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] ===
+                            YesOrNo.YES && (
+                            <FormBlock paddingBottom={'xl'}>
                                 <FormikYesOrNoQuestion
                                     legend={intlHelper(
                                         intl,
                                         'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
                                     )}
-                                    name={getFieldName(ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn)}
+                                    name={getFieldName(ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn)}
                                     validate={validateYesOrNoIsAnswered}
                                 />
                             </FormBlock>
                         )}
-                        {
-                            arbeidsforhold[ArbeidsforholdField.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES && (
+                        {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] ===
+                            YesOrNo.YES &&
+                            arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] ===
+                                YesOrNo.YES && (
                                 <Box margin="s" padBottom="xl">
                                     <AlertStripe type="info">
                                         <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
                                     </AlertStripe>
                                 </Box>
-                            )
-                        }
+                            )}
                     </>
                 );
             }}
@@ -58,4 +60,4 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
     );
 };
 
-export default FormikArbeidsforhold;
+export default FormikArbeidsforholdDelEn;

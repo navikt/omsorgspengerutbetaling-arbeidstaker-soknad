@@ -2,12 +2,12 @@ import React from 'react';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { Knapp } from 'nav-frontend-knapper';
 import { FraværDelerAvDag, Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
-import { SøknadFormField } from '../../../types/SøknadFormData';
 import { validateDagerMedFravær } from '../../../validation/fieldValidations';
-import SøknadFormComponents from '../../SøknadFormComponents';
 import DagerMedDelvisFraværListItem from './DagerMedDelvisFraværListItem';
+import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
 
 interface Props {
+    name: string;
     dagerMedDelvisFravær: FraværDelerAvDag[];
     perioderMedFravær: Periode[];
     onRemove: (idx: number) => void;
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const DagerMedDelvisFraværList: React.FunctionComponent<Props> = ({
+    name,
     dagerMedDelvisFravær,
     perioderMedFravær,
     onRemove,
@@ -22,12 +23,13 @@ const DagerMedDelvisFraværList: React.FunctionComponent<Props> = ({
 }) => {
     return (
         <>
-            <SøknadFormComponents.InputGroup
+            <FormikInputGroup
                 className={'periodelistGroup'}
-                name={SøknadFormField.dagerMedDelvisFraværGroup}
+                name={name}
                 validate={() => validateDagerMedFravær(dagerMedDelvisFravær, perioderMedFravær)}>
                 {dagerMedDelvisFravær.map((dag, index) => (
                     <DagerMedDelvisFraværListItem
+                        name={name}
                         key={index}
                         index={index}
                         dag={dag}
@@ -35,7 +37,7 @@ const DagerMedDelvisFraværList: React.FunctionComponent<Props> = ({
                         disabledDager={dagerMedDelvisFravær.filter((d) => d !== dag)}
                     />
                 ))}
-            </SøknadFormComponents.InputGroup>
+            </FormikInputGroup>
             <FormBlock margin="m">
                 <Knapp type="standard" htmlType={'button'} onClick={onCreateNew} mini={true}>
                     Legg til ny dag med delvis fravær

@@ -1,11 +1,14 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
 import { ResourceType } from '../types/ResourceType';
 import { SøknadApiData } from '../types/SøknadApiData';
-import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
-import { ArbeidsgiverResponse } from '../types/Søkerdata';
+import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
+import { ArbeidsgiverResponse, SøkerApiResponse } from '../types/Søkerdata';
+import { navigateToLoginPage } from '../utils/navigationUtils';
+import { WillRedirect } from '../types/types';
 
-export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
+export const getSøker: () => Promise<AxiosResponse<SøkerApiResponse>> = () =>
+    axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
 
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<ArbeidsgiverResponse>> =>
     axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
@@ -20,3 +23,12 @@ export const uploadFile = (file: File) => {
 };
 
 export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
+
+export const redirectIfForbiddenOrUnauthorized = (response: AxiosError): WillRedirect => {
+    if (isForbidden(response) || isUnauthorized(response)) {
+        navigateToLoginPage();
+        return WillRedirect.Yes;
+    } else {
+        return WillRedirect.No;
+    }
+};

@@ -3,7 +3,7 @@
         "outDir": "build/dist",
         "module": "esnext",
         "target": "es5",
-        "lib": ["es6", "dom", "es2017"],
+        "lib": ["es6", "dom", "es2019"],
         "sourceMap": true,
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
@@ -16,7 +16,7 @@
         "strictNullChecks": true,
         "skipLibCheck": true,
         "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "baseUrl": "./src",
         "paths": {
             "common*": ["../node_modules/@navikt/sif-common-core/lib*"]

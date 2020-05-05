@@ -9,7 +9,6 @@ import Panel from 'nav-frontend-paneler';
 import { sendApplication } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -31,22 +30,22 @@ import UploadedDocumentsList from '../../components/uploaded-documents-list/Uplo
 import SummaryList from 'common/components/summary-list/SummaryList';
 
 interface Props {
-    onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
+    søkerdata: Søkerdata;
+    onApplicationSent: (apiValues: SøknadApiData) => void;
 }
 
-const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }) => {
+const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, søkerdata }) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
-    const søkerdata = React.useContext(SøkerdataContext);
     const history = useHistory();
 
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
-    async function navigate(data: SøknadApiData, søker: Søkerdata) {
+    async function navigate(data: SøknadApiData) {
         setSendingInProgress(true);
         try {
             await sendApplication(data);
-            onApplicationSent(apiValues, søker);
+            onApplicationSent(apiValues);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                 navigateToLoginPage();
@@ -54,10 +53,6 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                 navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
             }
         }
-    }
-
-    if (!søkerdata) {
-        return null;
     }
 
     const {
@@ -72,7 +67,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
             id={StepID.OPPSUMMERING}
             onValidFormSubmit={() => {
                 setTimeout(() => {
-                    navigate(apiValues, søkerdata); // La view oppdatere seg først
+                    navigate(apiValues); // La view oppdatere seg først
                 });
             }}
             useValidationErrorSummary={false}
@@ -85,41 +80,49 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent }
                 <Panel border={true}>
                     <NavnOgFodselsnummerSummaryView
                         intl={intl}
-                        fornavn={fornavn}
-                        etternavn={etternavn}
-                        mellomnavn={mellomnavn}
+                        fornavn={fornavn || undefined}
+                        etternavn={etternavn || undefined}
+                        mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
-                    <JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />
-                    <SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />
-                    <ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />
+
+                    {/*<JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />*/}
+                    {/*<SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />*/}
+                    {/*<ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />*/}
+
                     <FosterbarnSummaryView fosterbarn={fosterbarn} />
-                    <UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />
-                    {apiValues.andreUtbetalinger.length > 0 && (
-                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søkt_om_andre_utbetalinger')}>
-                            <SummaryList
-                                items={apiValues.andreUtbetalinger}
-                                itemRenderer={(utbetaling) => (
-                                    <span>{intlHelper(intl, `andre_utbetalinger.${utbetaling}`)}</span>
-                                )}
-                            />
-                        </SummaryBlock>
-                    )}
+
+                    {/*<UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />*/}
+                    {/*{apiValues.andreUtbetalinger.length > 0 && (*/}
+                    {/*    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søkt_om_andre_utbetalinger')}>*/}
+                    {/*        <SummaryList*/}
+                    {/*            items={apiValues.andreUtbetalinger}*/}
+                    {/*            itemRenderer={(utbetaling) => (*/}
+                    {/*                <span>{intlHelper(intl, `andre_utbetalinger.${utbetaling}`)}</span>*/}
+                    {/*            )}*/}
+                    {/*        />*/}
+                    {/*    </SummaryBlock>*/}
+                    {/*)}*/}
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
 
-                    {apiValues.vedlegg.length === 0 && apiValues.jobbHosNåværendeArbeidsgiver.merEnn4Uker && (
-                        <Box margin={'s'}>
-                            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
-                                <FormattedHTMLMessage id={'steg.oppsummering.dokumenter.ikkelastetopp'} />
-                            </SummaryBlock>
-                        </Box>
-                    )}
-                    {apiValues.vedlegg.length > 0 && (
-                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
-                            <UploadedDocumentsList includeDeletionFunctionality={false} />
-                        </SummaryBlock>
-                    )}
+                    {/*{apiValues.vedlegg.length === 0 && apiValues.jobbHosNåværendeArbeidsgiver.merEnn4Uker && (*/}
+                    {/*    <Box margin={'s'}>*/}
+                    {/*        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>*/}
+                    {/*            <FormattedHTMLMessage id={'steg.oppsummering.dokumenter.ikkelastetopp'} />*/}
+                    {/*        </SummaryBlock>*/}
+                    {/*    </Box>*/}
+                    {/*)}*/}
+
+                    {/* TODO: Fix senere */}
+                    {/*{apiValues.vedlegg.length > 0 && (*/}
+                    {/*    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>*/}
+                    {/*        <UploadedDocumentsList*/}
+                    {/*            attachments={}    */}
+                    {/*            includeDeletionFunctionality={false} */}
+                    {/*        />*/}
+                    {/*    </SummaryBlock>*/}
+                    {/*)}*/}
                 </Panel>
             </Box>
 

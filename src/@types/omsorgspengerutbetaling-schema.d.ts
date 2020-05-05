@@ -58,6 +58,7 @@ export interface Utenlandsopphold {
     landnavn: string;
 }
 
+// TODO: Rydd opp plassering og navn på typer
 export interface Periode {
     fom: Date;
     tom: Date;

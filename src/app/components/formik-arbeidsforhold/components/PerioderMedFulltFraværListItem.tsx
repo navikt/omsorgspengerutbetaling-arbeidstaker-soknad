@@ -4,18 +4,18 @@ import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtil
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { Knapp } from 'nav-frontend-knapper';
 import { Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
-import { SøknadFormField } from '../../../types/SøknadFormData';
 import { GYLDIG_TIDSROM } from '../../../validation/constants';
 import {
     validateAll,
     validateDateInRange,
-    validateTomAfterFom,
-    validateDateNotInFuture
+    validateDateNotInFuture,
+    validateTomAfterFom
 } from '../../../validation/fieldValidations';
-import SøknadFormComponents from '../../SøknadFormComponents';
+import { FormikDateIntervalPicker } from '@navikt/sif-common-formik/lib';
 
 interface Props {
     index: number;
+    name: string;
     periode?: Periode;
     disabledPerioder?: Periode[];
     onRemove?: (index: number) => void;
@@ -27,7 +27,8 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
     index,
     periode,
     disabledPerioder,
-    onRemove
+    onRemove,
+    name
 }) => {
     const tomDateRange: Partial<DateRange> = {
         from: periode?.fom ? periode.fom : GYLDIG_TIDSROM.from,
@@ -37,11 +38,11 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
     return (
         <div className={bem.classNames(bem.block, bem.modifierConditional('firstRow', index === 0))}>
             <div className={bem.element('rangeWrapper')}>
-                <SøknadFormComponents.DateIntervalPicker
+                <FormikDateIntervalPicker
                     fromDatepickerProps={{
                         label: 'Fra og med',
                         validate: validateAll([validateRequiredField, validateDateInRange(GYLDIG_TIDSROM)]),
-                        name: `${SøknadFormField.perioderMedFravær}.${index}.fom` as SøknadFormField,
+                        name: `${name}.${index}.fom`,
                         dateLimitations: {
                             minDato: GYLDIG_TIDSROM.from,
                             maksDato: dateToday,
@@ -56,7 +57,7 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                             validateDateNotInFuture()
                         ]),
                         label: 'Til og med',
-                        name: `${SøknadFormField.perioderMedFravær}.${index}.tom` as SøknadFormField,
+                        name: `${name}.${index}.tom`,
                         dateLimitations: {
                             minDato: tomDateRange.from,
                             maksDato: dateToday,

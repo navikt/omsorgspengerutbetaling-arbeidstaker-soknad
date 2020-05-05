@@ -7,12 +7,12 @@ import Page from 'common/components/page/Page';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import './confirmationPage.less';
-import { Panel } from 'nav-frontend-paneler';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from 'common/utils/personUtils';
+import Panel from 'nav-frontend-paneler/lib';
 
 const bem = bemUtils('confirmationPage');
 
@@ -26,6 +26,7 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
     const intl = useIntl();
 
     // const apiData: SøknadApiData = mock1;
+    // TODO: Må ikke kunne trykke back. Alternativt, hvis man trykker back så må man komme til Velkommen.
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
@@ -101,7 +102,8 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
 
 const settInnTilArbeidsgiverPaneler = (intl: IntlShape, søkerdata: Søkerdata, apiData?: SøknadApiData): JSX.Element => {
     const { fornavn, mellomnavn, etternavn } = søkerdata?.person;
-    const søkersNavn: string = formatName(fornavn, etternavn, mellomnavn);
+    const søkersNavn: string | undefined =
+        fornavn && etternavn ? formatName(fornavn, etternavn, mellomnavn || undefined) : 'UKJENT BRUKER';
     const søknadsNavn = 'omsorgspenger';
 
     return (

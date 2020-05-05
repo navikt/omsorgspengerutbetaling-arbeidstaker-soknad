@@ -1,4 +1,3 @@
-import { Næringstype } from '@navikt/sif-common-forms/lib';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
 
@@ -7,17 +6,19 @@ export type ISO8601Duration = string;
 export interface MedlemskapApiData {
     harBoddIUtlandetSiste12Mnd: boolean;
     skalBoIUtlandetNeste12Mnd: boolean;
-    utenlandsoppholdNeste12Mnd: UtenlandsoppholdApiData[];
-    utenlandsoppholdSiste12Mnd: UtenlandsoppholdApiData[];
+    utenlandsoppholdNeste12Mnd: Bosted[];
+    utenlandsoppholdSiste12Mnd: Bosted[];
 }
 
-export interface UtenlandsoppholdApiData {
+export interface Bosted {
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
     landkode: string;
     landnavn: string;
     erEØSLand: boolean;
 }
+
+export type Opphold = Bosted;
 
 export type YesNoSvar = boolean;
 
@@ -28,45 +29,6 @@ export interface YesNoSpørsmålOgSvar {
     svar: YesNoSvar;
 }
 
-export interface UtbetalingsperiodeApi {
-    fraOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
-    tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
-    lengde?: string; // f eks PT5H30M | "null" (type Duration)
-}
-
-export interface Frilans {
-    startdato: string;
-    jobberFortsattSomFrilans: boolean;
-}
-
-export interface VirksomhetApiData {
-    næringstyper: Næringstype[];
-    fiskerErPåBladB?: boolean;
-    fraOgMed: ApiStringDate;
-    tilOgMed?: ApiStringDate | null;
-    næringsinntekt?: number;
-    navnPåVirksomheten: string;
-    organisasjonsnummer?: string;
-    registrertINorge: boolean;
-    registrertILand?: string;
-    yrkesaktivSisteTreFerdigliknedeÅrene?: {
-        oppstartsdato: ApiStringDate;
-    };
-    varigEndring?: {
-        dato: ApiStringDate;
-        inntektEtterEndring: number;
-        forklaring: string;
-    };
-    regnskapsfører?: {
-        navn: string;
-        telefon: string;
-    };
-    revisor?: {
-        navn: string;
-        telefon: string;
-        kanInnhenteOpplysninger?: boolean;
-    };
-}
 
 export interface FosterbarnApi {
     fødselsnummer: string;
@@ -87,7 +49,26 @@ export interface OrganisasjonDetaljer {
 }
 
 export interface ArbeidsgiverDetaljer {
-    organisasjoner: OrganisasjonDetaljer[];
+    navn: string | null;
+    organisasjonsnummer: string | null;
+    harHattFraværHosArbeidsgiver: boolean;
+    arbeidsgiverHarUtbetaltLønn: boolean;
+    ansettelseslengde: Ansettelseslengde;
+    perioder: Utbetalingsperiode[];
+}
+
+export interface Ansettelseslengde {
+    merEnn4Uker: boolean;
+    begrunnelse: Begrunnelse | null;
+    ingenAvSituasjoneneForklaring: string | null;
+}
+
+export enum Begrunnelse {
+    ANNET_ARBEIDSFORHOLD = "ANNET_ARBEIDSFORHOLD",
+    ANDRE_YTELSER = "ANDRE_YTELSER",
+    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = "LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON",
+    MILITÆRTJENESTE = "MILITÆRTJENESTE",
+    INGEN_AV_SITUASJONENE = "INGEN_AV_SITUASJONENE"
 }
 
 export interface JobbHosNåværendeArbeidsgiver {
@@ -95,36 +76,19 @@ export interface JobbHosNåværendeArbeidsgiver {
     begrunnelse: Begrunnelse | null;
 }
 
-export enum Begrunnelse {
-    ANNET_ARBEIDSFORHOLD = "ANNET_ARBEIDSFORHOLD",
-    ANDRE_YTELSER = "ANDRE_YTELSER",
-    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = "LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON",
-    MILITÆRTJENESTE = "MILITÆRTJENESTE"
+export interface Utbetalingsperiode {
+    fraOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
+    tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
+    lengde: string | null; // f eks PT5H30M | "null" (type Duration)
 }
 
 export interface SøknadApiData {
     språk: Locale;
-    bosteder: UtenlandsoppholdApiData[]; // medlemskap-siden
-    opphold: UtenlandsoppholdApiData[]; // hvis ja på har oppholdt seg i utlandet
-    jobbHosNåværendeArbeidsgiver: JobbHosNåværendeArbeidsgiver;
-    vedlegg: string[];
-    spørsmål: YesNoSpørsmålOgSvar[];
-    arbeidsgivere: ArbeidsgiverDetaljer;
+    bosteder: Bosted[]; // medlemskap-siden
+    opphold: Opphold[]; // hvis ja på har oppholdt seg i utlandet
+    arbeidsgivere: ArbeidsgiverDetaljer[];
     bekreftelser: Bekreftelser;
-    utbetalingsperioder: UtbetalingsperiodeApi[]; // perioder
     andreUtbetalinger: string[];
     fosterbarn: FosterbarnApi[] | null;
+    vedlegg: string[];
 }
-
-// data class Arbeidstakerutbetalingsøknad(
-//     val språk: Språk,
-//     val bosteder: List<Bosted>,
-//     val opphold: List<Opphold>,
-//     val jobbHosNåværendeArbeidsgiver: JobbHosNåværendeArbeidsgiver,
-//     val spørsmål: List<SpørsmålOgSvar>,
-//     val arbeidsgivere: ArbeidsgiverDetaljer,
-//     val bekreftelser: Bekreftelser,
-//     val utbetalingsperioder: List<Utbetalingsperiode>,
-//     val andreUtbetalinger: List<String>,
-//     val fosterbarn: List<FosterBarn>? = listOf()
-// )

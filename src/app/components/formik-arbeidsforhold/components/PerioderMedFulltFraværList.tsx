@@ -2,14 +2,14 @@ import React from 'react';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { Knapp } from 'nav-frontend-knapper';
 import { FraværDelerAvDag, Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
-import { SøknadFormField } from '../../../types/SøknadFormData';
 import { validatePerioderMedFravær } from '../../../validation/fieldValidations';
-import SøknadFormComponents from '../../SøknadFormComponents';
 import PerioderMedFulltFraværListItem from './PerioderMedFulltFraværListItem';
+import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
 
 interface Props {
     perioderMedFravær: Periode[];
     dagerMedGradvisFravær: FraværDelerAvDag[];
+    name: string;
     onRemove: (idx: number) => void;
     onCreateNew: () => void;
 }
@@ -18,16 +18,18 @@ const PeriodeMedFulltFraværList: React.FunctionComponent<Props> = ({
     perioderMedFravær,
     dagerMedGradvisFravær,
     onCreateNew,
-    onRemove
+    onRemove,
+    name
 }) => {
     return (
         <>
-            <SøknadFormComponents.InputGroup
+            <FormikInputGroup
                 className="periodelistGroup"
-                name={SøknadFormField.perioderMedFraværGroup}
+                name={name}
                 validate={() => validatePerioderMedFravær(perioderMedFravær, dagerMedGradvisFravær)}>
                 {perioderMedFravær.map((periode, index) => (
                     <PerioderMedFulltFraværListItem
+                        name={name}
                         key={index}
                         index={index}
                         periode={periode}
@@ -35,7 +37,7 @@ const PeriodeMedFulltFraværList: React.FunctionComponent<Props> = ({
                         disabledPerioder={perioderMedFravær.filter((p) => p !== periode)}
                     />
                 ))}
-            </SøknadFormComponents.InputGroup>
+            </FormikInputGroup>
             <FormBlock margin="m">
                 <Knapp type="standard" htmlType={'button'} onClick={onCreateNew} mini={true}>
                     Legg til ny periode med fullt fravær

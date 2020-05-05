@@ -8,9 +8,9 @@ import { formatName } from 'common/utils/personUtils';
 
 export interface Props {
     intl: IntlShape;
-    fornavn: string;
-    etternavn: string;
-    mellomnavn: string;
+    fornavn?: string;
+    etternavn?: string;
+    mellomnavn?: string;
     fødselsnummer: string;
 }
 
@@ -19,7 +19,7 @@ export const NavnOgFodselsnummerSummaryView = (props: Props) => {
     return (
         <Box margin={'xl'}>
             <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
-                <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
+                {fornavn && etternavn && <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>}
                 <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
             </ContentWithHeader>
         </Box>

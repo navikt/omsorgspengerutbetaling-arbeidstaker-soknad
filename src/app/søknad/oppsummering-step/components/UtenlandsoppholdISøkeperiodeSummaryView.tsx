@@ -2,12 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import intlHelper from 'common/utils/intlUtils';
-import { UtenlandsoppholdApiData } from '../../../types/SøknadApiData';
+import { Bosted } from '../../../types/SøknadApiData';
 import { renderUtenlandsoppholdIPeriodenSummary } from './renderUtenlandsoppholdSummary';
 import SummaryBlock from './SummaryBlock';
 
 export interface Props {
-    utenlandsopphold: UtenlandsoppholdApiData[];
+    utenlandsopphold: Bosted[];
 }
 
 const UtenlandsoppholdISøkeperiodeSummaryView = ({ utenlandsopphold }: Props) => {
