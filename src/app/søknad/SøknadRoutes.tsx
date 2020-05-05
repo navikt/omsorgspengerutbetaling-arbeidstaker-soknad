@@ -39,6 +39,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
     const [hasBeenClosed, setHasBeenClosed] = useState<boolean>(false);
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
     async function navigateToNextStepFrom(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -61,10 +62,13 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
     }
 
     const fortsettPåPåbegyntSøknad = async (lastStepId: StepID) => {
-        navigateTo(lastStepId, history);
+        setButtonsAreDisabled(true);
+        await navigateTo(lastStepId, history);
+        setButtonsAreDisabled(false);
     };
 
     const startPåNySøknad = async () => {
+        setButtonsAreDisabled(true);
         try {
             await SøknadTempStorage.purge();
             setHasBeenClosed(true);
@@ -75,13 +79,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 };
             });
         } catch (e) {
-            const willRedirect = redirectIfForbiddenOrUnauthorized(e);
+            const willRedirect = await redirectIfForbiddenOrUnauthorized(e);
             if (willRedirect === WillRedirect.No) {
                 setShowErrorMessage(true);
             } else {
                 setIsLoading(true);
             }
         }
+        setButtonsAreDisabled(false)
     };
 
     if (isLoading) {
@@ -121,6 +126,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                             {lastStepID && (
                                 <FortsettSøknadModalView
                                     isOpen={!!lastStepID && !hasBeenClosed}
+                                    buttonsAreDisabled={buttonsAreDisabled}
                                     onRequestClose={() => {
                                         startPåNySøknad();
                                     }}

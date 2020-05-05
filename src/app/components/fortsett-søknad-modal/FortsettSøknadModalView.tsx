@@ -7,6 +7,7 @@ import './fortsettSøknadModalView.less';
 
 interface Props {
     isOpen: boolean;
+    buttonsAreDisabled: boolean;
     onRequestClose: () => void;
     onFortsettPåSøknad: () => void;
     onStartNySøknad: () => void;
@@ -14,9 +15,17 @@ interface Props {
 
 // TODO: Flytte til sif-common-core, og bruke intl
 const FortsettSøknadModalView: React.FC<Props> = (props: Props) => {
-    const { isOpen, onRequestClose, onFortsettPåSøknad, onStartNySøknad } = props;
+    const { isOpen, onRequestClose, onFortsettPåSøknad, onStartNySøknad, buttonsAreDisabled } = props;
     return (
-        <Modal isOpen={isOpen} onRequestClose={onRequestClose} contentLabel="Fortsette på påbegynt søknad?">
+        <Modal
+            isOpen={isOpen}
+            onRequestClose={() => {
+                if (!buttonsAreDisabled) {
+                    onRequestClose();
+                }
+            }}
+            contentLabel="Fortsette på påbegynt søknad?"
+            shouldCloseOnOverlayClick={false}>
             <div className={'fortsett-soknad-modal-view-wrapper'}>
                 <Box padBottom={'xl'}>
                     <CounsellorPanel type={'plakat'} kompakt={true} fargetema={'info'}>
@@ -29,14 +38,22 @@ const FortsettSøknadModalView: React.FC<Props> = (props: Props) => {
                 <div className={'knappe-wrapper'}>
                     <div className={'knapp-wrapper'}>
                         <Box padBottom={'m'}>
-                            <Knapp type={'hoved'} onClick={onFortsettPåSøknad}>
+                            <Knapp
+                                type={'hoved'}
+                                disabled={buttonsAreDisabled}
+                                onClick={onFortsettPåSøknad}
+                                spinner={buttonsAreDisabled}>
                                 Fortsett på søknaden
                             </Knapp>
                         </Box>
                     </div>
                     <div className={'knapp-wrapper'}>
                         <Box padBottom={'m'}>
-                            <Knapp type={'hoved'} onClick={onStartNySøknad}>
+                            <Knapp
+                                type={'hoved'}
+                                disabled={buttonsAreDisabled}
+                                onClick={onStartNySøknad}
+                                spinner={buttonsAreDisabled}>
                                 Start ny søknad
                             </Knapp>
                         </Box>
