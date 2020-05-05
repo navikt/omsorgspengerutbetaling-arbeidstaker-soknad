@@ -421,5 +421,10 @@
     "psg-temp.icon.label.horizontal": "Bildet har ikke riktig retning",
     "psg-temp.icon.label.shadow": "Bildet har skygge på dokumentet",
     "psg-temp.lenkepanel.url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/relatert-informasjon/ta-bilde-av-vedleggene-med-mobilen",
-    "psg-temp.lenkepanel.text": "Mer hjelp til å laste opp vedlegg (åpnes i et nytt vindu)."
+    "psg-temp.lenkepanel.text": "Mer hjelp til å laste opp vedlegg (åpnes i et nytt vindu).",
+
+    "step.annet.stepIndicatorLabel": "Dager du har opplyst at du har vært hjemme med barn",
+    "step.annet.stepTitle": "Dager du har opplyst at du har vært hjemme med barn",
+    "step.annet.pageTitle": "Dager du har opplyst at du har vært hjemme med barn"
+
 }

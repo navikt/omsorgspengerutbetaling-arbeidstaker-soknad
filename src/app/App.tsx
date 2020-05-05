@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import { Locale } from 'common/types/Locale';
@@ -12,6 +13,8 @@ import Søknad from './søknad/Søknad';
 import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
+
+Sentry.init({dsn: "https://20da9cbb958c4f5695d79c260eac6728@sentry.gc.nav.no/30"});
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);

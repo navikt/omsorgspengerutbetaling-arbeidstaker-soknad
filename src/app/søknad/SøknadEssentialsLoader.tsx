@@ -11,6 +11,8 @@ import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 import { WillRedirect } from '../types/types';
+import { Severity } from '@sentry/browser';
+import { logToSentryOrConsole } from '../utils/sentryUtils';
 
 interface Props {
     contentLoadedRenderer: (
@@ -90,9 +92,10 @@ const SøknadEssentialsLoader = (props: Props) => {
         });
         if (!isSøkerApiResponse(søkerResponse.data)) {
             setApiCallError(true);
-            // TODO: Log - response from server is not of type SøkerApiResponse
-            // tslint:disable-next-line:no-console
-            console.warn("søkerApiResponse invalid (SøknadEssentialsLoader)");
+            logToSentryOrConsole(
+                "søkerApiResponse invalid (SøknadEssentialsLoader)",
+                Severity.Error
+            );
         }
     };
 
