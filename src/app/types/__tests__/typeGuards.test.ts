@@ -2,7 +2,9 @@ import { isArbeidsgiver, isArbeidsgivere, isPerson, isSøkerApiResponse, isSøke
 import {
     gyldigArbeidsgiver1,
     gyldigArbeidsgiver2,
-    gyldigPerson, gyldigSøkerApiResponse,
+    gyldigArbeidsgiver6,
+    gyldigPerson,
+    gyldigSøkerApiResponse,
     gyldigSøkerdata1,
     gyldigSøkerdata2,
     gyldigSøknadFormData,
@@ -14,12 +16,12 @@ import {
     ugyldigArbeidsgiver3,
     ugyldigArbeidsgiver4,
     ugyldigArbeidsgiver5,
-    ugyldigArbeidsgiver6,
     ugyldigPerson1,
     ugyldigPerson2,
     ugyldigPerson3,
     ugyldigPerson4,
-    ugyldigPerson5, ugyldigSøkerApiResponse,
+    ugyldigPerson5,
+    ugyldigSøkerApiResponse,
     ugyldigSøkerdata1,
     ugyldigSøkerdata2,
     ugyldigSøkerdata3,
@@ -56,7 +58,7 @@ describe('Type Guards', () => {
             expect(isArbeidsgiver(ugyldigArbeidsgiver3)).toBe(false);
             expect(isArbeidsgiver(ugyldigArbeidsgiver4)).toBe(false);
             expect(isArbeidsgiver(ugyldigArbeidsgiver5)).toBe(false);
-            expect(isArbeidsgiver(ugyldigArbeidsgiver6)).toBe(false);
+            expect(isArbeidsgiver(gyldigArbeidsgiver6)).toBe(true);
         });
         it('isArbeidsgivere med foldRight evaluerer riktig', () => {
             expect(isArbeidsgivere(listeAvGydligeArbeidsgivere)).toBe(true);

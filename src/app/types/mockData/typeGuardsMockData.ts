@@ -40,7 +40,7 @@ export const ugyldigArbeidsgiver4: any = 'ugyldig arbeidsgiver';
 export const ugyldigArbeidsgiver5: any = {
     navn: 'En ugyldig arbeidsgiver'
 };
-export const ugyldigArbeidsgiver6: any = {
+export const gyldigArbeidsgiver6: any = {
     organisasjonsnummer: 'En ugyldig arbeidsgiver'
 };
 
@@ -50,8 +50,7 @@ export const listeAvUgyldigeArbeidsgivere: any[] = [
     ugyldigArbeidsgiver2,
     ugyldigArbeidsgiver3,
     ugyldigArbeidsgiver4,
-    ugyldigArbeidsgiver5,
-    ugyldigArbeidsgiver6
+    ugyldigArbeidsgiver5
 ];
 export const listeAvBådeUgyldigeOgGyldigeArbeidsgivere: any[] = [
     gyldigArbeidsgiver1,
