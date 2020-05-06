@@ -121,7 +121,7 @@ const startServer = () => {
     });
 
     server.get('/soker', (req, res) => {
-        res.status(505).send(søkerMock1);
+        res.send(søkerMock1);
     });
 
     server.post('/vedlegg', (req, res) => {

@@ -380,9 +380,9 @@
     "hvorLengeJobbet.spørsmål": "Hvor lenge har du vært i jobb hos arbeidsgiveren din?",
     "hvorLengeJobbet.mindre": "Mindre enn 4 uker",
     "hvorLengeJobbet.mer": "Mer enn 4 uker",
-    "hvorLengeJobbet.fordi.legend": "Her velger du din situasjon. Jeg har jobbet mindre enn 4 uker i den nye jobben min, men direkte før det,",
-    "hvorLengeJobbet.fordi.legend-part1": "Her velger du din situasjon.",
-    "hvorLengeJobbet.fordi.legend-part2": "Jeg har jobbet mindre enn 4 uker i den nye jobben min, men direkte før det,",
+    "hvorLengeJobbet.fordi.legend-header": "Her velger du hva som var din situasjon før du startet å jobbe hos din arbeidsgiver.",
+    "hvorLengeJobbet.fordi.legend-text": "Jeg har jobbet mindre enn 4 uker, men direkte før det:",
+    "arbeidsforhold.hvorLengeJobbet.ingen.helpertext": "Når ingen av situasjonene over gjelder for deg, vil du som hovedregel ikke ha rett på utbetaling av omsorgspenger. Her kan du forklare hva som gjør at arbeidsgiver ikke utbetaler omsorgspenger til deg:",
 
     "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobbet jeg hos en annen arbeidsgiver",
     "hvorLengeJobbet.fordi.andreYtelser.label": "mottok jeg dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger, foreldrepenger eller svangerskapspenger.",

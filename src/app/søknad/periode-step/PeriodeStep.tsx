@@ -57,16 +57,16 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             onValidFormSubmit={() => {
                 onValidSubmit();
             }}
-            // cleanupStep={cleanupStep}
+            // cleanupStep={cleanupStep} TODO: Fix necessary cleanup
             showSubmitButton={true}>
             <FormBlock>
                 <CounsellorPanel>Her legger du inn dagene du har hatt</CounsellorPanel>
             </FormBlock>
 
             {values[SøknadFormField.arbeidsforhold]
-                .filter((arbeidsforhold: ArbeidsforholdFormData) => {
-                    return harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger(arbeidsforhold);
-                })
+                .filter((arbeidsforhold: ArbeidsforholdFormData) =>
+                    harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger(arbeidsforhold)
+                )
                 .map((arbeidsforhold: ArbeidsforholdFormData, index) => (
                     <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
                         <FormSection

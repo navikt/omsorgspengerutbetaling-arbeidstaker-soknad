@@ -10,7 +10,7 @@ import {
     HvorLengeJobbetFordi,
     SøknadFormField
 } from '../../types/SøknadFormData';
-import { FormikRadioPanelGroup, LabelWithInfo } from '@navikt/sif-common-formik/lib';
+import { FormikInput, FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
 import FormBlock from 'common/components/form-block/FormBlock';
 import Box from 'common/components/box/Box';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
@@ -21,25 +21,29 @@ import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel
 import PictureScanningGuide from '../picture-scanning-guide/PictureScanningGuide';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
-import { validateDocuments } from '../../validation/fieldValidations';
+import { AppFieldValidationErrors, validateDocuments } from '../../validation/fieldValidations';
 import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
 import { FieldValidationResult } from 'common/validation/types';
+import './formik-arbeidsforhold.less';
+import { createFieldValidationError } from 'common/validation/fieldValidations';
 
 const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
-        ? {
-              key: 'fieldvalidation.påkrevd'
-          }
+        ? createFieldValidationError(AppFieldValidationErrors.påkrevd)
         : undefined;
 };
 
 const validateHvorLengeJobbetBegrunnelseRadioGroup = (value: HvorLengeJobbetFordi): FieldValidationResult => {
     return value === HvorLengeJobbetFordi.IKKE_BESVART
-        ? {
-              key: 'fieldvalidation.påkrevd'
-          }
+        ? createFieldValidationError(AppFieldValidationErrors.påkrevd)
         : undefined;
+};
+
+const validateIngenAvSituasjoneneTekstField = (value: string): FieldValidationResult => {
+    return value && typeof value === 'string' && value.length > 0 && value.length < 2000
+        ? undefined
+        : createFieldValidationError(AppFieldValidationErrors.påkrevd);
 };
 
 interface Props {
@@ -78,9 +82,7 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                 const getArbeidsforholdFormDataFieldName = (field: ArbeidsforholdFormDataFields) =>
                     `${name}.${index}.${field}`;
                 const getAnsettelseslengdeFormDataFieldName = (field: AnsettelseslengdeFormDataFields) =>
-                    `${getArbeidsforholdFormDataFieldName(
-                        ArbeidsforholdFormDataFields.ansettelseslengde
-                    )}.${field}`;
+                    `${getArbeidsforholdFormDataFieldName(ArbeidsforholdFormDataFields.ansettelseslengde)}.${field}`;
                 return (
                     <>
                         <FormBlock margin={'xxl'}>
@@ -128,15 +130,20 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                                             label: intlHelper(intl, 'hvorLengeJobbet.fordi.ingen.label'),
                                             value: HvorLengeJobbetFordi.INGEN
                                         }
-                                    //    TODO: Ingen skal byttes ut med fritekstfelt
                                     ]}
                                     legend={
-                                        <LabelWithInfo
-                                            infoPlassering={PopoverOrientering.Over}
-                                            // info={"Hva slags info er dette ?"}
-                                        >
-                                            {intlHelper(intl, 'hvorLengeJobbet.fordi.legend')}
-                                        </LabelWithInfo>
+                                        <div>
+                                            <p>
+                                                <LabelWithInfo
+                                                    infoPlassering={PopoverOrientering.Over}
+                                                >
+                                                    {intlHelper(intl, 'hvorLengeJobbet.fordi.legend-header')}
+                                                </LabelWithInfo>
+                                            </p>
+                                            <div className={'normal-tekst'}>
+                                                <FormattedHTMLMessage id="hvorLengeJobbet.fordi.legend-text" />
+                                            </div>
+                                        </div>
                                     }
                                     name={getAnsettelseslengdeFormDataFieldName(
                                         AnsettelseslengdeFormDataFields.begrunnelse
@@ -150,10 +157,15 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                         {hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER &&
                             fordi === HvorLengeJobbetFordi.INGEN && (
                                 <FormBlock>
-                                    <AlertStripeFeil>
-                                        For at du som arbeidstaker skal ha rett til utbetaling av omsorgspenger fra NAV,
-                                        må det være én av situasjonene over som gjelder.
-                                    </AlertStripeFeil>
+                                    <FormattedHTMLMessage id={'arbeidsforhold.hvorLengeJobbet.ingen.helpertext'} />
+                                    {/* TODO: Dette skaper latency issues :/ */}
+                                    <FormikTextarea
+                                        name={getAnsettelseslengdeFormDataFieldName(
+                                            AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring
+                                        )}
+                                        validate={validateIngenAvSituasjoneneTekstField}
+                                        maxLength={2000}
+                                    />
                                 </FormBlock>
                             )}
 
@@ -196,7 +208,9 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                                 <Box margin="l">
                                     <UploadedDocumentsList
                                         attachments={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
-                                        formikFieldName={getArbeidsforholdFormDataFieldName(ArbeidsforholdFormDataFields.dokumenter)}
+                                        formikFieldName={getArbeidsforholdFormDataFieldName(
+                                            ArbeidsforholdFormDataFields.dokumenter
+                                        )}
                                         wrapNoAttachmentsInBox={true}
                                         includeDeletionFunctionality={true}
                                     />

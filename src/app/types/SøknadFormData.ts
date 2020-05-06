@@ -30,7 +30,7 @@ export enum AnsettelseslengdeFormDataFields {
 export interface AnsettelseslengdeFormData {
     [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet;
     [AnsettelseslengdeFormDataFields.begrunnelse]: HvorLengeJobbetFordi;
-    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: string | null;
+    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: string;
 }
 
 export enum ArbeidsforholdFormDataFields {

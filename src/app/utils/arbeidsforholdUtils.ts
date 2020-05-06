@@ -40,7 +40,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
                 : {
                     [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
                     [AnsettelseslengdeFormDataFields.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
-                    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: null
+                    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: ""
                 },
             [ArbeidsforholdFormDataFields.harPerioderMedFravær]: a
                 ? a[ArbeidsforholdFormDataFields.harPerioderMedFravær]
