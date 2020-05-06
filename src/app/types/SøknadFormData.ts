@@ -111,7 +111,6 @@ export enum SøknadFormField {
 
     // STEG 1: Situasjon
     arbeidsforhold = 'arbeidsforhold',
-    harAnnetArbeidsforhold = 'harAnnetArbeidsforhold',
     annetArbeidsforhold = 'annetArbeidsforhold',
 
     harFosterbarn = 'harFosterbarn',
@@ -138,7 +137,6 @@ export interface SøknadFormData {
 
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
-    [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo;
     [SøknadFormField.annetArbeidsforhold]: ArbeidsforholdFormData;
 
     [SøknadFormField.harFosterbarn]: YesOrNo;
@@ -166,7 +164,6 @@ export const initialValues: SøknadFormData = {
 
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
-    [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo.UNANSWERED,
     [SøknadFormField.annetArbeidsforhold]: initialArbeidsforholdFormData,
 
     [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,

@@ -92,7 +92,6 @@ export const ugyldigSøknadFormData5: any = {
 
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
-    [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo.UNANSWERED,
     [SøknadFormField.annetArbeidsforhold]: null,
 
     [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,

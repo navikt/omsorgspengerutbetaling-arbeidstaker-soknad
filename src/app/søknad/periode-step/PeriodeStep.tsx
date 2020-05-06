@@ -18,29 +18,15 @@ import FormikArbeidsforholdDelToArbeidslengde
 import FormSection from 'common/components/form-section/FormSection';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { YesOrNo } from 'common/types/YesOrNo';
+import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 
 // TODO: Flytte utility function et passende sted ?
-export const harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger = (
+export const skalInkludereArbeidsforhold = (
     arbeidsforholdFormData: ArbeidsforholdFormData
 ): boolean => {
     if (
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
-const skalInkludereAnnetArbeidsforhold = (
-    harAnnetArbeidsforhold: YesOrNo,
-    annetArbeidsforhold: ArbeidsforholdFormData
-) => {
-    if (
-        harAnnetArbeidsforhold === YesOrNo.YES &&
-        annetArbeidsforhold[ArbeidsforholdFormDataFields.navn] &&
-        harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger(annetArbeidsforhold)
     ) {
         return true;
     } else {
@@ -66,8 +52,6 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     //     return cleanedValues;
     // };
 
-
-
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
 
@@ -85,7 +69,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
 
             {values[SøknadFormField.arbeidsforhold]
                 .filter((arbeidsforhold: ArbeidsforholdFormData) =>
-                    harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger(arbeidsforhold)
+                    skalInkludereArbeidsforhold(arbeidsforhold)
                 )
                 .map((arbeidsforhold: ArbeidsforholdFormData, index) => (
                     <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
@@ -105,20 +89,15 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     </FormBlock>
                 ))}
 
-            {
-                skalInkludereAnnetArbeidsforhold(values[SøknadFormField.harAnnetArbeidsforhold], annetArbeidsforhold) &&
+            {skalInkludereArbeidsforhold(annetArbeidsforhold) &&
                 isString(annetArbeidsforholdName) && (
-                <FormBlock paddingBottom={'xl'}>
-                    <FormSection
-                        titleTag="h4"
-                        title={annetArbeidsforholdName}
-                        titleIcon={<BuildingIcon />}>
-                        TODO: Lag gjenbrukbare komponenter
-                        {/*<FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={annetArbeidsforhold} index={index} />*/}
-                        {/*<FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={annetArbeidsforhold} index={index} />*/}
-                    </FormSection>
-                </FormBlock>
-            )}
+                    <>
+                        <FormikAnnetArbeidsforholdStegTo
+                            annetArbeidsforhold={annetArbeidsforhold}
+                            annetArbeidsforholdName={annetArbeidsforholdName}
+                        />
+                    </>
+                )}
         </SøknadStep>
     );
 };

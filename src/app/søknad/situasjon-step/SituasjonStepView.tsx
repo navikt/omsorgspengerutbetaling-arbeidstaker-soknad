@@ -29,7 +29,8 @@ import { Severity } from '@sentry/types';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import intlHelper from 'common/utils/intlUtils';
-import FormikAnnetArbeidsforhold from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforhold';
+import FormikAnnetArbeidsforholdSituasjon
+    from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 
 // TODO: Flytt denne et passende sted
 
@@ -141,7 +142,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 )}
 
                 {/* ANNET ARBEIDSFORHOLD*/}
-                <FormikAnnetArbeidsforhold hide={isLoading} />
+                <FormikAnnetArbeidsforholdSituasjon hide={isLoading} />
 
                 {/* FOSTERBARN */}
 

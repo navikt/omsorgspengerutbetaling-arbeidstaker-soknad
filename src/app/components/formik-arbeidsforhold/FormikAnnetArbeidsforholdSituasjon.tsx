@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import intlHelper from 'common/utils/intlUtils';
 import { AnnetArbeidsforholdFormDataFields, SøknadFormData } from '../../types/SøknadFormData';
-import { FormikTextarea, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { FormikInput, FormikTextarea, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
@@ -16,7 +16,7 @@ interface Props {
     hide?: boolean;
 }
 
-const FormikAnnetArbeidsforhold: React.FunctionComponent<Props> = ({ hide = false }) => {
+const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hide = false }) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
     const { annetArbeidsforhold } = values;
@@ -49,7 +49,7 @@ const FormikAnnetArbeidsforhold: React.FunctionComponent<Props> = ({ hide = fals
                         name={getAnnetArbeidsforholdField(
                             AnnetArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn
                         )}
-                        legend={intlHelper(intl, 'annetArbeidsforhold.harHattFravaer.spm')}
+                        legend={intlHelper(intl, 'annetArbeidsforhold.ikkeUtbetaltLonn.spm')}
                         validate={validateYesOrNoIsAnswered}
                     />
                 </FormBlock>
@@ -57,11 +57,12 @@ const FormikAnnetArbeidsforhold: React.FunctionComponent<Props> = ({ hide = fals
             {skalViseNavnPåAnnenArbeidsgiverTextArea && (
                 <>
                     <FormBlock paddingBottom={'l'}>
-                        <FormikTextarea
+                        <FormikInput
                             label={intlHelper(
                                 intl,
                                 'annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.navnArbeidsgiver.spm'
                             )}
+                            bredde={'XXL'}
                             name={getAnnetArbeidsforholdField(AnnetArbeidsforholdFormDataFields.navn)}
                         />
                     </FormBlock>
@@ -83,4 +84,4 @@ const FormikAnnetArbeidsforhold: React.FunctionComponent<Props> = ({ hide = fals
     );
 };
 
-export default FormikAnnetArbeidsforhold;
+export default FormikAnnetArbeidsforholdSituasjon;

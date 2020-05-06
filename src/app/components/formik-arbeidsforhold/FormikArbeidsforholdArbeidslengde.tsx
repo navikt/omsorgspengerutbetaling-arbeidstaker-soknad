@@ -52,7 +52,7 @@ interface Props {
     putPropsHere?: string;
 }
 
-const FormikArbeidslengdeView: React.FC<Props> = ({
+const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
     arbeidsforholdFormData,
     nameHvorLengeJobbet,
     nameBegrunnelse,
@@ -206,4 +206,4 @@ const FormikArbeidslengdeView: React.FC<Props> = ({
     );
 };
 
-export default FormikArbeidslengdeView;
+export default FormikArbeidsforholdArbeidslengde;

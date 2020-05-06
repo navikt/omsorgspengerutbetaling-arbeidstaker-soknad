@@ -38,7 +38,6 @@ export const mapFormDataToApiData = (
 
         // STEG 1: Situasjon
         arbeidsforhold,
-        harAnnetArbeidsforhold,
         annetArbeidsforhold,
 
         harFosterbarn,
