@@ -128,6 +128,7 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                                             label: intlHelper(intl, 'hvorLengeJobbet.fordi.ingen.label'),
                                             value: HvorLengeJobbetFordi.INGEN
                                         }
+                                    //    TODO: Ingen skal byttes ut med fritekstfelt
                                     ]}
                                     legend={
                                         <LabelWithInfo

@@ -19,7 +19,7 @@ import { Ingress } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { logToSentryOrConsole } from '../../utils/sentryUtils';
+import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../../utils/sentryUtils';
 import { Severity } from '@sentry/types';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 
@@ -42,27 +42,31 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
         const fetchData = async () => {
             if (today) {
-                const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(today, today);
 
-                const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
+                try {
+                    const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(today, today);
+                    const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
 
-                if (isArbeidsgivere(maybeArbeidsgivere)) {
-                    const arbeidsgivere = maybeArbeidsgivere;
-                    const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
-                        arbeidsgivere,
-                        formikProps.values[SøknadFormField.arbeidsforhold]
-                    );
-                    if (updatedArbeidsforholds.length > 0) {
-                        formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
+                    if (isArbeidsgivere(maybeArbeidsgivere)) {
+                        const arbeidsgivere = maybeArbeidsgivere;
+                        const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
+                            arbeidsgivere,
+                            formikProps.values[SøknadFormField.arbeidsforhold]
+                        );
+                        if (updatedArbeidsforholds.length > 0) {
+                            formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
+                        }
+                        setIsLoading(false);
+
+                    } else {
+                        // TODO: Legg på expected og received
+                        logToSentryOrConsole(
+                            "listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)",
+                            Severity.Critical
+                        );
                     }
-                    setIsLoading(false);
-
-                } else {
-                    // TODO: Legg på expected og received
-                    logToSentryOrConsole(
-                        "listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)",
-                        Severity.Critical
-                    );
+                } catch (error) {
+                    logApiCallErrorToSentryOrConsole(error);
                 }
             }
         };

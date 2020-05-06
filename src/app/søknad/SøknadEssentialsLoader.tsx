@@ -11,8 +11,9 @@ import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 import { WillRedirect } from '../types/types';
-import { Severity } from '@sentry/browser';
-import { logToSentryOrConsole } from '../utils/sentryUtils';
+import Sentry, { Severity } from '@sentry/browser';
+import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../utils/sentryUtils';
+
 
 interface Props {
     contentLoadedRenderer: (
@@ -60,10 +61,11 @@ const SøknadEssentialsLoader = (props: Props) => {
                 const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
                 handleSøkerdataFetchSuccess(søkerApiResponse);
             }
-        } catch (response) {
-            const willRedirect = redirectIfForbiddenOrUnauthorized(response);
+        } catch (error) {
+            const willRedirect = redirectIfForbiddenOrUnauthorized(error);
             if (willRedirect === WillRedirect.No) {
                 setApiCallError(true);
+                logApiCallErrorToSentryOrConsole(error)
             } else {
                 setState({...state, isLoading: true})
             }

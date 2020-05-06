@@ -37,11 +37,13 @@ server.use((req, res, next) => {
 
     res.removeHeader('X-Powered-By');
     res.set('X-Frame-Options', 'SAMEORIGIN');
+    res.set('X-Request-Id', 'localhost-1234567890');
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('X-Content-Type-Options', 'nosniff');
     res.set('Access-Control-Allow-Headers', 'content-type');
     res.set('Access-Control-Allow-Methods', ['GET','POST','DELETE']);
     res.set('Access-Control-Allow-Credentials', true);
+    res.set('Access-Control-Expose-Headers', 'X-Request-Id');
     next();
 });
 
@@ -119,7 +121,7 @@ const startServer = () => {
     });
 
     server.get('/soker', (req, res) => {
-        res.send(søkerMock1);
+        res.status(505).send(søkerMock1);
     });
 
     server.post('/vedlegg', (req, res) => {
