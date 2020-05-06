@@ -40,8 +40,7 @@ const skalInkludereAnnetArbeidsforhold = (
     if (
         harAnnetArbeidsforhold === YesOrNo.YES &&
         annetArbeidsforhold[ArbeidsforholdFormDataFields.navn] &&
-        annetArbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
-        annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
+        harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger(annetArbeidsforhold)
     ) {
         return true;
     } else {
