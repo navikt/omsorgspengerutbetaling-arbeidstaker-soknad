@@ -102,6 +102,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 logApiCallErrorToSentryOrConsole(error);
             }
         }
+        setIsLoading(false);
         navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
     };
 
