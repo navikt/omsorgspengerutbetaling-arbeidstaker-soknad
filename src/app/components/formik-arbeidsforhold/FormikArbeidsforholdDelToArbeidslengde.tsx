@@ -10,10 +10,9 @@ import {
     HvorLengeJobbetFordi,
     SøknadFormField
 } from '../../types/SøknadFormData';
-import { FormikInput, FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
+import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
 import FormBlock from 'common/components/form-block/FormBlock';
 import Box from 'common/components/box/Box';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import FormikQuestion from '../formik-question/FormikQuestion';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -27,6 +26,7 @@ import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsL
 import { FieldValidationResult } from 'common/validation/types';
 import './formik-arbeidsforhold.less';
 import { createFieldValidationError } from 'common/validation/fieldValidations';
+import ExpandableInfo from '../expandable-content/ExpandableInfo';
 
 const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
@@ -104,9 +104,7 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                             />
                         </FormBlock>
 
-                        {arbeidsforholdFormData[ArbeidsforholdFormDataFields.ansettelseslengde][
-                            AnsettelseslengdeFormDataFields.hvorLengeJobbet
-                        ] === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && (
+                        { hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && (
                             <FormBlock>
                                 <FormikRadioPanelGroup
                                     radios={[
@@ -170,18 +168,23 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                             )}
 
                         {hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER && (
-                            <FormBlock>
-                                <CounsellorPanel>
-                                    <FormattedHTMLMessage id={'hvorLengeJobbet.merEnnFire.counsellor.html'} />
-                                </CounsellorPanel>
-                            </FormBlock>
-                        )}
-
-                        {hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER && (
                             <div>
                                 <FormBlock>
+                                    <CounsellorPanel>
+                                        <FormattedHTMLMessage id={'hvorLengeJobbet.merEnnFire.counsellor.html'} />
+                                    </CounsellorPanel>
+                                </FormBlock>
+
+                                <FormBlock>
                                     <HelperTextPanel>
-                                        <PictureScanningGuide />
+                                        <ExpandableInfo
+                                            title={'Slik tar du et godt bilde av dokumentet'}
+                                            filledBackground={false}
+                                        >
+                                            <div>
+                                                <PictureScanningGuide />
+                                            </div>
+                                        </ExpandableInfo>
                                     </HelperTextPanel>
                                 </FormBlock>
                                 <FormBlock>

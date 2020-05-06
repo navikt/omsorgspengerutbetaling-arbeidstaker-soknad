@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
+import { FormikFileInput, FormikValidateFunction } from '@navikt/sif-common-formik/lib';
 import { ArrayHelpers } from 'formik';
 import { Attachment, PersistedFile } from 'common/types/Attachment';
 import {
@@ -12,7 +12,6 @@ import {
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import * as apiUtils from '../../utils/apiUtils';
-import FileInput from '@navikt/sif-common-formik/lib/components/formik-file-input/file-input/FileInput';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -113,11 +112,9 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     }
 
     return (
-        <FileInput
+        <FormikFileInput
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
-            // TODO: Fix typeerror
-            // @ts-ignore
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
                 const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
                 await uploadAttachments([...listOfAttachments, ...attachments], replace);
