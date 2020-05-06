@@ -23,6 +23,8 @@ import { redirectIfForbiddenOrUnauthorized } from '../api/api';
 import { WillRedirect } from '../types/types';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import AnnetStepView from './annet-step/AnnetStep';
+import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../utils/sentryUtils';
+import { Severity } from '@sentry/types';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -87,6 +89,20 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             }
         }
         setButtonsAreDisabled(false)
+    };
+
+    const handleSøknadSentSuccessfully = async (sentSøknadApiData: SøknadApiData) => {
+        setSøknadHasBeenSent(true);
+        setSøknadApiData(sentSøknadApiData);
+        resetForm();
+        if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
+            try {
+                await SøknadTempStorage.purge(); // TODO: Hva skjer her ved 401 eller 5xx?
+            } catch (error) {
+                logApiCallErrorToSentryOrConsole(error);
+            }
+        }
+        navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
     };
 
     if (isLoading) {
@@ -184,23 +200,28 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                     render={() => (
                         <OppsummeringStep
                             søkerdata={søkerdata}
-                            onApplicationSent={(apiData: SøknadApiData) => {
-                                setSøknadHasBeenSent(true);
-                                setSøknadApiData(apiData);
-                                resetForm();
-                                if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                                    SøknadTempStorage.purge(); // TODO: Hva skjer her ved 401 eller 5xx?
+                            onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData) => {
+                                if (sentSuccessfully && apiData) {
+                                    setIsLoading(true)
+                                    handleSøknadSentSuccessfully(apiData)
+                                } else {
+                                    setShowErrorMessage(true);
+                                    logToSentryOrConsole(
+                                        `onApplicationSent: sentSuccessfully: ${sentSuccessfully}`,
+                                        Severity.Critical
+                                    )
                                 }
-                                navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                             }}
                         />
                     )}
                 />
             )}
 
+            {/* TODO: Case refresh på søknad sendt route må håndteres med noe annet enn GeneralErrorPage. Kanskje det faktisk trengs en Redirect? */}
             {søknadHasBeenSent && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
+                    exact={true}
                     render={() => <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />}
                 />
             )}

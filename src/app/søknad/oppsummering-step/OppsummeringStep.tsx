@@ -6,7 +6,7 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import Panel from 'nav-frontend-paneler';
-import { sendApplication } from '../../api/api';
+import { postApplication } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { Søkerdata } from '../../types/Søkerdata';
@@ -28,10 +28,11 @@ import FosterbarnSummaryView from './components/FosterbarnSummaryView';
 import SummaryBlock from './components/SummaryBlock';
 import UploadedDocumentsList from '../../components/uploaded-documents-list/UploadedDocumentsList';
 import SummaryList from 'common/components/summary-list/SummaryList';
+import { logApiCallErrorToSentryOrConsole } from '../../utils/sentryUtils';
 
 interface Props {
     søkerdata: Søkerdata;
-    onApplicationSent: (apiValues: SøknadApiData) => void;
+    onApplicationSent: (sentSuccessfully: boolean, apiValues?: SøknadApiData) => void;
 }
 
 const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, søkerdata }) => {
@@ -41,16 +42,17 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
 
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
-    async function navigate(data: SøknadApiData) {
+    async function sendApplication(data: SøknadApiData) {
         setSendingInProgress(true);
         try {
-            await sendApplication(data);
-            onApplicationSent(apiValues);
+            await postApplication(data);
+            onApplicationSent(true, apiValues);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                 navigateToLoginPage();
             } else {
-                navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
+                onApplicationSent(false);
+                logApiCallErrorToSentryOrConsole(error);
             }
         }
     }
@@ -67,7 +69,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
             id={StepID.OPPSUMMERING}
             onValidFormSubmit={() => {
                 setTimeout(() => {
-                    navigate(apiValues); // La view oppdatere seg først
+                    sendApplication(apiValues); // La view oppdatere seg først
                 });
             }}
             useValidationErrorSummary={false}
