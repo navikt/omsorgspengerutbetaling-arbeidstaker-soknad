@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useFormikContext } from 'formik';
+import { isString, useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import {
     ArbeidsforholdFormData,
@@ -33,6 +33,22 @@ export const harHattFraværFraJobbOgArbeidsgiverHarIkkeUtbetaltOmsorgspenger = (
     }
 };
 
+const skalInkludereAnnetArbeidsforhold = (
+    harAnnetArbeidsforhold: YesOrNo,
+    annetArbeidsforhold: ArbeidsforholdFormData
+) => {
+    if (
+        harAnnetArbeidsforhold === YesOrNo.YES &&
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.navn] &&
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
 
@@ -50,6 +66,11 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     //     }
     //     return cleanedValues;
     // };
+
+
+
+    const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
+    const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
 
     return (
         <SøknadStep
@@ -84,6 +105,21 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                         </FormSection>
                     </FormBlock>
                 ))}
+
+            {
+                skalInkludereAnnetArbeidsforhold(values[SøknadFormField.harAnnetArbeidsforhold], annetArbeidsforhold) &&
+                isString(annetArbeidsforholdName) && (
+                <FormBlock paddingBottom={'xl'}>
+                    <FormSection
+                        titleTag="h4"
+                        title={annetArbeidsforholdName}
+                        titleIcon={<BuildingIcon />}>
+                        TODO: Lag gjenbrukbare komponenter
+                        {/*<FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={annetArbeidsforhold} index={index} />*/}
+                        {/*<FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={annetArbeidsforhold} index={index} />*/}
+                    </FormSection>
+                </FormBlock>
+            )}
         </SøknadStep>
     );
 };

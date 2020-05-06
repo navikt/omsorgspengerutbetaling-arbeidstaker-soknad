@@ -92,6 +92,19 @@ export const initialAnnetArbeidsforhold: AnnetArbeidsforholdFormData = {
     [AnnetArbeidsforholdFormDataFields.perioder]: []
 };
 
+export const initialArbeidsforholdFormData: ArbeidsforholdFormData = {
+    [ArbeidsforholdFormDataFields.navn]: "",
+    [ArbeidsforholdFormDataFields.organisasjonsnummer]: "",
+    [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.UNANSWERED,
+    [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.UNANSWERED,
+    [ArbeidsforholdFormDataFields.ansettelseslengde]: initialAnsettelseslengdeFormData,
+    [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo.UNANSWERED,
+    [ArbeidsforholdFormDataFields.perioderMedFravær]: [],
+    [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.UNANSWERED,
+    [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: [],
+    [ArbeidsforholdFormDataFields.dokumenter]: [],
+}
+
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
@@ -126,7 +139,7 @@ export interface SøknadFormData {
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
     [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo;
-    [SøknadFormField.annetArbeidsforhold]: AnnetArbeidsforholdFormData;
+    [SøknadFormField.annetArbeidsforhold]: ArbeidsforholdFormData;
 
     [SøknadFormField.harFosterbarn]: YesOrNo;
     [SøknadFormField.fosterbarn]: Fosterbarn[];
@@ -154,7 +167,7 @@ export const initialValues: SøknadFormData = {
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
     [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo.UNANSWERED,
-    [SøknadFormField.annetArbeidsforhold]: initialAnnetArbeidsforhold,
+    [SøknadFormField.annetArbeidsforhold]: initialArbeidsforholdFormData,
 
     [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
     [SøknadFormField.fosterbarn]: [],
