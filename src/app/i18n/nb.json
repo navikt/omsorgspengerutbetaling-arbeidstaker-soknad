@@ -428,6 +428,11 @@
     "step.annet.pageTitle": "Dager du har opplyst at du har vært hjemme med barn",
 
     "periode.heledager.spm": "Har du hatt hele dager med fravær fra jobb?",
-    "periode.delvisdag.spm": "Har du hatt dager med delvis fravær fra jobb?"
+    "periode.delvisdag.spm": "Har du hatt dager med delvis fravær fra jobb?",
+
+    "annetArbeidsforhold.undertittel": "Andre arbeidsforhold",
+    "annetArbeidsforhold.harHattFravaer.spm": "Har du hatt fravær fra arbeidsforhold som ikke er registrert her",
+    "annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.infopanel.txt": "For at du raskest mulig skal få svar på søknaden din, må du be arbeidsgiveren om å sende inntektsmelding så snart som mulig til NAV.",
+    "annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.navnArbeidsgiver.spm": "Oppgi navn på arbeidsgiver"
 
 }

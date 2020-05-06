@@ -59,14 +59,38 @@ export interface ArbeidsforholdFormData {
     [ArbeidsforholdFormDataFields.dokumenter]: Attachment[];
 }
 
-export interface AnnetArbeidsforholdFormData {
-    navn: string | null;
-    organisasjonsnummer: string | null;
-    harHattFraværHosArbeidsgiver: YesOrNo;
-    arbeidsgiverHarUtbetaltLønn: YesOrNo;
-    ansettelseslengde: Ansettelseslengde;
-    perioder: Utbetalingsperiode[];
+export enum AnnetArbeidsforholdFormDataFields {
+    navn = 'navn',
+    organisasjonsnummer = 'organisasjonsnummer',
+    harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
+    arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn',
+    ansettelseslengde = 'ansettelseslengde',
+    perioder = 'perioder'
 }
+
+export interface AnnetArbeidsforholdFormData {
+    [AnnetArbeidsforholdFormDataFields.navn]: string | null;
+    [AnnetArbeidsforholdFormDataFields.organisasjonsnummer]: null;
+    [AnnetArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo;
+    [AnnetArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
+    [AnnetArbeidsforholdFormDataFields.ansettelseslengde]: AnsettelseslengdeFormData;
+    [AnnetArbeidsforholdFormDataFields.perioder]: Utbetalingsperiode[];
+}
+
+export const initialAnsettelseslengdeFormData: AnsettelseslengdeFormData = {
+    [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
+    [AnsettelseslengdeFormDataFields.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
+    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: ''
+};
+
+export const initialAnnetArbeidsforhold: AnnetArbeidsforholdFormData = {
+    [AnnetArbeidsforholdFormDataFields.navn]: '',
+    [AnnetArbeidsforholdFormDataFields.organisasjonsnummer]: null,
+    [AnnetArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.UNANSWERED,
+    [AnnetArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.UNANSWERED,
+    [AnnetArbeidsforholdFormDataFields.ansettelseslengde]: initialAnsettelseslengdeFormData,
+    [AnnetArbeidsforholdFormDataFields.perioder]: []
+};
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -102,7 +126,7 @@ export interface SøknadFormData {
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
     [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo;
-    [SøknadFormField.annetArbeidsforhold]: AnnetArbeidsforholdFormData | null;
+    [SøknadFormField.annetArbeidsforhold]: AnnetArbeidsforholdFormData;
 
     [SøknadFormField.harFosterbarn]: YesOrNo;
     [SøknadFormField.fosterbarn]: Fosterbarn[];
@@ -130,7 +154,7 @@ export const initialValues: SøknadFormData = {
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
     [SøknadFormField.harAnnetArbeidsforhold]: YesOrNo.UNANSWERED,
-    [SøknadFormField.annetArbeidsforhold]: null,
+    [SøknadFormField.annetArbeidsforhold]: initialAnnetArbeidsforhold,
 
     [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
     [SøknadFormField.fosterbarn]: [],

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'common/components/box/Box';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
-import { ArbeidsforholdFormData, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import {
+    AnnetArbeidsforholdFormDataFields,
+    ArbeidsforholdFormData,
+    SøknadFormData,
+    SøknadFormField
+} from '../../types/SøknadFormData';
 import SøknadStep from '../SøknadStep';
 import { FormikProps, useFormikContext } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
@@ -22,6 +27,17 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../../utils/sentryUtils';
 import { Severity } from '@sentry/types';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
+import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import intlHelper from 'common/utils/intlUtils';
+import FormikAnnetArbeidsforhold from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforhold';
+
+// TODO: Flytt denne et passende sted
+
+export const getAnnetArbeidsforholdField = (
+    annetArbeidsforholdFieldName: AnnetArbeidsforholdFormDataFields
+): string => {
+    return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
+};
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -35,16 +51,18 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const [isLoading, setIsLoading] = useState(true);
     const { values } = useFormikContext<SøknadFormData>();
     const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
-
+    const intl = useIntl();
 
     useEffect(() => {
         const today: Date = dateToday;
 
         const fetchData = async () => {
             if (today) {
-
                 try {
-                    const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(today, today);
+                    const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(
+                        today,
+                        today
+                    );
                     const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
 
                     if (isArbeidsgivere(maybeArbeidsgivere)) {
@@ -57,11 +75,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                             formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
                         }
                         setIsLoading(false);
-
                     } else {
                         // TODO: Legg på expected og received
                         logToSentryOrConsole(
-                            "listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)",
+                            'listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)',
                             Severity.Critical
                         );
                     }
@@ -73,7 +90,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
         if (today && doApiCalls) {
             fetchData();
-            setDoApiCalls(false)
+            setDoApiCalls(false);
         }
     }, [doApiCalls]);
 
@@ -102,12 +119,14 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     </div>
                 )}
 
-
                 {!isLoading && arbeidsforhold.length > 0 && (
                     <>
                         {arbeidsforhold.map((forhold, index) => (
                             <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
-                                <FormSection titleTag="h4" title={forhold.navn || forhold.organisasjonsnummer} titleIcon={<BuildingIcon />}>
+                                <FormSection
+                                    titleTag="h4"
+                                    title={forhold.navn || forhold.organisasjonsnummer}
+                                    titleIcon={<BuildingIcon />}>
                                     <FormikArbeidsforholdDelEn arbeidsforholdFormData={forhold} index={index} />
                                 </FormSection>
                             </Box>
@@ -122,8 +141,9 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 )}
 
                 {/* ANNET ARBEIDSFORHOLD*/}
+                <FormikAnnetArbeidsforhold hide={isLoading} />
 
-                {/* TODO: LEGG INN KOMPONENENTER*/}
+                {/* FOSTERBARN */}
 
                 <Box padBottom={'xxl'}>
                     <Ingress>
