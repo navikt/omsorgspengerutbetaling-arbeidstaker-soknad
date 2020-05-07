@@ -11,19 +11,17 @@ import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
 import FormBlock from 'common/components/form-block/FormBlock';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikArbeidsforholdDelTrePeriodeView
-    from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
-import FormikArbeidsforholdDelToArbeidslengde
-    from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
+import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
+import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormSection from 'common/components/form-section/FormSection';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
+import AlertStripe from 'nav-frontend-alertstriper';
+import { FormattedHTMLMessage } from 'react-intl';
 
 // TODO: Flytte utility function et passende sted ?
-export const skalInkludereArbeidsforhold = (
-    arbeidsforholdFormData: ArbeidsforholdFormData
-): boolean => {
+export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
     if (
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
@@ -55,6 +53,20 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
 
+    const arbeidsforholdListe = values[SøknadFormField.arbeidsforhold]
+        .filter((arbeidsforhold: ArbeidsforholdFormData) => skalInkludereArbeidsforhold(arbeidsforhold))
+        .map((arbeidsforhold: ArbeidsforholdFormData, index) => (
+            <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
+                <FormSection
+                    titleTag="h4"
+                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                    titleIcon={<BuildingIcon />}>
+                    <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
+                    <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
+                </FormSection>
+            </FormBlock>
+        ));
+
     return (
         <SøknadStep
             id={StepID.PERIODE}
@@ -67,37 +79,16 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                 <CounsellorPanel>Her legger du inn dagene du har hatt</CounsellorPanel>
             </FormBlock>
 
-            {values[SøknadFormField.arbeidsforhold]
-                .filter((arbeidsforhold: ArbeidsforholdFormData) =>
-                    skalInkludereArbeidsforhold(arbeidsforhold)
-                )
-                .map((arbeidsforhold: ArbeidsforholdFormData, index) => (
-                    <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
-                        <FormSection
-                            titleTag="h4"
-                            title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                            titleIcon={<BuildingIcon />}>
-                            <FormikArbeidsforholdDelToArbeidslengde
-                                arbeidsforholdFormData={arbeidsforhold}
-                                index={index}
-                            />
-                            <FormikArbeidsforholdDelTrePeriodeView
-                                arbeidsforholdFormData={arbeidsforhold}
-                                index={index}
-                            />
-                        </FormSection>
-                    </FormBlock>
-                ))}
+            {arbeidsforholdListe.length > 0 && arbeidsforholdListe}
 
-            {skalInkludereArbeidsforhold(annetArbeidsforhold) &&
-                isString(annetArbeidsforholdName) && (
-                    <>
-                        <FormikAnnetArbeidsforholdStegTo
-                            annetArbeidsforhold={annetArbeidsforhold}
-                            annetArbeidsforholdName={annetArbeidsforholdName}
-                        />
-                    </>
-                )}
+            {skalInkludereArbeidsforhold(annetArbeidsforhold) && isString(annetArbeidsforholdName) && (
+                <>
+                    <FormikAnnetArbeidsforholdStegTo
+                        annetArbeidsforhold={annetArbeidsforhold}
+                        annetArbeidsforholdName={annetArbeidsforholdName}
+                    />
+                </>
+            )}
         </SøknadStep>
     );
 };

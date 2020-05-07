@@ -31,6 +31,7 @@ import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import intlHelper from 'common/utils/intlUtils';
 import FormikAnnetArbeidsforholdSituasjon
     from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
+import AlertStripe from 'nav-frontend-alertstriper';
 
 // TODO: Flytt denne et passende sted
 
@@ -136,9 +137,13 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 )}
 
                 {!isLoading && arbeidsforhold.length === 0 && (
-                    <Box padBottom={'xxl'}>
-                        <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
-                    </Box>
+                    (
+                        <FormBlock>
+                            <AlertStripe type={'info'}>
+                                <FormattedHTMLMessage id={'ingen.arbeidsforhold.info.text'} />
+                            </AlertStripe>
+                        </FormBlock>
+                    )
                 )}
 
                 {/* ANNET ARBEIDSFORHOLD*/}
