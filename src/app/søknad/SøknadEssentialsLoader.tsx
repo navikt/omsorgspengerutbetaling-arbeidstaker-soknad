@@ -4,7 +4,7 @@ import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
 import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
-import { initialValues, isSøknadFormData, SøknadFormData } from '../types/SøknadFormData';
+import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage } from '../types/TemporaryStorage';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import SøknadTempStorage from './SøknadTempStorage';
@@ -13,6 +13,7 @@ import GeneralErrorPage from '../components/pages/general-error-page/GeneralErro
 import { WillRedirect } from '../types/types';
 import Sentry, { Severity } from '@sentry/browser';
 import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../utils/sentryUtils';
+import { isSøknadFormData } from '../types/SøknadFormDataTypeGuards';
 
 
 interface Props {

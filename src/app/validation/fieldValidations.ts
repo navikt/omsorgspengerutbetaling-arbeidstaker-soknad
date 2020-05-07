@@ -11,10 +11,10 @@ import {
 } from 'common/utils/dateUtils';
 import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
-import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { datesCollide } from './dateValidationUtils';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { Attachment } from 'common/types/Attachment';
+import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 

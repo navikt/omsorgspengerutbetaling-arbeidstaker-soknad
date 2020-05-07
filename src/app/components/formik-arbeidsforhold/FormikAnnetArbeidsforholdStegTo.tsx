@@ -3,14 +3,13 @@ import FormSection from 'common/components/form-section/FormSection';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import FormBlock from 'common/components/form-block/FormBlock';
 import {
-    AnsettelseslengdeFormDataFields,
-    ArbeidsforholdFormData,
-    ArbeidsforholdFormDataFields,
     SøknadFormField
 } from '../../types/SøknadFormData';
 import FormikArbeidsforholdArbeidslengde from './FormikArbeidsforholdArbeidslengde';
 import FormikArbeidsforholdPeriodeView from './FormikArbeidsforholdPeriode';
 import { isString } from 'formik';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { AnsettelseslengdeFormDataFields } from '../../types/AnsettelseslengdeTypes';
 
 interface Props {
     annetArbeidsforhold: ArbeidsforholdFormData;

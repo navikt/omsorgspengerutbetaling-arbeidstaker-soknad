@@ -100,11 +100,11 @@ export const ugyldigSøknadFormData5: any = {
     // STEG 2:
 
     // STEG 3
-    [SøknadFormField.perioder_harVærtIUtlandet]: YesOrNo.UNANSWERED,
-    [SøknadFormField.perioder_utenlandsopphold]: [],
+    [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
+    [SøknadFormField.perioderUtenlandsopphold]: [],
 
-    [SøknadFormField.har_søkt_andre_utbetalinger]: YesOrNo.UNANSWERED,
-    [SøknadFormField.andre_utbetalinger]: [],
+    [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo.UNANSWERED,
+    [SøknadFormField.andreUtbetalinger]: [],
 
     // STEG 4:
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,

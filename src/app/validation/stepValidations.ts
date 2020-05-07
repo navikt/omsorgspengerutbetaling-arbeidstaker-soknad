@@ -1,12 +1,8 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import {
-    ArbeidsforholdFormData,
-    HvorLengeJobbet,
-    HvorLengeJobbetFordi,
     SøknadFormData,
     SøknadFormField
 } from '../types/SøknadFormData';
-import { FraværDelerAvDag, Periode } from '../../@types/omsorgspengerutbetaling-schema';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import {
     delvisFraværIsValid,
@@ -14,6 +10,9 @@ import {
     oppholdIsValid,
     perioderIsValid
 } from '../søknad/periode-step/periodeStepConfig';
+import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
+import { ArbeidsforholdFormData } from '../types/ArbeidsforholdTypes';
+import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;

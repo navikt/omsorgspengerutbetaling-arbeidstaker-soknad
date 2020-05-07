@@ -2,13 +2,6 @@ import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormikQuestion from '../formik-question/FormikQuestion';
 import intlHelper from 'common/utils/intlUtils';
-import {
-    AnsettelseslengdeFormDataFields,
-    ArbeidsforholdFormData,
-    ArbeidsforholdFormDataFields,
-    HvorLengeJobbet,
-    HvorLengeJobbetFordi
-} from '../../types/SøknadFormData';
 import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
@@ -24,6 +17,12 @@ import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
 import { FieldValidationResult } from 'common/validation/types';
 import { createFieldValidationError } from 'common/validation/fieldValidations';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import {
+    AnsettelseslengdeFormDataFields,
+    HvorLengeJobbet,
+    HvorLengeJobbetFordi
+} from '../../types/AnsettelseslengdeTypes';
 
 const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART

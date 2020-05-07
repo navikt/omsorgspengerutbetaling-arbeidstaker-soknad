@@ -2,12 +2,11 @@ import React from 'react';
 import { FieldArray } from 'formik';
 import './formik-arbeidsforhold.less';
 import {
-    AnsettelseslengdeFormDataFields,
-    ArbeidsforholdFormData,
-    ArbeidsforholdFormDataFields,
     SøknadFormField
 } from '../../types/SøknadFormData';
 import FormikArbeidsforholdArbeidslengde from './FormikArbeidsforholdArbeidslengde';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { AnsettelseslengdeFormDataFields } from '../../types/AnsettelseslengdeTypes';
 
 
 interface Props {

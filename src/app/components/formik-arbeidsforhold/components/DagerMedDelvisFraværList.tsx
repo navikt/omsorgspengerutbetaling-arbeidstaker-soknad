@@ -1,10 +1,10 @@
 import React from 'react';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { Knapp } from 'nav-frontend-knapper';
-import { FraværDelerAvDag, Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
 import { validateDagerMedFravær } from '../../../validation/fieldValidations';
 import DagerMedDelvisFraværListItem from './DagerMedDelvisFraværListItem';
 import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
+import { FraværDelerAvDag, Periode } from '../../../types/PeriodeTypes';
 
 interface Props {
     name: string;

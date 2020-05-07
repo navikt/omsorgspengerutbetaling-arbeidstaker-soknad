@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { FraværDelerAvDag, Periode } from '../../../@types/omsorgspengerutbetaling-schema';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
+import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 
 export const perioderIsValid = (harPerioderMedFravær: YesOrNo, perioderMedFravær: Periode[]): boolean =>
     harPerioderMedFravær === YesOrNo.NO || (harPerioderMedFravær === YesOrNo.YES && perioderMedFravær.length > 0);

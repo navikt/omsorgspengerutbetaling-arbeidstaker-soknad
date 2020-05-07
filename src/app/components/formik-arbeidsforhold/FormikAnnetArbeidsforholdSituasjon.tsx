@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import intlHelper from 'common/utils/intlUtils';
-import { AnnetArbeidsforholdFormDataFields, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { FormikInput, FormikTextarea, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -11,6 +11,7 @@ import Box from 'common/components/box/Box';
 import { Ingress } from 'nav-frontend-typografi';
 import { getAnnetArbeidsforholdField } from '../../søknad/situasjon-step/SituasjonStepView';
 import AlertStripe from 'nav-frontend-alertstriper';
+import { ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
 interface Props {
     hide?: boolean;
@@ -22,13 +23,13 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hi
     const { annetArbeidsforhold } = values;
 
     const skalViseArbeidsgiverHarUtbetaltLønnSpørsmål =
-        annetArbeidsforhold[AnnetArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES;
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES;
     const skalViseNavnPåAnnenArbeidsgiverTextArea =
         skalViseArbeidsgiverHarUtbetaltLønnSpørsmål &&
-        annetArbeidsforhold[AnnetArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO;
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO;
     const skalViseInfopanelHarUtbetalt =
-        annetArbeidsforhold[AnnetArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
-        annetArbeidsforhold[AnnetArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES;
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+        annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES;
     return (
         <FormBlock paddingBottom={'xxl'}>
             <Box padBottom={'l'}>
@@ -38,7 +39,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hi
             </Box>
             <FormBlock>
                 <FormikYesOrNoQuestion
-                    name={getAnnetArbeidsforholdField(AnnetArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver)}
+                    name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver)}
                     legend={intlHelper(intl, 'annetArbeidsforhold.harHattFravaer.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
@@ -47,7 +48,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hi
                 <FormBlock paddingBottom={'l'}>
                     <FormikYesOrNoQuestion
                         name={getAnnetArbeidsforholdField(
-                            AnnetArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn
+                            ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn
                         )}
                         legend={intlHelper(intl, 'annetArbeidsforhold.ikkeUtbetaltLonn.spm')}
                         validate={validateYesOrNoIsAnswered}
@@ -63,7 +64,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hi
                                 'annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.navnArbeidsgiver.spm'
                             )}
                             bredde={'XXL'}
-                            name={getAnnetArbeidsforholdField(AnnetArbeidsforholdFormDataFields.navn)}
+                            name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.navn)}
                         />
                     </FormBlock>
                     <Box margin="s" padBottom="xl">

@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { FraværDelerAvDag } from '../../../@types/omsorgspengerutbetaling-schema';
 import { harLikeDager } from '../fieldValidations';
+import { FraværDelerAvDag } from '../../types/PeriodeTypes';
 
 jest.mock('common/utils/dateUtils', () => {
     return {

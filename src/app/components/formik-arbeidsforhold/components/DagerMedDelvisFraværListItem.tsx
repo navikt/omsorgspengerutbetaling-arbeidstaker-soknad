@@ -3,11 +3,11 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { Knapp } from 'nav-frontend-knapper';
-import { FraværDelerAvDag, Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
 import { GYLDIG_TIDSROM } from '../../../validation/constants';
 import { validateAll, validateDateInRange, validateDateNotInFuture } from '../../../validation/fieldValidations';
 import FraværTimerSelect from './FraværTimerSelect';
 import { FormikDatepicker } from '@navikt/sif-common-formik/lib';
+import { FraværDelerAvDag, Periode } from '../../../types/PeriodeTypes';
 
 interface Props {
     name: string;

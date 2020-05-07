@@ -1,7 +1,8 @@
 import React from 'react';
 import { FieldArray } from 'formik';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormField } from '../../types/SøknadFormData';
 import FormikArbeidsforholdPeriodeView from './FormikArbeidsforholdPeriode';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;

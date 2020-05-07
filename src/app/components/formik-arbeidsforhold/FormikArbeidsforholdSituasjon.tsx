@@ -2,12 +2,12 @@ import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import intlHelper from 'common/utils/intlUtils';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/SøknadFormData';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;

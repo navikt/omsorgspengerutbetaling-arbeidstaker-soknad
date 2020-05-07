@@ -2,12 +2,7 @@ import * as React from 'react';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import FormBlock from 'common/components/form-block/FormBlock';
 import SøknadFormComponents from '../SøknadFormComponents';
-import {
-    ArbeidsforholdFormData,
-    ArbeidsforholdFormDataFields,
-    SøknadFormData,
-    SøknadFormField
-} from '../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -15,18 +10,18 @@ import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utlan
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { useFormikContext } from 'formik';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import SøknadStep from '../SøknadStep';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
-import { FraværDelerAvDag, Periode } from '../../../@types/omsorgspengerutbetaling-schema';
-import { mapPeriodeTilUtbetalingsperiode } from '../../utils/mapFormDataToApiData';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
-import SummaryBlock from '../oppsummering-step/components/SummaryBlock';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import { mapPeriodeTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
+import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
-    const { perioder_harVærtIUtlandet } = values;
+    const { perioderHarVærtIUtlandet } = values;
     const intl = useIntl();
 
     const arbeidsforholdPerioder: Periode[] = values[SøknadFormField.arbeidsforhold]
@@ -67,15 +62,15 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
 
             <FormBlock margin={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.perioder_harVærtIUtlandet}
+                    name={SøknadFormField.perioderHarVærtIUtlandet}
                     legend={intlHelper(intl, 'step.periode.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
             </FormBlock>
-            {perioder_harVærtIUtlandet === YesOrNo.YES && (
+            {perioderHarVærtIUtlandet === YesOrNo.YES && (
                 <FormBlock margin="l">
                     <BostedUtlandListAndDialog<SøknadFormField>
-                        name={SøknadFormField.perioder_utenlandsopphold}
+                        name={SøknadFormField.perioderUtenlandsopphold}
                         minDate={date1YearAgo}
                         maxDate={dateToday}
                         labels={{
@@ -88,14 +83,14 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
             )}
             <FormBlock>
                 <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.har_søkt_andre_utbetalinger}
+                    name={SøknadFormField.harSøktAndreUtbetalinger}
                     legend={intlHelper(intl, 'step.periode.har_søkt_andre_utbetalinger.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
-                {values.har_søkt_andre_utbetalinger === YesOrNo.YES && (
+                {values[SøknadFormField.harSøktAndreUtbetalinger] === YesOrNo.YES && (
                     <FormBlock>
                         <SøknadFormComponents.CheckboxPanelGroup
-                            name={SøknadFormField.andre_utbetalinger}
+                            name={SøknadFormField.andreUtbetalinger}
                             legend={intlHelper(intl, 'step.periode.hvilke_utbetalinger.spm')}
                             checkboxes={[
                                 {

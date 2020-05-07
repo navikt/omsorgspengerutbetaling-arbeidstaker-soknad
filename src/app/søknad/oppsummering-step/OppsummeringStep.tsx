@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -7,28 +7,22 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import Panel from 'nav-frontend-paneler';
 import { postApplication } from '../../api/api';
-import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';
-import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
-import { navigateTo, navigateToLoginPage } from '../../utils/navigationUtils';
+import { navigateToLoginPage } from '../../utils/navigationUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import MedlemskapSummaryView from './components/MedlemskapSummaryView';
 import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSummaryView';
-import { SpørsmålOgSvarSummaryView } from './components/SporsmalOgSvarSummaryView';
-import UtbetalingsperioderSummaryView from './components/UtbetalingsperioderSummaryView';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
-import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
-import JobbHosNavaerendeArbeidsgiverSummaryView from './components/JobbHosNavaerendeArbeidsgiverSummaryView';
 import FosterbarnSummaryView from './components/FosterbarnSummaryView';
-import SummaryBlock from './components/SummaryBlock';
-import UploadedDocumentsList from '../../components/uploaded-documents-list/UploadedDocumentsList';
-import SummaryList from 'common/components/summary-list/SummaryList';
 import { logApiCallErrorToSentryOrConsole } from '../../utils/sentryUtils';
+import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
+import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
+import VedleggSummaryView from './components/VedleggSummaryView';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -64,6 +58,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
     // const apiValues = mock1;
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
     const fosterbarn = apiValues.fosterbarn || [];
+
     return (
         <SøknadStep
             id={StepID.OPPSUMMERING}
@@ -76,7 +71,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
             buttonDisabled={sendingInProgress}
             showButtonSpinner={sendingInProgress}>
             <CounsellorPanel>
-                <FormattedMessage id="steg.oppsummering.info" />
+                <FormattedMessage id="steg.oppsummering.info"/>
             </CounsellorPanel>
             <Box margin="xl">
                 <Panel border={true}>
@@ -89,42 +84,14 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                     />
 
                     {/*<JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />*/}
-                    {/*<SpørsmålOgSvarSummaryView yesNoSpørsmålOgSvar={apiValues.spørsmål} />*/}
                     {/*<ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />*/}
-
-                    <FosterbarnSummaryView fosterbarn={fosterbarn} />
-
                     {/*<UtbetalingsperioderSummaryView utbetalingsperioder={apiValues.utbetalingsperioder} />*/}
-                    {/*{apiValues.andreUtbetalinger.length > 0 && (*/}
-                    {/*    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søkt_om_andre_utbetalinger')}>*/}
-                    {/*        <SummaryList*/}
-                    {/*            items={apiValues.andreUtbetalinger}*/}
-                    {/*            itemRenderer={(utbetaling) => (*/}
-                    {/*                <span>{intlHelper(intl, `andre_utbetalinger.${utbetaling}`)}</span>*/}
-                    {/*            )}*/}
-                    {/*        />*/}
-                    {/*    </SummaryBlock>*/}
-                    {/*)}*/}
-                    <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
-                    <MedlemskapSummaryView bosteder={apiValues.bosteder} />
 
-                    {/*{apiValues.vedlegg.length === 0 && apiValues.jobbHosNåværendeArbeidsgiver.merEnn4Uker && (*/}
-                    {/*    <Box margin={'s'}>*/}
-                    {/*        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>*/}
-                    {/*            <FormattedHTMLMessage id={'steg.oppsummering.dokumenter.ikkelastetopp'} />*/}
-                    {/*        </SummaryBlock>*/}
-                    {/*    </Box>*/}
-                    {/*)}*/}
-
-                    {/* TODO: Fix senere */}
-                    {/*{apiValues.vedlegg.length > 0 && (*/}
-                    {/*    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>*/}
-                    {/*        <UploadedDocumentsList*/}
-                    {/*            attachments={}    */}
-                    {/*            includeDeletionFunctionality={false} */}
-                    {/*        />*/}
-                    {/*    </SummaryBlock>*/}
-                    {/*)}*/}
+                    <FosterbarnSummaryView fosterbarn={fosterbarn}/>
+                    <AndreUtbetalingerSummaryView andreUtbetalinger={values[SøknadFormField.andreUtbetalinger]}/>
+                    <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold}/>
+                    <MedlemskapSummaryView bosteder={apiValues.bosteder}/>
+                    <VedleggSummaryView apiValues={apiValues} />
                 </Panel>
             </Box>
 

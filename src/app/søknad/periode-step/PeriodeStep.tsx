@@ -1,36 +1,20 @@
 import * as React from 'react';
 import { isString, useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
-import {
-    ArbeidsforholdFormData,
-    ArbeidsforholdFormDataFields,
-    SøknadFormData,
-    SøknadFormField
-} from '../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
 import FormBlock from 'common/components/form-block/FormBlock';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
-import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
+import FormikArbeidsforholdDelTrePeriodeView
+    from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
+import FormikArbeidsforholdDelToArbeidslengde
+    from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormSection from 'common/components/form-section/FormSection';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
-import { YesOrNo } from 'common/types/YesOrNo';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { FormattedHTMLMessage } from 'react-intl';
-
-// TODO: Flytte utility function et passende sted ?
-export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
-    if (
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { skalInkludereArbeidsforhold } from '../../utils/formToApiMaps/mapArbeidsforholdToApiData';
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();

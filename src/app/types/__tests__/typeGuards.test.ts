@@ -33,9 +33,9 @@ import {
     ugyldigSøknadFormData4,
     ugyldigSøknadFormData5
 } from '../mockData/typeGuardsMockData';
-import { isSøknadFormData } from '../SøknadFormData';
 import { isString } from 'formik';
 import { isStringOrNull } from '../typeGuardUtilities';
+import { isSøknadFormData } from '../SøknadFormDataTypeGuards';
 
 describe('Type Guards', () => {
     describe('Person', () => {

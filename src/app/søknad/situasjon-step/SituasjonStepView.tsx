@@ -6,12 +6,7 @@ import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
-import {
-    AnnetArbeidsforholdFormDataFields,
-    ArbeidsforholdFormData,
-    SøknadFormData,
-    SøknadFormField
-} from '../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadStep from '../SøknadStep';
 import { FormikProps, useFormikContext } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
@@ -27,17 +22,13 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../../utils/sentryUtils';
 import { Severity } from '@sentry/types';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
-import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import intlHelper from 'common/utils/intlUtils';
-import FormikAnnetArbeidsforholdSituasjon
-    from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
+import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
 // TODO: Flytt denne et passende sted
 
-export const getAnnetArbeidsforholdField = (
-    annetArbeidsforholdFieldName: AnnetArbeidsforholdFormDataFields
-): string => {
+export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
     return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
 };
 
@@ -137,13 +128,11 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 )}
 
                 {!isLoading && arbeidsforhold.length === 0 && (
-                    (
-                        <FormBlock>
-                            <AlertStripe type={'info'}>
-                                <FormattedHTMLMessage id={'ingen.arbeidsforhold.info.text'} />
-                            </AlertStripe>
-                        </FormBlock>
-                    )
+                    <FormBlock>
+                        <AlertStripe type={'info'}>
+                            <FormattedHTMLMessage id={'ingen.arbeidsforhold.info.text'} />
+                        </AlertStripe>
+                    </FormBlock>
                 )}
 
                 {/* ANNET ARBEIDSFORHOLD*/}

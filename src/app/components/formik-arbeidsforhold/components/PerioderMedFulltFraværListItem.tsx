@@ -3,7 +3,6 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { Knapp } from 'nav-frontend-knapper';
-import { Periode } from '../../../../@types/omsorgspengerutbetaling-schema';
 import { GYLDIG_TIDSROM } from '../../../validation/constants';
 import {
     validateAll,
@@ -12,6 +11,7 @@ import {
     validateTomAfterFom
 } from '../../../validation/fieldValidations';
 import { FormikDateIntervalPicker } from '@navikt/sif-common-formik/lib';
+import { Periode } from '../../../types/PeriodeTypes';
 
 interface Props {
     index: number;

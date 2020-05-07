@@ -1,16 +1,19 @@
 import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields, SøknadFormData } from '../../types/SøknadFormData';
+import {
+    SøknadFormData
+} from '../../types/SøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FieldArray, useFormikContext } from 'formik';
 import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList';
-import { FraværDelerAvDag, Periode } from '../../../@types/omsorgspengerutbetaling-schema';
 import DagerMedDelvisFraværList from './components/DagerMedDelvisFraværList';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { useIntl } from 'react-intl';
+import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;

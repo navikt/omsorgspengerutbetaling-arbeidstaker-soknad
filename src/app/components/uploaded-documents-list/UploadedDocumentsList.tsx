@@ -6,7 +6,8 @@ import { Attachment } from 'common/types/Attachment';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { deleteFile } from '../../api/api';
-import { ArbeidsforholdFormData, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 
 interface Props {
     attachments: Attachment[];
