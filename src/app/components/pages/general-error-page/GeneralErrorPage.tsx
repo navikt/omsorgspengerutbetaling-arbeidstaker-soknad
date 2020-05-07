@@ -10,12 +10,16 @@ import './generalErrorPage.less';
 import { logToSentryOrConsole } from '../../../utils/sentryUtils';
 import { Severity } from '@sentry/types';
 
-const GeneralErrorPage: React.FunctionComponent = () => {
+export interface Props {
+    cause: string;
+}
+
+const GeneralErrorPage = ({cause}: Props) => {
     const intl = useIntl();
 
     useEffect(() => {
         logToSentryOrConsole(
-            "User on GeneralErrorPage. Cause unknown.",
+            `User on GeneralErrorPage. Cause:${cause}`,
             Severity.Critical
         )
     });

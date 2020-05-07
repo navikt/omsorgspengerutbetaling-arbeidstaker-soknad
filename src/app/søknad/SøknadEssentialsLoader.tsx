@@ -106,7 +106,7 @@ const SøknadEssentialsLoader = (props: Props) => {
         return <>{contentLoadedRenderer(søkerdata, formData, lastStepID)}</>;
     }
     if (apiCallError) {
-        return <GeneralErrorPage />;
+        return <GeneralErrorPage cause={"apiCallError set in SøknadEssestialsLoader"}/>;
     }
     return <LoadingPage />;
 };

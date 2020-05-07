@@ -88,7 +88,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 setIsLoading(true);
             }
         }
-        setButtonsAreDisabled(false)
+        setButtonsAreDisabled(false);
     };
 
     const handleSøknadSentSuccessfully = async (sentSøknadApiData: SøknadApiData) => {
@@ -110,7 +110,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
         return <LoadingPage />;
     }
     if (showErrorMessage) {
-        return <GeneralErrorPage />;
+        return <GeneralErrorPage cause={'showErrorMessage in SøknadRoutes'} />;
     }
     return (
         <Switch>
@@ -203,14 +203,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                             søkerdata={søkerdata}
                             onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData) => {
                                 if (sentSuccessfully && apiData) {
-                                    setIsLoading(true)
-                                    handleSøknadSentSuccessfully(apiData)
+                                    setIsLoading(true);
+                                    handleSøknadSentSuccessfully(apiData);
                                 } else {
                                     setShowErrorMessage(true);
                                     logToSentryOrConsole(
                                         `onApplicationSent: sentSuccessfully: ${sentSuccessfully}`,
                                         Severity.Critical
-                                    )
+                                    );
                                 }
                             }}
                         />
@@ -236,7 +236,11 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 }}
             />
 
-            <Route component={() => <GeneralErrorPage />} />
+            <Route
+                component={() =>
+                    isLoading ? <LoadingPage /> : <GeneralErrorPage cause={'default route in SøknadRoutes'} />
+                }
+            />
         </Switch>
     );
 };
