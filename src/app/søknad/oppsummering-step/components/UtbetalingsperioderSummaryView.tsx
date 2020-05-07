@@ -19,9 +19,9 @@ interface UtbetalingsperiodeDag {
 function UtbetalingsperioderSummaryView({ utbetalingsperioder = [] }: Props) {
     const intl = useIntl();
 
-    const perioder = utbetalingsperioder.filter((p) => p.tilOgMed !== undefined);
+    const perioder = utbetalingsperioder.filter((p) => p.lengde === null);
     const dager: UtbetalingsperiodeDag[] = utbetalingsperioder
-        .filter((p) => p.lengde !== undefined)
+        .filter((p) => p.lengde !== null)
         .map((dag) => {
             const time: Time = iso8601DurationToTime(dag.lengde!) as Time;
             return {

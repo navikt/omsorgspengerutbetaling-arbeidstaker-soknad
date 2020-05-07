@@ -13,8 +13,12 @@ import Søknad from './søknad/Søknad';
 import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
+import { setSentryEnvironment } from './utils/sentryUtils';
 
-Sentry.init({dsn: "https://20da9cbb958c4f5695d79c260eac6728@sentry.gc.nav.no/30"});
+Sentry.init({
+    dsn: "https://20da9cbb958c4f5695d79c260eac6728@sentry.gc.nav.no/30",
+    environment: setSentryEnvironment()
+});
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);

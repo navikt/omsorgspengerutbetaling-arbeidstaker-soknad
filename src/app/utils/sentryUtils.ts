@@ -22,3 +22,20 @@ export const logApiCallErrorToSentryOrConsole = (error: AxiosError) => {
         logToSentryOrConsole('Api call error', Severity.Critical);
     });
 };
+
+export enum SentryEnvironment {
+    LOCALHOST = 'LOCALHOST',
+    q = 'q',
+    prod = 'prod'
+}
+
+export const setSentryEnvironment = (): SentryEnvironment => {
+    const host: string = window?.location?.host;
+    if (host.indexOf('localhost')) {
+        return SentryEnvironment.LOCALHOST;
+    }
+    if (host.indexOf('www-q0.nav.no')) {
+        return SentryEnvironment.q;
+    }
+    return SentryEnvironment.prod;
+};
