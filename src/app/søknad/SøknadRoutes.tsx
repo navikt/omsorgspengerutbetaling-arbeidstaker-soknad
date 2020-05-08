@@ -102,8 +102,8 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 logApiCallErrorToSentryOrConsole(error);
             }
         }
-        setIsLoading(false);
         navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
+        setIsLoading(false);
     };
 
     if (isLoading) {
@@ -219,13 +219,18 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             )}
 
             {/* TODO: Case refresh på søknad sendt route må håndteres med noe annet enn GeneralErrorPage. Kanskje det faktisk trengs en Redirect? */}
-            {søknadHasBeenSent && (
-                <Route
-                    path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    exact={true}
-                    render={() => <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />}
-                />
-            )}
+            <Route
+                path={RouteConfig.SØKNAD_SENDT_ROUTE}
+                exact={true}
+                render={() => {
+                    if (søknadHasBeenSent) {
+                        return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
+                    } else {
+                        navigateTo(RouteConfig.WELCOMING_PAGE_ROUTE, history);
+                        return <LoadingPage />;
+                    }
+                }}
+            />
 
             <Route
                 path={RouteConfig.SØKNAD_ROUTE_PREFIX}
@@ -236,11 +241,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 }}
             />
 
-            <Route
-                component={() =>
-                    <LoadingPage />
-                }
-            />
+            <Route component={() => <LoadingPage />} />
         </Switch>
     );
 };

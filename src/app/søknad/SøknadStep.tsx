@@ -33,6 +33,7 @@ const SøknadStep: React.FunctionComponent<Props> = (props) => {
     const stepConfig = getStepConfig(formik.values);
     const texts = getStepTexts(intl, id, stepConfig);
 
+    // TODO: Må sjekke errorhandling på disse to
     const handleAvsluttOgFortsettSenere = () => {
         navigateToNAVno();
     };

@@ -6,18 +6,29 @@ import { SøknadFormData } from '../../types/SøknadFormData';
 import { FormikInput, FormikTextarea, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
-import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import {
+    createFieldValidationError,
+    fieldIsRequiredError,
+    FieldValidationErrors,
+    validateYesOrNoIsAnswered
+} from 'common/validation/fieldValidations';
 import Box from 'common/components/box/Box';
 import { Ingress } from 'nav-frontend-typografi';
 import { getAnnetArbeidsforholdField } from '../../søknad/situasjon-step/SituasjonStepView';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { FieldValidationResult, IntlFieldValidationResultValues } from 'common/validation/types';
 
-interface Props {
-    hide?: boolean;
-}
+const validateInputField = (value: string): FieldValidationResult => {
+    // TODO: Valideringsfeil dukker ikke opp i boksen neders med link til feil
+    if (value && value.length > 0) {
+        return undefined;
+    } else {
+        return createFieldValidationError(FieldValidationErrors.påkrevd)
+    }
+};
 
-const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hide = false }) => {
+const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
     const { annetArbeidsforhold } = values;
@@ -30,6 +41,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hi
     const skalViseInfopanelHarUtbetalt =
         annetArbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
         annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES;
+
     return (
         <FormBlock paddingBottom={'xxl'}>
             <Box padBottom={'l'}>
@@ -65,6 +77,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent<Props> = ({ hi
                             )}
                             bredde={'XXL'}
                             name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.navn)}
+                            validate={validateInputField}
                         />
                     </FormBlock>
                     <Box margin="s" padBottom="xl">

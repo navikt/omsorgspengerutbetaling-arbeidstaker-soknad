@@ -16,7 +16,7 @@ import Box from 'common/components/box/Box';
 import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
 import { FieldValidationResult } from 'common/validation/types';
-import { createFieldValidationError } from 'common/validation/fieldValidations';
+import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import {
     AnsettelseslengdeFormDataFields,
@@ -26,20 +26,20 @@ import {
 
 const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
-        ? createFieldValidationError(AppFieldValidationErrors.påkrevd)
+        ? createFieldValidationError(FieldValidationErrors.påkrevd)
         : undefined;
 };
 
 const validateHvorLengeJobbetBegrunnelseRadioGroup = (value: HvorLengeJobbetFordi): FieldValidationResult => {
     return value === HvorLengeJobbetFordi.IKKE_BESVART
-        ? createFieldValidationError(AppFieldValidationErrors.påkrevd)
+        ? createFieldValidationError(FieldValidationErrors.påkrevd)
         : undefined;
 };
 
 const validateIngenAvSituasjoneneTekstField = (value: string): FieldValidationResult => {
     return value && typeof value === 'string' && value.length > 0 && value.length < 2000
         ? undefined
-        : createFieldValidationError(AppFieldValidationErrors.påkrevd);
+        : createFieldValidationError(FieldValidationErrors.påkrevd);
 };
 
 export const getRadioTextIdHvorLengeJobbetFordi = (hvorLengeJobbetFordi: HvorLengeJobbetFordi) => {

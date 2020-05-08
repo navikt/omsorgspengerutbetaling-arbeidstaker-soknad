@@ -136,7 +136,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 )}
 
                 {/* ANNET ARBEIDSFORHOLD*/}
-                <FormikAnnetArbeidsforholdSituasjon hide={isLoading} />
+                <FormikAnnetArbeidsforholdSituasjon />
 
                 {/* FOSTERBARN */}
 
