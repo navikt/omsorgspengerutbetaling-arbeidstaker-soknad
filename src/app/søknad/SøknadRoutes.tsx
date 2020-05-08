@@ -238,7 +238,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
 
             <Route
                 component={() =>
-                    isLoading ? <LoadingPage /> : <GeneralErrorPage cause={'default route in SøknadRoutes'} />
+                    <LoadingPage />
                 }
             />
         </Switch>

@@ -42,6 +42,29 @@ const validateIngenAvSituasjoneneTekstField = (value: string): FieldValidationRe
         : createFieldValidationError(AppFieldValidationErrors.påkrevd);
 };
 
+export const getRadioTextIdHvorLengeJobbetFordi = (hvorLengeJobbetFordi: HvorLengeJobbetFordi) => {
+    switch (hvorLengeJobbetFordi) {
+        case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD: {
+            return 'hvorLengeJobbet.fordi.annetArbeidsforhold.label';
+        }
+        case HvorLengeJobbetFordi.ANDRE_YTELSER: {
+            return 'hvorLengeJobbet.fordi.andreYtelser.label';
+        }
+        case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON: {
+            return 'hvorLengeJobbet.fordi.militærtjeneste.label';
+        }
+        case HvorLengeJobbetFordi.MILITÆRTJENESTE: {
+            return 'hvorLengeJobbet.fordi.lovbestemtFerie.label';
+        }
+        case HvorLengeJobbetFordi.INGEN: {
+            return 'hvorLengeJobbet.fordi.ingen.label';
+        }
+        case HvorLengeJobbetFordi.IKKE_BESVART: {
+            return 'hvorLengeJobbet.fordi.ikkeBesvart.label';
+        }
+    }
+};
+
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
     nameHvorLengeJobbet: string;
@@ -106,23 +129,37 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     <FormikRadioPanelGroup
                         radios={[
                             {
-                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.annetArbeidsforhold.label'),
+                                label: intlHelper(
+                                    intl,
+                                    getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD)
+                                ),
                                 value: HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD
                             },
                             {
-                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.andreYtelser.label'),
+                                label: intlHelper(
+                                    intl,
+                                    getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.ANDRE_YTELSER)
+                                ),
                                 value: HvorLengeJobbetFordi.ANDRE_YTELSER
                             },
                             {
-                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.militærtjeneste.label'),
+                                label: intlHelper(
+                                    intl,
+                                    getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.MILITÆRTJENESTE)
+                                ),
                                 value: HvorLengeJobbetFordi.MILITÆRTJENESTE
                             },
                             {
-                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.lovbestemtFerie.label'),
+                                label: intlHelper(
+                                    intl,
+                                    getRadioTextIdHvorLengeJobbetFordi(
+                                        HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
+                                    )
+                                ),
                                 value: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
                             },
                             {
-                                label: intlHelper(intl, 'hvorLengeJobbet.fordi.ingen.label'),
+                                label: intlHelper(intl, getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.INGEN)),
                                 value: HvorLengeJobbetFordi.INGEN
                             }
                         ]}

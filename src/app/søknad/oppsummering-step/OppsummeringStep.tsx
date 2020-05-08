@@ -23,6 +23,7 @@ import { logApiCallErrorToSentryOrConsole } from '../../utils/sentryUtils';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import VedleggSummaryView from './components/VedleggSummaryView';
+import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -82,6 +83,8 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                         mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
+
+                    <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere}/>
 
                     {/*<JobbHosNavaerendeArbeidsgiverSummaryView data={apiValues.jobbHosNåværendeArbeidsgiver} />*/}
                     {/*<ArbeidsforholdSummaryView arbeidsgiverDetaljer={apiValues.arbeidsgivere} />*/}

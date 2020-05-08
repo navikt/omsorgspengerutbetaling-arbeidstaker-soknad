@@ -15,13 +15,16 @@ const skalInkludereVedleggFraArbeidsforhold = (arbeidsforhold: ArbeidsforholdFor
     }
 };
 
+export const filterArbeidsforholdMedVedlegg = (listeAvArbeidsforhold: ArbeidsforholdFormData[]) => {
+    return listeAvArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) =>
+        skalInkludereVedleggFraArbeidsforhold(arbeidsforhold)
+    );
+};
+
 export const collectAllAttachmentsAndMapToListOfString = (
     listeAvArbeidsforhold: ArbeidsforholdFormData[]
 ): string[] => {
-    return listeAvArbeidsforhold
-        .filter((arbeidsforhold: ArbeidsforholdFormData) => {
-            return skalInkludereVedleggFraArbeidsforhold(arbeidsforhold);
-        })
+    return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold)
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
             return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter]
                 .map((attachment: Attachment) => {
@@ -32,4 +35,12 @@ export const collectAllAttachmentsAndMapToListOfString = (
                 }) as string[]; // TODO: Fix type
         })
         .flat();
+};
+
+export const listAlleVedlegg = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): string[] => {
+    return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold).map((arbeidsforhold: ArbeidsforholdFormData) => {
+        return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter].map((attachment: Attachment) => {
+            return attachment.file.name;
+        })
+    }).flat();
 };

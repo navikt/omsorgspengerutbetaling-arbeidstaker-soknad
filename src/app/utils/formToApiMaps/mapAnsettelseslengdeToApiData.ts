@@ -10,7 +10,8 @@ import {
 
 export const forklaringEllerNull = (ansettelseslengdeFormData: AnsettelseslengdeFormData): string | null => {
     if (
-        ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet] === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER &&
+        ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet] ===
+            HvorLengeJobbet.MINDRE_ENN_FIRE_UKER &&
         ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.begrunnelse] === HvorLengeJobbetFordi.INGEN
     ) {
         return ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring];
@@ -24,9 +25,7 @@ export const mapAnsettelseslengde = (ansettelseslengdeFormData: Ansettelseslengd
         merEnn4Uker: mapHvorLengeJobbetToBoolean(
             ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet]
         ),
-        begrunnelse: hvorLengeJobbetFordiToBegrunnelseEllerNull(
-            ansettelseslengdeFormData
-        ),
+        begrunnelse: hvorLengeJobbetFordiToBegrunnelseEllerNull(ansettelseslengdeFormData),
         ingenAvSituasjoneneForklaring: forklaringEllerNull(ansettelseslengdeFormData)
     };
 };
@@ -55,9 +54,12 @@ export const mapHvorLengeJobbetToBoolean = (hvorLengeJobbet: HvorLengeJobbet): b
 
 export const hvorLengeJobbetFordiToBegrunnelseEllerNull = (ansettelseslengdeFormData: AnsettelseslengdeFormData) => {
     if (
-        ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet] === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
+        ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet] ===
+        HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
     ) {
-        return hvorLengeJobbetFordiToBegrunnelse(ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.begrunnelse]);
+        return hvorLengeJobbetFordiToBegrunnelse(
+            ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.begrunnelse]
+        );
     } else {
         return null;
     }
@@ -77,6 +79,26 @@ export const hvorLengeJobbetFordiToBegrunnelse = (hvorLengeJobbetFordi: HvorLeng
             return Begrunnelse.INGEN_AV_SITUASJONENE;
         default: {
             return null;
+        }
+    }
+};
+
+export const begrunnelseTilHvorLengeJobbetFordi = (begrunnelse: Begrunnelse): HvorLengeJobbetFordi => {
+    switch (begrunnelse) {
+        case Begrunnelse.ANNET_ARBEIDSFORHOLD: {
+            return HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD;
+        }
+        case Begrunnelse.ANDRE_YTELSER: {
+            return HvorLengeJobbetFordi.ANDRE_YTELSER;
+        }
+        case Begrunnelse.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON: {
+            return HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON;
+        }
+        case Begrunnelse.MILITÆRTJENESTE: {
+            return HvorLengeJobbetFordi.MILITÆRTJENESTE;
+        }
+        case Begrunnelse.INGEN_AV_SITUASJONENE: {
+            return HvorLengeJobbetFordi.INGEN;
         }
     }
 };
