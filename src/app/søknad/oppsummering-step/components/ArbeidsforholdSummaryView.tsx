@@ -58,21 +58,20 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                             )}
                             {/* ansettelsesLengde */}
 
-                            {arbeidsforhold.ansettelseslengde.merEnn4Uker && (
-                                <Box margin={'s'}>
-                                    <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}>
-                                        <JaNeiSvar harSvartJa={arbeidsforhold.ansettelseslengde.merEnn4Uker}/>
-                                    </SummaryBlock>
-                                </Box>
-                            )}
-
-                            {arbeidsforhold.ansettelseslengde.merEnn4Uker && (
-                                <Box margin={'s'}>
-                                    <SummaryBlock header={'Opplastede dokumenter'}>
-                                        Sett inn liste av vedlegg
-                                    </SummaryBlock>
-                                </Box>
-                            )}
+                            <Box margin={'s'}>
+                                <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}>
+                                    {
+                                        arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
+                                            <FormattedHTMLMessage id={'hvorLengeJobbet.mer'} />
+                                        )
+                                    }
+                                    {
+                                        arbeidsforhold.ansettelseslengde.merEnn4Uker === false && (
+                                            <FormattedHTMLMessage id={'hvorLengeJobbet.mindre'} />
+                                        )
+                                    }
+                                </SummaryBlock>
+                            </Box>
 
                             {/* Mindre enn 4 uker */}
                             {!arbeidsforhold.ansettelseslengde.merEnn4Uker &&
