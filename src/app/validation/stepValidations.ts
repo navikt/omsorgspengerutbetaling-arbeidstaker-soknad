@@ -1,7 +1,7 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import { stegEnAnnetArbeidsforholdIsValid, stegEnArbeidsforholdValid } from './components/arbeidsforholdValidations';
-import { fosterbarnIsValid } from './components/fosterbarnValidations';
+import { harFosterbarnOgListeAvFosterbarnIsValid } from './components/fosterbarnValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;
@@ -17,7 +17,7 @@ export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
     if (
         stegEnArbeidsforholdValid(listeAvArbeidsforhold) &&
         stegEnAnnetArbeidsforholdIsValid(annetArbeidsforhold) &&
-        fosterbarnIsValid(harFosterbarn, listeAvFosterbarn)
+        harFosterbarnOgListeAvFosterbarnIsValid(harFosterbarn, listeAvFosterbarn)
     ) {
         return true;
     } else {
