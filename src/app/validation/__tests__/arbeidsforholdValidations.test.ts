@@ -1,4 +1,4 @@
-import { stegEnArbeidsforholdValid } from '../components/arbeidsforholdValidations';
+import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import {
@@ -112,7 +112,7 @@ const invalidListeAvArbeidsforhold: ArbeidsforholdFormData[] = [
 
 describe('fieldValidations', () => {
     it('validates lists correctly', () => {
-        expect(stegEnArbeidsforholdValid(validListeAvArbeidsforhold)).toBe(true);
-        expect(stegEnArbeidsforholdValid(invalidListeAvArbeidsforhold)).toBe(false);
+        expect(stegEnListeAvArbeidsforholdIsValid(validListeAvArbeidsforhold)).toBe(true);
+        expect(stegEnListeAvArbeidsforholdIsValid(invalidListeAvArbeidsforhold)).toBe(false);
     });
 });

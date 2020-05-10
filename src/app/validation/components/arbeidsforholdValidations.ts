@@ -1,6 +1,16 @@
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { isString } from 'formik';
+import { ansettelsesLengdeIsValid } from './ansettelsesLengdeValidations';
+import { delvisFraværIsValid, perioderIsValid } from '../../søknad/periode-step/periodeStepConfig';
+
+export const evaluatePrevAndCurrent = (prev: boolean, curr: boolean) => {
+    if (prev === false) {
+        return prev;
+    } else {
+        return curr;
+    }
+};
 
 export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
     const organisasjonsnummer: string = arbeidsforholdFormData[ArbeidsforholdFormDataFields.organisasjonsnummer];
@@ -25,20 +35,41 @@ export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforholdFormData: Arb
     }
 };
 
-export const stegEnArbeidsforholdValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+
     return listeAvArbeidsforhold
         .map((arbeidsforholdFormData: ArbeidsforholdFormData) =>
             arbeidsforholdFormDataPartOneIsValid(arbeidsforholdFormData)
         )
-        .reduceRight((prev, curr) => {
-            if (prev === false) {
-                return prev;
-            } else {
-                return curr;
-            }
-        }, true);
+        .reduceRight(evaluatePrevAndCurrent, true);
 };
 
 export const stegEnAnnetArbeidsforholdIsValid = (annetArbeidsforhold: ArbeidsforholdFormData): boolean => {
     return arbeidsforholdFormDataPartOneIsValid(annetArbeidsforhold);
+};
+
+export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
+    const ansettelsesLengde = arbeidsforhold[ArbeidsforholdFormDataFields.ansettelseslengde];
+    const dokumenter = arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter];
+    const harPerioderMedFravær = arbeidsforhold[ArbeidsforholdFormDataFields.harPerioderMedFravær];
+    const perioderMedFravær = arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær];
+    const harDagerMedDelvisFravær = arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær];
+    const dagerMedDelvisFravær = arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær];
+
+    if (
+        arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) &&
+        ansettelsesLengdeIsValid(ansettelsesLengde, dokumenter) &&
+        perioderIsValid(harPerioderMedFravær, perioderMedFravær) &&
+        delvisFraværIsValid(harDagerMedDelvisFravær, dagerMedDelvisFravær)
+
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+    return listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold))
+        .reduceRight(evaluatePrevAndCurrent, true);
 };
