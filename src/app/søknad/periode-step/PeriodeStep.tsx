@@ -15,6 +15,8 @@ import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { skalInkludereArbeidsforhold } from '../../utils/formToApiMaps/mapArbeidsforholdToApiData';
+import Box from 'common/components/box/Box';
+import { FormattedHTMLMessage } from 'react-intl';
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
@@ -60,7 +62,10 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             // cleanupStep={cleanupStep} TODO: Fix necessary cleanup
             showSubmitButton={true}>
             <FormBlock>
-                <CounsellorPanel>Her legger du inn dagene du har hatt</CounsellorPanel>
+                <CounsellorPanel>
+                    <Box padBottom={'l'}><FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del1'} /></Box>
+                    <Box><FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del2'} /></Box>
+                </CounsellorPanel>
             </FormBlock>
 
             {arbeidsforholdListe.length > 0 && arbeidsforholdListe}

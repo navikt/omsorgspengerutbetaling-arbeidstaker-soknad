@@ -11,7 +11,7 @@ import ExpandableInfo from '../expandable-content/ExpandableInfo';
 import PictureScanningGuide from '../picture-scanning-guide/PictureScanningGuide';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
-import { AppFieldValidationErrors, validateDocuments } from '../../validation/fieldValidations';
+import { validateDocuments } from '../../validation/fieldValidations';
 import Box from 'common/components/box/Box';
 import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
@@ -24,7 +24,7 @@ import {
     HvorLengeJobbetFordi
 } from '../../types/AnsettelseslengdeTypes';
 
-const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
+export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
         ? createFieldValidationError(FieldValidationErrors.påkrevd)
         : undefined;

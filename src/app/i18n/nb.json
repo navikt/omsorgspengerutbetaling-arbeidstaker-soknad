@@ -373,9 +373,13 @@
 
 
     "steg.arbeidsforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "Her er arbeidsforholdene vi har funnet registrert på deg. Hvis det mangler en arbeidsgiver her, må du be arbeidsgiver sende en ny A-melding. Dette gjøres enten via eget lønns- og personalsystem, eller via Altinn.",
+    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1": "Her er arbeidsforholdene vi har funnet registrert på deg.",
+    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2": "Hvis det mangler en arbeidsgiver her, må du be arbeidsgiver sende en ny A-melding. Dette gjøres enten via eget lønns- og personalsystem, eller via Altinn.",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "fosterbarn.legend": "Vi henter vanligvis informasjon om barn fra folkeregisteret, men vi har ikke tilgang til informasjon om fosterbarn der. Derfor må du selv legge inn opplysninger om eventuelle fosterbarn.",
+
+    "steg2.arbeidslengdeOgPerioder.infopanel.del1": "Her legger du inn dager du har hatt fravær fra jobb, fordi du har vært hjemme med omsorgsdager.",
+    "steg2.arbeidslengdeOgPerioder.infopanel.del2": "Du skal <strong>kun legge inn dager du ikke har fått utbetalt lønn</strong> fra arbeidsgiveren din. Du vil også få noen spørsmål om hvorfor arbeidsgiver ikke har utbetalt deg lønn.",
 
     "hvorLengeJobbet.spørsmål": "Hvor lenge har du vært i jobb hos arbeidsgiveren din?",
     "hvorLengeJobbet.mindre": "Mindre enn 4 uker",
@@ -394,7 +398,7 @@
     "dinSituasjon.arbeidsforhold.tittel": "Om arbeidsforhold",
     "dinSituasjon.fosterbarn.tittel": "Om fosterbarn",
 
-    "arbeidsforhold.harUtbetalingLønn.alertstripe": "Hvis arbeidsgiveren din allerede har utbetalt lønn for omsorgsdager, vil ikke også NAV utbetale for de dagene.",
+    "arbeidsforhold.harUtbetalingLønn.alertstripe": "NAV utbetaler ikke for omsorgsdager som arbeidsgiver allerede har utbetalt for. ",
     "dinSituasjon.ingress": "Om arbeidssituasjonen din",
     "hvorLengeJobbet.merEnnFire.counsellor.html": "<div>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Hvis arbeidsgiver ikke utbetaler må du laste opp en forklaring fra arbeidsgiver på hvorfor de ikke utbetaler omsorgspenger til deg.<p>Du må også be arbeidsgiveren din sende inntektsmelding til NAV.</p></div>",
     "step.vedlegg.stepIndicatorLabel": "Last opp dokumenter",

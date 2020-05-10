@@ -100,7 +100,8 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
                 <Box padBottom="xxl">
                     <CounsellorPanel>
-                        <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
+                        <Box padBottom={'l'}><FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1" /></Box>
+                        <Box><FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2" /></Box>
                     </CounsellorPanel>
                 </Box>
 
