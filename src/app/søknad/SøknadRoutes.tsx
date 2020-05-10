@@ -10,7 +10,7 @@ import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
-import { navigateTo, navigateToLoginPage } from '../utils/navigationUtils';
+import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
@@ -31,6 +31,15 @@ interface SøknadRoutesProps {
     søkerdata: Søkerdata;
     formikProps: FormikProps<SøknadFormData>;
 }
+
+const navigateToIfAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element) => {
+    if (isAvailable(stepID, values)) {
+        return component;
+    } else {
+        navigateToWelcomePage();
+        return <LoadingPage />;
+    }
+};
 
 const SøknadRoutes = (props: SøknadRoutesProps) => {
     const { lastStepID, formikProps, søkerdata } = props;
@@ -156,49 +165,65 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 }}
             />
 
-            {isAvailable(StepID.SITUASJON, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.SITUASJON)}
-                    exact={true}
-                    render={() => (
+            <Route
+                path={getSøknadRoute(StepID.SITUASJON)}
+                exact={true}
+                render={() => {
+                    return navigateToIfAvailable(
+                        StepID.SITUASJON,
+                        values,
                         <SituasjonStepView
                             onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
                             søkerdata={søkerdata}
                             formikProps={formikProps}
                         />
-                    )}
-                />
-            )}
+                    );
+                }}
+            />
 
-            {isAvailable(StepID.PERIODE, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.PERIODE)}
-                    exact={true}
-                    render={() => <PeriodeStep onValidSubmit={() => navigateToNextStepFrom(StepID.PERIODE)} />}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.PERIODE)}
+                exact={true}
+                render={() => {
+                    return navigateToIfAvailable(
+                        StepID.PERIODE,
+                        values,
+                        <PeriodeStep onValidSubmit={() => navigateToNextStepFrom(StepID.PERIODE)} />
+                    );
+                }}
+            />
 
-            {isAvailable(StepID.ANNET, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.ANNET)}
-                    exact={true}
-                    render={() => <AnnetStepView onValidSubmit={() => navigateToNextStepFrom(StepID.ANNET)} />}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.ANNET)}
+                exact={true}
+                render={() => {
+                    return navigateToIfAvailable(
+                        StepID.ANNET,
+                        values,
+                        <AnnetStepView onValidSubmit={() => navigateToNextStepFrom(StepID.ANNET)} />
+                    );
+                }}
+            />
 
-            {isAvailable(StepID.MEDLEMSKAP, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.MEDLEMSKAP)}
-                    exact={true}
-                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.MEDLEMSKAP)}
+                exact={true}
+                render={() => {
+                    return navigateToIfAvailable(
+                        StepID.MEDLEMSKAP,
+                        values,
+                        <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />
+                    );
+                }}
+            />
 
-            {isAvailable(StepID.OPPSUMMERING, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.OPPSUMMERING)}
-                    exact={true}
-                    render={() => (
+            <Route
+                path={getSøknadRoute(StepID.OPPSUMMERING)}
+                exact={true}
+                render={() => {
+                    return navigateToIfAvailable(
+                        StepID.OPPSUMMERING,
+                        values,
                         <OppsummeringStep
                             søkerdata={søkerdata}
                             onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData) => {
@@ -214,11 +239,10 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                                 }
                             }}
                         />
-                    )}
-                />
-            )}
+                    );
+                }}
+            />
 
-            {/* TODO: Case refresh på søknad sendt route må håndteres med noe annet enn GeneralErrorPage. Kanskje det faktisk trengs en Redirect? */}
             <Route
                 path={RouteConfig.SØKNAD_SENDT_ROUTE}
                 exact={true}
@@ -226,6 +250,8 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                     if (søknadHasBeenSent) {
                         return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
                     } else {
+                        // TODO: Netleseren ble refreshet. Kan ikke vise kviteringen på innsendt søknad på nytt...
+                        // TODO: Lag ny component istede for å route rett til welcoming page route
                         navigateTo(RouteConfig.WELCOMING_PAGE_ROUTE, history);
                         return <LoadingPage />;
                     }

@@ -15,8 +15,11 @@ interface Props {
     nameArbeidsgiverHarUtbetaltLønn: string;
 }
 
-const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({arbeidsforholdFormData, nameHarHattFraværHosArbeidsgiver, nameArbeidsgiverHarUtbetaltLønn}) => {
-
+const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
+    arbeidsforholdFormData,
+    nameHarHattFraværHosArbeidsgiver,
+    nameArbeidsgiverHarUtbetaltLønn
+}) => {
     const intl = useIntl();
 
     return (
@@ -28,31 +31,25 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({arbeidsforholdFormD
                     validate={validateYesOrNoIsAnswered}
                 />
             </FormBlock>
-            {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] ===
-            YesOrNo.YES && (
+            {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
                 <FormBlock paddingBottom={'xl'}>
                     <FormikYesOrNoQuestion
-                        legend={intlHelper(
-                            intl,
-                            'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
-                        )}
+                        legend={intlHelper(intl, 'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm')}
                         name={nameArbeidsgiverHarUtbetaltLønn}
                         validate={validateYesOrNoIsAnswered}
                     />
                 </FormBlock>
             )}
-            {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] ===
-            YesOrNo.YES &&
-            arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] ===
-            YesOrNo.YES && (
-                <Box margin="s" padBottom="xl">
-                    <AlertStripe type="info">
-                        <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
-                    </AlertStripe>
-                </Box>
-            )}
+            {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+                arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES && (
+                    <Box margin="s" padBottom="xl">
+                        <AlertStripe type="info">
+                            <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
+                        </AlertStripe>
+                    </Box>
+                )}
         </>
-    )
+    );
 };
 
 export default FormikArbeidsforholdSituasjonView;

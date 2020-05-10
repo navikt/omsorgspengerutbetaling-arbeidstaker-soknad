@@ -4,7 +4,7 @@ import { getEnvironmentVariable } from './envUtils';
 
 const loginUrl = getEnvironmentVariable('LOGIN_URL');
 const navNoUrl = 'https://www.nav.no/';
-const welcomePageUrl = `${getEnvironmentVariable('PUBLIC_PATH')}/${routeConfig.WELCOMING_PAGE_ROUTE}`;
+const welcomePageUrl = `${getEnvironmentVariable('PUBLIC_PATH')}${routeConfig.WELCOMING_PAGE_ROUTE}`;
 
 export const navigateTo = (route: string, history: History) => history.push(route);
 export const navigateToLoginPage = () => window.location.assign(loginUrl);

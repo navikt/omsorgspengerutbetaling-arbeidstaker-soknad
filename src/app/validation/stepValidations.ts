@@ -1,39 +1,29 @@
 import { YesOrNo } from 'common/types/YesOrNo';
-import {
-    SøknadFormData,
-    SøknadFormField
-} from '../types/SøknadFormData';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
-import {
-    delvisFraværIsValid,
-    minimumEnUtbetalingsperiode,
-    oppholdIsValid,
-    perioderIsValid
-} from '../søknad/periode-step/periodeStepConfig';
-import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
-import { ArbeidsforholdFormData } from '../types/ArbeidsforholdTypes';
-import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
+import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
+import { stegEnAnnetArbeidsforholdIsValid, stegEnArbeidsforholdValid } from './components/arbeidsforholdValidations';
+import { fosterbarnIsValid } from './components/fosterbarnValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;
 
 
-export const situasjonStepIsValid = (formData: SøknadFormData): boolean => true; // TODO: Fix validation
-// export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
-//     const listeAvArbeidsforhold: ArbeidsforholdFormData[] = formData[SøknadFormField.arbeidsforhold];
-//     const arbeidsforholdStepIsValid: boolean =
-//         listeAvArbeidsforhold
-//             .map((arbeidsforhold: ArbeidsforholdFormData) => {
-//                 return (
-//                     arbeidsforhold.harHattFraværHosArbeidsgiver !== YesOrNo.UNANSWERED &&
-//                     (arbeidsforhold.harHattFraværHosArbeidsgiver !== YesOrNo.YES ||
-//                         arbeidsforhold.arbeidsgiverHarUtbetaltLønn !== YesOrNo.UNANSWERED) // TODO: Fix, pga endret type
-//                 );
-//             })
-//             .filter((bool: boolean) => bool === false).length === 0;
-//
-//     return SituasjonStepQuestions.getVisbility(formData).areAllQuestionsAnswered() && arbeidsforholdStepIsValid;
-// };
+export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
+
+    const listeAvArbeidsforhold = formData[SøknadFormField.arbeidsforhold];
+    const annetArbeidsforhold = formData[SøknadFormField.annetArbeidsforhold];
+    const harFosterbarn = formData[SøknadFormField.harFosterbarn];
+    const listeAvFosterbarn = formData[SøknadFormField.fosterbarn];
+
+    if (
+        stegEnArbeidsforholdValid(listeAvArbeidsforhold) &&
+        stegEnAnnetArbeidsforholdIsValid(annetArbeidsforhold) &&
+        fosterbarnIsValid(harFosterbarn, listeAvFosterbarn)
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+};
 
 export const periodeStepIsValid = (formData: SøknadFormData): boolean => true // TODO: Fix validation
 // export const periodeStepIsValid = (formData: SøknadFormData): boolean => {
