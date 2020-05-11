@@ -6,9 +6,10 @@ import {
     stegEnListeAvArbeidsforholdIsValid
 } from './components/arbeidsforholdValidations';
 import { harFosterbarnOgListeAvFosterbarnIsValid } from './components/fosterbarnValidations';
-import { utenlandsoppholdIsValid } from './components/utenlandsoppholdValidations';
+import { utenlandsoppholdFormIsValid } from './components/utenlandsoppholdValidations';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { AndreUtbetalinger } from '../types/AndreUtbetalinger';
+import { andreUtbetalingerFormIsValid } from './components/andreUtbetalingerValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;
@@ -44,14 +45,13 @@ export const annetStepIsValid = (formData: SøknadFormData): boolean => {
     const andreUtbetalinger: AndreUtbetalinger[] = formData[SøknadFormField.andreUtbetalinger];
 
     if (
-        utenlandsoppholdIsValid(perioderHarVærtIUtlandet, perioderUtenlandsopphold)
-        // TODO && andreUtbetalingerIsValid(harSøknadAndreUtbetalinger, andreUtbetalinger)
+        utenlandsoppholdFormIsValid(perioderHarVærtIUtlandet, perioderUtenlandsopphold) &&
+        andreUtbetalingerFormIsValid(harSøknadAndreUtbetalinger, andreUtbetalinger)
     ) {
         return true;
     } else {
         return false;
     }
-
 };
 
 export const medlemskapStepIsValid = ({

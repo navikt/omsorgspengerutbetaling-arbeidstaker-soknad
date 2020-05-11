@@ -36,7 +36,6 @@ export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforholdFormData: Arb
 };
 
 export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
-
     return listeAvArbeidsforhold
         .map((arbeidsforholdFormData: ArbeidsforholdFormData) =>
             arbeidsforholdFormDataPartOneIsValid(arbeidsforholdFormData)
@@ -61,7 +60,6 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
         ansettelsesLengdeIsValid(ansettelsesLengde, dokumenter) &&
         perioderIsValid(harPerioderMedFravær, perioderMedFravær) &&
         delvisFraværIsValid(harDagerMedDelvisFravær, dagerMedDelvisFravær)
-
     ) {
         return true;
     } else {
@@ -70,6 +68,7 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
 };
 
 export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
-    return listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold))
+    return listeAvArbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold))
         .reduceRight(evaluatePrevAndCurrent, true);
 };
