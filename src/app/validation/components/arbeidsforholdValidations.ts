@@ -70,7 +70,6 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
 export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     const mapped = listeAvArbeidsforhold
         .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold));
-    console.warn(JSON.stringify(mapped, null, 4));
     const isValid = mapped
         .reduceRight(evaluatePrevAndCurrent, true);
     return isValid;
