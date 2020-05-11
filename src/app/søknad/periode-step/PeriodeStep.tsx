@@ -14,13 +14,13 @@ import FormSection from 'common/components/form-section/FormSection';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import { skalInkludereArbeidsforhold } from '../../utils/formToApiMaps/mapArbeidsforholdToApiData';
 import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 import { History } from 'history';
 import LocationListener = History.LocationListener;
 import { navigateToWelcomePage } from '../../utils/navigationUtils';
+import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();

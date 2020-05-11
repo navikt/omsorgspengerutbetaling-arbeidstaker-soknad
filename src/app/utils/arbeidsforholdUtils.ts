@@ -13,7 +13,6 @@ import {
 } from '../types/AnsettelseslengdeTypes';
 import { SøknadFormField } from '../types/SøknadFormData';
 import { logApiCallErrorToSentryOrConsole } from './sentryUtils';
-import { skalInkludereArbeidsforhold } from './formToApiMaps/mapArbeidsforholdToApiData';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -81,14 +80,3 @@ export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: Arbeid
     return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
 };
 
-export const harMinimumEtArbeidsforholdMedVidereISøknaden = (
-    listeAvArbeidsforhold: ArbeidsforholdFormData[]
-): boolean => {
-    return listeAvArbeidsforhold
-            .map((arbeidsforhold: ArbeidsforholdFormData) => {
-                return skalInkludereArbeidsforhold(arbeidsforhold);
-            })
-            .filter((skalInkludere: boolean) => {
-                return skalInkludere === true;
-            }).length > 0;
-};

@@ -1,6 +1,7 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import {
+    harMinimumEtGjeldendeArbeidsforhold,
     listeAvArbeidsforholdIsValid,
     stegEnAnnetArbeidsforholdIsValid,
     stegEnListeAvArbeidsforholdIsValid
@@ -21,6 +22,7 @@ export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
     const listeAvFosterbarn = formData[SøknadFormField.fosterbarn];
 
     if (
+        harMinimumEtGjeldendeArbeidsforhold([...listeAvArbeidsforhold, annetArbeidsforhold]) &&
         stegEnListeAvArbeidsforholdIsValid(listeAvArbeidsforhold) &&
         stegEnAnnetArbeidsforholdIsValid(annetArbeidsforhold) &&
         harFosterbarnOgListeAvFosterbarnIsValid(harFosterbarn, listeAvFosterbarn)

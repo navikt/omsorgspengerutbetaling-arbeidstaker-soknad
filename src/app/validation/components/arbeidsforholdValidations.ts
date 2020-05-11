@@ -72,3 +72,26 @@ export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: Arbeidsforho
         .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold))
         .reduceRight(evaluatePrevAndCurrent, true);
 };
+
+export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
+    if (
+        arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+        arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+export const harMinimumEtGjeldendeArbeidsforhold = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[]
+): boolean => {
+    return listeAvArbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return skalInkludereArbeidsforhold(arbeidsforhold);
+        })
+        .filter((skalInkludere: boolean) => {
+            return skalInkludere === true;
+        }).length > 0;
+};

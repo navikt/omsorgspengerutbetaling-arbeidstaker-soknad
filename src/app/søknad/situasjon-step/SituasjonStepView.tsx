@@ -5,7 +5,6 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import FormSection from 'common/components/form-section/FormSection';
 import {
     getArbeidsgivere,
-    harMinimumEtArbeidsforholdMedVidereISøknaden,
     syncArbeidsforholdWithArbeidsgivere
 } from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -29,7 +28,10 @@ import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/Fo
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import { skalInkludereArbeidsforhold } from '../../utils/formToApiMaps/mapArbeidsforholdToApiData';
+import {
+    harMinimumEtGjeldendeArbeidsforhold,
+    skalInkludereArbeidsforhold
+} from '../../validation/components/arbeidsforholdValidations';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -82,7 +84,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
 
-    const skalViseIngenGjeldendeArbeidsforholdAdvarsel = !harMinimumEtArbeidsforholdMedVidereISøknaden([
+    const skalViseIngenGjeldendeArbeidsforholdAdvarsel = !harMinimumEtGjeldendeArbeidsforhold([
         ...arbeidsforhold,
         annetArbeidsforhold
     ]);
