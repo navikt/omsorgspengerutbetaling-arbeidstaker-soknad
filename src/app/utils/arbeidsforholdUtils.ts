@@ -11,6 +11,9 @@ import {
     HvorLengeJobbet,
     HvorLengeJobbetFordi
 } from '../types/AnsettelseslengdeTypes';
+import { SøknadFormField } from '../types/SøknadFormData';
+import { logApiCallErrorToSentryOrConsole } from './sentryUtils';
+import { skalInkludereArbeidsforhold } from './formToApiMaps/mapArbeidsforholdToApiData';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -67,9 +70,25 @@ export const getArbeidsgivere = async (
     } catch (error) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
+        } else {
+            logApiCallErrorToSentryOrConsole(error);
         }
-        // TODO: Return error and handle
         return null;
     }
 };
 
+export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
+    return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
+};
+
+export const harMinimumEtArbeidsforholdMedVidereISøknaden = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[]
+): boolean => {
+    return listeAvArbeidsforhold
+            .map((arbeidsforhold: ArbeidsforholdFormData) => {
+                return skalInkludereArbeidsforhold(arbeidsforhold);
+            })
+            .filter((skalInkludere: boolean) => {
+                return skalInkludere === true;
+            }).length > 0;
+};

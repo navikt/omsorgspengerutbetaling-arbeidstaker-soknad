@@ -101,8 +101,6 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                 </Box>
                             )}
 
-                            {/* Mer enn 4 uker: TODO: Mvp, kun en liste over alle vedleggene. Ikke per arbeidsforhold */}
-
                             {/* Periode */}
                             <UtbetalingsperioderSummaryView utbetalingsperioder={arbeidsforhold.perioder}/>
                         </div>

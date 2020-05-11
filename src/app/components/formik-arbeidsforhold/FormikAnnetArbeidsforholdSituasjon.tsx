@@ -14,10 +14,10 @@ import {
 } from 'common/validation/fieldValidations';
 import Box from 'common/components/box/Box';
 import { Ingress } from 'nav-frontend-typografi';
-import { getAnnetArbeidsforholdField } from '../../søknad/situasjon-step/SituasjonStepView';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { FieldValidationResult, IntlFieldValidationResultValues } from 'common/validation/types';
+import { getAnnetArbeidsforholdField } from '../../utils/arbeidsforholdUtils';
 
 const validateInputField = (value: string): FieldValidationResult => {
     // TODO: Valideringsfeil dukker ikke opp i boksen neders med link til feil

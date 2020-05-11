@@ -13,6 +13,7 @@ import { SøknadApiData } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from 'common/utils/personUtils';
 import Panel from 'nav-frontend-paneler/lib';
+import { History } from 'history';
 
 const bem = bemUtils('confirmationPage');
 
@@ -26,8 +27,6 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
     const intl = useIntl();
 
     // const apiData: SøknadApiData = mock1;
-    // TODO: Må ikke kunne trykke back. Alternativt, hvis man trykker back så må man komme til Velkommen.
-
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
             <div className={bem.element('centeredContent')}>

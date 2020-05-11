@@ -3,7 +3,11 @@ import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
-import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
+import {
+    getArbeidsgivere,
+    harMinimumEtArbeidsforholdMedVidereISøknaden,
+    syncArbeidsforholdWithArbeidsgivere
+} from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -19,18 +23,13 @@ import { Ingress } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../../utils/sentryUtils';
+import { logToSentryOrConsole } from '../../utils/sentryUtils';
 import { Severity } from '@sentry/types';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-
-// TODO: Flytt denne et passende sted
-
-export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
-    return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
-};
+import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
+import { skalInkludereArbeidsforhold } from '../../utils/formToApiMaps/mapArbeidsforholdToApiData';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -44,6 +43,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const [isLoading, setIsLoading] = useState(true);
     const { values } = useFormikContext<SøknadFormData>();
     const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
+    const [harIngenGjeldendeArbeidsforhold, setHarIngenGjeldendeArbeidsforhold] = useState(false);
     const intl = useIntl();
 
     useEffect(() => {
@@ -51,32 +51,24 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
         const fetchData = async () => {
             if (today) {
-                try {
-                    const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(
-                        today,
-                        today
-                    );
-                    const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
+                const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(today, today);
+                const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
 
-                    if (isArbeidsgivere(maybeArbeidsgivere)) {
-                        const arbeidsgivere = maybeArbeidsgivere;
-                        const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
-                            arbeidsgivere,
-                            formikProps.values[SøknadFormField.arbeidsforhold]
-                        );
-                        if (updatedArbeidsforholds.length > 0) {
-                            formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
-                        }
-                        setIsLoading(false);
-                    } else {
-                        // TODO: Legg på expected og received
-                        logToSentryOrConsole(
-                            'listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)',
-                            Severity.Critical
-                        );
+                if (isArbeidsgivere(maybeArbeidsgivere)) {
+                    const arbeidsgivere = maybeArbeidsgivere;
+                    const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
+                        arbeidsgivere,
+                        formikProps.values[SøknadFormField.arbeidsforhold]
+                    );
+                    if (updatedArbeidsforholds.length > 0) {
+                        formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
                     }
-                } catch (error) {
-                    logApiCallErrorToSentryOrConsole(error);
+                    setIsLoading(false);
+                } else {
+                    logToSentryOrConsole(
+                        'listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)',
+                        Severity.Critical
+                    );
                 }
             }
         };
@@ -88,9 +80,15 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     }, [doApiCalls]);
 
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
+    const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
+
+    const skalViseIngenGjeldendeArbeidsforholdAdvarsel = !harMinimumEtArbeidsforholdMedVidereISøknaden([
+        ...arbeidsforhold,
+        annetArbeidsforhold
+    ]);
 
     return (
-        <SøknadStep id={StepID.SITUASJON} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
+        <SøknadStep id={StepID.SITUASJON} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading || skalViseIngenGjeldendeArbeidsforholdAdvarsel}>
             <>
                 <Box padBottom={'xxl'}>
                     <Ingress>
@@ -100,8 +98,12 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
                 <Box padBottom="xxl">
                     <CounsellorPanel>
-                        <Box padBottom={'l'}><FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1" /></Box>
-                        <Box><FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2" /></Box>
+                        <Box padBottom={'l'}>
+                            <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1" />
+                        </Box>
+                        <Box>
+                            <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2" />
+                        </Box>
                     </CounsellorPanel>
                 </Box>
 
@@ -138,6 +140,16 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
                 {/* ANNET ARBEIDSFORHOLD*/}
                 <FormikAnnetArbeidsforholdSituasjon />
+
+                {
+                    skalViseIngenGjeldendeArbeidsforholdAdvarsel && (
+                        <FormBlock paddingBottom={'xxl'}>
+                            <AlertStripe type={'info'}>
+                                <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />
+                            </AlertStripe>
+                        </FormBlock>
+                    )
+                }
 
                 {/* FOSTERBARN */}
 

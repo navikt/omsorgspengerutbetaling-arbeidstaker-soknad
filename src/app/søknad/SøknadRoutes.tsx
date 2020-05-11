@@ -61,6 +61,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                     navigateToLoginPage();
                 } else {
                     setShowErrorMessage(true);
+                    logApiCallErrorToSentryOrConsole(error);
                 }
             }
         }
@@ -106,7 +107,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
         resetForm();
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
             try {
-                await SøknadTempStorage.purge(); // TODO: Hva skjer her ved 401 eller 5xx?
+                await SøknadTempStorage.purge();
             } catch (error) {
                 logApiCallErrorToSentryOrConsole(error);
             }
@@ -133,13 +134,21 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                                 onValidSubmit={() => {
                                     setTimeout(() => {
                                         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                                            // TODO: Handle call error
-                                            SøknadTempStorage.persist(values, StepID.SITUASJON).then(() => {
-                                                navigateTo(
-                                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
-                                                    history
-                                                );
-                                            });
+                                            SøknadTempStorage.persist(values, StepID.SITUASJON)
+                                                .then(() => {
+                                                    navigateTo(
+                                                        `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
+                                                        history
+                                                    );
+                                                })
+                                                .catch((error) => {
+                                                    if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                                                        navigateToLoginPage();
+                                                    } else {
+                                                        setShowErrorMessage(true);
+                                                        logApiCallErrorToSentryOrConsole(error);
+                                                    }
+                                                });
                                         } else {
                                             navigateTo(
                                                 `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
@@ -250,9 +259,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                     if (søknadHasBeenSent) {
                         return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
                     } else {
-                        // TODO: Netleseren ble refreshet. Kan ikke vise kviteringen på innsendt søknad på nytt...
-                        // TODO: Lag ny component istede for å route rett til welcoming page route
-                        navigateTo(RouteConfig.WELCOMING_PAGE_ROUTE, history);
+                        navigateToWelcomePage();
                         return <LoadingPage />;
                     }
                 }}

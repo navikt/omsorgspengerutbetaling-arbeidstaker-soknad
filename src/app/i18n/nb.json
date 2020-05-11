@@ -442,6 +442,7 @@
     "annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.navnArbeidsgiver.spm": "Oppgi navn på arbeidsgiver",
 
     "step.annet.periodeoversikt.tittel": "Du har lagt inn følgende dager i søknaden hvor du har vært hjemme med barn:",
-    "ingen.arbeidsforhold.info.text": "Vi finner ingen registrerte arbeidsforhold."
+    "ingen.arbeidsforhold.info.text": "Vi finner ingen registrerte arbeidsforhold.",
+    "ingen.gjeldende.arbeidsforhold.info.text": "Minimum et arbeidsforhold må ha manglende utbetaling fra arbeidsgiver for å kunne gå videre i søknaden."
 
 }
