@@ -16,7 +16,9 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
 
     const { values, setFormikState } = useFormikContext<SøknadFormData>();
 
-    const listeAvAlleVedlegg: string[] = listAlleVedlegg(values[SøknadFormField.arbeidsforhold]);
+    const listeAvAlleVedlegg: string[] = listAlleVedlegg(
+        [...values[SøknadFormField.arbeidsforhold], values[SøknadFormField.annetArbeidsforhold]]
+    );
 
     return (
         <Box>
