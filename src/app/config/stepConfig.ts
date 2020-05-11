@@ -1,5 +1,5 @@
 import { SøknadFormData } from '../types/SøknadFormData';
-import { getSøknadRoute } from '../utils/routeUtils';
+import { getMaybeSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {
@@ -52,24 +52,24 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
             ...getStepConfigItemTextKeys(StepID.PERIODE),
             index: idx++,
             nextStep: StepID.ANNET,
-            backLinkHref: getSøknadRoute(StepID.SITUASJON)
+            backLinkHref: getMaybeSøknadRoute(StepID.SITUASJON)
         },
         [StepID.ANNET]: {
             ...getStepConfigItemTextKeys(StepID.ANNET),
             index: idx++,
             nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.PERIODE)
+            backLinkHref: getMaybeSøknadRoute(StepID.PERIODE)
         },
         [StepID.MEDLEMSKAP]: {
             ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
             index: idx++,
             nextStep: StepID.OPPSUMMERING,
-            backLinkHref: getSøknadRoute(StepID.ANNET)
+            backLinkHref: getMaybeSøknadRoute(StepID.ANNET)
         },
         [StepID.OPPSUMMERING]: {
             ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),
             index: idx++,
-            backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
+            backLinkHref: getMaybeSøknadRoute(StepID.MEDLEMSKAP),
             nextButtonLabel: 'step.sendButtonLabel',
             nextButtonAriaLabel: 'step.sendButtonAriaLabel'
         }

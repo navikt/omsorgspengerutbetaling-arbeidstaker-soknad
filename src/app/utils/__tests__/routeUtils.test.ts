@@ -1,7 +1,7 @@
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { SøknadFormField } from '../../types/SøknadFormData';
-import { getSøknadRoute, isAvailable } from '../routeUtils';
+import { getMaybeSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
 
 jest.mock('../featureToggleUtils', () => {
@@ -25,7 +25,7 @@ describe('routeUtils', () => {
     describe('getSøknadRoute', () => {
         it('should prefix provided string with a common prefix for routes', () => {
             const s2 = StepID.OPPSUMMERING;
-            expect(getSøknadRoute(s2)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
+            expect(getMaybeSøknadRoute(s2)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
         });
     });
 

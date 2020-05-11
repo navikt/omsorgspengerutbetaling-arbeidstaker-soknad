@@ -9,16 +9,24 @@ import {
     summaryStepAvailable
 } from './stepUtils';
 
-export const getSøknadRoute = (stepId: StepID | undefined) => {
+export const getMaybeSøknadRoute = (stepId: StepID | undefined) => {
     if (stepId !== undefined) {
         return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
     }
     return undefined;
 };
 
+export const getSøknadRoute = (stepId: StepID) =>
+    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
+
 export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): string | undefined => {
     const stepConfig = getStepConfig(formData);
-    return stepConfig[stepId] ? getSøknadRoute(stepConfig[stepId].nextStep) : undefined;
+    return stepConfig[stepId] ? getMaybeSøknadRoute(stepConfig[stepId].nextStep) : undefined;
+};
+
+export const getNextStepId = (stepId: StepID, formData?: SøknadFormData): StepID | undefined => {
+    const stepConfig = getStepConfig(formData);
+    return stepConfig[stepId] ? stepConfig[stepId].nextStep : undefined;
 };
 
 export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData) => {

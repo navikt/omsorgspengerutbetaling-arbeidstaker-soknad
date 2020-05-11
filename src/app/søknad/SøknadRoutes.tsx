@@ -11,7 +11,7 @@ import { SøknadApiData } from '../types/SøknadApiData';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils/navigationUtils';
-import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
+import { getMaybeSøknadRoute, getNextStepId, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import PeriodeStep from './periode-step/PeriodeStep';
@@ -52,7 +52,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
-    async function navigateToNextStepFrom(stepID: StepID) {
+    const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
+        const nextStepID: StepID | undefined = getNextStepId(stepID, values);
+        if (nextStepID) {
+            navigateToStep(nextStepID);
+        }
+    };
+
+    async function navigateToStep(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
             try {
                 await SøknadTempStorage.persist(values, stepID);
@@ -65,12 +72,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 }
             }
         }
-        setTimeout(() => {
-            const nextStepRoute = getNextStepRoute(stepID, values);
-            if (nextStepRoute) {
-                navigateTo(nextStepRoute, history);
-            }
-        });
+        navigateTo(getSøknadRoute(stepID), history)
     }
 
     const fortsettPåPåbegyntSøknad = async (lastStepId: StepID) => {
@@ -130,41 +132,12 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 render={() => {
                     return (
                         <div>
-                            <WelcomingPage
-                                onValidSubmit={() => {
-                                    setTimeout(() => {
-                                        if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                                            SøknadTempStorage.persist(values, StepID.SITUASJON)
-                                                .then(() => {
-                                                    navigateTo(
-                                                        `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
-                                                        history
-                                                    );
-                                                })
-                                                .catch((error) => {
-                                                    if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                                                        navigateToLoginPage();
-                                                    } else {
-                                                        setShowErrorMessage(true);
-                                                        logApiCallErrorToSentryOrConsole(error);
-                                                    }
-                                                });
-                                        } else {
-                                            navigateTo(
-                                                `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.SITUASJON}`,
-                                                history
-                                            );
-                                        }
-                                    });
-                                }}
-                            />
+                            <WelcomingPage onValidSubmit={() => navigateToStep(StepID.SITUASJON)} />
                             {lastStepID && (
                                 <FortsettSøknadModalView
                                     isOpen={!!lastStepID && !hasBeenClosed}
                                     buttonsAreDisabled={buttonsAreDisabled}
-                                    onRequestClose={() => {
-                                        startPåNySøknad();
-                                    }}
+                                    onRequestClose={startPåNySøknad}
                                     onFortsettPåSøknad={() => fortsettPåPåbegyntSøknad(lastStepID)}
                                     onStartNySøknad={startPåNySøknad}
                                 />
@@ -175,14 +148,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             />
 
             <Route
-                path={getSøknadRoute(StepID.SITUASJON)}
+                path={getMaybeSøknadRoute(StepID.SITUASJON)}
                 exact={true}
                 render={() => {
                     return navigateToIfAvailable(
                         StepID.SITUASJON,
                         values,
                         <SituasjonStepView
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.SITUASJON)}
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.SITUASJON)}
                             søkerdata={søkerdata}
                             formikProps={formikProps}
                         />
@@ -191,43 +164,43 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             />
 
             <Route
-                path={getSøknadRoute(StepID.PERIODE)}
+                path={getMaybeSøknadRoute(StepID.PERIODE)}
                 exact={true}
                 render={() => {
                     return navigateToIfAvailable(
                         StepID.PERIODE,
                         values,
-                        <PeriodeStep onValidSubmit={() => navigateToNextStepFrom(StepID.PERIODE)} />
+                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
                     );
                 }}
             />
 
             <Route
-                path={getSøknadRoute(StepID.ANNET)}
+                path={getMaybeSøknadRoute(StepID.ANNET)}
                 exact={true}
                 render={() => {
                     return navigateToIfAvailable(
                         StepID.ANNET,
                         values,
-                        <AnnetStepView onValidSubmit={() => navigateToNextStepFrom(StepID.ANNET)} />
+                        <AnnetStepView onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
                     );
                 }}
             />
 
             <Route
-                path={getSøknadRoute(StepID.MEDLEMSKAP)}
+                path={getMaybeSøknadRoute(StepID.MEDLEMSKAP)}
                 exact={true}
                 render={() => {
                     return navigateToIfAvailable(
                         StepID.MEDLEMSKAP,
                         values,
-                        <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />
+                        <MedlemsskapStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.MEDLEMSKAP)} />
                     );
                 }}
             />
 
             <Route
-                path={getSøknadRoute(StepID.OPPSUMMERING)}
+                path={getMaybeSøknadRoute(StepID.OPPSUMMERING)}
                 exact={true}
                 render={() => {
                     return navigateToIfAvailable(
