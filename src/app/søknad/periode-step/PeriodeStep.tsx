@@ -6,39 +6,49 @@ import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
 import FormBlock from 'common/components/form-block/FormBlock';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikArbeidsforholdDelTrePeriodeView
-    from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
-import FormikArbeidsforholdDelToArbeidslengde
-    from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
+import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
+import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormSection from 'common/components/form-section/FormSection';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage } from 'react-intl';
-import { useHistory } from 'react-router';
-import { History } from 'history';
-import LocationListener = History.LocationListener;
-import { navigateToWelcomePage } from '../../utils/navigationUtils';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
+import { YesOrNo } from 'common/types/YesOrNo';
+
+const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
+    return {
+        ...arbeidsforhold,
+        perioderMedFravær:
+            arbeidsforhold[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO
+                ? []
+                : arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær],
+        dagerMedDelvisFravær:
+            arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.NO
+                ? []
+                : arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
+    };
+};
+
+const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
+    const listeAvArbeidsforhold = søknadFormData[SøknadFormField.arbeidsforhold];
+    const annetArbeidsforhold = søknadFormData[SøknadFormField.annetArbeidsforhold];
+
+    return {
+        ...søknadFormData,
+        arbeidsforhold: listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return cleanPerioderForArbeidsforhold(arbeidsforhold);
+        }),
+        annetArbeidsforhold: cleanPerioderForArbeidsforhold(annetArbeidsforhold)
+    }
+};
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
 
     // TODO: Må implementeres på en annen måte
     // const kanIkkeFortsette = harPerioderMedFravær === YesOrNo.NO && harDagerMedDelvisFravær === YesOrNo.NO;
-
-    // TODO: CleanupStep, implementer
-    // const cleanupStep = (valuesToBeCleaned: SøknadFormData): SøknadFormData => {
-    //     const cleanedValues = { ...valuesToBeCleaned };
-    //     if (harDagerMedDelvisFravær === YesOrNo.NO) {
-    //         cleanedValues.dagerMedDelvisFravær = [];
-    //     }
-    //     if (harPerioderMedFravær === YesOrNo.NO) {
-    //         cleanedValues.perioderMedFravær = [];
-    //     }
-    //     return cleanedValues;
-    // };
 
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
@@ -63,12 +73,16 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             onValidFormSubmit={() => {
                 onValidSubmit();
             }}
-            // cleanupStep={cleanupStep} TODO: Fix necessary cleanup
+            cleanupStep={cleanupStep}
             showSubmitButton={true}>
             <FormBlock>
                 <CounsellorPanel>
-                    <Box padBottom={'l'}><FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del1'} /></Box>
-                    <Box><FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del2'} /></Box>
+                    <Box padBottom={'l'}>
+                        <FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del1'} />
+                    </Box>
+                    <Box>
+                        <FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del2'} />
+                    </Box>
                 </CounsellorPanel>
             </FormBlock>
 

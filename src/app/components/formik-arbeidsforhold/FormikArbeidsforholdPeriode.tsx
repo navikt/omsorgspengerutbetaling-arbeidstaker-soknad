@@ -42,7 +42,6 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
         <>
             <FormBlock>
                 <FormikYesOrNoQuestion
-                    // name={SøknadFormField.harPerioderMedFravær}
                     name={nameHarPerioderMedFravær}
                     legend={intlHelper(intl, 'periode.heledager.spm')}
                     validate={validateYesOrNoIsAnswered}
