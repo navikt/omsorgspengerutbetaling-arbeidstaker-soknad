@@ -32,7 +32,7 @@ interface SøknadRoutesProps {
     formikProps: FormikProps<SøknadFormData>;
 }
 
-const navigateToIfAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element) => {
+const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element) => {
     if (isAvailable(stepID, values)) {
         return component;
     } else {
@@ -72,7 +72,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 }
             }
         }
-        navigateTo(getSøknadRoute(stepID), history)
+        navigateTo(getSøknadRoute(stepID), history);
     }
 
     const fortsettPåPåbegyntSøknad = async (lastStepId: StepID) => {
@@ -151,7 +151,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 path={getMaybeSøknadRoute(StepID.SITUASJON)}
                 exact={true}
                 render={() => {
-                    return navigateToIfAvailable(
+                    return ifAvailable(
                         StepID.SITUASJON,
                         values,
                         <SituasjonStepView
@@ -167,7 +167,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 path={getMaybeSøknadRoute(StepID.PERIODE)}
                 exact={true}
                 render={() => {
-                    return navigateToIfAvailable(
+                    return ifAvailable(
                         StepID.PERIODE,
                         values,
                         <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
@@ -179,7 +179,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 path={getMaybeSøknadRoute(StepID.ANNET)}
                 exact={true}
                 render={() => {
-                    return navigateToIfAvailable(
+                    return ifAvailable(
                         StepID.ANNET,
                         values,
                         <AnnetStepView onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
@@ -191,7 +191,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 path={getMaybeSøknadRoute(StepID.MEDLEMSKAP)}
                 exact={true}
                 render={() => {
-                    return navigateToIfAvailable(
+                    return ifAvailable(
                         StepID.MEDLEMSKAP,
                         values,
                         <MedlemsskapStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.MEDLEMSKAP)} />
@@ -203,7 +203,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                 path={getMaybeSøknadRoute(StepID.OPPSUMMERING)}
                 exact={true}
                 render={() => {
-                    return navigateToIfAvailable(
+                    return ifAvailable(
                         StepID.OPPSUMMERING,
                         values,
                         <OppsummeringStep
