@@ -29,15 +29,6 @@ export interface ArbeidsforholdFormData {
     [ArbeidsforholdFormDataFields.dokumenter]: Attachment[];
 }
 
-export enum AnnetArbeidsforholdFormDataFields {
-    navn = 'navn',
-    organisasjonsnummer = 'organisasjonsnummer',
-    harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
-    arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn',
-    ansettelseslengde = 'ansettelseslengde',
-    perioder = 'perioder'
-}
-
 export const initialArbeidsforholdFormData: ArbeidsforholdFormData = {
     [ArbeidsforholdFormDataFields.navn]: '',
     [ArbeidsforholdFormDataFields.organisasjonsnummer]: '',

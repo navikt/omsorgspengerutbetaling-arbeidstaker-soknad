@@ -2,7 +2,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import {
     harMinimumEtGjeldendeArbeidsforhold,
-    listeAvArbeidsforholdIsValid,
+    listeAvArbeidsforholdIsValid, skalInkludereArbeidsforhold,
     stegEnAnnetArbeidsforholdIsValid,
     stegEnListeAvArbeidsforholdIsValid
 } from './components/arbeidsforholdValidations';
@@ -11,6 +11,7 @@ import { utenlandsoppholdFormIsValid } from './components/utenlandsoppholdValida
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { AndreUtbetalinger } from '../types/AndreUtbetalinger';
 import { andreUtbetalingerFormIsValid } from './components/andreUtbetalingerValidations';
+import { ArbeidsforholdFormData } from '../types/ArbeidsforholdTypes';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;
@@ -36,7 +37,10 @@ export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
 export const periodeStepIsValid = (formData: SøknadFormData): boolean => {
     const listeAvArbeidsforhold = formData[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold = formData[SøknadFormField.annetArbeidsforhold];
-    return listeAvArbeidsforholdIsValid([...listeAvArbeidsforhold, annetArbeidsforhold]);
+    const listeAvGjeldende = [...listeAvArbeidsforhold, annetArbeidsforhold].filter((arbeidsforhold: ArbeidsforholdFormData) => {
+        return skalInkludereArbeidsforhold(arbeidsforhold);
+    });
+    return listeAvArbeidsforholdIsValid(listeAvGjeldende);
 };
 
 export const annetStepIsValid = (formData: SøknadFormData): boolean => {

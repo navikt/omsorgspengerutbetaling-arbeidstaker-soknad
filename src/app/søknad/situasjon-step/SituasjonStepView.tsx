@@ -45,8 +45,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const [isLoading, setIsLoading] = useState(true);
     const { values } = useFormikContext<SøknadFormData>();
     const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
-    const [harIngenGjeldendeArbeidsforhold, setHarIngenGjeldendeArbeidsforhold] = useState(false);
-    const intl = useIntl();
 
     useEffect(() => {
         const today: Date = dateToday;

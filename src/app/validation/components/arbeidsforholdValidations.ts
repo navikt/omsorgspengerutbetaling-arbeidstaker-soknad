@@ -68,9 +68,12 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
 };
 
 export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
-    return listeAvArbeidsforhold
-        .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold))
+    const mapped = listeAvArbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold));
+    console.warn(JSON.stringify(mapped, null, 4));
+    const isValid = mapped
         .reduceRight(evaluatePrevAndCurrent, true);
+    return isValid;
 };
 
 export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
