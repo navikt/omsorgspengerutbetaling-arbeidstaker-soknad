@@ -31,7 +31,6 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     nameDagerMedDelvisFravær
 }) => {
     const intl = useIntl();
-    // TODO: validateField og validateForm funker? (sikkert ikke)
     const { validateField, validateForm } = useFormikContext<SøknadFormData>();
 
     const kanIkkeFortsette =
