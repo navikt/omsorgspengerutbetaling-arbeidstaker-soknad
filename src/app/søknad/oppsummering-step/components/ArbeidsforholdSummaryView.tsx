@@ -36,13 +36,14 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                     <Box key={index} padBottom={'xl'}>
                         {/* Title */}
                         <div className={bem.element('org')}>
-                            <FormattedMessage id="arbeidsforhold.oppsummering.orgInfo" values={orgInfo}/>
+                            {orgInfo.navn}{' '}
+                            {orgInfo.organisasjonsnummer && <>(organisasjonsnummer: {orgInfo.organisasjonsnummer})</>}
                         </div>
                         {/* Content */}
                         <div className={'arbeidsforholdSummaryContent'}>
                             <Box margin={'s'}>
                                 <SummaryBlock header={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}>
-                                    <JaNeiSvar harSvartJa={arbeidsforhold.harHattFraværHosArbeidsgiver}/>
+                                    <JaNeiSvar harSvartJa={arbeidsforhold.harHattFraværHosArbeidsgiver} />
                                 </SummaryBlock>
                             </Box>
                             {arbeidsforhold.harHattFraværHosArbeidsgiver && (
@@ -52,7 +53,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                             intl,
                                             'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
                                         )}>
-                                        <JaNeiSvar harSvartJa={arbeidsforhold.arbeidsgiverHarUtbetaltLønn}/>
+                                        <JaNeiSvar harSvartJa={arbeidsforhold.arbeidsgiverHarUtbetaltLønn} />
                                     </SummaryBlock>
                                 </Box>
                             )}
@@ -60,49 +61,45 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
 
                             <Box margin={'s'}>
                                 <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}>
-                                    {
-                                        arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
-                                            <FormattedHTMLMessage id={'hvorLengeJobbet.mer'} />
-                                        )
-                                    }
-                                    {
-                                        arbeidsforhold.ansettelseslengde.merEnn4Uker === false && (
-                                            <FormattedHTMLMessage id={'hvorLengeJobbet.mindre'} />
-                                        )
-                                    }
+                                    {arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
+                                        <FormattedHTMLMessage id={'hvorLengeJobbet.mer'} />
+                                    )}
+                                    {arbeidsforhold.ansettelseslengde.merEnn4Uker === false && (
+                                        <FormattedHTMLMessage id={'hvorLengeJobbet.mindre'} />
+                                    )}
                                 </SummaryBlock>
                             </Box>
 
                             {/* Mindre enn 4 uker */}
                             {!arbeidsforhold.ansettelseslengde.merEnn4Uker &&
-                            arbeidsforhold.ansettelseslengde.begrunnelse && (
-                                <Box margin={'s'}>
-                                    <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.fordi.legend-text')}>
-                                        <FormattedHTMLMessage
-                                            id={getRadioTextIdBegrunnelseFordi(
-                                                arbeidsforhold.ansettelseslengde.begrunnelse
-                                            )}
-                                        />
-                                    </SummaryBlock>
-                                </Box>
-                            )}
+                                arbeidsforhold.ansettelseslengde.begrunnelse && (
+                                    <Box margin={'s'}>
+                                        <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.fordi.legend-text')}>
+                                            <FormattedHTMLMessage
+                                                id={getRadioTextIdBegrunnelseFordi(
+                                                    arbeidsforhold.ansettelseslengde.begrunnelse
+                                                )}
+                                            />
+                                        </SummaryBlock>
+                                    </Box>
+                                )}
 
                             {!arbeidsforhold.ansettelseslengde.merEnn4Uker &&
-                            arbeidsforhold.ansettelseslengde.begrunnelse &&
-                            arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring && (
-                                <Box margin={'s'}>
-                                    <SummaryBlock
-                                        header={intlHelper(
-                                            intl,
-                                            'hvorLengeJobbet.fordi.ingen.forklaring.summary.label'
-                                        )}>
-                                        {arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring}
-                                    </SummaryBlock>
-                                </Box>
-                            )}
+                                arbeidsforhold.ansettelseslengde.begrunnelse &&
+                                arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring && (
+                                    <Box margin={'s'}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'hvorLengeJobbet.fordi.ingen.forklaring.summary.label'
+                                            )}>
+                                            {arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring}
+                                        </SummaryBlock>
+                                    </Box>
+                                )}
 
                             {/* Periode */}
-                            <UtbetalingsperioderSummaryView utbetalingsperioder={arbeidsforhold.perioder}/>
+                            <UtbetalingsperioderSummaryView utbetalingsperioder={arbeidsforhold.perioder} />
                         </div>
                     </Box>
                 );
@@ -112,43 +109,3 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
 };
 
 export default ArbeidsforholdSummaryView;
-
-//
-// <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-//     {arbeidsgivere.length > 0 ? (
-//         <SummaryList
-//             items={arbeidsgivere}
-//             itemRenderer={(organisasjon: OrganisasjonDetaljer) => {
-//                 const orgInfo = {
-//                     navn: organisasjon.navn,
-//                     organisasjonsnummer: organisasjon.organisasjonsnummer
-//                 };
-//                 return (
-//                     <div key={organisasjon.organisasjonsnummer}>
-//                         <div className={bem.element('org')}>
-//                             <FormattedMessage id="arbeidsforhold.oppsummering.orgInfo" values={orgInfo} />
-//                         </div>
-//                         <Box margin={'s'}>
-//                             <SummaryBlock header={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}>
-//                                 <JaNeiSvar harSvartJa={organisasjon.harHattFraværHosArbeidsgiver} />
-//                             </SummaryBlock>
-//                         </Box>
-//                         {organisasjon.harHattFraværHosArbeidsgiver && (
-//                             <Box margin={'s'}>
-//                                 <SummaryBlock
-//                                     header={intlHelper(
-//                                         intl,
-//                                         'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
-//                                     )}>
-//                                     <JaNeiSvar harSvartJa={organisasjon.arbeidsgiverHarUtbetaltLønn} />
-//                                 </SummaryBlock>
-//                             </Box>
-//                         )}
-//                     </div>
-//                 );
-//             }}
-//         />
-//     ) : (
-//         <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
-//     )}
-// </ContentWithHeader>

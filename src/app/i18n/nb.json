@@ -357,7 +357,6 @@
     "arbeidsforhold.prosent.utledet": "prosent av {timer, plural, one {# time} other {# timer}}",
     "arbeidsforhold.prosent.utledet.medTimer": "prosent av {timer, plural, one {# time} other {# timer}} ({timerRedusert} i uka)",
     "arbeidsforhold.prosent.veileder": "Hvis du jobber deltid, skal du oppgi hvor mye du skal jobbe som andel av stillingen din. Hvis du til vanlig jobber 80 prosent, og skal jobbe halvparten av dette, skal du oppgi 50 prosent.",
-    "arbeidsforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
     "arbeidsforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
     "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanlig",

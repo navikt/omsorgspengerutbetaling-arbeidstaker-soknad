@@ -92,12 +92,6 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
             AnsettelseslengdeFormDataFields.begrunnelse
         ];
 
-    // TODO: Add text field
-    const ingenAvSituasjoneneForklaring: string | null =
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.ansettelseslengde][
-            AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring
-        ];
-
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
 
     // TODO: Disable Fortsett button if fileupload is pending
