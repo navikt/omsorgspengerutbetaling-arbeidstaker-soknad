@@ -47,25 +47,23 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
 
-    // TODO: Må implementeres på en annen måte
-    // const kanIkkeFortsette = harPerioderMedFravær === YesOrNo.NO && harDagerMedDelvisFravær === YesOrNo.NO;
-
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
 
     const arbeidsforholdListe = values[SøknadFormField.arbeidsforhold]
-        .filter((arbeidsforhold: ArbeidsforholdFormData) => skalInkludereArbeidsforhold(arbeidsforhold))
-        .map((arbeidsforhold: ArbeidsforholdFormData, index) => (
-            <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
-                <FormSection
-                    titleTag="h4"
-                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                    titleIcon={<BuildingIcon />}>
-                    <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
-                    <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
-                </FormSection>
-            </FormBlock>
-        ));
+        .map((arbeidsforhold: ArbeidsforholdFormData, index) => {
+            return skalInkludereArbeidsforhold(arbeidsforhold) ? (
+                <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
+                    <FormSection
+                        titleTag="h4"
+                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                        titleIcon={<BuildingIcon/>}>
+                        <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index}/>
+                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index}/>
+                    </FormSection>
+                </FormBlock>
+            ) : null;
+        });
 
     return (
         <SøknadStep
