@@ -20,18 +20,21 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
         [...values[SøknadFormField.arbeidsforhold], values[SøknadFormField.annetArbeidsforhold]]
     );
 
-    return (
-        <Box>
-            Vedlegg
-            <SummaryList items={listeAvAlleVedlegg} itemRenderer={(vedleggNavn) => {
-                return (
-                    <Box>
-                        { vedleggNavn }
-                    </Box>
-                )
-            }} />
-        </Box>
-    );
+    if (listeAvAlleVedlegg.length > 0) {
+        return (
+            <Box>
+                Vedlegg
+                <SummaryList items={listeAvAlleVedlegg} itemRenderer={(vedleggNavn) => {
+                    return (
+                        <Box>
+                            { vedleggNavn }
+                        </Box>
+                    )
+                }} />
+            </Box>
+        );
+    }
+    return null;
 };
 
 export default VedleggSummaryView;
