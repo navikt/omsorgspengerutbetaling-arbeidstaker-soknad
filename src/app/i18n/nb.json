@@ -24,7 +24,7 @@
     "Torsdag": "Torsdag",
     "Fredag": "Fredag",
 
-    "banner.title": "Søknad om utbetaling av omsorgspenger for arbeidstakere",
+    "banner.title": "Søknad om utbetaling av omsorgspenger når arbeidsgiver ikke utbetaler",
 
     "page.loadingPage.tekst": "Laster ...",
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
@@ -164,10 +164,10 @@
     "introPage.spm.kroniskEllerFunksjonshemmende": "Har du et barn som har en kronisk sykdom eller funksjonshemming?",
     "introPage.infoIkkeKroniskEllerFunksjonshemmende.html": "<p>Du må foreløpig bruke <a href=\"{url}\" class=\"lenke\">papirsøknaden</a> hvis du skal<ol><li>søke om å ta over dager fra en annen omsorgsperson</li><li>fordele dager med en annen omsorgsperson</li><li>overføre dager til en ny samlivspartner</li></ol></p>",
 
-    "welcomingPage.sidetittel": "Søknad om ekstra omsorgsdager",
+    "welcomingPage.sidetittel": "Søknad om utbetaling av omsorgspenger",
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "jeg vil hjelpe deg med å fylle ut søknaden!",
-    "welcomingPage.introtittel": "Søknad om utbetaling av omsorgspenger til arbeidstakere",
+    "welcomingPage.introtittel": "Søknad om utbetaling av omsorgspenger når arbeidsgiver ikke utbetaler",
     "welcomingPage.legeerklæring": "Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp.",
     "welcomingPage.samtykke.tekst": "Jeg bekrefter at jeg har lest og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkårene",
