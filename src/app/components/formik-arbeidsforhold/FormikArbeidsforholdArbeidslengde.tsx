@@ -94,11 +94,6 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
 
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
 
-    // TODO: Disable Fortsett button if fileupload is pending
-    const hasPendingUploads: boolean =
-        (arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter] || []).find((a: any) => a.pending === true) !==
-        undefined;
-
     return (
         <>
             <FormBlock margin={'xxl'}>

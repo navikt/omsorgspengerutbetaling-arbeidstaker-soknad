@@ -18,7 +18,6 @@ import { iso8601DurationToTime, isValidTime, timeToString } from 'common/utils/t
 
 const bem = bemUtils('confirmationPage');
 
-
 export interface OwnProps {
     søkerdata: Søkerdata | undefined;
     søknadApiData: SøknadApiData | undefined;
@@ -175,7 +174,7 @@ const settInnTilArbeidsgiverPaneler = (
                             </p>
                             <p>
                                 Fyll inn alle dager og/eller perioder som samsvarer med arbeidstakers søknad. Hvis
-                                datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du
+                                søknaden ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du
                                 sender inntektsmeldingen.
                             </p>
                             <p>
