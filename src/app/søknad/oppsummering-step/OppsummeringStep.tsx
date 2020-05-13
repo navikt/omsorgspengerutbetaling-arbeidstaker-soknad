@@ -24,6 +24,9 @@ import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import VedleggSummaryView from './components/VedleggSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
+import { Undertittel } from 'nav-frontend-typografi';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import SummaryBlock from './components/SummaryBlock';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -83,10 +86,12 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                         mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
-
-                    <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere}/>
                     <FosterbarnSummaryView fosterbarn={fosterbarn}/>
-                    <AndreUtbetalingerSummaryView andreUtbetalinger={values[SøknadFormField.andreUtbetalinger]}/>
+
+                    <SummaryBlock header={'Arbeidsforhold'}>
+                        <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere}/>
+                        <AndreUtbetalingerSummaryView andreUtbetalinger={values[SøknadFormField.andreUtbetalinger]}/>
+                    </SummaryBlock>
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold}/>
                     <MedlemskapSummaryView bosteder={apiValues.bosteder}/>
                     <VedleggSummaryView apiValues={apiValues} />

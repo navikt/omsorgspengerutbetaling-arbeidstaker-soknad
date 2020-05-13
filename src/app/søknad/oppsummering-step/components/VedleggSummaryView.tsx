@@ -6,6 +6,7 @@ import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormDat
 import Box from 'common/components/box/Box';
 import { listAlleVedlegg } from '../../../utils/formToApiMaps/mapVedleggToApiData';
 import SummaryList from 'common/components/summary-list/SummaryList';
+import SummaryBlock from './SummaryBlock';
 
 interface Props {
     apiValues: SøknadApiData;
@@ -22,8 +23,7 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
 
     if (listeAvAlleVedlegg.length > 0) {
         return (
-            <Box>
-                Vedlegg
+            <SummaryBlock header={'Vedlegg til søknad: Forklaring fra arbeidsgiver'}>
                 <SummaryList items={listeAvAlleVedlegg} itemRenderer={(vedleggNavn) => {
                     return (
                         <Box>
@@ -31,7 +31,7 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
                         </Box>
                     )
                 }} />
-            </Box>
+            </SummaryBlock>
         );
     }
     return null;
