@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { Ingress, Innholdstittel, Undertittel } from 'nav-frontend-typografi';
+import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import CheckmarkIcon from 'common/components/checkmark-icon/CheckmarkIcon';
 import Page from 'common/components/page/Page';
@@ -9,13 +9,15 @@ import intlHelper from 'common/utils/intlUtils';
 import './confirmationPage.less';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
-import { SøknadApiData } from '../../../types/SøknadApiData';
+import { ArbeidsgiverDetaljer, SøknadApiData, Utbetalingsperiode } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from 'common/utils/personUtils';
 import Panel from 'nav-frontend-paneler/lib';
-import { History } from 'history';
+import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
+import { iso8601DurationToTime, isValidTime, timeToString } from 'common/utils/timeUtils';
 
 const bem = bemUtils('confirmationPage');
+
 
 export interface OwnProps {
     søkerdata: Søkerdata | undefined;
@@ -26,7 +28,6 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
     const { søkerdata, søknadApiData } = props;
     const intl = useIntl();
 
-    // const apiData: SøknadApiData = mock1;
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
             <div className={bem.element('centeredContent')}>
@@ -39,14 +40,16 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
             </div>
             <Box margin="xl">
                 <div className={'infopanelInfoForsvinner'}>
-                    <Ingress>
+                    <Undertittel>
                         <FormattedMessage id="page.confirmation.undertittel" />
-                    </Ingress>
+                    </Undertittel>
                     <Panel border={true} className={'luftOver'}>
                         <AlertStripe type="advarsel" form="inline">
-                            Obs! Denne informasjonen forsvinner når du lukker den. Det er derfor viktig at du leser
-                            gjennom før du går videre.
-                            <div>Siden kan printes ut, slik at du kan gi utskrift til arbeidsgiveren din.</div>
+                            <Box padBottom={'l'}>
+                                Obs! Denne informasjonen forsvinner når du lukker den. Det er derfor viktig at du leser
+                                gjennom før du går videre.
+                            </Box>
+                            <Box>Siden kan printes ut, slik at du kan gi utskrift til arbeidsgiveren din.</Box>
                         </AlertStripe>
                     </Panel>
                 </div>
@@ -68,8 +71,8 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
                     </li>
                     <li>
                         <AlertStripe type="info" form="inline">
-                            registrert med flere arbeidsgivere, får du en utskrift til hver av dem. Du kan skrive ut
-                            denne informasjonssiden og gi utskriften til arbeidsgiveren din. Hvis du er
+                            Du kan skrive ut denne informasjonssiden og gi utskriften til arbeidsgiveren din. Hvis du er
+                            registrert med flere arbeidsgivere, får du en utskrift til hver av dem.
                         </AlertStripe>
                     </li>
                 </ul>
@@ -94,59 +97,106 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
                 </div>
             </Box>
 
-            {søkerdata && <Box margin="xl">{settInnTilArbeidsgiverPaneler(intl, søkerdata, søknadApiData)}</Box>}
+            {søkerdata && søknadApiData && (
+                <Box margin="xl">{settInnTilArbeidsgiverPaneler(intl, søkerdata, søknadApiData)}</Box>
+            )}
         </Page>
     );
 };
 
-const settInnTilArbeidsgiverPaneler = (intl: IntlShape, søkerdata: Søkerdata, apiData?: SøknadApiData): JSX.Element => {
-    const { fornavn, mellomnavn, etternavn } = søkerdata?.person;
+const settInnTilArbeidsgiverPaneler = (
+    intl: IntlShape,
+    søkerdata: Søkerdata,
+    søknadApiData: SøknadApiData
+): JSX.Element => {
+    const { fornavn, mellomnavn, etternavn } = søkerdata.person;
     const søkersNavn: string | undefined =
         fornavn && etternavn ? formatName(fornavn, etternavn, mellomnavn || undefined) : 'UKJENT BRUKER';
     const søknadsNavn = 'omsorgspenger';
 
-    return (
-        <div className={'pagebreak tilArbeidsgiverPanel'}>
-            <Panel border={true} className={'luftOver'}>
-                <Undertittel>Informasjon til arbeidsgiver</Undertittel>
+    const componentList = søknadApiData.arbeidsgivere.map(
+        (arbeidsgiverDetaljer: ArbeidsgiverDetaljer, index: number) => {
+            return (
+                <div className={'pagebreak tilArbeidsgiverPanel'} key={`arbeidsgiver-${index}`}>
+                    <Panel border={true} className={'luftOver'}>
+                        <Undertittel>Til {arbeidsgiverDetaljer.navn}</Undertittel>
 
-                <p>NAV har mottatt følgende opplysninger:</p>
+                        <p>NAV har mottatt følgende opplysninger:</p>
 
-                <p>
-                    <b>{søkersNavn} søker om omsorgspenger</b>
-                </p>
-                <Panel border={true} className={'luftOver'}>
-                    <AlertStripe type="advarsel" form="inline">
-                        For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen blir
-                        sendt til oss så snart som mulig.
                         <p>
-                            <b>Det er viktig at du krysser av for at inntektsmeldingen gjelder {søknadsNavn}.</b>
+                            <b>
+                                {søkersNavn} er ansatt hos {arbeidsgiverDetaljer.navn}
+                            </b>
                         </p>
-                        <div>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</div>
-                    </AlertStripe>
-                </Panel>
+                        <p>
+                            <b>
+                                {søkersNavn} søker om {søknadsNavn} for periodene:
+                            </b>
+                        </p>
+                        {arbeidsgiverDetaljer.perioder.length > 0 && (
+                            <ul>
+                                {arbeidsgiverDetaljer.perioder.map((periode: Utbetalingsperiode, i: number) => {
+                                    const lengde = periode.lengde;
+                                    const maybeValidTime = lengde ? iso8601DurationToTime(lengde) : undefined;
+                                    return (
+                                        <li key={`periode-${i}`}>
+                                            {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))} -{' '}
+                                            {lengde && isValidTime(maybeValidTime)
+                                                ? timeToString(maybeValidTime, intl, true)
+                                                : prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        )}
 
-                <div>
-                    <h4>Slik sender du inntektsmeldingen</h4>
+                        <Panel border={true} className={'luftOver'}>
+                            <AlertStripe type="advarsel" form="inline">
+                                <Box padBottom={'l'}>
+                                    For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at
+                                    inntektsmeldingen blir sendt til oss så snart som mulig.
+                                </Box>
+                                <Box padBottom={'l'}>
+                                    <b>
+                                        Det er viktig at du krysser av for at inntektsmeldingen gjelder {søknadsNavn}.
+                                    </b>
+                                </Box>
+                                <Box>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</Box>
+                            </AlertStripe>
+                        </Panel>
 
-                    <p>
-                        Inntektsmeldingen sender fra arbeidsgivers eget lønns- og personalsystem eller fra altinn.no.
-                        Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden
-                        arbeidstaker har sendt. Husk å velge inntektsmelding for omsorgspenger.
-                    </p>
-                    <p>
-                        Du får mer informasjon om inntektsmeldingen på{' '}
-                        <a
-                            href={
-                                'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
-                            }>
-                            nav.no/inntektsmeldingen
-                        </a>
-                    </p>
+                        <div>
+                            <h4>Slik sender du inntektsmeldingen</h4>
+
+                            <p>
+                                Inntektsmeldingen sendes fra arbeidsgivers eget lønns- og personalsystem eller fra
+                                altinn.no. Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for
+                                å behandle søknaden arbeidstaker har sendt. Husk å velge riktig inntektsmelding.
+                            </p>
+                            <p>
+                                Fyll inn alle dager og/eller perioder som samsvarer med arbeidstakers søknad. Hvis
+                                datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du
+                                sender inntektsmeldingen.
+                            </p>
+                            <p>
+                                Du får mer informasjon om inntektsmeldingen på{' '}
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={
+                                        'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
+                                    }>
+                                    nav.no/inntektsmeldingen
+                                </a>
+                            </p>
+                        </div>
+                    </Panel>
                 </div>
-            </Panel>
-        </div>
+            );
+        }
     );
+
+    return <div>{componentList}</div>;
 };
 
 export default ConfirmationPage;
