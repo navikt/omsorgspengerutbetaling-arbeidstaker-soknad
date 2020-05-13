@@ -3,20 +3,19 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import intlHelper from 'common/utils/intlUtils';
 import { SøknadFormData } from '../../types/SøknadFormData';
-import { FormikInput, FormikTextarea, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { FormikInput, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormBlock from 'common/components/form-block/FormBlock';
 import {
     createFieldValidationError,
-    fieldIsRequiredError,
     FieldValidationErrors,
     validateYesOrNoIsAnswered
 } from 'common/validation/fieldValidations';
 import Box from 'common/components/box/Box';
-import { Ingress } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import { FieldValidationResult, IntlFieldValidationResultValues } from 'common/validation/types';
+import { FieldValidationResult } from 'common/validation/types';
 import { getAnnetArbeidsforholdField } from '../../utils/arbeidsforholdUtils';
 
 const validateInputField = (value: string): FieldValidationResult => {
@@ -24,7 +23,7 @@ const validateInputField = (value: string): FieldValidationResult => {
     if (value && value.length > 0) {
         return undefined;
     } else {
-        return createFieldValidationError(FieldValidationErrors.påkrevd)
+        return createFieldValidationError(FieldValidationErrors.påkrevd);
     }
 };
 
@@ -45,9 +44,9 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
     return (
         <FormBlock paddingBottom={'xxl'}>
             <Box padBottom={'l'}>
-                <Ingress>
+                <Undertittel>
                     <FormattedMessage id={'annetArbeidsforhold.undertittel'} />
-                </Ingress>
+                </Undertittel>
             </Box>
             <FormBlock>
                 <FormikYesOrNoQuestion
@@ -59,9 +58,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
             {skalViseArbeidsgiverHarUtbetaltLønnSpørsmål && (
                 <FormBlock paddingBottom={'l'}>
                     <FormikYesOrNoQuestion
-                        name={getAnnetArbeidsforholdField(
-                            ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn
-                        )}
+                        name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn)}
                         legend={intlHelper(intl, 'annetArbeidsforhold.ikkeUtbetaltLonn.spm')}
                         validate={validateYesOrNoIsAnswered}
                     />

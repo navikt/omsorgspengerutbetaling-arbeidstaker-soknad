@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'common/components/box/Box';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
-import {
-    getArbeidsgivere,
-    syncArbeidsforholdWithArbeidsgivere
-} from 'app/utils/arbeidsforholdUtils';
+import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -18,7 +15,7 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/FosterbarnListAndDialog';
 import SøknadFormComponents from '../SøknadFormComponents';
-import { Ingress } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -28,10 +25,7 @@ import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/Fo
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import {
-    harMinimumEtGjeldendeArbeidsforhold,
-    skalInkludereArbeidsforhold
-} from '../../validation/components/arbeidsforholdValidations';
+import { harMinimumEtGjeldendeArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -43,7 +37,7 @@ type SituasjonStepViewProps = StepConfigProps & OwnProps;
 const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const { onValidSubmit, formikProps } = props;
     const [isLoading, setIsLoading] = useState(true);
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values, errors, isValid } = useFormikContext<SøknadFormData>();
     const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
 
     useEffect(() => {
@@ -85,15 +79,18 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const skalViseIngenGjeldendeArbeidsforholdAdvarsel = !harMinimumEtGjeldendeArbeidsforhold([
         ...arbeidsforhold,
         annetArbeidsforhold
-    ]);
+    ]) && isValid;
 
     return (
-        <SøknadStep id={StepID.SITUASJON} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading || skalViseIngenGjeldendeArbeidsforholdAdvarsel}>
+        <SøknadStep
+            id={StepID.SITUASJON}
+            onValidFormSubmit={onValidSubmit}
+            buttonDisabled={isLoading || skalViseIngenGjeldendeArbeidsforholdAdvarsel}>
             <>
                 <Box padBottom={'xxl'}>
-                    <Ingress>
+                    <Undertittel>
                         <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
-                    </Ingress>
+                    </Undertittel>
                 </Box>
 
                 <Box padBottom="xxl">
@@ -141,39 +138,41 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 {/* ANNET ARBEIDSFORHOLD*/}
                 <FormikAnnetArbeidsforholdSituasjon />
 
-                {
-                    skalViseIngenGjeldendeArbeidsforholdAdvarsel && (
-                        <FormBlock paddingBottom={'xxl'}>
-                            <AlertStripe type={'info'}>
-                                <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />
-                            </AlertStripe>
-                        </FormBlock>
-                    )
-                }
-
                 {/* FOSTERBARN */}
 
                 <Box padBottom={'xxl'}>
-                    <Ingress>
+                    <Undertittel>
                         <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
-                    </Ingress>
+                    </Undertittel>
                 </Box>
 
                 <CounsellorPanel>
                     <FormattedHTMLMessage id="fosterbarn.legend" />
                 </CounsellorPanel>
 
-                <FormBlock>
+                <FormBlock paddingBottom={'xxl'}>
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.harFosterbarn}
                         legend="Har du fosterbarn?"
                         validate={validateYesOrNoIsAnswered}
                     />
+
+                    {values[SøknadFormField.harFosterbarn] === YesOrNo.YES && (
+                        <FormBlock margin="l">
+                            <FosterbarnListAndDialog
+                                name={SøknadFormField.fosterbarn}
+                                validate={validateRequiredList}
+                            />
+                        </FormBlock>
+                    )}
                 </FormBlock>
 
-                {values[SøknadFormField.harFosterbarn] === YesOrNo.YES && (
-                    <FormBlock margin="l">
-                        <FosterbarnListAndDialog name={SøknadFormField.fosterbarn} validate={validateRequiredList} />
+                {/* Info og advarseler */}
+                {skalViseIngenGjeldendeArbeidsforholdAdvarsel && (
+                    <FormBlock paddingBottom={'l'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />
+                        </AlertStripe>
                     </FormBlock>
                 )}
             </>
