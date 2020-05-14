@@ -60,7 +60,11 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     setIsLoading(false);
                 } else {
                     logToSentryOrConsole(
-                        'listeAvArbeidsgivereApiResponse invalid (SituasjonStepView)',
+                        `listeAvArbeidsgivereApiResponse invalid (SituasjonStepView). Response: ${JSON.stringify(
+                            maybeArbeidsgivere,
+                            null,
+                            4
+                        )}`,
                         Severity.Critical
                     );
                 }
@@ -76,10 +80,8 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
 
-    const skalViseIngenGjeldendeArbeidsforholdAdvarsel = !harMinimumEtGjeldendeArbeidsforhold([
-        ...arbeidsforhold,
-        annetArbeidsforhold
-    ]) && isValid;
+    const skalViseIngenGjeldendeArbeidsforholdAdvarsel =
+        !harMinimumEtGjeldendeArbeidsforhold([...arbeidsforhold, annetArbeidsforhold]) && isValid;
 
     return (
         <SøknadStep

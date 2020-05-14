@@ -76,6 +76,18 @@ export const isPerson = (maybePerson: any): maybePerson is Person => {
     return false;
 };
 
+export const isArbeidsgiver = (maybeArbeidsgiver: any): maybeArbeidsgiver is Arbeidsgiver => {
+    if (
+        maybeArbeidsgiver &&
+        typeof maybeArbeidsgiver === 'object' &&
+        (maybeArbeidsgiver as Arbeidsgiver).organisasjonsnummer &&
+        typeof (maybeArbeidsgiver as Arbeidsgiver).organisasjonsnummer === 'string'
+    ) {
+        return true;
+    }
+    return false;
+};
+
 export const isArbeidsgivere = (maybeArbeidsgivere: any): maybeArbeidsgivere is Arbeidsgiver[] => {
     if (
         maybeArbeidsgivere &&
@@ -86,18 +98,6 @@ export const isArbeidsgivere = (maybeArbeidsgivere: any): maybeArbeidsgivere is 
             }
             return !!isArbeidsgiver(currentValue);
         }, true)
-    ) {
-        return true;
-    }
-    return false;
-};
-
-export const isArbeidsgiver = (maybeArbeidsgiver: any): maybeArbeidsgiver is Arbeidsgiver => {
-    if (
-        maybeArbeidsgiver &&
-        typeof maybeArbeidsgiver === 'object' &&
-        (maybeArbeidsgiver as Arbeidsgiver).organisasjonsnummer &&
-        typeof (maybeArbeidsgiver as Arbeidsgiver).organisasjonsnummer === 'string'
     ) {
         return true;
     }
