@@ -91,10 +91,6 @@ export const harMinimumEtGjeldendeArbeidsforhold = (listeAvArbeidsforhold: Arbei
     );
 };
 
-const manglerSvar = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
-    arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.UNANSWERED ||
-    arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.UNANSWERED;
-
 const erGjeldende = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
     arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
     arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO;
@@ -102,9 +98,7 @@ const erGjeldende = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
 export const checkNext = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     if (listeAvArbeidsforhold.length > 0) {
         const [arbeidsforhold, ...rest] = listeAvArbeidsforhold;
-        const u: ArbeidsforholdFormData = arbeidsforhold;
-
-        if (!arbeidsforholdFormDataPartOneIsValid(u) || erGjeldende(u)) {
+        if (!arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) || erGjeldende(arbeidsforhold)) {
             return false;
         }
         return checkNext(rest);
