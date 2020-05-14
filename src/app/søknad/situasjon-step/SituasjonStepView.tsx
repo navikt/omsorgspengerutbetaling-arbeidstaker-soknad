@@ -25,7 +25,7 @@ import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/Fo
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import { harMinimumEtGjeldendeArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
+import { harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart } from '../../validation/components/arbeidsforholdValidations';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -78,14 +78,16 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
 
-    const skalViseIngenGjeldendeArbeidsforholdAdvarsel =
-        !harMinimumEtGjeldendeArbeidsforhold([...arbeidsforhold, annetArbeidsforhold]) && isValid;
+    const skalViseAdvarselOgDisableFortsettKnapp = harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+        ...arbeidsforhold,
+        annetArbeidsforhold
+    ]);
 
     return (
         <SøknadStep
             id={StepID.SITUASJON}
             onValidFormSubmit={onValidSubmit}
-            buttonDisabled={isLoading || skalViseIngenGjeldendeArbeidsforholdAdvarsel}>
+            buttonDisabled={isLoading || skalViseAdvarselOgDisableFortsettKnapp}>
             <>
                 <Box padBottom={'xxl'}>
                     <Undertittel>
@@ -168,7 +170,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                 </FormBlock>
 
                 {/* Info og advarseler */}
-                {skalViseIngenGjeldendeArbeidsforholdAdvarsel && (
+                {skalViseAdvarselOgDisableFortsettKnapp && (
                     <FormBlock paddingBottom={'l'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />

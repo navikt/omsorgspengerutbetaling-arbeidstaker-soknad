@@ -2,6 +2,7 @@ import { Severity } from '@sentry/types';
 import { isRunningLocally } from './envUtils';
 import * as Sentry from '@sentry/browser';
 import { AxiosError } from 'axios';
+import { isString } from 'formik';
 
 export const logToSentryOrConsole = (message: string, severity: Severity) => {
     if (isRunningLocally(window.location.hostname)) {
@@ -26,16 +27,23 @@ export const logApiCallErrorToSentryOrConsole = (error: AxiosError) => {
 export enum SentryEnvironment {
     LOCALHOST = 'LOCALHOST',
     q = 'q',
-    prod = 'prod'
+    prod = 'prod',
+    host_undefined = 'host_undefined'
 }
 
-export const setSentryEnvironment = (): SentryEnvironment => {
-    const host: string = window?.location?.host;
-    if (host.indexOf('localhost')) {
-        return SentryEnvironment.LOCALHOST;
+export const setSentryEnvironment = (maybeHost: string | undefined): SentryEnvironment => {
+    if (maybeHost && isString(maybeHost)) {
+        if (maybeHost.indexOf('localhost') > -1) {
+            return SentryEnvironment.LOCALHOST;
+        }
+        if (maybeHost.indexOf('www-q0.nav.no') > -1) {
+            return SentryEnvironment.q;
+        }
+        if (maybeHost.indexOf('www.nav.no') > -1) {
+            return SentryEnvironment.prod;
+        }
     }
-    if (host.indexOf('www-q0.nav.no')) {
-        return SentryEnvironment.q;
-    }
-    return SentryEnvironment.prod;
+    return SentryEnvironment.host_undefined;
 };
+
+export const setSentryEnvironmentFromHost = () => setSentryEnvironment(window?.location?.host);

@@ -13,21 +13,14 @@ export const evaluatePrevAndCurrent = (prev: boolean, curr: boolean) => {
 };
 
 export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
-    const organisasjonsnummer: string = arbeidsforholdFormData[ArbeidsforholdFormDataFields.organisasjonsnummer];
-    const navn: string | null = arbeidsforholdFormData[ArbeidsforholdFormDataFields.navn];
-
     const harHattFraværHosArbeidsgiver: YesOrNo =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver];
     const arbeidsgiverHarUtbetaltLønn: YesOrNo =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn];
-
     if (
         harHattFraværHosArbeidsgiver === YesOrNo.NO ||
         (harHattFraværHosArbeidsgiver === YesOrNo.YES && arbeidsgiverHarUtbetaltLønn === YesOrNo.YES) ||
-        (harHattFraværHosArbeidsgiver === YesOrNo.YES &&
-            arbeidsgiverHarUtbetaltLønn === YesOrNo.NO &&
-            isString(navn) &&
-            navn.length > 0)
+        (harHattFraværHosArbeidsgiver === YesOrNo.YES && arbeidsgiverHarUtbetaltLønn === YesOrNo.NO)
     ) {
         return true;
     } else {
@@ -68,10 +61,10 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
 };
 
 export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
-    const mapped = listeAvArbeidsforhold
-        .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforholdIsValid(arbeidsforhold));
-    const isValid = mapped
-        .reduceRight(evaluatePrevAndCurrent, true);
+    const mapped = listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) =>
+        arbeidsforholdIsValid(arbeidsforhold)
+    );
+    const isValid = mapped.reduceRight(evaluatePrevAndCurrent, true);
     return isValid;
 };
 
@@ -86,14 +79,41 @@ export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: Arbeidsforho
     }
 };
 
-export const harMinimumEtGjeldendeArbeidsforhold = (
+export const harMinimumEtGjeldendeArbeidsforhold = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+    return (
+        listeAvArbeidsforhold
+            .map((arbeidsforhold: ArbeidsforholdFormData) => {
+                return skalInkludereArbeidsforhold(arbeidsforhold);
+            })
+            .filter((skalInkludere: boolean) => {
+                return skalInkludere === true;
+            }).length > 0
+    );
+};
+
+const manglerSvar = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.UNANSWERED ||
+    arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.UNANSWERED;
+
+const erGjeldende = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+    arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO;
+
+export const checkNext = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+    if (listeAvArbeidsforhold.length > 0) {
+        const [arbeidsforhold, ...rest] = listeAvArbeidsforhold;
+        const u: ArbeidsforholdFormData = arbeidsforhold;
+
+        if (!arbeidsforholdFormDataPartOneIsValid(u) || erGjeldende(u)) {
+            return false;
+        }
+        return checkNext(rest);
+    }
+    return true;
+};
+
+export const harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart = (
     listeAvArbeidsforhold: ArbeidsforholdFormData[]
 ): boolean => {
-    return listeAvArbeidsforhold
-        .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return skalInkludereArbeidsforhold(arbeidsforhold);
-        })
-        .filter((skalInkludere: boolean) => {
-            return skalInkludere === true;
-        }).length > 0;
+    return checkNext(listeAvArbeidsforhold);
 };

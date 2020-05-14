@@ -1,4 +1,7 @@
-import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforholdValidations';
+import {
+    harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart,
+    stegEnListeAvArbeidsforholdIsValid
+} from '../components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import {
@@ -28,19 +31,14 @@ const gylidgPeriodeMedFravær1: Periode = {
     tom: new Date('2020-01-02')
 };
 
-const validPerioderMedFravær: Periode[] = [
-    gylidgPeriodeMedFravær1
-];
+const validPerioderMedFravær: Periode[] = [gylidgPeriodeMedFravær1];
 
 const validFraværDelerAvDag: FraværDelerAvDag = {
     dato: new Date('2020-02-01'),
     timer: 3
 };
 
-const validListeAvFraværDelerAvDag: FraværDelerAvDag[] = [
-    validFraværDelerAvDag
-];
-
+const validListeAvFraværDelerAvDag: FraværDelerAvDag[] = [validFraværDelerAvDag];
 
 const validAnsettelseslengde1: AnsettelseslengdeFormData = {
     [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet.MER_ENN_FIRE_UKER,
@@ -86,13 +84,8 @@ const validArbeidsforhold2: ArbeidsforholdFormData = {
     [ArbeidsforholdFormDataFields.dokumenter]: []
 };
 
-const validListeAvArbeidsforhold: ArbeidsforholdFormData[] = [
-    validArbeidsforhold1,
-    validArbeidsforhold2
-];
-
-const invalidArbeidsforhold1: ArbeidsforholdFormData = {
-    [ArbeidsforholdFormDataFields.navn]: null,
+const validArbeidsforhold3: ArbeidsforholdFormData = {
+    [ArbeidsforholdFormDataFields.navn]: 'Pengepingen',
     [ArbeidsforholdFormDataFields.organisasjonsnummer]: '1234',
     [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.YES,
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.NO,
@@ -102,7 +95,22 @@ const invalidArbeidsforhold1: ArbeidsforholdFormData = {
     [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.YES,
     [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: validListeAvFraværDelerAvDag,
     [ArbeidsforholdFormDataFields.dokumenter]: []
-}
+};
+
+const validListeAvArbeidsforhold: ArbeidsforholdFormData[] = [validArbeidsforhold1, validArbeidsforhold2];
+
+const invalidArbeidsforhold1: ArbeidsforholdFormData = {
+    [ArbeidsforholdFormDataFields.navn]: null,
+    [ArbeidsforholdFormDataFields.organisasjonsnummer]: '1234',
+    [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.YES,
+    [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.UNANSWERED,
+    [ArbeidsforholdFormDataFields.ansettelseslengde]: validAnsettelseslengde2,
+    [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo.YES,
+    [ArbeidsforholdFormDataFields.perioderMedFravær]: validPerioderMedFravær,
+    [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.YES,
+    [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: validListeAvFraværDelerAvDag,
+    [ArbeidsforholdFormDataFields.dokumenter]: []
+};
 
 const invalidListeAvArbeidsforhold: ArbeidsforholdFormData[] = [
     validArbeidsforhold1,
@@ -110,9 +118,49 @@ const invalidListeAvArbeidsforhold: ArbeidsforholdFormData[] = [
     validArbeidsforhold2
 ];
 
+const validGjeldende: ArbeidsforholdFormData = validArbeidsforhold3;
+const validIkkeGjeldende: ArbeidsforholdFormData = validArbeidsforhold1;
+const manglerSvar: ArbeidsforholdFormData = {
+    ...validArbeidsforhold1,
+    [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.UNANSWERED
+};
+
 describe('fieldValidations', () => {
     it('validates lists correctly', () => {
         expect(stegEnListeAvArbeidsforholdIsValid(validListeAvArbeidsforhold)).toBe(true);
         expect(stegEnListeAvArbeidsforholdIsValid(invalidListeAvArbeidsforhold)).toBe(false);
+    });
+
+    it('disables Fortsett button på steg 1 når det er ingen gjeldende arbeidsforhold, men alle spørsmål er besvart', () => {
+        expect(
+            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+                validIkkeGjeldende, validIkkeGjeldende, validIkkeGjeldende
+            ])
+        ).toBe(true);
+        expect(
+            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+                validGjeldende
+            ])
+        ).toBe(false);
+        expect(
+            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+                manglerSvar
+            ])
+        ).toBe(false);
+        expect(
+            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+                validIkkeGjeldende, validIkkeGjeldende, manglerSvar
+            ])
+        ).toBe(false);
+        expect(
+            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+                manglerSvar, validIkkeGjeldende, validGjeldende
+            ])
+        ).toBe(false);
+        expect(
+            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
+                validIkkeGjeldende, validIkkeGjeldende, validGjeldende
+            ])
+        ).toBe(false);
     });
 });
