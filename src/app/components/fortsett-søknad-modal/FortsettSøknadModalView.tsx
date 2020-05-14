@@ -30,8 +30,8 @@ const FortsettSøknadModalView: React.FC<Props> = (props: Props) => {
                 <Box padBottom={'xl'}>
                     <CounsellorPanel type={'plakat'} kompakt={true} fargetema={'info'}>
                         <div>
-                            Du har en påbegynt søknad lagret hos oss. Velg en av alternativene under for om du øsker å
-                            fortsette på den lagrede søknaden, eller om du ønsker å starte på en ny søknad.
+                            Du har en påbegynt søknad hos oss. Du kan velge å fortsette med søknaden som er påbegynt,
+                            eller å starte på en ny søknad.
                         </div>
                     </CounsellorPanel>
                 </Box>
