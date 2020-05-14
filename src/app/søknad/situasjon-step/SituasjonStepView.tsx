@@ -43,36 +43,34 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     useEffect(() => {
         const today: Date = dateToday;
 
-        const fetchData = async () => {
-            if (today) {
-                const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(today, today);
-                const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
+        const fetchData = async (dtoday: Date) => {
+            const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(dtoday, dtoday);
+            const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
 
-                if (isArbeidsgivere(maybeArbeidsgivere)) {
-                    const arbeidsgivere = maybeArbeidsgivere;
-                    const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
-                        arbeidsgivere,
-                        formikProps.values[SøknadFormField.arbeidsforhold]
-                    );
-                    if (updatedArbeidsforholds.length > 0) {
-                        formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
-                    }
-                    setIsLoading(false);
-                } else {
-                    logToSentryOrConsole(
-                        `listeAvArbeidsgivereApiResponse invalid (SituasjonStepView). Response: ${JSON.stringify(
-                            maybeArbeidsgivere,
-                            null,
-                            4
-                        )}`,
-                        Severity.Critical
-                    );
+            if (isArbeidsgivere(maybeArbeidsgivere)) {
+                const arbeidsgivere = maybeArbeidsgivere;
+                const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
+                    arbeidsgivere,
+                    formikProps.values[SøknadFormField.arbeidsforhold]
+                );
+                if (updatedArbeidsforholds.length > 0) {
+                    formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
                 }
+                setIsLoading(false);
+            } else {
+                logToSentryOrConsole(
+                    `listeAvArbeidsgivereApiResponse invalid (SituasjonStepView). Response: ${JSON.stringify(
+                        maybeResponse,
+                        null,
+                        4
+                    )}`,
+                    Severity.Critical
+                );
             }
         };
 
         if (today && doApiCalls) {
-            fetchData();
+            fetchData(today);
             setDoApiCalls(false);
         }
     }, [doApiCalls]);
