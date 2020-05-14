@@ -51,10 +51,10 @@ export const getRadioTextIdHvorLengeJobbetFordi = (hvorLengeJobbetFordi: HvorLen
             return 'hvorLengeJobbet.fordi.andreYtelser.label';
         }
         case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON: {
-            return 'hvorLengeJobbet.fordi.militærtjeneste.label';
+            return 'hvorLengeJobbet.fordi.lovbestemtFerie.label';
         }
         case HvorLengeJobbetFordi.MILITÆRTJENESTE: {
-            return 'hvorLengeJobbet.fordi.lovbestemtFerie.label';
+            return 'hvorLengeJobbet.fordi.militærtjeneste.label';
         }
         case HvorLengeJobbetFordi.INGEN: {
             return 'hvorLengeJobbet.fordi.ingen.label';
@@ -134,18 +134,18 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                             {
                                 label: intlHelper(
                                     intl,
-                                    getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.MILITÆRTJENESTE)
-                                ),
-                                value: HvorLengeJobbetFordi.MILITÆRTJENESTE
-                            },
-                            {
-                                label: intlHelper(
-                                    intl,
                                     getRadioTextIdHvorLengeJobbetFordi(
                                         HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
                                     )
                                 ),
                                 value: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
+                            },
+                            {
+                                label: intlHelper(
+                                    intl,
+                                    getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.MILITÆRTJENESTE)
+                                ),
+                                value: HvorLengeJobbetFordi.MILITÆRTJENESTE
                             },
                             {
                                 label: intlHelper(intl, getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.INGEN)),
