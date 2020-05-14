@@ -90,7 +90,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
 
                     <SummaryBlock header={'Arbeidsforhold'}>
                         <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere}/>
-                        <AndreUtbetalingerSummaryView andreUtbetalinger={values[SøknadFormField.andreUtbetalinger]}/>
+                        <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger}/>
                     </SummaryBlock>
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold}/>
                     <MedlemskapSummaryView bosteder={apiValues.bosteder}/>
