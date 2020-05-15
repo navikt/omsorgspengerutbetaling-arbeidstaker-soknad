@@ -20,6 +20,8 @@ import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import VedleggComponent from '../../components/VedleggComponent/VedleggComponent';
 import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import Box from 'common/components/box/Box';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
@@ -83,7 +85,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                     />
                 </FormBlock>
             )}
-            <FormBlock>
+            <FormBlock paddingBottom={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.hjemmePgaSmittevernhensynYesOrNo}
                     legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
@@ -97,6 +99,17 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
             </FormBlock>
             {values[SøknadFormField.hjemmePgaSmittevernhensynYesOrNo] === YesOrNo.YES && (
                 <>
+                    <CounsellorPanel>
+                        <Box padBottom={'l'}>
+                            Du må laste opp en bekreftelse fra lege om at det er særlige smittevernhensyn som gjør at
+                            barnet ikke kan gå i barnehage eller skole.
+                        </Box>
+                        <Box padBottom={'l'}>
+                            Hvis du ikke har bekreftelsen tilgjengelig nå,
+                            må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har
+                            mottatt bekreftelsen.
+                        </Box>
+                    </CounsellorPanel>
                     <EkspanderbarPSG />
                     <VedleggComponent
                         nameDokumenter={SøknadFormField.smittevernDokumenter}
