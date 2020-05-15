@@ -8,7 +8,7 @@ import { FieldArray, useFormikContext } from 'formik';
 import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList';
 import DagerMedDelvisFraværList from './components/DagerMedDelvisFraværList';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { useIntl } from 'react-intl';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 
@@ -169,7 +169,9 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
 
             {kanIkkeFortsette && (
                 <FormBlock margin="xxl">
-                    <AlertStripeAdvarsel>Du må velge én av situasjonene over. </AlertStripeAdvarsel>
+                    <AlertStripeAdvarsel>
+                        <FormattedHTMLMessage id={'validation.minimum_en_periode_per_arbeidsforhold_required'} />
+                    </AlertStripeAdvarsel>
                 </FormBlock>
             )}
         </>

@@ -444,5 +444,6 @@
     "ingen.arbeidsforhold.info.text": "Vi finner ingen registrerte arbeidsforhold.",
     "ingen.gjeldende.arbeidsforhold.info.text": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "steg.en.smittevern.info": "<div>Hvis barnehagen eller skolen som ditt barn går i åpner, men du må være hjemme med barnet på grunn av <strong>særlige smittevernhensyn</strong> kan du bruke omsorgsdager. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som barnet bor med. Dette gjelder i forbindelse med koronaviruset i perioden 20. april fram til og med 30. juni 2020.</div>",
-    "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn på grunn av særlige smittevernhensyn?"
+    "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn på grunn av særlige smittevernhensyn?",
+    "validation.minimum_en_periode_per_arbeidsforhold_required": "Hvis du ikke har hatt fravær fra denne arbeidsgiveren, må du gå tilbake og endre svaret ditt på samme spørsmål på forrige steg."
 }
