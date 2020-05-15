@@ -7,15 +7,13 @@ import FormBlock from 'common/components/form-block/FormBlock';
 const EkspanderbarPSG: React.FC = () => {
     return (
         <FormBlock>
-            <HelperTextPanel>
-                <ExpandableInfo title={'Slik tar du et godt bilde av dokumentet'} filledBackground={false}>
-                    <div>
-                        <PictureScanningGuide />
-                    </div>
-                </ExpandableInfo>
-            </HelperTextPanel>
+            <ExpandableInfo title={'Slik tar du et godt bilde av dokumentet'}>
+                <HelperTextPanel>
+                    <PictureScanningGuide />
+                </HelperTextPanel>
+            </ExpandableInfo>
         </FormBlock>
-    )
+    );
 };
 
 export default EkspanderbarPSG;
