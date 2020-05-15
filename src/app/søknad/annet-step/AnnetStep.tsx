@@ -10,7 +10,7 @@ import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utlan
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { useFormikContext } from 'formik';
-import { useIntl } from 'react-intl';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import SøknadStep from '../SøknadStep';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
@@ -18,6 +18,8 @@ import ContentWithHeader from 'common/components/content-with-header/ContentWith
 import { mapPeriodeTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import VedleggComponent from '../../components/VedleggComponent/VedleggComponent';
+import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
@@ -80,6 +82,27 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                         validate={validateRequiredList}
                     />
                 </FormBlock>
+            )}
+            <FormBlock>
+                <SøknadFormComponents.YesOrNoQuestion
+                    name={SøknadFormField.hjemmePgaSmittevernhensynYesOrNo}
+                    legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
+                    validate={validateYesOrNoIsAnswered}
+                    info={
+                        <div className={'smittevern-info'}>
+                            <FormattedHTMLMessage id={'steg.en.smittevern.info'} />
+                        </div>
+                    }
+                />
+            </FormBlock>
+            {values[SøknadFormField.hjemmePgaSmittevernhensynYesOrNo] === YesOrNo.YES && (
+                <>
+                    <EkspanderbarPSG />
+                    <VedleggComponent
+                        nameDokumenter={SøknadFormField.smittevernDokumenter}
+                        dokumenter={values[SøknadFormField.smittevernDokumenter]}
+                    />
+                </>
             )}
             <FormBlock>
                 <SøknadFormComponents.YesOrNoQuestion

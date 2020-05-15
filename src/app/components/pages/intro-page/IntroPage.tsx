@@ -207,7 +207,7 @@ const IntroPage: React.StatelessComponent = () => {
                                         <FormBlock>
                                             <PageForm.YesOrNoQuestion
                                                 name={PageFormField.smittevernHensyn}
-                                                legend="Er du hjemme med barn på grunn av særlige smittevernhensyn?"
+                                                legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
                                                 info={
                                                     <div className={'smittevern-info'}>
                                                         <FormattedHTMLMessage id={'steg.en.smittevern.info'} />

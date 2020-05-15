@@ -67,6 +67,7 @@ export const mock1: SøknadApiData = {
             etternavn: 'Duck'
         }
     ],
+    hjemmePgaSmittevernhensyn: false,
     vedlegg: ['location/1', 'location/3', 'location/1']
 };
 

@@ -6,9 +6,6 @@ import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/si
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
-import ExpandableInfo from '../expandable-content/ExpandableInfo';
-import PictureScanningGuide from '../picture-scanning-guide/PictureScanningGuide';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
 import { validateDocuments } from '../../validation/fieldValidations';
@@ -23,6 +20,8 @@ import {
     HvorLengeJobbet,
     HvorLengeJobbetFordi
 } from '../../types/AnsettelseslengdeTypes';
+import EkspanderbarPSG from '../EkspanderbarPSG/EkspanderbarPSG';
+import VedleggComponent from '../VedleggComponent/VedleggComponent';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
@@ -91,8 +90,6 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.ansettelseslengde][
             AnsettelseslengdeFormDataFields.begrunnelse
         ];
-
-    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
 
     return (
         <>
@@ -190,41 +187,11 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                             <FormattedHTMLMessage id={'hvorLengeJobbet.merEnnFire.counsellor.html'} />
                         </CounsellorPanel>
                     </FormBlock>
-
-                    <FormBlock>
-                        <HelperTextPanel>
-                            <ExpandableInfo title={'Slik tar du et godt bilde av dokumentet'} filledBackground={false}>
-                                <div>
-                                    <PictureScanningGuide />
-                                </div>
-                            </ExpandableInfo>
-                        </HelperTextPanel>
-                    </FormBlock>
-                    <FormBlock>
-                        {/* TODO: Fix nullpointer: Cannot read property 'split' of undefined*/}
-                        <FormikFileUploader
-                            name={nameDokumenter}
-                            label={intlHelper(intl, 'steg.dokumenter.vedlegg')}
-                            onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                            onFileInputClick={() => {
-                                setFilesThatDidntGetUploaded([]);
-                            }}
-                            onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
-                            validate={validateDocuments}
-                            listOfAttachments={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
-                        />
-                    </FormBlock>
-                    <Box margin="m">
-                        <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-                    </Box>
-                    <Box margin="l">
-                        <UploadedDocumentsList
-                            attachments={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
-                            formikFieldName={nameDokumenter}
-                            wrapNoAttachmentsInBox={true}
-                            includeDeletionFunctionality={true}
-                        />
-                    </Box>
+                    <EkspanderbarPSG />
+                    <VedleggComponent
+                        nameDokumenter={nameDokumenter}
+                        dokumenter={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
+                    />
                 </div>
             )}
         </>

@@ -90,5 +90,6 @@ export interface SøknadApiData {
     bekreftelser: Bekreftelser;
     andreUtbetalinger: string[];
     fosterbarn: FosterbarnApi[] | null;
+    hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
 }

@@ -111,5 +111,6 @@ export const gyldigSøknadApiData1: SøknadApiData = {
     },
     andreUtbetalinger: [],
     fosterbarn: null,
+    hjemmePgaSmittevernhensyn: false,
     vedlegg: []
 };

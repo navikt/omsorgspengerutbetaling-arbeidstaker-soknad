@@ -24,6 +24,7 @@ import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryV
 import VedleggSummaryView from './components/VedleggSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SummaryBlock from './components/SummaryBlock';
+import JaNeiSvar from './components/JaNeiSvar';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -87,6 +88,9 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                     <SummaryBlock header={'Arbeidsforhold'}>
                         <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
                         <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
+                    </SummaryBlock>
+                    <SummaryBlock header={intlHelper(intl, 'steg.en.smittevern.sporsmal')}>
+                        <JaNeiSvar harSvartJa={apiValues.hjemmePgaSmittevernhensyn} />
                     </SummaryBlock>
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />

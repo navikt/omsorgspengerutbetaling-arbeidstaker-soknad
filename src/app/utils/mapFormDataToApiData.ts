@@ -33,7 +33,10 @@ export const mapFormDataToApiData = (
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
-        utenlandsoppholdNeste12Mnd
+        utenlandsoppholdNeste12Mnd,
+
+        hjemmePgaSmittevernhensynYesOrNo,
+        smittevernDokumenter
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
@@ -54,8 +57,10 @@ export const mapFormDataToApiData = (
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
         fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
+        hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         vedlegg: collectAllAttachmentsAndMapToListOfString([...arbeidsforhold, annetArbeidsforhold])
     };
+    // TODO: Sende med smittevern vedlegg. Hvor skal de? I vedlegg?
 
     return apiData;
 };
