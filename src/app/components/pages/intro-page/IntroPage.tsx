@@ -188,8 +188,8 @@ const IntroPage: React.StatelessComponent = () => {
                                             <AlertStripeInfo>
                                                 <>
                                                     <Box padBottom={'l'}>
-                                                        Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har
-                                                        jobbet hos dem i mer enn 4 uker.
+                                                        <strong>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har
+                                                            jobbet hos dem i mer enn 4 uker.</strong>
                                                     </Box>
 
                                                     <Box>

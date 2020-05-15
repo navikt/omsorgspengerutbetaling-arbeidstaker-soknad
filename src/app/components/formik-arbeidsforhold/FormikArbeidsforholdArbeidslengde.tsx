@@ -184,7 +184,17 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                 <div>
                     <FormBlock>
                         <CounsellorPanel>
-                            <FormattedHTMLMessage id={'hvorLengeJobbet.merEnnFire.counsellor.html'} />
+                            <Box padBottom={'l'}>
+                                Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4
+                                uker. Hvis arbeidsgiver ikke utbetaler{' '}
+                                <strong>må du laste opp en forklaring fra arbeidsgiver</strong> på hvorfor de ikke
+                                utbetaler omsorgspenger til deg.
+                            </Box>
+                            <Box padBottom={'l'}>
+                                Hvis du ikke har forklaringen tilgjengelig nå, må du ettersende den til oss så snart du
+                                har den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.
+                            </Box>
+                            <Box padBottom={'l'}>Du må også be arbeidsgiveren din sende inntektsmelding til NAV.</Box>
                         </CounsellorPanel>
                     </FormBlock>
                     <EkspanderbarPSG />
