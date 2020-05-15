@@ -1,6 +1,6 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
-import { evaluatePrevAndCurrent } from './arbeidsforholdValidations';
+import { evaluatePrevAndCurrent } from '../validationUtils';
 
 export const annenUtbetalingIsValid = (annenUtbetaling: AndreUtbetalinger): boolean => {
     if (

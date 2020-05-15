@@ -1,16 +1,8 @@
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { isString } from 'formik';
 import { ansettelsesLengdeIsValid } from './ansettelsesLengdeValidations';
-import { delvisFraværIsValid, perioderIsValid } from '../../søknad/periode-step/periodeStepConfig';
-
-export const evaluatePrevAndCurrent = (prev: boolean, curr: boolean) => {
-    if (prev === false) {
-        return prev;
-    } else {
-        return curr;
-    }
-};
+import { delvisFraværIsValid, perioderIsValid } from './periodeStepValidations';
+import { evaluatePrevAndCurrent } from '../validationUtils';
 
 export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
     const harHattFraværHosArbeidsgiver: YesOrNo =
@@ -68,16 +60,11 @@ export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: Arbeidsforho
     return isValid;
 };
 
-export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
-    if (
+export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean =>
+    !!(
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
+    );
 
 export const harMinimumEtGjeldendeArbeidsforhold = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     return (

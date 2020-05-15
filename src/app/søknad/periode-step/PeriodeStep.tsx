@@ -16,6 +16,7 @@ import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage } from 'react-intl';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { invalidPerioderAfterAllQuestionsAnswered } from '../../validation/components/periodeStepValidations';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -41,7 +42,7 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
             return cleanPerioderForArbeidsforhold(arbeidsforhold);
         }),
         annetArbeidsforhold: cleanPerioderForArbeidsforhold(annetArbeidsforhold)
-    }
+    };
 };
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
@@ -50,20 +51,26 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
 
-    const arbeidsforholdListe = values[SøknadFormField.arbeidsforhold]
-        .map((arbeidsforhold: ArbeidsforholdFormData, index) => {
+    const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
+        (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
                 <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
                     <FormSection
                         titleTag="h4"
                         title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                        titleIcon={<BuildingIcon/>}>
-                        <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index}/>
-                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index}/>
+                        titleIcon={<BuildingIcon />}>
+                        <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
+                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
                     </FormSection>
                 </FormBlock>
             ) : null;
-        });
+        }
+    );
+
+    const disableFortsettKnapp: boolean = invalidPerioderAfterAllQuestionsAnswered([
+        ...values[SøknadFormField.arbeidsforhold],
+        annetArbeidsforhold
+    ]);
 
     return (
         <SøknadStep
@@ -71,6 +78,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             onValidFormSubmit={() => {
                 onValidSubmit();
             }}
+            buttonDisabled={disableFortsettKnapp}
             cleanupStep={cleanupStep}
             showSubmitButton={true}>
             <FormBlock>
@@ -84,7 +92,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                 </CounsellorPanel>
             </FormBlock>
 
-            {arbeidsforholdListe.length > 0 && arbeidsforholdListe}
+            {arbeidsforholdElementListe.length > 0 && arbeidsforholdElementListe}
 
             {skalInkludereArbeidsforhold(annetArbeidsforhold) && isString(annetArbeidsforholdName) && (
                 <>

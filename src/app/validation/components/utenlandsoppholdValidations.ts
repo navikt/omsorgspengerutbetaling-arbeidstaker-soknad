@@ -1,7 +1,7 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
-import { evaluatePrevAndCurrent } from './arbeidsforholdValidations';
 import { isDate } from 'moment';
+import { evaluatePrevAndCurrent } from '../validationUtils';
 
 export const utenlandsoppholdIsValid = (utelandsopphold: Utenlandsopphold): boolean => {
     if (utelandsopphold.landkode && isDate(utelandsopphold.fom) && isDate(utelandsopphold.tom)) {

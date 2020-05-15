@@ -31,6 +31,7 @@ export const collectAllAttachmentsAndMapToListOfString = (
                     return attachment.url;
                 })
                 .filter((maybeString: string | undefined) => {
+                    // return notUndefined<string>(maybeString);
                     return notUndefined<string>(maybeString);
                 }) as string[]; // TODO: Fix type
         })
@@ -40,7 +41,7 @@ export const collectAllAttachmentsAndMapToListOfString = (
 export const listAlleVedlegg = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): string[] => {
     return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold).map((arbeidsforhold: ArbeidsforholdFormData) => {
         return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter].map((attachment: Attachment) => {
-            return attachment.file.name;
+            return attachment.file.name; // TODO: Nullpointer hvis file plutselig er {} pga mellomlagring.
         })
     }).flat();
 };

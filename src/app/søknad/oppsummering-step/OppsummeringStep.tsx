@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -24,8 +23,6 @@ import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import VedleggSummaryView from './components/VedleggSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
-import { Undertittel } from 'nav-frontend-typografi';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import SummaryBlock from './components/SummaryBlock';
 
 interface Props {
@@ -36,7 +33,6 @@ interface Props {
 const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, søkerdata }) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
-    const history = useHistory();
 
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
@@ -75,7 +71,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
             buttonDisabled={sendingInProgress}
             showButtonSpinner={sendingInProgress}>
             <CounsellorPanel>
-                <FormattedMessage id="steg.oppsummering.info"/>
+                <FormattedMessage id="steg.oppsummering.info" />
             </CounsellorPanel>
             <Box margin="xl">
                 <Panel border={true}>
@@ -86,14 +82,14 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                         mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
-                    <FosterbarnSummaryView fosterbarn={fosterbarn}/>
+                    <FosterbarnSummaryView fosterbarn={fosterbarn} />
 
                     <SummaryBlock header={'Arbeidsforhold'}>
-                        <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere}/>
-                        <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger}/>
+                        <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
+                        <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
                     </SummaryBlock>
-                    <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold}/>
-                    <MedlemskapSummaryView bosteder={apiValues.bosteder}/>
+                    <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
+                    <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                     <VedleggSummaryView apiValues={apiValues} />
                 </Panel>
             </Box>
