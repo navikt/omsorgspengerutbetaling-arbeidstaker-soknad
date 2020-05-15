@@ -16,7 +16,6 @@ import Box from 'common/components/box/Box';
 import { FormattedHTMLMessage } from 'react-intl';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { invalidPerioderAfterAllQuestionsAnswered } from '../../validation/components/periodeStepValidations';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -67,18 +66,12 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
         }
     );
 
-    const disableFortsettKnapp: boolean = invalidPerioderAfterAllQuestionsAnswered([
-        ...values[SøknadFormField.arbeidsforhold],
-        annetArbeidsforhold
-    ]);
-
     return (
         <SøknadStep
             id={StepID.PERIODE}
             onValidFormSubmit={() => {
                 onValidSubmit();
             }}
-            buttonDisabled={disableFortsettKnapp}
             cleanupStep={cleanupStep}
             showSubmitButton={true}>
             <FormBlock>

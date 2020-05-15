@@ -12,7 +12,6 @@ import {
 } from '../../types/AnsettelseslengdeTypes';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { Attachment } from 'common/types/Attachment';
-import { invalidPerioderAfterAllQuestionsAnswered } from '../components/periodeStepValidations';
 
 const validAttachment: Attachment = {
     file: {
@@ -159,30 +158,5 @@ describe('fieldValidations', () => {
                 validGjeldende
             ])
         ).toBe(false);
-    });
-
-    it('disables Fortsett button på steg 2 når alle periode spørsmål er besvart, men et eller flere arbeidsforhold har ingen perioder', () => {
-        const valid: ArbeidsforholdFormData = {
-            ...validArbeidsforhold1,
-            [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.YES,
-            [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.NO
-        };
-        const hasUnanswered: ArbeidsforholdFormData = {
-            ...validArbeidsforhold1,
-            [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.UNANSWERED
-        };
-        const ingenPerioder: ArbeidsforholdFormData = {
-            ...validArbeidsforhold1,
-            [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo.YES,
-            [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.NO,
-            [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo.NO,
-            [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.NO
-        };
-        expect(invalidPerioderAfterAllQuestionsAnswered([hasUnanswered])).toBe(false);
-        expect(invalidPerioderAfterAllQuestionsAnswered([valid])).toBe(false);
-        expect(invalidPerioderAfterAllQuestionsAnswered([ingenPerioder])).toBe(true);
-        expect(invalidPerioderAfterAllQuestionsAnswered([valid, valid, ingenPerioder])).toBe(true);
-        expect(invalidPerioderAfterAllQuestionsAnswered([valid, valid, hasUnanswered])).toBe(false);
-        expect(invalidPerioderAfterAllQuestionsAnswered([valid, valid, valid, valid])).toBe(false);
     });
 });

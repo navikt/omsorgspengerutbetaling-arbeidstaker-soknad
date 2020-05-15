@@ -1,11 +1,8 @@
 import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import {
-    SøknadFormData
-} from '../../types/SøknadFormData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FieldArray, useFormikContext } from 'formik';
 import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList';
@@ -14,6 +11,16 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { useIntl } from 'react-intl';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+
+export const minimumHarPeriodeEllerDelerAvDagYes = (
+    harPerioder: YesOrNo,
+    harDelerAvDag: YesOrNo
+): string | undefined => {
+    if (harPerioder === YesOrNo.NO && harDelerAvDag === YesOrNo.NO) {
+        return 'Minimum én periode for arbeidsforholdet må spesifiserer.';
+    }
+    return undefined;
+};
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
@@ -31,7 +38,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     nameDagerMedDelvisFravær
 }) => {
     const intl = useIntl();
-    const { validateField, validateForm } = useFormikContext<SøknadFormData>();
+    const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
 
     const kanIkkeFortsette =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO &&
@@ -43,7 +50,15 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     name={nameHarPerioderMedFravær}
                     legend={intlHelper(intl, 'periode.heledager.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={(value: YesOrNo) => {
+                        if (value === YesOrNo.UNANSWERED) {
+                            return 'må svare på spørsmålene';
+                        }
+                        return minimumHarPeriodeEllerDelerAvDagYes(
+                            arbeidsforholdFormData.harPerioderMedFravær,
+                            arbeidsforholdFormData.harDagerMedDelvisFravær
+                        );
+                    }}
                 />
             </FormBlock>
             {/* DAGER MED FULLT FRAVÆR*/}
@@ -78,9 +93,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                             emptyPeriodeMedFravær
                                         );
                                         setTimeout(() => {
-                                            validateField(
-                                                namePerioderMedFravær
-                                            );
+                                            validateField(namePerioderMedFravær);
                                         });
                                     }}
                                     onRemove={(idx) => {
@@ -99,7 +112,15 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     name={nameHarDagerMedDelvisFravær}
                     legend={intlHelper(intl, 'periode.delvisdag.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={(value: YesOrNo) => {
+                        if (value === YesOrNo.UNANSWERED) {
+                            return 'må svare på spørsmålene';
+                        }
+                        return minimumHarPeriodeEllerDelerAvDagYes(
+                            arbeidsforholdFormData.harPerioderMedFravær,
+                            arbeidsforholdFormData.harDagerMedDelvisFravær
+                        );
+                    }}
                 />
             </FormBlock>
             {/* DAGER MED DELVIS FRAVÆR*/}
