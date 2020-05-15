@@ -17,7 +17,7 @@ export const minimumHarPeriodeEllerDelerAvDagYes = (
     harDelerAvDag: YesOrNo
 ): string | undefined => {
     if (harPerioder === YesOrNo.NO && harDelerAvDag === YesOrNo.NO) {
-        return 'Minimum én periode for arbeidsforholdet må spesifiserer.';
+        return 'Minimum én periode for arbeidsforholdet må spesifiseres.';
     }
     return undefined;
 };
@@ -38,7 +38,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     nameDagerMedDelvisFravær
 }) => {
     const intl = useIntl();
-    const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
+    const { validateField, validateForm } = useFormikContext<SøknadFormData>();
 
     const kanIkkeFortsette =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO &&
