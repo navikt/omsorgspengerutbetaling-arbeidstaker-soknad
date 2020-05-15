@@ -8,46 +8,33 @@ import StepBanner from 'common/components/step-banner/StepBanner';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
-import {
-    FormikRadioPanelGroup,
-    FormikTextarea,
-    getTypedFormComponents,
-    LabelWithInfo
-} from '@navikt/sif-common-formik/lib';
-import { YesOrNo } from 'common/types/YesOrNo';
+import { FormikRadioPanelGroup, getTypedFormComponents, LabelWithInfo, YesOrNo } from '@navikt/sif-common-formik/lib';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import { AlertStripeFeil, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import FormikQuestion from '../../formik-question/FormikQuestion';
 import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../../../types/AnsettelseslengdeTypes';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
-import ExpandableInfo from '../../expandable-content/ExpandableInfo';
-import PictureScanningGuide from '../../picture-scanning-guide/PictureScanningGuide';
-import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
-import { navigateToLoginPage } from '../../../utils/navigationUtils';
-import { validateDocuments } from '../../../validation/fieldValidations';
-import { ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
-import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
-import UploadedDocumentsList from '../../uploaded-documents-list/UploadedDocumentsList';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
 
 const bem = bemUtils('introPage');
 
 enum PageFormField {
     hvorLengeJobbet = 'hvorLengeJobbet',
-    begrunnelse = 'begrunnelse'
+    begrunnelse = 'begrunnelse',
+    smittevernHensyn = 'smittevernHensyn'
 }
 
 interface PageFormValues {
     [PageFormField.hvorLengeJobbet]: HvorLengeJobbet;
     [PageFormField.begrunnelse]: HvorLengeJobbetFordi;
+    [PageFormField.smittevernHensyn]: YesOrNo;
 }
 
 const initialValues: PageFormValues = {
     [PageFormField.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
-    [PageFormField.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART
+    [PageFormField.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
+    [PageFormField.smittevernHensyn]: YesOrNo.UNANSWERED
 };
 const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
 
@@ -76,18 +63,23 @@ const IntroPage: React.StatelessComponent = () => {
                 <PageForm.FormikWrapper
                     onSubmit={() => null}
                     initialValues={initialValues}
-                    renderForm={({ values: { hvorLengeJobbet, begrunnelse } }) => {
-                        const skalViseGåTilSøknadLink =
-                            hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER ||
-                            (hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER &&
-                                begrunnelse !== HvorLengeJobbetFordi.IKKE_BESVART &&
-                                begrunnelse !== HvorLengeJobbetFordi.INGEN);
-
+                    renderForm={({ values: { hvorLengeJobbet, begrunnelse, smittevernHensyn } }) => {
                         const skalViseMerEnnFireUkerInfoPanel = hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER;
 
                         const skalViseIngenAvSituasjonenePanel =
                             hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER &&
                             begrunnelse === HvorLengeJobbetFordi.INGEN;
+
+                        const skalViseSmittevernSpørsmål =
+                            hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER ||
+                            (hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER &&
+                                begrunnelse !== HvorLengeJobbetFordi.IKKE_BESVART &&
+                                begrunnelse !== HvorLengeJobbetFordi.INGEN);
+
+                        const skalViseSmittevernInfo = skalViseSmittevernSpørsmål && smittevernHensyn === YesOrNo.YES;
+
+                        const skalViseGåTilSøknadLink =
+                            skalViseSmittevernSpørsmål && smittevernHensyn !== YesOrNo.UNANSWERED;
 
                         return (
                             <PageForm.Form
@@ -210,6 +202,41 @@ const IntroPage: React.StatelessComponent = () => {
                                             </AlertStripeInfo>
                                         </Box>
                                     )}
+
+                                    {skalViseSmittevernSpørsmål && (
+                                        <FormBlock>
+                                            <PageForm.YesOrNoQuestion
+                                                name={PageFormField.smittevernHensyn}
+                                                legend="Er du hjemme med barn på grunn av særlige smittevernhensyn?"
+                                                info={
+                                                    <div className={'smittevern-info'}>
+                                                        <FormattedHTMLMessage id={'steg.en.smittevern.info'} />
+                                                    </div>
+                                                }
+                                            />
+                                        </FormBlock>
+                                    )}
+
+                                    {skalViseSmittevernInfo && (
+                                        <Box margin="xl">
+                                            <AlertStripeInfo>
+                                                <p style={{ marginTop: 0, marginBottom: 0 }}>
+                                                    I søknaden må du laste opp en bekreftelse fra lege. Legen må
+                                                    bekrefte at barnet ikke kan gå i barnehage eller skole fordi det er{' '}
+                                                    <strong>særlige smittevernhensyn</strong> i forbindelse med
+                                                    koronaviruset som må ivaretas for enten barnet eller et
+                                                    familiemedlem som barnet bor sammen med. Legen skal ikke oppgi
+                                                    diagnose eller hvilket familiemedlem det gjelder.
+                                                </p>
+                                                <p>
+                                                    Hvis du ikke har bekreftelse tilgjengelig når du søker, kan du
+                                                    ettersende den. Vi kan ikke behandle søknaden før vi mottar
+                                                    bekreftelsen.
+                                                </p>
+                                            </AlertStripeInfo>
+                                        </Box>
+                                    )}
+
                                     {skalViseGåTilSøknadLink && (
                                         <>
                                             <Box margin="xl" textAlignCenter={true}>
