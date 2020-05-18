@@ -21,27 +21,41 @@ export const filterArbeidsforholdMedVedlegg = (listeAvArbeidsforhold: Arbeidsfor
     );
 };
 
-export const collectAllAttachmentsAndMapToListOfString = (
+function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+    return value !== null && value !== undefined;
+}
+
+export const listOfAttachmentsToListOfUrlStrings = (attachments: Attachment[]): string[] => {
+    return attachments
+        .map((attachment: Attachment) => {
+            return attachment.url;
+        })
+        .filter(notEmpty);
+};
+
+export const listOfAttachmentsToListOfDocumentName = (attachments: Attachment[]): string[] => {
+    return attachments.map((attachment: Attachment) => {
+        return attachment.file.name;
+    });
+};
+
+export const listOfArbeidsforholdFormDataToListOfAttachmentStrings = (
     listeAvArbeidsforhold: ArbeidsforholdFormData[]
 ): string[] => {
     return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold)
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter]
-                .map((attachment: Attachment) => {
-                    return attachment.url;
-                })
-                .filter((maybeString: string | undefined) => {
-                    // return notUndefined<string>(maybeString);
-                    return notUndefined<string>(maybeString);
-                }) as string[]; // TODO: Fix type
+            return listOfAttachmentsToListOfUrlStrings(arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter]);
         })
         .flat();
 };
 
-export const listAlleVedlegg = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): string[] => {
-    return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold).map((arbeidsforhold: ArbeidsforholdFormData) => {
-        return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter].map((attachment: Attachment) => {
-            return attachment.file.name; // TODO: Nullpointer hvis file plutselig er {} pga mellomlagring.
+export const listAlleVedleggFraArbeidsforhold = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): string[] => {
+    return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold)
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter].map((attachment: Attachment) => {
+                return attachment.file.name;
+            });
         })
-    }).flat();
+        .filter(notEmpty)
+        .flat();
 };

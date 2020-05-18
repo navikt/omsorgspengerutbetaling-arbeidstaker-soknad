@@ -6,7 +6,10 @@ import { Locale } from 'common/types/Locale';
 import { settInnBosteder } from './formToApiMaps/mapBostedUtlandToApiData';
 import { settInnOpphold } from './formToApiMaps/mapUtenlandsoppholdToApiData';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { collectAllAttachmentsAndMapToListOfString } from './formToApiMaps/mapVedleggToApiData';
+import {
+    listOfArbeidsforholdFormDataToListOfAttachmentStrings,
+    listOfAttachmentsToListOfUrlStrings
+} from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
 
 export const mapFormDataToApiData = (
@@ -58,9 +61,11 @@ export const mapFormDataToApiData = (
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
         fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
-        vedlegg: collectAllAttachmentsAndMapToListOfString([...arbeidsforhold, annetArbeidsforhold])
+        vedlegg: [
+            ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
+            ...listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
+        ]
     };
-    // TODO: Sende med smittevern vedlegg. Hvor skal de? I vedlegg?
 
     return apiData;
 };
