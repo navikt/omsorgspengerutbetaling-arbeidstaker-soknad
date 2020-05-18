@@ -12,8 +12,9 @@ import RouteConfig from './config/routeConfig';
 import Søknad from './søknad/Søknad';
 import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
-import 'common/styles/globalStyles.less';
 import { setSentryEnvironmentFromHost } from './utils/sentryUtils';
+import 'common/styles/globalStyles.less';
+import './app.less';
 
 Sentry.init({
     dsn: 'https://20da9cbb958c4f5695d79c260eac6728@sentry.gc.nav.no/30',
@@ -32,7 +33,7 @@ const App: React.FunctionComponent = () => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>
-            <>
+            <div id={'app-content-wrapper'}>
                 {isFeatureEnabled(Feature.UTILGJENGELIG) ? (
                     <UnavailablePage />
                 ) : (
@@ -41,7 +42,7 @@ const App: React.FunctionComponent = () => {
                         <Route path="/" component={IntroPage} />
                     </Switch>
                 )}
-            </>
+            </div>
         </ApplicationWrapper>
     );
 };
