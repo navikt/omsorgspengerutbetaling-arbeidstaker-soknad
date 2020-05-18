@@ -63,7 +63,7 @@ export const mapFormDataToApiData = (
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         vedlegg: [
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
-            ...listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
+            ...(hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter) : [])
         ]
     };
 

@@ -10,6 +10,7 @@ import {
 } from '../../../utils/formToApiMaps/mapVedleggToApiData';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import SummaryBlock from './SummaryBlock';
+import { YesOrNo } from 'common/types/YesOrNo';
 
 interface Props {
     apiValues: SøknadApiData;
@@ -25,7 +26,9 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
             ...values[SøknadFormField.arbeidsforhold],
             values[SøknadFormField.annetArbeidsforhold]
         ]),
-        ...listOfAttachmentsToListOfDocumentName(values[SøknadFormField.smittevernDokumenter])
+        ...(values[SøknadFormField.hjemmePgaSmittevernhensynYesOrNo] === YesOrNo.YES
+            ? listOfAttachmentsToListOfDocumentName(values[SøknadFormField.smittevernDokumenter])
+            : [])
     ];
 
     if (listeAvAlleVedlegg.length > 0) {
