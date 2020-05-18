@@ -11,13 +11,19 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import {
+    createFieldValidationError,
+    FieldValidationErrors,
+    validateRequiredField
+} from 'common/validation/fieldValidations';
+import { FieldValidationResult } from 'common/validation/types';
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
     harDelerAvDag: YesOrNo
-): string | undefined => {
+): FieldValidationResult => {
     if (harPerioder === YesOrNo.NO && harDelerAvDag === YesOrNo.NO) {
-        return 'Minimum én periode for arbeidsforholdet må spesifiseres.';
+        return { key: 'fieldvalidation.periode.ingen'};
     }
     return undefined;
 };
@@ -52,7 +58,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     legend={intlHelper(intl, 'periode.heledager.spm')}
                     validate={(value: YesOrNo) => {
                         if (value === YesOrNo.UNANSWERED) {
-                            return 'må svare på spørsmålene';
+                            return createFieldValidationError( FieldValidationErrors.påkrevd);
                         }
                         return minimumHarPeriodeEllerDelerAvDagYes(
                             arbeidsforholdFormData.harPerioderMedFravær,
@@ -114,7 +120,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     legend={intlHelper(intl, 'periode.delvisdag.spm')}
                     validate={(value: YesOrNo) => {
                         if (value === YesOrNo.UNANSWERED) {
-                            return 'må svare på spørsmålene';
+                            return createFieldValidationError( FieldValidationErrors.påkrevd);
                         }
                         return minimumHarPeriodeEllerDelerAvDagYes(
                             arbeidsforholdFormData.harPerioderMedFravær,
@@ -153,6 +159,9 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                                 .length,
                                             emptyDagMedFravær
                                         );
+                                        setTimeout(() => {
+                                            validateField(nameDagerMedDelvisFravær);
+                                        });
                                     }}
                                     onRemove={(idx) => {
                                         arrayHelpers.remove(idx);
