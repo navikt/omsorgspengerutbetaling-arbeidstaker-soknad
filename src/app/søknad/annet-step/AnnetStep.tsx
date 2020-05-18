@@ -18,7 +18,7 @@ import ContentWithHeader from 'common/components/content-with-header/ContentWith
 import { mapPeriodeTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import VedleggComponent from '../../components/VedleggComponent/VedleggComponent';
+import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import Box from 'common/components/box/Box';
@@ -111,8 +111,9 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                         </Box>
                     </CounsellorPanel>
                     <EkspanderbarPSG />
-                    <VedleggComponent
-                        nameDokumenter={SøknadFormField.smittevernDokumenter}
+                    <FormikVedleggsKomponent
+                        uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.smittevernVedlegg')}
+                        formikName={SøknadFormField.smittevernDokumenter}
                         dokumenter={values[SøknadFormField.smittevernDokumenter]}
                     />
                 </>

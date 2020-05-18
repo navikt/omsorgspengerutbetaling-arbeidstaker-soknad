@@ -12,11 +12,12 @@ import { Attachment } from 'common/types/Attachment';
 import { useIntl } from 'react-intl';
 
 interface Props {
-    nameDokumenter: string;
+    uploadButtonLabel: string;
+    formikName: string;
     dokumenter: Attachment[];
 }
 
-const VedleggComponent: React.FC<Props> = ({nameDokumenter, dokumenter}: Props) => {
+const FormikVedleggsKomponent: React.FC<Props> = ({formikName, dokumenter, uploadButtonLabel}: Props) => {
 
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const intl = useIntl();
@@ -25,8 +26,8 @@ const VedleggComponent: React.FC<Props> = ({nameDokumenter, dokumenter}: Props) 
         <div>
             <FormBlock>
                 <FormikFileUploader
-                    name={nameDokumenter}
-                    label={intlHelper(intl, 'steg.dokumenter.vedlegg')}
+                    name={formikName}
+                    label={uploadButtonLabel}
                     onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
                     onFileInputClick={() => {
                         setFilesThatDidntGetUploaded([]);
@@ -42,7 +43,7 @@ const VedleggComponent: React.FC<Props> = ({nameDokumenter, dokumenter}: Props) 
             <Box margin="l">
                 <UploadedDocumentsList
                     attachments={dokumenter}
-                    formikFieldName={nameDokumenter}
+                    formikFieldName={formikName}
                     wrapNoAttachmentsInBox={true}
                     includeDeletionFunctionality={true}
                 />
@@ -51,4 +52,4 @@ const VedleggComponent: React.FC<Props> = ({nameDokumenter, dokumenter}: Props) 
     )
 };
 
-export default VedleggComponent;
+export default FormikVedleggsKomponent;

@@ -21,7 +21,7 @@ import {
     HvorLengeJobbetFordi
 } from '../../types/AnsettelseslengdeTypes';
 import EkspanderbarPSG from '../EkspanderbarPSG/EkspanderbarPSG';
-import VedleggComponent from '../VedleggComponent/VedleggComponent';
+import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
@@ -198,8 +198,9 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         </CounsellorPanel>
                     </FormBlock>
                     <EkspanderbarPSG />
-                    <VedleggComponent
-                        nameDokumenter={nameDokumenter}
+                    <FormikVedleggsKomponent
+                        uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.vedlegg')}
+                        formikName={nameDokumenter}
                         dokumenter={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
                     />
                 </div>
