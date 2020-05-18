@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
 import { FormikProps, useFormikContext } from 'formik';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
@@ -75,9 +75,13 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
         navigateTo(getSøknadRoute(stepID), history);
     }
 
-    const fortsettPåPåbegyntSøknad = async (lastStepId: StepID) => {
+    const fortsettPåPåbegyntSøknad = async () => {
         setButtonsAreDisabled(true);
-        await navigateTo(lastStepId, history);
+        if (lastStepID) {
+            await navigateTo(lastStepID, history);
+        } else {
+            // TODO: Handle. Something went wrong.
+        }
         setButtonsAreDisabled(false);
     };
 
@@ -133,15 +137,13 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
                     return (
                         <div>
                             <WelcomingPage onValidSubmit={() => navigateToStep(StepID.SITUASJON)} />
-                            {lastStepID && (
-                                <FortsettSøknadModalView
-                                    isOpen={!!lastStepID && !hasBeenClosed}
-                                    buttonsAreDisabled={buttonsAreDisabled}
-                                    onRequestClose={startPåNySøknad}
-                                    onFortsettPåSøknad={() => fortsettPåPåbegyntSøknad(lastStepID)}
-                                    onStartNySøknad={startPåNySøknad}
-                                />
-                            )}
+                            <FortsettSøknadModalView
+                                isOpen={!!lastStepID && !hasBeenClosed}
+                                buttonsAreDisabled={buttonsAreDisabled}
+                                onRequestClose={startPåNySøknad}
+                                onFortsettPåSøknad={fortsettPåPåbegyntSøknad}
+                                onStartNySøknad={startPåNySøknad}
+                            />
                         </div>
                     );
                 }}
