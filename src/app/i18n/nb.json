@@ -407,6 +407,7 @@
     "steg.dokumenter.vedlegg": "Last opp forklaring fra arbeidsgiver",
     "steg.dokumenter.smittevernVedlegg": "Last opp bekreftelse fra lege",
     "steg.oppsummering.dokumenter.header": "Vedlegg til søknad: Forklaring fra arbeidsgiver",
+    "steg.oppsummering.dokumenter.legend": "Vedlegg til søknad",
     "steg.oppsummering.dokumenter.ikkelastetopp": "Ikke lastet opp, må ettersendes",
     "step.periode.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalinger fra NAV for samme periode?",
     "step.periode.hvilke_utbetalinger.spm": "Hvilke andre utbetalinger fra NAV har du søkt om?",

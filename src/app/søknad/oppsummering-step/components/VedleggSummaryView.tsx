@@ -11,6 +11,7 @@ import {
 import SummaryList from 'common/components/summary-list/SummaryList';
 import SummaryBlock from './SummaryBlock';
 import { YesOrNo } from 'common/types/YesOrNo';
+import intlHelper from 'common/utils/intlUtils';
 
 interface Props {
     apiValues: SøknadApiData;
@@ -33,7 +34,7 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
 
     if (listeAvAlleVedlegg.length > 0) {
         return (
-            <SummaryBlock header={'Vedlegg til søknad: Forklaring fra arbeidsgiver'}>
+            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.legend')}>
                 <SummaryList
                     items={listeAvAlleVedlegg}
                     itemRenderer={(vedleggNavn) => {
