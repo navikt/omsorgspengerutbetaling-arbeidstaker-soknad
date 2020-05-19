@@ -233,9 +233,9 @@ export const validateDocuments = (attachments: Attachment[]): FieldValidationRes
     const uploadedAttachments = attachments.filter((attachment) => {
         return attachment ? attachmentHasBeenUploaded(attachment) : false;
     });
-    if (uploadedAttachments.length === 0) {
-        return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
-    }
+    // if (uploadedAttachments.length === 0) {
+    //     return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
+    // }
     if (uploadedAttachments.length > 3) {
         return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
     }

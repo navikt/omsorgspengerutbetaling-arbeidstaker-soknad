@@ -26,7 +26,7 @@ export const ansettelsesLengdeIsValid = (
     }
     if (
         ansettelsesLengde[AnsettelseslengdeFormDataFields.hvorLengeJobbet] === HvorLengeJobbet.MER_ENN_FIRE_UKER &&
-        dokumenter.length > 0
+        dokumenter.length <= 3
     ) {
         return true;
     }
