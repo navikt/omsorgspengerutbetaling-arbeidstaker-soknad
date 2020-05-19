@@ -242,14 +242,11 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
 
             <Route
                 path={RouteConfig.SØKNAD_ROUTE_PREFIX}
-                exact={true}
                 component={() => {
-                    navigateTo(RouteConfig.WELCOMING_PAGE_ROUTE, history);
+                    navigateToWelcomePage();
                     return <LoadingPage />;
                 }}
             />
-
-            <Route component={() => <LoadingPage />} />
         </Switch>
     );
 };
