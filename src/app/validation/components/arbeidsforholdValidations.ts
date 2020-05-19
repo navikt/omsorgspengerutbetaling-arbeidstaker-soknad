@@ -82,7 +82,7 @@ const erGjeldende = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
     arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
     arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO;
 
-export const checkNext = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+const checkNext = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     if (listeAvArbeidsforhold.length > 0) {
         const [arbeidsforhold, ...rest] = listeAvArbeidsforhold;
         if (!arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) || erGjeldende(arbeidsforhold)) {
@@ -97,4 +97,40 @@ export const harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart = (
     listeAvArbeidsforhold: ArbeidsforholdFormData[]
 ): boolean => {
     return checkNext(listeAvArbeidsforhold);
+};
+
+const checkAlleArbeidsforhold = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[],
+    verificationFunction: (arbeidsforhold: ArbeidsforholdFormData) => boolean
+): boolean => {
+    if (listeAvArbeidsforhold.length === 0) {
+        return true;
+    }
+    return listeAvArbeidsforhold.map(verificationFunction).filter((value) => !value).length <= 0;
+};
+
+const erJaJaCombo = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+    arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES;
+
+export const erNeiCombo = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    !!(arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.NO);
+
+const erJaEllerNeiNeiCombo = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    erJaJaCombo(arbeidsforhold) || erNeiCombo(arbeidsforhold);
+
+export const checkHarKlikketJaJaPåAlle = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+    return checkAlleArbeidsforhold(listeAvArbeidsforhold, erJaJaCombo);
+};
+
+export const checkHarKlikketNeiPåAlle = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+    return checkAlleArbeidsforhold(listeAvArbeidsforhold, erNeiCombo);
+};
+
+export const checkHarKlikketNeiElleJajaBlanding = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+    return (
+        checkAlleArbeidsforhold(listeAvArbeidsforhold, erJaEllerNeiNeiCombo) &&
+        !checkAlleArbeidsforhold(listeAvArbeidsforhold, erJaJaCombo) &&
+        !checkAlleArbeidsforhold(listeAvArbeidsforhold, erNeiCombo)
+    );
 };

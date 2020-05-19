@@ -25,7 +25,12 @@ import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/Fo
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import { harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart } from '../../validation/components/arbeidsforholdValidations';
+import {
+    checkHarKlikketJaJaPåAlle,
+    checkHarKlikketNeiElleJajaBlanding,
+    checkHarKlikketNeiPåAlle,
+    harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart
+} from '../../validation/components/arbeidsforholdValidations';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -83,11 +88,17 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
         annetArbeidsforhold
     ]);
 
+    const harKlikketJaJaPåAlle = checkHarKlikketJaJaPåAlle([...arbeidsforhold, annetArbeidsforhold]);
+    const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold, annetArbeidsforhold]);
+    const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold, annetArbeidsforhold]);
+
+    const disableFortsettButton = harKlikketJaJaPåAlle || harKlikketNeiPåAlle || harKlikketNeiElleJajaBlanding;
+
     return (
         <SøknadStep
             id={StepID.SITUASJON}
             onValidFormSubmit={onValidSubmit}
-            buttonDisabled={isLoading || skalViseAdvarselOgDisableFortsettKnapp}>
+            buttonDisabled={isLoading || disableFortsettButton}>
             <>
                 <Box padBottom={'xxl'}>
                     <Undertittel>
@@ -169,11 +180,33 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                     )}
                 </FormBlock>
 
-                {/* Info og advarseler */}
-                {skalViseAdvarselOgDisableFortsettKnapp && (
+                {/*/!* Info og advarseler *!/*/}
+                {/*{skalViseAdvarselOgDisableFortsettKnapp && (*/}
+                {/*    <FormBlock paddingBottom={'l'}>*/}
+                {/*        <AlertStripe type={'advarsel'}>*/}
+                {/*            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />*/}
+                {/*        </AlertStripe>*/}
+                {/*    </FormBlock>*/}
+                {/*)}*/}
+
+                {harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'l'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />
+                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+                {harKlikketNeiPåAlle && (
+                    <FormBlock paddingBottom={'l'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+                {harKlikketNeiElleJajaBlanding && (
+                    <FormBlock paddingBottom={'l'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
