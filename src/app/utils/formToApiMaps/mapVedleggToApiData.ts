@@ -34,9 +34,11 @@ export const listOfAttachmentsToListOfUrlStrings = (attachments: Attachment[]): 
 };
 
 export const listOfAttachmentsToListOfDocumentName = (attachments: Attachment[]): string[] => {
-    return attachments.map((attachment: Attachment) => {
-        return attachment.file.name;
-    });
+    return attachments
+        .filter((attachment: Attachment) => notEmpty(attachment.url))
+        .map((attachment: Attachment) => {
+            return attachment.file.name;
+        });
 };
 
 export const listOfArbeidsforholdFormDataToListOfAttachmentStrings = (
@@ -51,11 +53,8 @@ export const listOfArbeidsforholdFormDataToListOfAttachmentStrings = (
 
 export const listAlleVedleggFraArbeidsforhold = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): string[] => {
     return filterArbeidsforholdMedVedlegg(listeAvArbeidsforhold)
-        .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter].map((attachment: Attachment) => {
-                return attachment.file.name;
-            });
-        })
-        .filter(notEmpty)
+        .map((arbeidsforhold: ArbeidsforholdFormData) =>
+            listOfAttachmentsToListOfDocumentName(arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter])
+        )
         .flat();
 };
