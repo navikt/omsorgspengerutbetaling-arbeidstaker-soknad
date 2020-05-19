@@ -11,11 +11,7 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import {
-    createFieldValidationError,
-    FieldValidationErrors,
-    validateRequiredField
-} from 'common/validation/fieldValidations';
+import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
@@ -23,7 +19,7 @@ export const minimumHarPeriodeEllerDelerAvDagYes = (
     harDelerAvDag: YesOrNo
 ): FieldValidationResult => {
     if (harPerioder === YesOrNo.NO && harDelerAvDag === YesOrNo.NO) {
-        return { key: 'fieldvalidation.periode.ingen'};
+        return { key: 'fieldvalidation.periode.ingen' };
     }
     return undefined;
 };
@@ -58,7 +54,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     legend={intlHelper(intl, 'periode.heledager.spm')}
                     validate={(value: YesOrNo) => {
                         if (value === YesOrNo.UNANSWERED) {
-                            return createFieldValidationError( FieldValidationErrors.påkrevd);
+                            return createFieldValidationError(FieldValidationErrors.påkrevd);
                         }
                         return minimumHarPeriodeEllerDelerAvDagYes(
                             arbeidsforholdFormData.harPerioderMedFravær,
@@ -120,7 +116,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     legend={intlHelper(intl, 'periode.delvisdag.spm')}
                     validate={(value: YesOrNo) => {
                         if (value === YesOrNo.UNANSWERED) {
-                            return createFieldValidationError( FieldValidationErrors.påkrevd);
+                            return createFieldValidationError(FieldValidationErrors.påkrevd);
                         }
                         return minimumHarPeriodeEllerDelerAvDagYes(
                             arbeidsforholdFormData.harPerioderMedFravær,

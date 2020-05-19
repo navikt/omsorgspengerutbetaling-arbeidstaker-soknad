@@ -37,15 +37,15 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
 
     return {
         ...søknadFormData,
-        arbeidsforhold: listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return cleanPerioderForArbeidsforhold(arbeidsforhold);
-        }),
+        arbeidsforhold: listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) =>
+            cleanPerioderForArbeidsforhold(arbeidsforhold)
+        ),
         annetArbeidsforhold: cleanPerioderForArbeidsforhold(annetArbeidsforhold)
     };
 };
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
-    const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
 
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];

@@ -21,10 +21,8 @@ import FosterbarnSummaryView from './components/FosterbarnSummaryView';
 import { logApiCallErrorToSentryOrConsole } from '../../utils/sentryUtils';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
-import VedleggSummaryView from './components/VedleggSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
-import SummaryBlock from './components/SummaryBlock';
-import JaNeiSvar from './components/JaNeiSvar';
+import SmittevernSummaryView from './components/SmittevernSummaryView';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -84,17 +82,12 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                         fødselsnummer={fødselsnummer}
                     />
                     <FosterbarnSummaryView fosterbarn={fosterbarn} />
-
-                    <SummaryBlock header={'Arbeidsforhold'}>
-                        <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
-                        <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
-                    </SummaryBlock>
-                    <SummaryBlock header={intlHelper(intl, 'steg.en.smittevern.sporsmal')}>
-                        <JaNeiSvar harSvartJa={apiValues.hjemmePgaSmittevernhensyn} />
-                    </SummaryBlock>
+                    <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
+                    <SmittevernSummaryView apiValues={apiValues} />
+                    <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
-                    <VedleggSummaryView apiValues={apiValues} />
+                    {/*<VedleggSummaryView apiValues={apiValues} />*/}
                 </Panel>
             </Box>
 

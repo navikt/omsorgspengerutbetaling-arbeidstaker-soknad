@@ -6,8 +6,7 @@ import { Attachment } from 'common/types/Attachment';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { deleteFile } from '../../api/api';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
+import { SøknadFormData } from '../../types/SøknadFormData';
 
 interface Props {
     attachments: Attachment[];
@@ -22,7 +21,7 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
     wrapNoAttachmentsInBox,
     includeDeletionFunctionality
 }) => {
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const { setFieldValue } = useFormikContext<SøknadFormData>();
 
     const dokumenter: Attachment[] = attachments.filter(({ file }: Attachment) => {
         return file && file.name ? fileExtensionIsValid(file.name) : false;

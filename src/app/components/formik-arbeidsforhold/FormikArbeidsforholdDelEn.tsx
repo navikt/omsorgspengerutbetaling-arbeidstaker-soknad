@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
 import { SøknadFormField } from '../../types/SøknadFormData';
 import FormikArbeidsforholdSituasjonView from './FormikArbeidsforholdSituasjon';
@@ -11,14 +10,17 @@ interface Props {
 }
 
 const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
-    const intl = useIntl();
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }) => {
                 const getFieldName = (field: ArbeidsforholdFormDataFields) => `${name}.${index}.${field}`;
 
-                const nameHarHattFraværHosArbeidsgiver = getFieldName(ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver);
-                const nameArbeidsgiverHarUtbetaltLønn = getFieldName(ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn);
+                const nameHarHattFraværHosArbeidsgiver = getFieldName(
+                    ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver
+                );
+                const nameArbeidsgiverHarUtbetaltLønn = getFieldName(
+                    ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn
+                );
 
                 return (
                     <FormikArbeidsforholdSituasjonView

@@ -28,8 +28,7 @@ import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import {
     checkHarKlikketJaJaPåAlle,
     checkHarKlikketNeiElleJajaBlanding,
-    checkHarKlikketNeiPåAlle,
-    harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart
+    checkHarKlikketNeiPåAlle
 } from '../../validation/components/arbeidsforholdValidations';
 
 interface OwnProps {
@@ -41,9 +40,9 @@ type SituasjonStepViewProps = StepConfigProps & OwnProps;
 
 const SituasjonStepView = (props: SituasjonStepViewProps) => {
     const { onValidSubmit, formikProps } = props;
+    const { values } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
-    const { values, errors, isValid } = useFormikContext<SøknadFormData>();
-    const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
+    const [doApiCalls, setDoApiCalls] = useState(true);
 
     useEffect(() => {
         const today: Date = dateToday;
@@ -82,11 +81,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
 
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
-
-    const skalViseAdvarselOgDisableFortsettKnapp = harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
-        ...arbeidsforhold,
-        annetArbeidsforhold
-    ]);
 
     const harKlikketJaJaPåAlle = checkHarKlikketJaJaPåAlle([...arbeidsforhold, annetArbeidsforhold]);
     const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold, annetArbeidsforhold]);
@@ -179,15 +173,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
                         </FormBlock>
                     )}
                 </FormBlock>
-
-                {/*/!* Info og advarseler *!/*/}
-                {/*{skalViseAdvarselOgDisableFortsettKnapp && (*/}
-                {/*    <FormBlock paddingBottom={'l'}>*/}
-                {/*        <AlertStripe type={'advarsel'}>*/}
-                {/*            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text'} />*/}
-                {/*        </AlertStripe>*/}
-                {/*    </FormBlock>*/}
-                {/*)}*/}
 
                 {harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'l'}>

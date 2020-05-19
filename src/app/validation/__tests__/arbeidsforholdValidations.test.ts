@@ -1,5 +1,4 @@
 import {
-    harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart,
     stegEnListeAvArbeidsforholdIsValid
 } from '../components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
@@ -129,34 +128,5 @@ describe('fieldValidations', () => {
     it('validates lists correctly', () => {
         expect(stegEnListeAvArbeidsforholdIsValid(validListeAvArbeidsforhold)).toBe(true);
         expect(stegEnListeAvArbeidsforholdIsValid(invalidListeAvArbeidsforhold)).toBe(false);
-    });
-
-    it('disables Fortsett button på steg 1 når det er ingen gjeldende arbeidsforhold, men alle spørsmål er besvart', () => {
-        expect(
-            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
-                validIkkeGjeldende,
-                validIkkeGjeldende,
-                validIkkeGjeldende
-            ])
-        ).toBe(true);
-        expect(harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([validGjeldende])).toBe(false);
-        expect(harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([manglerSvar])).toBe(false);
-        expect(
-            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
-                validIkkeGjeldende,
-                validIkkeGjeldende,
-                manglerSvar
-            ])
-        ).toBe(false);
-        expect(
-            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([manglerSvar, validIkkeGjeldende, validGjeldende])
-        ).toBe(false);
-        expect(
-            harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart([
-                validIkkeGjeldende,
-                validIkkeGjeldende,
-                validGjeldende
-            ])
-        ).toBe(false);
     });
 });

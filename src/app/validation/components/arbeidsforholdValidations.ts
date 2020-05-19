@@ -4,11 +4,17 @@ import { ansettelsesLengdeIsValid } from './ansettelsesLengdeValidations';
 import { delvisFraværIsValid, perioderIsValid } from './periodeStepValidations';
 import { evaluatePrevAndCurrent } from '../validationUtils';
 
-export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean => {
+export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean =>
+    !!(
+        arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
+        arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
+    );
+
+export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     const harHattFraværHosArbeidsgiver: YesOrNo =
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver];
+        arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver];
     const arbeidsgiverHarUtbetaltLønn: YesOrNo =
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn];
+        arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn];
     if (
         harHattFraværHosArbeidsgiver === YesOrNo.NO ||
         (harHattFraværHosArbeidsgiver === YesOrNo.YES && arbeidsgiverHarUtbetaltLønn === YesOrNo.YES) ||
@@ -28,9 +34,8 @@ export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: Arbeid
         .reduceRight(evaluatePrevAndCurrent, true);
 };
 
-export const stegEnAnnetArbeidsforholdIsValid = (annetArbeidsforhold: ArbeidsforholdFormData): boolean => {
-    return arbeidsforholdFormDataPartOneIsValid(annetArbeidsforhold);
-};
+export const stegEnAnnetArbeidsforholdIsValid = (annetArbeidsforhold: ArbeidsforholdFormData): boolean =>
+    arbeidsforholdFormDataPartOneIsValid(annetArbeidsforhold);
 
 export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     const ansettelsesLengde = arbeidsforhold[ArbeidsforholdFormDataFields.ansettelseslengde];
@@ -60,43 +65,14 @@ export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: Arbeidsforho
     return isValid;
 };
 
-export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean =>
-    !!(
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
-    );
-
 export const harMinimumEtGjeldendeArbeidsforhold = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     return (
         listeAvArbeidsforhold
             .map((arbeidsforhold: ArbeidsforholdFormData) => {
                 return skalInkludereArbeidsforhold(arbeidsforhold);
             })
-            .filter((skalInkludere: boolean) => {
-                return skalInkludere === true;
-            }).length > 0
+            .filter((skalInkludere: boolean) => skalInkludere).length > 0
     );
-};
-
-const erGjeldende = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
-    arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
-    arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO;
-
-const checkNext = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
-    if (listeAvArbeidsforhold.length > 0) {
-        const [arbeidsforhold, ...rest] = listeAvArbeidsforhold;
-        if (!arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) || erGjeldende(arbeidsforhold)) {
-            return false;
-        }
-        return checkNext(rest);
-    }
-    return true;
-};
-
-export const harIngenGjeldendeArbeidsforholdOgAlleSpørsmålErBesvart = (
-    listeAvArbeidsforhold: ArbeidsforholdFormData[]
-): boolean => {
-    return checkNext(listeAvArbeidsforhold);
 };
 
 const checkAlleArbeidsforhold = (

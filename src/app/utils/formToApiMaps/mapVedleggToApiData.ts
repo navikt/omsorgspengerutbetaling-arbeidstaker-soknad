@@ -15,7 +15,9 @@ const skalInkludereVedleggFraArbeidsforhold = (arbeidsforhold: ArbeidsforholdFor
     }
 };
 
-export const filterArbeidsforholdMedVedlegg = (listeAvArbeidsforhold: ArbeidsforholdFormData[]) => {
+export const filterArbeidsforholdMedVedlegg = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[]
+): ArbeidsforholdFormData[] => {
     return listeAvArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) =>
         skalInkludereVedleggFraArbeidsforhold(arbeidsforhold)
     );
