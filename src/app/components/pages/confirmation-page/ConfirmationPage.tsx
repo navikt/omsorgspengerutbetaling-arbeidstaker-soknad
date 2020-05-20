@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import CheckmarkIcon from 'common/components/checkmark-icon/CheckmarkIcon';
@@ -9,14 +9,9 @@ import intlHelper from 'common/utils/intlUtils';
 import './confirmationPage.less';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
-import { ArbeidsgiverDetaljer, SøknadApiData, Utbetalingsperiode } from '../../../types/SøknadApiData';
+import { SøknadApiData } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { formatName } from 'common/utils/personUtils';
 import Panel from 'nav-frontend-paneler/lib';
-import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
-import { iso8601DurationToTime, isValidTime, timeToString } from 'common/utils/timeUtils';
-import { Time } from 'common/types/Time';
-import TilArbeidsgiverDokument from './components/TilArbeidsgiverDokument';
 import TilArbeidsgiverDokumentListe from './components/TilArbeidsgiverDokumentListe';
 
 const bem = bemUtils('confirmationPage');
@@ -26,7 +21,7 @@ export interface OwnProps {
     søknadApiData: SøknadApiData | undefined;
 }
 
-const ConfirmationPage = (props: OwnProps): JSX.Element => {
+const ConfirmationPage: React.FC<OwnProps> = (props: OwnProps): JSX.Element => {
     const { søkerdata, søknadApiData } = props;
     const intl = useIntl();
 
@@ -84,7 +79,7 @@ const ConfirmationPage = (props: OwnProps): JSX.Element => {
                 <div className={'skrivUtKnapp'}>
                     <Knapp
                         type={'hoved'}
-                        onClick={() => {
+                        onClick={(): boolean => {
                             window.print();
                             return false;
                         }}>

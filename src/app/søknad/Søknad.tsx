@@ -7,17 +7,21 @@ import SøknadRoutes from './SøknadRoutes';
 import { StepID } from '../config/stepConfig';
 import { Søkerdata } from '../types/Søkerdata';
 
-const Søknad = () => (
+const Søknad: React.FC = (): JSX.Element => (
     <SøknadEssentialsLoader
-        contentLoadedRenderer={(søkerdata: Søkerdata, formData: SøknadFormData, lastStepID: StepID | undefined) => {
+        contentLoadedRenderer={(
+            søkerdata: Søkerdata,
+            formData: SøknadFormData,
+            lastStepID: StepID | undefined
+        ): JSX.Element => {
             if (!søkerdata.person.myndig) {
                 return <IkkeMyndigPage />;
             }
             return (
                 <SøknadFormComponents.FormikWrapper
                     initialValues={formData}
-                    onSubmit={() => null}
-                    renderForm={(formikProps) => (
+                    onSubmit={(): null => null}
+                    renderForm={(formikProps): JSX.Element => (
                         <SøknadRoutes søkerdata={søkerdata} lastStepID={lastStepID} formikProps={formikProps} />
                     )}
                 />

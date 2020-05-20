@@ -50,18 +50,6 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
 }
 
-export const isSøkerdata = (maybeSøkerdata: any): maybeSøkerdata is Søkerdata => {
-    if (
-        maybeSøkerdata &&
-        typeof maybeSøkerdata === 'object' &&
-        maybeSøkerdata.person &&
-        isPerson(maybeSøkerdata.person)
-    ) {
-        return true;
-    }
-    return false;
-};
-
 export const isPerson = (maybePerson: any): maybePerson is Person => {
     if (
         maybePerson &&
@@ -70,6 +58,18 @@ export const isPerson = (maybePerson: any): maybePerson is Person => {
         typeof maybePerson.fødselsnummer === 'string' &&
         maybePerson.myndig &&
         typeof maybePerson.myndig === 'boolean'
+    ) {
+        return true;
+    }
+    return false;
+};
+
+export const isSøkerdata = (maybeSøkerdata: any): maybeSøkerdata is Søkerdata => {
+    if (
+        maybeSøkerdata &&
+        typeof maybeSøkerdata === 'object' &&
+        maybeSøkerdata.person &&
+        isPerson(maybeSøkerdata.person)
     ) {
         return true;
     }

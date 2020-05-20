@@ -63,7 +63,7 @@ const OkSirkelFyll: React.StatelessComponent<Props> = (props) => {
     );
 };
 
-const StatusIcon = (props: Props) => {
+const StatusIcon = (props: Props): JSX.Element => {
     const { size = 24 } = props;
     switch (props.status) {
         case 'suksess':

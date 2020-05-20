@@ -9,15 +9,14 @@ import {
     summaryStepAvailable
 } from './stepUtils';
 
-export const getMaybeSøknadRoute = (stepId: StepID | undefined) => {
+export const getMaybeSøknadRoute = (stepId: StepID | undefined): string | undefined => {
     if (stepId !== undefined) {
         return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
     }
     return undefined;
 };
 
-export const getSøknadRoute = (stepId: StepID) =>
-    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
+export const getSøknadRoute = (stepId: StepID): string => `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
 
 export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): string | undefined => {
     const stepConfig = getStepConfig(formData);
@@ -29,7 +28,7 @@ export const getNextStepId = (stepId: StepID, formData?: SøknadFormData): StepI
     return stepConfig[stepId] ? stepConfig[stepId].nextStep : undefined;
 };
 
-export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData) => {
+export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData): boolean => {
     switch (path) {
         case StepID.SITUASJON:
             return situasjonStepIsAvailable(values);
@@ -44,6 +43,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData)
         case RouteConfig.SØKNAD_SENDT_ROUTE: {
             return values[SøknadFormField.harBekreftetOpplysninger];
         }
-        default: return true;
+        default:
+            return true;
     }
 };

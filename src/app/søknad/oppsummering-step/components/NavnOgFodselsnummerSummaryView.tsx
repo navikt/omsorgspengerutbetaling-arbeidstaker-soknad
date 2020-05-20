@@ -14,7 +14,7 @@ export interface Props {
     fødselsnummer: string;
 }
 
-export const NavnOgFodselsnummerSummaryView = (props: Props) => {
+export const NavnOgFodselsnummerSummaryView: React.FC<Props> = (props: Props): JSX.Element => {
     const { fornavn, etternavn, mellomnavn, intl, fødselsnummer } = props;
     return (
         <Box margin={'xl'}>

@@ -12,14 +12,14 @@ export interface PersistenceConfig {
     url: string;
 }
 
-const dateStringToDateObjectMapper = (_: string, value: string) => {
+const dateStringToDateObjectMapper = (_: string, value: string): string | Date => {
     if (moment(value, moment.ISO_8601).isValid()) {
         return new Date(value);
     }
     return value;
 };
 
-const storageParser = (storageResponse: string) => {
+const storageParser = (storageResponse: string): object | void => {
     if (storageResponse) {
         return JSON.parse(storageResponse, dateStringToDateObjectMapper);
     }
@@ -27,13 +27,13 @@ const storageParser = (storageResponse: string) => {
 
 function persistence<StorageFormat>({ requestConfig, url }: PersistenceConfig): PersistenceInterface<StorageFormat> {
     return {
-        persist: (data: StorageFormat) => {
+        persist: (data: StorageFormat): Promise<AxiosResponse<any>> => {
             return Axios.post(url, data, requestConfig);
         },
-        rehydrate: () => {
+        rehydrate: (): Promise<AxiosResponse<any>> => {
             return Axios.get(url, { ...requestConfig, transformResponse: storageParser });
         },
-        purge: () => {
+        purge: (): Promise<AxiosResponse<any>> => {
             return Axios.delete(url, { ...requestConfig, data: {} });
         }
     };

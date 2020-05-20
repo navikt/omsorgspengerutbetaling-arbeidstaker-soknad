@@ -15,9 +15,7 @@ import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormDat
 import { skalInkludereArbeidsforhold } from '../../../validation/components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
-import AttachmentListWithDeletion from 'common/components/attachment-list-with-deletion/AttachmentListWithDeletion';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
-import Panel from 'nav-frontend-paneler';
 
 const bem = bemUtils('arbeidsforholdSummary');
 
@@ -25,16 +23,18 @@ export const getRadioTextIdBegrunnelseFordi = (begrunnelse: Begrunnelse): string
     return getRadioTextIdHvorLengeJobbetFordi(begrunnelseTilHvorLengeJobbetFordi(begrunnelse));
 };
 
-const maybeArbeidsforholdToAttachmentList = (arbeidsforholdFormData: ArbeidsforholdFormData | undefined) =>
+const maybeArbeidsforholdToAttachmentList = (
+    arbeidsforholdFormData: ArbeidsforholdFormData | undefined
+): Attachment[] | undefined =>
     arbeidsforholdFormData ? arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter] : undefined;
 
 interface Props {
     listeAvArbeidsforhold: ArbeidsgiverDetaljer[];
 }
 
-const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: Props) => {
+const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: Props): React.ReactElement => {
     const intl = useIntl();
-    const { values, resetForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
 
     const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = [
         ...values[SøknadFormField.arbeidsforhold],

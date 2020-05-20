@@ -1,6 +1,4 @@
-import {
-    stegEnListeAvArbeidsforholdIsValid
-} from '../components/arbeidsforholdValidations';
+import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import {

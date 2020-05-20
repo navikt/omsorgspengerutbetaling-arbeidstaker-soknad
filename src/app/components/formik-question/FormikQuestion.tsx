@@ -8,18 +8,26 @@ export interface Answer {
     value: string;
 }
 
-export interface FormikQuestionProps<FieldName>
-    extends Omit<FormikRadioPanelGroupProps<FieldName>, 'radios'> {
+export interface FormikQuestionProps<FieldName> extends Omit<FormikRadioPanelGroupProps<FieldName>, 'radios'> {
     firstAlternative: Answer;
     secondAlternative: Answer;
     useTwoColumns: boolean;
     infoPlassering?: PopoverOrientering;
 }
 
-function FormikQuestion<FieldName, FieldValueType>(
+const FormikQuestion = <FieldName, FieldValueType>(
     props: FormikQuestionProps<FieldName> & TypedFormInputCommonProps
-) {
-    const { firstAlternative, secondAlternative,legend, info, useTwoColumns, infoPlassering, name, ...restProps } = props;
+): JSX.Element => {
+    const {
+        firstAlternative,
+        secondAlternative,
+        legend,
+        info,
+        useTwoColumns,
+        infoPlassering,
+        name,
+        ...restProps
+    } = props;
 
     return (
         <FormikRadioPanelGroup<FieldName>
@@ -44,6 +52,6 @@ function FormikQuestion<FieldName, FieldValueType>(
             validate={props.validate}
         />
     );
-}
+};
 
 export default FormikQuestion;

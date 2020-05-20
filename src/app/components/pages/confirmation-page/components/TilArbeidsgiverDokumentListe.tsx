@@ -10,7 +10,7 @@ interface Props {
     søknadApiData: SøknadApiData;
 }
 
-const TilArbeidsgiverDokumentListe = ({søkerdata, søknadApiData}: Props) => {
+const TilArbeidsgiverDokumentListe: React.FC<Props> = ({ søkerdata, søknadApiData }: Props): JSX.Element => {
     const { fornavn, mellomnavn, etternavn } = søkerdata.person;
     const søkersNavn: string | undefined =
         fornavn && etternavn ? formatName(fornavn, etternavn, mellomnavn || undefined) : 'UKJENT BRUKER';

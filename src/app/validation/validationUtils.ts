@@ -1,4 +1,4 @@
-export const evaluatePrevAndCurrent = (prev: boolean, curr: boolean) => {
+export const evaluatePrevAndCurrent = (prev: boolean, curr: boolean): boolean => {
     if (prev === false) {
         return prev;
     } else {

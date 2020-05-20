@@ -13,15 +13,15 @@ export const mapToBekreftelser = (
 export const settInnFosterbarn = (harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null => {
     return harFosterbarn === YesOrNo.YES
         ? listeAvFosterbarn.map((fosterbarn: Fosterbarn) => {
-            return {
-                fødselsnummer: fosterbarn.fødselsnummer,
-                fornavn: fosterbarn.fornavn || null,
-                etternavn: fosterbarn.etternavn || null
-            };
-        })
+              return {
+                  fødselsnummer: fosterbarn.fødselsnummer,
+                  fornavn: fosterbarn.fornavn || null,
+                  etternavn: fosterbarn.etternavn || null
+              };
+          })
         : null;
 };
-export const yesOrNoToBoolean = (yesOrNo: YesOrNo) => {
+export const yesOrNoToBoolean = (yesOrNo: YesOrNo): boolean => {
     switch (yesOrNo) {
         case YesOrNo.YES:
             return true;

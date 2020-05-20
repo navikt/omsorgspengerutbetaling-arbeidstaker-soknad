@@ -20,7 +20,7 @@ interface Props {
 
 const bem = bemUtils('dagerMedDelvisFravarListItem');
 
-export const pluralize = (count: number, single: string, other: string) => (count === 1 ? single : other);
+export const pluralize = (count: number, single: string, other: string): string => (count === 1 ? single : other);
 
 const getFjernLabel = (dato?: Date, timer?: number): string => {
     const timerTekst: string | undefined = timer
@@ -78,7 +78,7 @@ const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({
                     <Knapp
                         mini={true}
                         htmlType="button"
-                        onClick={() => onRemove(index)}
+                        onClick={(): void => onRemove(index)}
                         form="kompakt"
                         aria-label={getFjernLabel(dag.dato, dag.timer)}>
                         Fjern

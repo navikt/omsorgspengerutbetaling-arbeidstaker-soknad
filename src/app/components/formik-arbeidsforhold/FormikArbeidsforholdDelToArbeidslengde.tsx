@@ -1,13 +1,10 @@
 import React from 'react';
 import { FieldArray } from 'formik';
 import './formik-arbeidsforhold.less';
-import {
-    SøknadFormField
-} from '../../types/SøknadFormData';
+import { SøknadFormField } from '../../types/SøknadFormData';
 import FormikArbeidsforholdArbeidslengde from './FormikArbeidsforholdArbeidslengde';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { AnsettelseslengdeFormDataFields } from '../../types/AnsettelseslengdeTypes';
-
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
@@ -17,10 +14,10 @@ interface Props {
 const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
-            {({ name }) => {
-                const getArbeidsforholdFormDataFieldName = (field: ArbeidsforholdFormDataFields) =>
+            {({ name }): JSX.Element => {
+                const getArbeidsforholdFormDataFieldName = (field: ArbeidsforholdFormDataFields): string =>
                     `${name}.${index}.${field}`;
-                const getAnsettelseslengdeFormDataFieldName = (field: AnsettelseslengdeFormDataFields) =>
+                const getAnsettelseslengdeFormDataFieldName = (field: AnsettelseslengdeFormDataFields): string =>
                     `${getArbeidsforholdFormDataFieldName(ArbeidsforholdFormDataFields.ansettelseslengde)}.${field}`;
 
                 const nameHvorLengeJobbet = getAnsettelseslengdeFormDataFieldName(

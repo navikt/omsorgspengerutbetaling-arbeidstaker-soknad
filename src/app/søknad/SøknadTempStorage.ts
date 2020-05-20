@@ -1,6 +1,4 @@
-import persistence, {
-    PersistenceInterface
-} from '@navikt/sif-common-core/lib/utils/persistence/persistence';
+import persistence, { PersistenceInterface } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import { AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
 import { StepID } from '../config/stepConfig';

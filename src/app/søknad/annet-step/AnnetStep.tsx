@@ -53,7 +53,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     return (
         <SøknadStep
             id={StepID.ANNET}
-            onValidFormSubmit={() => {
+            onValidFormSubmit={(): void => {
                 onValidSubmit();
             }}
             // cleanupStep={cleanupStep}
@@ -105,9 +105,8 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                             barnet ikke kan gå i barnehage eller skole.
                         </Box>
                         <Box padBottom={'l'}>
-                            Hvis du ikke har bekreftelsen tilgjengelig nå,
-                            må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har
-                            mottatt bekreftelsen.
+                            Hvis du ikke har bekreftelsen tilgjengelig nå, må du ettersende den til oss så snart du har
+                            den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.
                         </Box>
                     </CounsellorPanel>
                     <EkspanderbarPSG />

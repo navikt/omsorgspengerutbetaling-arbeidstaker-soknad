@@ -9,13 +9,13 @@ import intlHelper from 'common/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './ikkeMyndigPage.less';
 
-const IkkeMyndigPage: React.FunctionComponent = () => {
+const IkkeMyndigPage: React.FC = (): JSX.Element => {
     const intl = useIntl();
     return (
         <Page
             className="ikkeMyndigPage"
             title={intlHelper(intl, 'page.ikkeMyndig.sidetittel')}
-            topContentRenderer={() => (
+            topContentRenderer={(): JSX.Element => (
                 <FrontPageBanner
                     bannerSize="xlarge"
                     counsellorWithSpeechBubbleProps={{

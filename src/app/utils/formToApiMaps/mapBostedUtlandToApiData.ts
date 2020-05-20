@@ -23,15 +23,15 @@ export const settInnBosteder = (
     const mappedSiste12Mnd =
         harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES
             ? utenlandsoppholdSiste12Mnd.map((utenlandsopphold: Utenlandsopphold) => {
-                return mapBostedUtlandToApiData(utenlandsopphold, locale);
-            })
+                  return mapBostedUtlandToApiData(utenlandsopphold, locale);
+              })
             : [];
 
     const mappedNeste12Mnd =
         skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
             ? utenlandsoppholdNeste12Mnd.map((utenlandsopphold: Utenlandsopphold) => {
-                return mapBostedUtlandToApiData(utenlandsopphold, locale);
-            })
+                  return mapBostedUtlandToApiData(utenlandsopphold, locale);
+              })
             : [];
 
     return [...mappedSiste12Mnd, ...mappedNeste12Mnd];

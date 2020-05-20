@@ -4,16 +4,16 @@ import * as Sentry from '@sentry/browser';
 import { AxiosError } from 'axios';
 import { isString } from 'formik';
 
-export const logToSentryOrConsole = (message: string, severity: Severity) => {
+export const logToSentryOrConsole = (message: string, severity: Severity): void => {
     if (isRunningLocally(window.location.hostname)) {
         // tslint:disable-next-line:no-console
         console.warn(`Severity: ${severity}. Message: ${message}`);
     } else {
-        Sentry.captureMessage(message, severity)
+        Sentry.captureMessage(message, severity);
     }
 };
 
-export const logApiCallErrorToSentryOrConsole = (error: AxiosError) => {
+export const logApiCallErrorToSentryOrConsole = (error: AxiosError): void => {
     const maybeXRequestId: string | undefined = error?.response?.headers['x-request-id'];
     Sentry.withScope((scope) => {
         scope.setExtras({
@@ -28,7 +28,7 @@ export enum SentryEnvironment {
     LOCALHOST = 'LOCALHOST',
     q = 'q',
     prod = 'prod',
-    host_undefined = 'host_undefined'
+    hostUndefined = 'hostUndefined'
 }
 
 export const setSentryEnvironment = (maybeHost: string | undefined): SentryEnvironment => {
@@ -43,7 +43,7 @@ export const setSentryEnvironment = (maybeHost: string | undefined): SentryEnvir
             return SentryEnvironment.prod;
         }
     }
-    return SentryEnvironment.host_undefined;
+    return SentryEnvironment.hostUndefined;
 };
 
-export const setSentryEnvironmentFromHost = () => setSentryEnvironment(window?.location?.host);
+export const setSentryEnvironmentFromHost = (): SentryEnvironment => setSentryEnvironment(window?.location?.host);

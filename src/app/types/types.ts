@@ -3,4 +3,4 @@ export enum WillRedirect {
     No = 'No'
 }
 
-export type StringOrNull = string | null
+export type StringOrNull = string | null;

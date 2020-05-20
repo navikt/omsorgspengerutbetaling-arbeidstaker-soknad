@@ -2,13 +2,12 @@ import { Arbeidsgiver, Person, SøkerApiResponse, Søkerdata } from '../Søkerda
 import { initialValues, SøknadFormData, SøknadFormField } from '../SøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
 
-
 export const gyldigPerson: Person = {
-    etternavn: "Duck",
-    fornavn: "Donald",
-    mellomnavn: "Mc.",
-    kjønn: "mann",
-    fødselsnummer: "12345678903",
+    etternavn: 'Duck',
+    fornavn: 'Donald',
+    mellomnavn: 'Mc.',
+    kjønn: 'mann',
+    fødselsnummer: '12345678903',
     myndig: true
 };
 export const ugyldigPerson1: any = null;
@@ -16,11 +15,11 @@ export const ugyldigPerson2: any = undefined;
 export const ugyldigPerson3: any = {};
 export const ugyldigPerson4: any = 'ugyldig person';
 export const ugyldigPerson5: any = {
-    etternavn: "Duck",
-    fornavn: "Donald",
-    mellomnavn: "Mc.",
-    kjønn: "mann",
-    fødselsnummer: "12345678903"
+    etternavn: 'Duck',
+    fornavn: 'Donald',
+    mellomnavn: 'Mc.',
+    kjønn: 'mann',
+    fødselsnummer: '12345678903'
 };
 
 export const gyldigArbeidsgiver1: Arbeidsgiver = {
@@ -72,12 +71,12 @@ export const ugyldigSøkerdata5: any = {
 };
 
 export const gyldigSøkerdata2: Søkerdata = {
-    "person": {
-        "fornavn": "Test",
-        "mellomnavn": null,
-        "etternavn": "Testesen",
-        "fødselsnummer": "12345123456",
-        "myndig": true
+    person: {
+        fornavn: 'Test',
+        mellomnavn: null,
+        etternavn: 'Testesen',
+        fødselsnummer: '12345123456',
+        myndig: true
     }
 };
 
@@ -128,6 +127,5 @@ export const ugyldigSøkerApiResponse: any = {
     fødselsnummer: 'string',
     fornavn: 'string',
     mellomnavn: 'string',
-    etternavn: 'string',
+    etternavn: 'string'
 };
-

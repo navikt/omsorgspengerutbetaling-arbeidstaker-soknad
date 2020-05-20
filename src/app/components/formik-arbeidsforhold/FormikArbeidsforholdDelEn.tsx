@@ -12,8 +12,8 @@ interface Props {
 const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
-            {({ name }) => {
-                const getFieldName = (field: ArbeidsforholdFormDataFields) => `${name}.${index}.${field}`;
+            {({ name }): JSX.Element => {
+                const getFieldName = (field: ArbeidsforholdFormDataFields): string => `${name}.${index}.${field}`;
 
                 const nameHarHattFraværHosArbeidsgiver = getFieldName(
                     ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver

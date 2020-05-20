@@ -12,7 +12,7 @@ interface Props {
     isOpen?: boolean;
 }
 
-const InfoToggleButton = (props: Props) => {
+const InfoToggleButton: React.FC<Props> = (props: Props): JSX.Element => {
     const { isOpen = false, children, onToggle } = props;
     return (
         <ActionLink className={cls.block} onClick={onToggle} aria-expanded={isOpen}>

@@ -41,7 +41,7 @@ const validateIngenAvSituasjoneneTekstField = (value: string): FieldValidationRe
         : createFieldValidationError(FieldValidationErrors.påkrevd);
 };
 
-export const getRadioTextIdHvorLengeJobbetFordi = (hvorLengeJobbetFordi: HvorLengeJobbetFordi) => {
+export const getRadioTextIdHvorLengeJobbetFordi = (hvorLengeJobbetFordi: HvorLengeJobbetFordi): string => {
     switch (hvorLengeJobbetFordi) {
         case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD: {
             return 'hvorLengeJobbet.fordi.annetArbeidsforhold.label';

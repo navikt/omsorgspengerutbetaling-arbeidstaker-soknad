@@ -29,7 +29,6 @@ export interface YesNoSpørsmålOgSvar {
     svar: YesNoSvar;
 }
 
-
 export interface FosterbarnApi {
     fødselsnummer: string;
     fornavn: string | null;
@@ -64,11 +63,11 @@ export interface Ansettelseslengde {
 }
 
 export enum Begrunnelse {
-    ANNET_ARBEIDSFORHOLD = "ANNET_ARBEIDSFORHOLD",
-    ANDRE_YTELSER = "ANDRE_YTELSER",
-    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = "LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON",
-    MILITÆRTJENESTE = "MILITÆRTJENESTE",
-    INGEN_AV_SITUASJONENE = "INGEN_AV_SITUASJONENE"
+    ANNET_ARBEIDSFORHOLD = 'ANNET_ARBEIDSFORHOLD',
+    ANDRE_YTELSER = 'ANDRE_YTELSER',
+    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = 'LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON',
+    MILITÆRTJENESTE = 'MILITÆRTJENESTE',
+    INGEN_AV_SITUASJONENE = 'INGEN_AV_SITUASJONENE'
 }
 
 export interface JobbHosNåværendeArbeidsgiver {

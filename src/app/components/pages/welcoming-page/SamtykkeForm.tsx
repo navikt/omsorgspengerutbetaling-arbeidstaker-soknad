@@ -19,28 +19,24 @@ const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormData>();
 
 const bem = bemHelper('welcomingPage');
 
-const SamtykkeForm: React.FunctionComponent<Props> = ({
+const SamtykkeForm: React.FC<Props> = ({
     onConfirm,
     onOpenDinePlikterModal,
     openBehandlingAvPersonopplysningerModal
-}) => {
+}): JSX.Element => {
     const intl = useIntl();
     return (
         <AppForm.Form
             onValidSubmit={onConfirm}
             includeButtons={false}
-            fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}>
+            fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}>
             <FormBlock>
                 <AppForm.ConfirmationCheckbox
                     label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
                     name={SøknadFormField.harForståttRettigheterOgPlikter}
-                    validate={(value) => {
-                        let result;
-                        if (value !== true) {
-                            result = intlHelper(intl, 'welcomingPage.samtykke.harIkkeGodkjentVilkår');
-                        }
-                        return result;
-                    }}>
+                    validate={(value): string | undefined =>
+                        value !== true ? intlHelper(intl, 'welcomingPage.samtykke.harIkkeGodkjentVilkår') : undefined
+                    }>
                     <FormattedMessage
                         id="welcomingPage.samtykke.harForståttLabel"
                         values={{

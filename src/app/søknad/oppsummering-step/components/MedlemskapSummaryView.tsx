@@ -10,7 +10,7 @@ export interface Props {
     bosteder: Bosted[];
 }
 
-const MedlemskapSummaryView = (props: Props) => {
+const MedlemskapSummaryView = (props: Props): JSX.Element | null => {
     const { bosteder } = props;
 
     if (bosteder.length === 0) {
