@@ -7,7 +7,7 @@ interface Props {
     fosterbarn: FosterbarnApi[];
 }
 
-const FosterbarnSummaryView: React.FC<Props> = (props: Props) => {
+const FosterbarnSummaryView: React.FC<Props> = (props: Props): JSX.Element => {
     const { fosterbarn } = props;
 
     return (
@@ -16,11 +16,7 @@ const FosterbarnSummaryView: React.FC<Props> = (props: Props) => {
                 <SummaryBlock header="Fosterbarn">
                     <SummaryList
                         items={fosterbarn}
-                        itemRenderer={(barn: FosterbarnApi) => (
-                            <>
-                                {barn.fødselsnummer}
-                            </>
-                        )}
+                        itemRenderer={(barn: FosterbarnApi): JSX.Element => <>{barn.fødselsnummer}</>}
                     />
                 </SummaryBlock>
             )}

@@ -2,7 +2,8 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import {
     harMinimumEtGjeldendeArbeidsforhold,
-    listeAvArbeidsforholdIsValid, skalInkludereArbeidsforhold,
+    listeAvArbeidsforholdIsValid,
+    skalInkludereArbeidsforhold,
     stegEnAnnetArbeidsforholdIsValid,
     stegEnListeAvArbeidsforholdIsValid
 } from './components/arbeidsforholdValidations';
@@ -37,9 +38,11 @@ export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
 export const periodeStepIsValid = (formData: SøknadFormData): boolean => {
     const listeAvArbeidsforhold = formData[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold = formData[SøknadFormField.annetArbeidsforhold];
-    const listeAvGjeldende = [...listeAvArbeidsforhold, annetArbeidsforhold].filter((arbeidsforhold: ArbeidsforholdFormData) => {
-        return skalInkludereArbeidsforhold(arbeidsforhold);
-    });
+    const listeAvGjeldende = [...listeAvArbeidsforhold, annetArbeidsforhold].filter(
+        (arbeidsforhold: ArbeidsforholdFormData) => {
+            return skalInkludereArbeidsforhold(arbeidsforhold);
+        }
+    );
     return listeAvArbeidsforholdIsValid(listeAvGjeldende);
 };
 

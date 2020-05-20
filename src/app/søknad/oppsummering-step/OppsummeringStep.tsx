@@ -35,7 +35,11 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
 
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
-    async function sendApplication(data: SøknadApiData) {
+    // const apiValues = mock1;
+    const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
+    const fosterbarn = apiValues.fosterbarn || [];
+
+    async function sendApplication(data: SøknadApiData): Promise<void> {
         setSendingInProgress(true);
         try {
             await postApplication(data);
@@ -54,14 +58,10 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
         person: { fornavn, mellomnavn, etternavn, fødselsnummer }
     } = søkerdata;
 
-    // const apiValues = mock1;
-    const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
-    const fosterbarn = apiValues.fosterbarn || [];
-
     return (
         <SøknadStep
             id={StepID.OPPSUMMERING}
-            onValidFormSubmit={() => {
+            onValidFormSubmit={(): void => {
                 setTimeout(() => {
                     sendApplication(apiValues); // La view oppdatere seg først
                 });
@@ -95,13 +95,11 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                 <SøknadFormComponents.ConfirmationCheckbox
                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                     name={SøknadFormField.harBekreftetOpplysninger}
-                    validate={(value) => {
-                        let result;
-                        if (value !== true) {
-                            result = intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet');
-                        }
-                        return result;
-                    }}
+                    validate={(value): string | undefined =>
+                        value !== true
+                            ? intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet')
+                            : undefined
+                    }
                 />
             </Box>
         </SøknadStep>

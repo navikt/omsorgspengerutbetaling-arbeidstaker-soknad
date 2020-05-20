@@ -5,6 +5,7 @@ import { validateDagerMedFravær } from '../../../validation/fieldValidations';
 import DagerMedDelvisFraværListItem from './DagerMedDelvisFraværListItem';
 import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { FraværDelerAvDag, Periode } from '../../../types/PeriodeTypes';
+import { FieldValidationResult } from 'common/validation/types';
 
 interface Props {
     name: string;
@@ -26,7 +27,7 @@ const DagerMedDelvisFraværList: React.FunctionComponent<Props> = ({
             <FormikInputGroup
                 className={'periodelistGroup'}
                 name={name}
-                validate={() => validateDagerMedFravær(dagerMedDelvisFravær, perioderMedFravær)}>
+                validate={(): FieldValidationResult => validateDagerMedFravær(dagerMedDelvisFravær, perioderMedFravær)}>
                 {dagerMedDelvisFravær.map((dag, index) => (
                     <DagerMedDelvisFraværListItem
                         name={name}

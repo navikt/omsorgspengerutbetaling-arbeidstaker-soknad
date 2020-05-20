@@ -17,14 +17,20 @@ interface Props {
 
 const bem = bemUtils('expandableInfo');
 
-const ExpandableInfo = ({ children, initialOpen, closeTitle, title, filledBackground = true }: Props) => {
+const ExpandableInfo: React.FC<Props> = ({
+    children,
+    initialOpen,
+    closeTitle,
+    title,
+    filledBackground = true
+}: Props): JSX.Element => {
     const [isOpen, setIsOpen] = useState<boolean>(initialOpen || false);
     const [contentId] = useState(guid());
 
     return (
         <div className={bem.block}>
             <div className={bem.element('toggler', isOpen ? 'open' : undefined)}>
-                <InfoToggleButton onToggle={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+                <InfoToggleButton onToggle={(): void => setIsOpen(!isOpen)} isOpen={isOpen}>
                     <Normaltekst tag="span">{isOpen ? closeTitle || title : title}</Normaltekst>
                 </InfoToggleButton>
             </div>

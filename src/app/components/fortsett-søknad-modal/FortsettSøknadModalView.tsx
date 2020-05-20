@@ -14,12 +14,12 @@ interface Props {
 }
 
 // TODO: Flytte til sif-common-core, og bruke intl
-const FortsettSøknadModalView: React.FC<Props> = (props: Props) => {
+const FortsettSøknadModalView: React.FC<Props> = (props: Props): JSX.Element => {
     const { isOpen, onRequestClose, onFortsettPåSøknad, onStartNySøknad, buttonsAreDisabled } = props;
     return (
         <Modal
             isOpen={isOpen}
-            onRequestClose={() => {
+            onRequestClose={(): void => {
                 if (!buttonsAreDisabled) {
                     onRequestClose();
                 }

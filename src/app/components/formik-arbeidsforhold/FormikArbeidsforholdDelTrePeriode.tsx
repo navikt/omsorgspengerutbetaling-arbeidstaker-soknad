@@ -12,8 +12,8 @@ interface Props {
 const FormikArbeidsforholdDelTrePeriodeView: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
-            {({ name }) => {
-                const getArbeidsforholdFormDataFieldName = (field: ArbeidsforholdFormDataFields) =>
+            {({ name }): JSX.Element => {
+                const getArbeidsforholdFormDataFieldName = (field: ArbeidsforholdFormDataFields): string =>
                     `${name}.${index}.${field}`;
 
                 const nameHarPerioderMedFravær = getArbeidsforholdFormDataFieldName(

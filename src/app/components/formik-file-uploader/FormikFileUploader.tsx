@@ -38,7 +38,50 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     listOfAttachments,
     ...otherProps
 }) => {
-    async function uploadAttachment(attachment: Attachment) {
+    function setAttachmentPendingToFalse(attachment: Attachment): Attachment {
+        attachment.pending = false;
+        return attachment;
+    }
+
+    function findAttachmentsToProcess(attachments: Attachment[]): Attachment[] {
+        return attachments.filter(attachmentShouldBeProcessed);
+    }
+
+    function findAttachmentsToUpload(attachments: Attachment[]): Attachment[] {
+        return attachments.filter(attachmentShouldBeUploaded);
+    }
+
+    function updateAttachmentListElement(
+        attachments: Attachment[],
+        attachment: Attachment,
+        replaceFn: FieldArrayReplaceFn
+    ): void {
+        replaceFn(attachments.indexOf(attachment), { ...attachment, file: mapFileToPersistedFile(attachment.file) });
+    }
+
+    function addPendingAttachmentToFieldArray(file: File, pushFn: FieldArrayPushFn): Attachment {
+        const attachment = getPendingAttachmentFromFile(file);
+        pushFn(attachment);
+        return attachment;
+    }
+
+    function updateFailedAttachments(
+        allAttachments: Attachment[],
+        failedAttachments: Attachment[],
+        replaceFn: FieldArrayReplaceFn
+    ): void {
+        failedAttachments.forEach((attachment) => {
+            attachment = setAttachmentPendingToFalse(attachment);
+            updateAttachmentListElement(allAttachments, attachment, replaceFn);
+        });
+        const failedFiles: File[] = failedAttachments
+            .map(({ file }) => file)
+            .filter((f: File | PersistedFile) => isFileObject(f)) as File[];
+
+        onErrorUploadingAttachments(failedFiles);
+    }
+
+    async function uploadAttachment(attachment: Attachment): Promise<void> {
         const { file } = attachment;
         if (isFileObject(file)) {
             try {
@@ -55,7 +98,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
         }
     }
 
-    async function uploadAttachments(allAttachments: Attachment[], replaceFn: FieldArrayReplaceFn) {
+    async function uploadAttachments(allAttachments: Attachment[], replaceFn: FieldArrayReplaceFn): Promise<void> {
         const attachmentsToProcess = findAttachmentsToProcess(allAttachments);
         const attachmentsToUpload = findAttachmentsToUpload(attachmentsToProcess);
         const attachmentsNotToUpload = attachmentsToProcess.filter((el) => !attachmentsToUpload.includes(el));
@@ -69,54 +112,11 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
         updateFailedAttachments(allAttachments, failedAttachments, replaceFn);
     }
 
-    function updateFailedAttachments(
-        allAttachments: Attachment[],
-        failedAttachments: Attachment[],
-        replaceFn: FieldArrayReplaceFn
-    ) {
-        failedAttachments.forEach((attachment) => {
-            attachment = setAttachmentPendingToFalse(attachment);
-            updateAttachmentListElement(allAttachments, attachment, replaceFn);
-        });
-        const failedFiles: File[] = failedAttachments
-            .map(({ file }) => file)
-            .filter((f: File | PersistedFile) => isFileObject(f)) as File[];
-
-        onErrorUploadingAttachments(failedFiles);
-    }
-
-    function findAttachmentsToProcess(attachments: Attachment[]): Attachment[] {
-        return attachments.filter(attachmentShouldBeProcessed);
-    }
-
-    function findAttachmentsToUpload(attachments: Attachment[]): Attachment[] {
-        return attachments.filter(attachmentShouldBeUploaded);
-    }
-
-    function updateAttachmentListElement(
-        attachments: Attachment[],
-        attachment: Attachment,
-        replaceFn: FieldArrayReplaceFn
-    ) {
-        replaceFn(attachments.indexOf(attachment), { ...attachment, file: mapFileToPersistedFile(attachment.file) });
-    }
-
-    function setAttachmentPendingToFalse(attachment: Attachment) {
-        attachment.pending = false;
-        return attachment;
-    }
-
-    function addPendingAttachmentToFieldArray(file: File, pushFn: FieldArrayPushFn) {
-        const attachment = getPendingAttachmentFromFile(file);
-        pushFn(attachment);
-        return attachment;
-    }
-
     return (
         <FormikFileInput
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
-            onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
+            onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers): Promise<void> => {
                 const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
                 await uploadAttachments([...listOfAttachments, ...attachments], replace);
             }}

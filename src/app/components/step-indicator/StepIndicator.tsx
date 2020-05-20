@@ -10,7 +10,7 @@ interface StepIndicatorProps {
     stepConfig: StepConfigInterface;
 }
 
-const renderSteps = (stepConfig: StepConfigInterface, intl: IntlShape) =>
+const renderSteps = (stepConfig: StepConfigInterface, intl: IntlShape): JSX.Element[] =>
     Object.keys(stepConfig).map((stepId) => {
         const { stepIndicatorLabel } = getStepTexts(intl, stepId as StepID, stepConfig);
         const { index } = stepConfig[stepId];

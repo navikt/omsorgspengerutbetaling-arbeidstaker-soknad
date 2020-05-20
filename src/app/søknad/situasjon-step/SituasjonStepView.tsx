@@ -38,7 +38,7 @@ interface OwnProps {
 
 type SituasjonStepViewProps = StepConfigProps & OwnProps;
 
-const SituasjonStepView = (props: SituasjonStepViewProps) => {
+const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement => {
     const { onValidSubmit, formikProps } = props;
     const { values } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +47,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps) => {
     useEffect(() => {
         const today: Date = dateToday;
 
-        const fetchData = async (dtoday: Date) => {
+        const fetchData = async (dtoday: Date): Promise<void> => {
             const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(dtoday, dtoday);
             const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
 

@@ -63,7 +63,6 @@ export interface SøknadFormData {
 
     [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo;
     [SøknadFormField.smittevernDokumenter]: Attachment[];
-
 }
 
 export const initialValues: SøknadFormData = {
@@ -95,4 +94,3 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo.UNANSWERED,
     [SøknadFormField.smittevernDokumenter]: []
 };
-

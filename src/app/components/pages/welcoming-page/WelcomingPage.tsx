@@ -16,8 +16,7 @@ const bem = bemHelper('welcomingPage');
 
 type Props = Omit<StepConfigProps, 'formValues'>;
 
-const WelcomingPage = (props: Props) => {
-
+const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
     const [visDinePlikterModal, setVisDinePlikterModal] = React.useState(false);
     const [visBehandlingAvPersonopplysningerModal, setVisBehandlingAvPersonopplysningerModal] = React.useState(false);
@@ -29,7 +28,7 @@ const WelcomingPage = (props: Props) => {
             <Page
                 title={intlHelper(intl, 'welcomingPage.sidetittel')}
                 className={bem.block}
-                topContentRenderer={() => (
+                topContentRenderer={(): JSX.Element => (
                     <FrontPageBanner
                         bannerSize="large"
                         counsellorWithSpeechBubbleProps={{
@@ -44,20 +43,22 @@ const WelcomingPage = (props: Props) => {
                     </Sidetittel>
                 </Box>
                 <SamtykkeForm
-                    onOpenDinePlikterModal={() => setVisDinePlikterModal(true)}
-                    openBehandlingAvPersonopplysningerModal={() => setVisBehandlingAvPersonopplysningerModal(true)}
+                    onOpenDinePlikterModal={(): void => setVisDinePlikterModal(true)}
+                    openBehandlingAvPersonopplysningerModal={(): void =>
+                        setVisBehandlingAvPersonopplysningerModal(true)
+                    }
                     onConfirm={onValidSubmit}
                 />
             </Page>
 
             <DinePlikterModal
                 isOpen={visDinePlikterModal}
-                onRequestClose={() => setVisDinePlikterModal(false)}
+                onRequestClose={(): void => setVisDinePlikterModal(false)}
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
             />
             <BehandlingAvPersonopplysningerModal
                 isOpen={visBehandlingAvPersonopplysningerModal}
-                onRequestClose={() => setVisBehandlingAvPersonopplysningerModal(false)}
+                onRequestClose={(): void => setVisBehandlingAvPersonopplysningerModal(false)}
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
             />
         </>

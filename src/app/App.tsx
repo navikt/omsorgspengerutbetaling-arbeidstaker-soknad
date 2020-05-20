@@ -29,7 +29,7 @@ const App: React.FunctionComponent = () => {
     return (
         <ApplicationWrapper
             locale={locale}
-            onChangeLocale={(activeLocale: Locale) => {
+            onChangeLocale={(activeLocale: Locale): void => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>

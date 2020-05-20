@@ -17,7 +17,7 @@ export const delvisFraværIsValid = (
     harDagerMedDelvisFravær === YesOrNo.NO ||
     (harDagerMedDelvisFravær === YesOrNo.YES && dagerMedDelvisFravær.length > 0);
 
-export const harIkkeBesvartAltEnnå = (arbeidsforhold: ArbeidsforholdFormData) => {
+export const harIkkeBesvartAltEnnå = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     if (
         arbeidsforhold.harPerioderMedFravær === YesOrNo.UNANSWERED ||
         arbeidsforhold.harDagerMedDelvisFravær === YesOrNo.UNANSWERED
@@ -43,15 +43,17 @@ export const invalidPerioderAfterAllQuestionsAnswered = (listeAvArbeidsforhold: 
     const listeAvGjeldendeArbeidsforhold = listeAvArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) =>
         skalInkludereArbeidsforhold(arbeidsforhold)
     );
-    const ikkeFerdigÅSvare: boolean = listeAvGjeldendeArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) =>
-        harIkkeBesvartAltEnnå(arbeidsforhold)
-    ).length > 0;
+    const ikkeFerdigÅSvare: boolean =
+        listeAvGjeldendeArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) =>
+            harIkkeBesvartAltEnnå(arbeidsforhold)
+        ).length > 0;
     if (ikkeFerdigÅSvare) {
         return false;
     }
-    const harUgyldige: boolean = listeAvGjeldendeArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) => {
-        return arbeidsforholdHarIngenPerioder(arbeidsforhold);
-    }).length > 0;
+    const harUgyldige: boolean =
+        listeAvGjeldendeArbeidsforhold.filter((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforholdHarIngenPerioder(arbeidsforhold);
+        }).length > 0;
     if (harUgyldige) {
         return true;
     }

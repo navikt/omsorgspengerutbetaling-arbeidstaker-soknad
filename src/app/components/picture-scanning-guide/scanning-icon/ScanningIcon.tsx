@@ -11,7 +11,7 @@ export interface Props extends ScanProps {
     status: ScanIconStatusKey;
 }
 
-const GoodScanning: React.StatelessComponent<ScanProps> = ({ title, height }) => {
+const GoodScanning: React.StatelessComponent<ScanProps> = ({ title, height }): JSX.Element => {
     return (
         <svg role="presentation" focusable="false" viewBox="0 0 83 121" height={height}>
             {title && <title>{title}</title>}
@@ -149,7 +149,7 @@ const ShadowScanning: React.StatelessComponent<ScanProps> = ({ title, height }) 
         </svg>
     );
 };
-const ScanningIcon = (props: Props) => {
+const ScanningIcon = (props: Props): JSX.Element => {
     const { height = 100, title } = props;
     switch (props.status) {
         case 'good':

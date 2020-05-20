@@ -1,8 +1,6 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import {
-    medlemskapStepIsValid, welcomingPageIsValid
-} from '../stepValidations';
+import { medlemskapStepIsValid, welcomingPageIsValid } from '../stepValidations';
 
 jest.mock('./../fieldValidations', () => {
     return {

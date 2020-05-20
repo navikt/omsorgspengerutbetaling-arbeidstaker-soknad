@@ -32,7 +32,7 @@ interface SøknadRoutesProps {
     formikProps: FormikProps<SøknadFormData>;
 }
 
-const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element) => {
+const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element): JSX.Element => {
     if (isAvailable(stepID, values)) {
         return component;
     } else {
@@ -41,7 +41,7 @@ const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Ele
     }
 };
 
-const SøknadRoutes = (props: SøknadRoutesProps) => {
+const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps): JSX.Element => {
     const { lastStepID, formikProps, søkerdata } = props;
     const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
@@ -52,14 +52,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
-    const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
-        const nextStepID: StepID | undefined = getNextStepId(stepID, values);
-        if (nextStepID) {
-            navigateToStep(nextStepID);
-        }
-    };
-
-    async function navigateToStep(stepID: StepID) {
+    async function navigateToStep(stepID: StepID): Promise<void> {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
             try {
                 await SøknadTempStorage.persist(values, stepID);
@@ -75,7 +68,14 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
         navigateTo(getSøknadRoute(stepID), history);
     }
 
-    const fortsettPåPåbegyntSøknad = async () => {
+    const navigateToNextStepIfExistsFrom = (stepID: StepID): void => {
+        const nextStepID: StepID | undefined = getNextStepId(stepID, values);
+        if (nextStepID) {
+            navigateToStep(nextStepID);
+        }
+    };
+
+    const fortsettPåPåbegyntSøknad = async (): Promise<void> => {
         setButtonsAreDisabled(true);
         if (lastStepID) {
             await navigateTo(lastStepID, history);
@@ -85,7 +85,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
         setButtonsAreDisabled(false);
     };
 
-    const startPåNySøknad = async () => {
+    const startPåNySøknad = async (): Promise<void> => {
         setButtonsAreDisabled(true);
         try {
             await SøknadTempStorage.purge();
@@ -107,7 +107,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
         setButtonsAreDisabled(false);
     };
 
-    const handleSøknadSentSuccessfully = async (sentSøknadApiData: SøknadApiData) => {
+    const handleSøknadSentSuccessfully = async (sentSøknadApiData: SøknadApiData): Promise<void> => {
         setSøknadHasBeenSent(true);
         setSøknadApiData(sentSøknadApiData);
         resetForm();
@@ -133,10 +133,10 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     return (
                         <div>
-                            <WelcomingPage onValidSubmit={() => navigateToStep(StepID.SITUASJON)} />
+                            <WelcomingPage onValidSubmit={(): Promise<void> => navigateToStep(StepID.SITUASJON)} />
                             <FortsettSøknadModalView
                                 isOpen={!!lastStepID && !hasBeenClosed}
                                 buttonsAreDisabled={buttonsAreDisabled}
@@ -152,12 +152,12 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={getMaybeSøknadRoute(StepID.SITUASJON)}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     return ifAvailable(
                         StepID.SITUASJON,
                         values,
                         <SituasjonStepView
-                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.SITUASJON)}
+                            onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.SITUASJON)}
                             søkerdata={søkerdata}
                             formikProps={formikProps}
                         />
@@ -168,11 +168,11 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={getMaybeSøknadRoute(StepID.PERIODE)}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     return ifAvailable(
                         StepID.PERIODE,
                         values,
-                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
+                        <PeriodeStep onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
                     );
                 }}
             />
@@ -180,11 +180,11 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={getMaybeSøknadRoute(StepID.ANNET)}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     return ifAvailable(
                         StepID.ANNET,
                         values,
-                        <AnnetStepView onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
+                        <AnnetStepView onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
                     );
                 }}
             />
@@ -192,11 +192,13 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={getMaybeSøknadRoute(StepID.MEDLEMSKAP)}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     return ifAvailable(
                         StepID.MEDLEMSKAP,
                         values,
-                        <MedlemsskapStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.MEDLEMSKAP)} />
+                        <MedlemsskapStep
+                            onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.MEDLEMSKAP)}
+                        />
                     );
                 }}
             />
@@ -204,13 +206,13 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={getMaybeSøknadRoute(StepID.OPPSUMMERING)}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     return ifAvailable(
                         StepID.OPPSUMMERING,
                         values,
                         <OppsummeringStep
                             søkerdata={søkerdata}
-                            onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData) => {
+                            onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData): void => {
                                 if (sentSuccessfully && apiData) {
                                     setIsLoading(true);
                                     handleSøknadSentSuccessfully(apiData);
@@ -230,7 +232,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
             <Route
                 path={RouteConfig.SØKNAD_SENDT_ROUTE}
                 exact={true}
-                render={() => {
+                render={(): JSX.Element => {
                     if (søknadHasBeenSent) {
                         return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
                     } else {
@@ -242,7 +244,7 @@ const SøknadRoutes = (props: SøknadRoutesProps) => {
 
             <Route
                 path={RouteConfig.SØKNAD_ROUTE_PREFIX}
-                component={() => {
+                component={(): JSX.Element => {
                     navigateToWelcomePage();
                     return <LoadingPage />;
                 }}

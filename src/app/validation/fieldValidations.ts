@@ -16,7 +16,7 @@ import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 
-export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
+export const hasValue = (v: any): boolean => v !== '' && v !== undefined && v !== null;
 
 export type FieldValidationArray = (validations: FormikValidateFunction[]) => (value: any) => FieldValidationResult;
 
@@ -125,16 +125,25 @@ export const harLikeDager = (dager: FraværDelerAvDag[]): boolean => {
     return datesCollide(dager.map((d) => d.dato));
 };
 
-export const validateTomAfterFom = (fom: Date) => (date: Date) => {
+export const validateTomAfterFom = (fom: Date) => (date: Date): FieldValidationResult => {
     if (moment(date).isBefore(fom)) {
         return createFieldValidationError(AppFieldValidationErrors.tom_er_før_fom);
     }
 };
 
-export const validateDateNotInFuture = () => (date: Date) => {
+export const validateDateNotInFuture = () => (date: Date): FieldValidationResult => {
     if (moment(date).isAfter(dateToday)) {
         return createFieldValidationError(AppFieldValidationErrors.tom_er_i_fremtiden);
     }
+};
+
+export const datesCollideWithDateRanges = (dates: Date[], ranges: DateRange[]): boolean => {
+    if (ranges.length > 0 && dates.length > 0) {
+        return dates.some((d) => {
+            return ranges.some((range) => moment(d).isSameOrAfter(range.from) && moment(d).isSameOrBefore(range.to));
+        });
+    }
+    return false;
 };
 
 const perioderMedFraværToDateRanges = (perioder: Periode[]): DateRange[] =>
@@ -161,15 +170,6 @@ export const validatePerioderMedFravær = (
         return createFieldValidationError(AppFieldValidationErrors.fraværsperioder_overlapper_med_fraværsdager);
     }
     return undefined;
-};
-
-export const datesCollideWithDateRanges = (dates: Date[], ranges: DateRange[]): boolean => {
-    if (ranges.length > 0 && dates.length > 0) {
-        return dates.some((d) => {
-            return ranges.some((range) => moment(d).isSameOrAfter(range.from) && moment(d).isSameOrBefore(range.to));
-        });
-    }
-    return false;
 };
 
 export const validateDagerMedFravær = (

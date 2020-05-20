@@ -38,14 +38,14 @@ const initialValues: PageFormValues = {
 };
 const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
 
-const IntroPage: React.StatelessComponent = () => {
+const IntroPage: React.FC = (): JSX.Element => {
     const intl = useIntl();
 
     return (
         <Page
             className={bem.block}
             title={intlHelper(intl, 'introPage.tittel')}
-            topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
+            topContentRenderer={(): JSX.Element => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
             <Box margin="xxxl">
                 <InformationPoster>
                     <Box padBottom={'l'}>
@@ -61,9 +61,9 @@ const IntroPage: React.StatelessComponent = () => {
 
             <FormBlock margin="xxl">
                 <PageForm.FormikWrapper
-                    onSubmit={() => null}
+                    onSubmit={(): null => null}
                     initialValues={initialValues}
-                    renderForm={({ values: { hvorLengeJobbet, begrunnelse, smittevernHensyn } }) => {
+                    renderForm={({ values: { hvorLengeJobbet, begrunnelse, smittevernHensyn } }): JSX.Element => {
                         const skalViseMerEnnFireUkerInfoPanel = hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER;
 
                         const skalViseIngenAvSituasjonenePanel =
@@ -83,7 +83,7 @@ const IntroPage: React.StatelessComponent = () => {
 
                         return (
                             <PageForm.Form
-                                fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}
+                                fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}
                                 includeButtons={false}>
                                 <>
                                     <FormBlock margin={'xxl'}>
@@ -188,8 +188,10 @@ const IntroPage: React.StatelessComponent = () => {
                                             <AlertStripeInfo>
                                                 <>
                                                     <Box padBottom={'l'}>
-                                                        <strong>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har
-                                                            jobbet hos dem i mer enn 4 uker.</strong>
+                                                        <strong>
+                                                            Vanligvis skal arbeidsgiver utbetale omsorgspenger når du
+                                                            har jobbet hos dem i mer enn 4 uker.
+                                                        </strong>
                                                     </Box>
 
                                                     <Box>

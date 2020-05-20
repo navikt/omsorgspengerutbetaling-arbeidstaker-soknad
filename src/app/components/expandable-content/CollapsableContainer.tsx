@@ -12,7 +12,12 @@ export interface Props {
 
 const bem = bemUtils('collapsableContainer');
 
-const CollapsableContainer = ({ children, animated = true, isOpen = false, ariaLive = 'off' }: Props) => {
+const CollapsableContainer: React.FC<Props> = ({
+    children,
+    animated = true,
+    isOpen = false,
+    ariaLive = 'off'
+}: Props): JSX.Element => {
     const content = <div aria-live={ariaLive}>{isOpen ? <div>{children}</div> : <div />}</div>;
     if (!animated) {
         return content;

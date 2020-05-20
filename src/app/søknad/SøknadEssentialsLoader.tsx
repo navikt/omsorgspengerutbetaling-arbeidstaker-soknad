@@ -15,7 +15,6 @@ import Sentry, { Severity } from '@sentry/browser';
 import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../utils/sentryUtils';
 import { isSøknadFormData } from '../types/SøknadFormDataTypeGuards';
 
-
 interface Props {
     contentLoadedRenderer: (
         søkerdata: Søkerdata,
@@ -37,46 +36,17 @@ const initialState: State = {
     formData: initialValues
 };
 
-const SøknadEssentialsLoader = (props: Props) => {
+const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => {
     const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
     const [apiCallError, setApiCallError] = useState<boolean>(false);
     const { contentLoadedRenderer } = props;
     const { isLoading, søkerdata, formData, lastStepID } = state;
     const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
 
-    useEffect(() => {
-        if (doApiCalls) {
-            loadAppEssentials();
-            setDoApiCalls(false);
-        }
-    }, [state, doApiCalls]);
-
-    async function loadAppEssentials() {
-        try {
-            if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                const [søkerApiResponse, tempStorage]: Array<
-                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
-                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
-                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
-            } else {
-                const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
-                handleSøkerdataFetchSuccess(søkerApiResponse);
-            }
-        } catch (error) {
-            const willRedirect = redirectIfForbiddenOrUnauthorized(error);
-            if (willRedirect === WillRedirect.No) {
-                setApiCallError(true);
-                logApiCallErrorToSentryOrConsole(error)
-            } else {
-                setState({...state, isLoading: true})
-            }
-        }
-    }
-
     const handleSøkerdataFetchSuccess = (
         søkerResponse: AxiosResponse<SøkerApiResponse>,
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
-    ) => {
+    ): void => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
         const søknadFormData: SøknadFormData | undefined | {} = tempStorage?.formData;
         const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
@@ -95,18 +65,44 @@ const SøknadEssentialsLoader = (props: Props) => {
         });
         if (!isSøkerApiResponse(søkerResponse.data)) {
             setApiCallError(true);
-            logToSentryOrConsole(
-                "søkerApiResponse invalid (SøknadEssentialsLoader)",
-                Severity.Critical
-            );
+            logToSentryOrConsole('søkerApiResponse invalid (SøknadEssentialsLoader)', Severity.Critical);
         }
     };
+
+    async function loadAppEssentials(): Promise<void> {
+        try {
+            if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
+                const [søkerApiResponse, tempStorage]: Array<
+                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
+                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
+                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
+            } else {
+                const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
+                handleSøkerdataFetchSuccess(søkerApiResponse);
+            }
+        } catch (error) {
+            const willRedirect = redirectIfForbiddenOrUnauthorized(error);
+            if (willRedirect === WillRedirect.No) {
+                setApiCallError(true);
+                logApiCallErrorToSentryOrConsole(error);
+            } else {
+                setState({ ...state, isLoading: true });
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (doApiCalls) {
+            loadAppEssentials();
+            setDoApiCalls(false);
+        }
+    }, [state, doApiCalls]);
 
     if (isSøkerdata(søkerdata) && isSøknadFormData(formData) && !isLoading) {
         return <>{contentLoadedRenderer(søkerdata, formData, lastStepID)}</>;
     }
     if (apiCallError) {
-        return <GeneralErrorPage cause={"apiCallError set in SøknadEssestialsLoader"}/>;
+        return <GeneralErrorPage cause={'apiCallError set in SøknadEssestialsLoader'} />;
     }
     return <LoadingPage />;
 };

@@ -38,16 +38,16 @@ const Step: React.FunctionComponent<StepProps & OwnProps> = ({
         <Page
             className={bem.block}
             title={stepTexts.pageTitle}
-            topContentRenderer={() => (
+            topContentRenderer={(): JSX.Element => (
                 <>
                     <StepBanner text={intlHelper(intl, 'banner.title')} />
                     {useValidationErrorSummary !== false && <FormikValidationErrorSummary />}
                 </>
             )}>
             <BackLink
-                href={conf.backLinkHref!}
+                href={conf.backLinkHref}
                 className={bem.element('backLink')}
-                onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
+                onClick={(nextHref: string, history: History, event: React.SyntheticEvent): void => {
                     event.preventDefault();
                     history.push(nextHref);
                 }}

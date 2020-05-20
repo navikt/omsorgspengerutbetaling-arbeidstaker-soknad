@@ -6,9 +6,9 @@ import Box from 'common/components/box/Box';
 import getLenker from 'app/lenker';
 import './behandlingAvPersonopplysningerContent.less';
 
-const getText = (part: string) => <FormattedMessage id={`modal.personalopplysninger.${part}`} />;
+const getText = (part: string): JSX.Element => <FormattedMessage id={`modal.personalopplysninger.${part}`} />;
 
-const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
+const BehandlingAvPersonopplysningerContent: React.FC = (): JSX.Element => {
     const intl = useIntl();
     return (
         <>

@@ -26,8 +26,17 @@ const webpackConfig = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                loader: require.resolve('tslint-loader'),
-                enforce: 'pre'
+                enforce: 'pre',
+                use: [
+                    {
+                        options: {
+                            eslintPath: require.resolve('eslint'),
+
+                        },
+                        loader: require.resolve('eslint-loader'),
+                    },
+                ],
+                exclude: /node_modules/
             },
             {
                 test: /\.(ts|tsx)$/,

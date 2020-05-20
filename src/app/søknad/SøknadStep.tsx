@@ -34,10 +34,10 @@ const SøknadStep: React.FunctionComponent<Props> = (props) => {
     const texts = getStepTexts(intl, id, stepConfig);
 
     // TODO: Må sjekke errorhandling på disse to
-    const handleAvsluttOgFortsettSenere = () => {
+    const handleAvsluttOgFortsettSenere = (): void => {
         navigateToNAVno();
     };
-    const handleAvbrytOgSlettSøknad = () => {
+    const handleAvbrytOgSlettSøknad = (): void => {
         SøknadTempStorage.purge().then(() => {
             navigateToWelcomePage();
         });
@@ -51,7 +51,7 @@ const SøknadStep: React.FunctionComponent<Props> = (props) => {
                 includeButtons={false}
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
-                fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}>
+                fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}>
                 {children}
                 {props.showSubmitButton !== false && (
                     <FormBlock>

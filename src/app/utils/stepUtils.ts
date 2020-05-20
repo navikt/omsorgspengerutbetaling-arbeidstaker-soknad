@@ -21,16 +21,16 @@ export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepCo
     };
 };
 
-export const situasjonStepIsAvailable = (formData: SøknadFormData) => welcomingPageIsValid(formData);
+export const situasjonStepIsAvailable = (formData: SøknadFormData): boolean => welcomingPageIsValid(formData);
 
-export const periodeStepIsAvailable = (formData: SøknadFormData) =>
+export const periodeStepIsAvailable = (formData: SøknadFormData): boolean =>
     situasjonStepIsAvailable(formData) && situasjonStepIsValid(formData);
 
-export const annetStepIsAvailable = (formData: SøknadFormData) =>
+export const annetStepIsAvailable = (formData: SøknadFormData): boolean =>
     periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
 
-export const medlemskapStepIsAvailable = (formData: SøknadFormData) =>
+export const medlemskapStepIsAvailable = (formData: SøknadFormData): boolean =>
     annetStepIsAvailable(formData) && annetStepIsValid(formData);
 
-export const summaryStepAvailable = (formData: SøknadFormData) =>
+export const summaryStepAvailable = (formData: SøknadFormData): boolean =>
     medlemskapStepIsAvailable(formData) && medlemskapStepIsValid(formData);

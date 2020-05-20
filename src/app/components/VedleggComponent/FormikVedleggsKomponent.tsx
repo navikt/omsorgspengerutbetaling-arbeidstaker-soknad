@@ -1,10 +1,8 @@
 import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
-import intlHelper from 'common/utils/intlUtils';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
 import { validateDocuments } from '../../validation/fieldValidations';
-import { ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import Box from 'common/components/box/Box';
 import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
@@ -17,8 +15,7 @@ interface Props {
     dokumenter: Attachment[];
 }
 
-const FormikVedleggsKomponent: React.FC<Props> = ({formikName, dokumenter, uploadButtonLabel}: Props) => {
-
+const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uploadButtonLabel }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const intl = useIntl();
 
@@ -29,10 +26,10 @@ const FormikVedleggsKomponent: React.FC<Props> = ({formikName, dokumenter, uploa
                     name={formikName}
                     label={uploadButtonLabel}
                     onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                    onFileInputClick={() => {
+                    onFileInputClick={(): void => {
                         setFilesThatDidntGetUploaded([]);
                     }}
-                    onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
+                    onUnauthorizedOrForbiddenUpload={(): void => navigateToLoginPage()}
                     validate={validateDocuments}
                     listOfAttachments={dokumenter}
                 />
@@ -49,7 +46,7 @@ const FormikVedleggsKomponent: React.FC<Props> = ({formikName, dokumenter, uploa
                 />
             </Box>
         </div>
-    )
+    );
 };
 
 export default FormikVedleggsKomponent;

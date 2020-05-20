@@ -21,7 +21,7 @@ interface Props {
     apiValues: SøknadApiData;
 }
 
-const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
+const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props): React.ReactElement | null => {
     const intl = useIntl();
 
     const { values, setFormikState } = useFormikContext<SøknadFormData>();
@@ -48,7 +48,7 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
             <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.dokumenter.legend')}>
                 <SummaryList
                     items={listeAvAlleVedlegg}
-                    itemRenderer={(vedleggNavn) => {
+                    itemRenderer={(vedleggNavn: any): JSX.Element => {
                         return <Box>{vedleggNavn}</Box>;
                     }}
                 />

@@ -35,17 +35,18 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
         return (
             <AttachmentListWithDeletion
                 attachments={dokumenter}
-                onRemoveAttachmentClick={(attachment: Attachment) => {
+                onRemoveAttachmentClick={(attachment: Attachment): void => {
                     attachment.pending = true;
                     setFieldValue(formikFieldName, dokumenter);
-                    deleteFile(attachment.url!).then(
-                        () => {
-                            setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
-                        },
-                        () => {
-                            setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
-                        }
-                    );
+                    attachment.url &&
+                        deleteFile(attachment.url).then(
+                            (): void => {
+                                setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
+                            },
+                            (): void => {
+                                setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
+                            }
+                        );
                 }}
             />
         );

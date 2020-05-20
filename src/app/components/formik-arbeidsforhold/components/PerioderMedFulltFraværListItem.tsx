@@ -68,7 +68,7 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
             </div>
             {onRemove && (
                 <div className={bem.element('deleteButtonWrapper')}>
-                    <Knapp mini={true} htmlType="button" onClick={() => onRemove(index)} form="kompakt">
+                    <Knapp mini={true} htmlType="button" onClick={(): void => onRemove(index)} form="kompakt">
                         Fjern
                     </Knapp>
                 </div>

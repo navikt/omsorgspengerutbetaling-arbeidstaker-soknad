@@ -52,7 +52,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     name={nameHarPerioderMedFravær}
                     legend={intlHelper(intl, 'periode.heledager.spm')}
-                    validate={(value: YesOrNo) => {
+                    validate={(value: YesOrNo): FieldValidationResult => {
                         if (value === YesOrNo.UNANSWERED) {
                             return createFieldValidationError(FieldValidationErrors.påkrevd);
                         }
@@ -73,7 +73,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     }>
                     <FieldArray
                         name={namePerioderMedFravær}
-                        render={(arrayHelpers) => {
+                        render={(arrayHelpers): JSX.Element => {
                             return (
                                 <PeriodeMedFulltFraværList
                                     name={namePerioderMedFravær}
@@ -83,7 +83,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                     dagerMedGradvisFravær={
                                         arbeidsforholdFormData[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
                                     }
-                                    onCreateNew={() => {
+                                    onCreateNew={(): void => {
                                         const emptyPeriodeMedFravær: Partial<Periode> = {
                                             fom: undefined,
                                             tom: undefined
@@ -98,7 +98,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                             validateField(namePerioderMedFravær);
                                         });
                                     }}
-                                    onRemove={(idx) => {
+                                    onRemove={(idx): void => {
                                         arrayHelpers.remove(idx);
                                         setTimeout(() => {
                                             validateForm();
@@ -114,7 +114,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     name={nameHarDagerMedDelvisFravær}
                     legend={intlHelper(intl, 'periode.delvisdag.spm')}
-                    validate={(value: YesOrNo) => {
+                    validate={(value: YesOrNo): FieldValidationResult => {
                         if (value === YesOrNo.UNANSWERED) {
                             return createFieldValidationError(FieldValidationErrors.påkrevd);
                         }
@@ -135,7 +135,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     }>
                     <FieldArray
                         name={nameDagerMedDelvisFravær}
-                        render={(arrayHelpers) => {
+                        render={(arrayHelpers): JSX.Element => {
                             return (
                                 <DagerMedDelvisFraværList
                                     name={nameDagerMedDelvisFravær}
@@ -145,7 +145,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                     perioderMedFravær={
                                         arbeidsforholdFormData[ArbeidsforholdFormDataFields.perioderMedFravær]
                                     }
-                                    onCreateNew={() => {
+                                    onCreateNew={(): void => {
                                         const emptyDagMedFravær: Partial<FraværDelerAvDag> = {
                                             dato: undefined,
                                             timer: undefined
@@ -159,7 +159,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                             validateField(nameDagerMedDelvisFravær);
                                         });
                                     }}
-                                    onRemove={(idx) => {
+                                    onRemove={(idx): void => {
                                         arrayHelpers.remove(idx);
                                         setTimeout(() => {
                                             validateForm();

@@ -14,14 +14,11 @@ export interface Props {
     cause: string;
 }
 
-const GeneralErrorPage = ({cause}: Props) => {
+const GeneralErrorPage: React.FC<Props> = ({ cause }: Props): JSX.Element => {
     const intl = useIntl();
 
     useEffect(() => {
-        logToSentryOrConsole(
-            `User on GeneralErrorPage. Cause:${cause}`,
-            Severity.Critical
-        )
+        logToSentryOrConsole(`User on GeneralErrorPage. Cause:${cause}`, Severity.Critical);
     });
 
     return (
