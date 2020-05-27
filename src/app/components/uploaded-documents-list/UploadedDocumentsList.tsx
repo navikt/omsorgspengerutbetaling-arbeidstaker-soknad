@@ -33,11 +33,6 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
         return null;
     }
 
-    logToSentryOrConsole(
-        `kodeord EDGE TEST LOG: JSON.stringify(dokumenter, null, 4) = ${JSON.stringify(dokumenter, null, 4)}`,
-        Severity.Critical
-    );
-
     if (includeDeletionFunctionality) {
         return (
             <AttachmentListWithDeletion
