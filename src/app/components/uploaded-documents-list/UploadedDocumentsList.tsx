@@ -7,6 +7,8 @@ import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/uti
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { deleteFile } from '../../api/api';
 import { SøknadFormData } from '../../types/SøknadFormData';
+import { logToSentryOrConsole } from '../../utils/sentryUtils';
+import { Severity } from '@sentry/types';
 
 interface Props {
     attachments: Attachment[];
@@ -30,6 +32,9 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
     if (dokumenter && !containsAnyUploadedAttachments(dokumenter)) {
         return null;
     }
+
+    // Fjern etter fix av vedlegg url bug i Edge
+    logToSentryOrConsole('kodeord EDGE TEST LOG: JSON.stringify(dokumenter, null, 4) = ' + JSON.stringify(dokumenter, null, 4), Severity.Critical);
 
     if (includeDeletionFunctionality) {
         return (

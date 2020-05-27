@@ -13,6 +13,8 @@ import {
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import * as apiUtils from '../../utils/apiUtils';
+import { logToSentryOrConsole } from '../../utils/sentryUtils';
+import { Severity } from '@sentry/types';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -89,6 +91,8 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
                 attachment = setAttachmentPendingToFalse(attachment);
                 attachment.url = response.headers.location;
                 attachment.uploaded = true;
+                // Fjern etter fix av vedlegg url bug i Edge
+                logToSentryOrConsole("kodeord EDGE TEST LOG: attachment.url = " + attachment.url, Severity.Critical)
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     onUnauthorizedOrForbiddenUpload();
