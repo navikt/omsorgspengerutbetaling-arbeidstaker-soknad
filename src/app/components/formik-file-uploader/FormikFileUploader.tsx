@@ -93,7 +93,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
                 attachment.uploaded = true;
                 // Fjern etter fix av vedlegg url bug i Edge
                 logToSentryOrConsole(
-                    `kodeord EDGE TEST LOG: attachment.url = ${response.headers.location}`,
+                    `kodeord DeepAnalysis: stringify response.headers = ${JSON.stringify(response.headers, null, 4)}`,
                     Severity.Critical
                 );
             } catch (error) {
