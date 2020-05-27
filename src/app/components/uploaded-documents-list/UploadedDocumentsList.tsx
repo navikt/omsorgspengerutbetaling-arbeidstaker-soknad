@@ -33,8 +33,10 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
         return null;
     }
 
-    // Fjern etter fix av vedlegg url bug i Edge
-    logToSentryOrConsole('kodeord EDGE TEST LOG: JSON.stringify(dokumenter, null, 4) = ' + JSON.stringify(dokumenter, null, 4), Severity.Critical);
+    logToSentryOrConsole(
+        `kodeord EDGE TEST LOG: JSON.stringify(dokumenter, null, 4) = ${JSON.stringify(dokumenter, null, 4)}`,
+        Severity.Critical
+    );
 
     if (includeDeletionFunctionality) {
         return (
