@@ -91,11 +91,6 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
                 attachment = setAttachmentPendingToFalse(attachment);
                 attachment.url = response.headers.location;
                 attachment.uploaded = true;
-                // Fjern etter fix av vedlegg url bug i Edge
-                logToSentryOrConsole(
-                    `kodeord DeepAnalysis: stringify response.headers = ${JSON.stringify(response.headers, null, 4)}`,
-                    Severity.Critical
-                );
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     onUnauthorizedOrForbiddenUpload();
