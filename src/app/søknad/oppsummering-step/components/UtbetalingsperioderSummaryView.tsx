@@ -1,9 +1,9 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { IntlShape, useIntl } from 'react-intl';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import { Time } from 'common/types/Time';
 import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
-import { iso8601DurationToTime, isValidTime, timeToString } from 'common/utils/timeUtils';
+import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
 import { Utbetalingsperiode } from '../../../types/SøknadApiData';
 import SummaryBlock from './SummaryBlock';
 import { isString } from 'formik';
@@ -19,6 +19,13 @@ interface UtbetalingsperiodeDag {
 
 const isUtbetalingsperiodeDag = (value: any): value is UtbetalingsperiodeDag => {
     return isString(value.dato) && isValidTime(value.time);
+};
+
+export const timeToStringTemporaryFix = (time: Time, intl: IntlShape, hideZeroMinutes?: boolean): string => {
+    if (hideZeroMinutes && time.minutes === 0) {
+        return `${time.hours} timer.`;
+    }
+    return `${time.hours} timer og ${time.minutes} minutter.`;
 };
 
 const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder = [] }: Props): JSX.Element => {
@@ -57,7 +64,8 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
                         items={dager}
                         itemRenderer={(dag: UtbetalingsperiodeDag): JSX.Element => (
                             <span>
-                                {prettifyDate(apiStringDateToDate(dag.dato))}: {timeToString(dag.time, intl, true)}
+                                {prettifyDate(apiStringDateToDate(dag.dato))}:{' '}
+                                {timeToStringTemporaryFix(dag.time, intl, true)}
                             </span>
                         )}
                     />

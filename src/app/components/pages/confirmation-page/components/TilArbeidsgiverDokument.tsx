@@ -3,11 +3,12 @@ import Panel from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { ArbeidsgiverDetaljer, Utbetalingsperiode } from '../../../../types/SøknadApiData';
 import { Time } from 'common/types/Time';
-import { iso8601DurationToTime, isValidTime, timeToString } from 'common/utils/timeUtils';
+import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
 import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
 import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
+import { timeToStringTemporaryFix } from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
 
 interface Props {
     arbeidsgiverDetaljer: ArbeidsgiverDetaljer;
@@ -47,7 +48,7 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                                 <li key={`periode-${i}`}>
                                     {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))} -{' '}
                                     {lengde && isValidTime(maybeValidTime)
-                                        ? timeToString(maybeValidTime, intl, true)
+                                        ? timeToStringTemporaryFix(maybeValidTime, intl, true)
                                         : prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}
                                 </li>
                             );
