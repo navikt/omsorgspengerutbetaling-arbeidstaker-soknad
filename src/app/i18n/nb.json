@@ -90,9 +90,9 @@
 
     "annet_beskrivelse_legen": "Hvorfor søker du om omsorgspenger?",
 
-    "step.begrunnelse.stepTitle" : "Om arbeidssituasjonen din",
-    "step.begrunnelse.pageTitle" : "Begrunnelse",
-    "step.begrunnelse.stepIndicatorLabel" : "Begrunnelse",
+    "step.begrunnelse.stepTitle": "Om arbeidssituasjonen din",
+    "step.begrunnelse.pageTitle": "Begrunnelse",
+    "step.begrunnelse.stepIndicatorLabel": "Begrunnelse",
     "step.egenutbetaling.counsellorpanel.content": "I de aller fleste tilfeller skal arbeidsgiver utbetale deg omsorgspenger. I noen tilfeller har ikke arbeidsigver plikt til å utbetale til tross for at du har rett på omsorgspenger. I disse tilfellene kan du søke om utbetaling fra NAV.",
 
     "step.egenutbetaling.pageTitle": "Omsorgsdager du dekker selv",
@@ -371,7 +371,6 @@
     "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
 
-
     "steg.arbeidsforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1": "Her er arbeidsforholdene vi har funnet registrert på deg.",
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2": "Hvis det mangler en arbeidsgiver her, må du be arbeidsgiver sende en ny A-melding. Dette gjøres enten via eget lønns- og personalsystem, eller via Altinn.",
@@ -450,7 +449,7 @@
     "ingen.gjeldende.arbeidsforhold.info.text.jaja": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "ingen.gjeldende.arbeidsforhold.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden. Hvis din arbeidsgiver ikke er registrert i listen, så kan du selv legge til informasjon over. ",
     "ingen.gjeldende.arbeidsforhold.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
-    "steg.en.smittevern.info": "<div>Hvis barnehagen eller skolen som ditt barn går i åpner, men du må være hjemme med barnet på grunn av <strong>særlige smittevernhensyn</strong> kan du bruke omsorgsdager. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som barnet bor med. Dette gjelder i forbindelse med koronaviruset i perioden 20. april fram til og med 30. juni 2020.</div>",
+    "steg.en.smittevern.info": "<div>Hvis barnehagen eller skolen som ditt barn går i åpner, men du må være hjemme med barnet på grunn av <strong>særlige smittevernhensyn</strong> kan du bruke omsorgsdager. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som barnet bor med. Dette gjelder i forbindelse med koronaviruset i perioden 20. april fram til og med 31. desember 2020.</div>",
     "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn på grunn av særlige smittevernhensyn?",
     "validation.minimum_en_periode_per_arbeidsforhold_required": "Hvis du ikke har hatt fravær fra denne arbeidsgiveren, må du gå tilbake og endre svaret ditt på samme spørsmål på forrige steg."
 }
