@@ -23,7 +23,9 @@ const UnavailablePage: React.FC = (): JSX.Element => {
                         Vi jobber med å løse feilen slik at du kan søke digitalt. Frem til vi får fikset dette, kan du
                         fylle ut vårt{' '}
                         <strong>
-                            <Lenke href={link}>papirskjema for omsorgspenger</Lenke>
+                            <Lenke href={link} target="_blank">
+                                papirskjema for omsorgspenger
+                            </Lenke>
                         </strong>
                         .
                     </p>
