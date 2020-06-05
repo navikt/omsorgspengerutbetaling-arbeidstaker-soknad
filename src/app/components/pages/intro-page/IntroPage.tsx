@@ -17,6 +17,7 @@ import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../../../types/Ansettelse
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
 import SmittevernInfo from '../../information/SmittevernInfo';
+import ExpandableInfo from '../../expandable-content/ExpandableInfo';
 
 const bem = bemUtils('introPage');
 
@@ -211,7 +212,11 @@ const IntroPage: React.FC = (): JSX.Element => {
                                             <PageForm.YesOrNoQuestion
                                                 name={PageFormField.smittevernHensyn}
                                                 legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
-                                                info={<SmittevernInfo />}
+                                                description={
+                                                    <ExpandableInfo title="Mer om særlige smittevernhensyn">
+                                                        <SmittevernInfo />
+                                                    </ExpandableInfo>
+                                                }
                                             />
                                         </FormBlock>
                                     )}
