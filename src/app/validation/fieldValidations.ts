@@ -42,7 +42,9 @@ export enum AppFieldValidationErrors {
     'tom_er_i_fremtiden' = 'fieldvalidation.tom_er_i_fremtiden',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
     'for_mange_dokumenter' = 'fieldvalidation.for_mange_dokumenter',
-    'ingen_dokumenter' = 'fieldvalidation.ingen_dokumenter'
+    'ingen_dokumenter' = 'fieldvalidation.ingen_dokumenter',
+    'ikke_lørdag_eller_søndag_periode' = 'fieldvalidation.saturday_and_sunday_not_possible_periode',
+    'ikke_lørdag_eller_søndag_dag' = 'fieldvalidation.saturday_and_sunday_not_possible_dag'
 }
 
 export const createAppFieldValidationError = (

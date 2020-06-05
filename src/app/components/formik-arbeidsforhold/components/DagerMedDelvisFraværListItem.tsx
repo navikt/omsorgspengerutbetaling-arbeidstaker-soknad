@@ -8,6 +8,7 @@ import { validateAll, validateDateInRange, validateDateNotInFuture } from '../..
 import FraværTimerSelect from './FraværTimerSelect';
 import { FormikDatepicker } from '@navikt/sif-common-formik/lib';
 import { FraværDelerAvDag, Periode } from '../../../types/PeriodeTypes';
+import { validateFraværDelerAvDagNotWeekend } from '../../../utils/periodeUtils';
 
 interface Props {
     name: string;
@@ -60,13 +61,15 @@ const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({
                     validate={validateAll([
                         validateRequiredField,
                         validateDateInRange(GYLDIG_TIDSROM),
-                        validateDateNotInFuture()
+                        validateDateNotInFuture(),
+                        validateFraværDelerAvDagNotWeekend
                     ])}
                     name={`${name}.${index}.dato`}
                     dateLimitations={{
                         minDato: GYLDIG_TIDSROM.from,
                         maksDato: dateToday,
-                        ugyldigeTidsperioder
+                        ugyldigeTidsperioder,
+                        helgedagerIkkeTillatt: true
                     }}
                 />
             </div>

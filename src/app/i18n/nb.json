@@ -307,6 +307,8 @@
     "fieldvalidation.nBarn": "Du må oppgi antall barn.",
     "fieldvalidation.ingen_dokumenter": "Ingen dokumenter er lastet opp",
     "fieldvalidation.for_mange_dokumenter": "For mange dokumenter er lastet opp",
+    "fieldvalidation.saturday_and_sunday_not_possible_periode": "En periode kan ikke starte eller slutte på en lørdag eller søndag.",
+    "fieldvalidation.saturday_and_sunday_not_possible_dag": "Fravær kan ikke registreres på lørdag eller søndag",
 
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",

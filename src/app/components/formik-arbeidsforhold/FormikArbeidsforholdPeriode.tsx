@@ -7,7 +7,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { FieldArray, useFormikContext } from 'formik';
 import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList';
 import DagerMedDelvisFraværList from './components/DagerMedDelvisFraværList';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
@@ -65,12 +65,12 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
             </FormBlock>
             {/* DAGER MED FULLT FRAVÆR*/}
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.YES && (
-                <FormBlock
-                    margin={
-                        arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær].length > 0
-                            ? 'l'
-                            : 'none'
-                    }>
+                <FormBlock margin={'m'}>
+                    <AlertStripeInfo>
+                        Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller søndag.
+                        Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i perioden du legger
+                        inn.
+                    </AlertStripeInfo>
                     <FieldArray
                         name={namePerioderMedFravær}
                         render={(arrayHelpers): JSX.Element => {
@@ -127,12 +127,11 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
             </FormBlock>
             {/* DAGER MED DELVIS FRAVÆR*/}
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.YES && (
-                <FormBlock
-                    margin={
-                        arbeidsforholdFormData[ArbeidsforholdFormDataFields.dagerMedDelvisFravær].length > 0
-                            ? 'l'
-                            : 'none'
-                    }>
+                <FormBlock margin={'m'}>
+                    <AlertStripeInfo>
+                        Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller søndag.
+                        Derfor kan du ikke legge inn delvis fravær på lørdager eller søndager.
+                    </AlertStripeInfo>
                     <FieldArray
                         name={nameDagerMedDelvisFravær}
                         render={(arrayHelpers): JSX.Element => {

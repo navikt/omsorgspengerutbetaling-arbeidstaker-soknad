@@ -12,6 +12,7 @@ import {
 } from '../../../validation/fieldValidations';
 import { FormikDateIntervalPicker } from '@navikt/sif-common-formik/lib';
 import { Periode } from '../../../types/PeriodeTypes';
+import { validatePeriodeNotWeekend } from '../../../utils/periodeUtils';
 
 interface Props {
     index: number;
@@ -41,12 +42,17 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                 <FormikDateIntervalPicker
                     fromDatepickerProps={{
                         label: 'Fra og med',
-                        validate: validateAll([validateRequiredField, validateDateInRange(GYLDIG_TIDSROM)]),
+                        validate: validateAll([
+                            validateRequiredField,
+                            validateDateInRange(GYLDIG_TIDSROM),
+                            validatePeriodeNotWeekend
+                        ]),
                         name: `${name}.${index}.fom`,
                         dateLimitations: {
                             minDato: GYLDIG_TIDSROM.from,
                             maksDato: dateToday,
-                            ugyldigeTidsperioder: disabledPerioder || []
+                            ugyldigeTidsperioder: disabledPerioder || [],
+                            helgedagerIkkeTillatt: true
                         }
                     }}
                     toDatepickerProps={{
@@ -54,14 +60,16 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                             validateRequiredField,
                             ...(periode?.fom ? [validateTomAfterFom(periode.fom)] : []),
                             validateDateInRange(tomDateRange),
-                            validateDateNotInFuture()
+                            validateDateNotInFuture(),
+                            validatePeriodeNotWeekend
                         ]),
                         label: 'Til og med',
                         name: `${name}.${index}.tom`,
                         dateLimitations: {
                             minDato: tomDateRange.from,
                             maksDato: dateToday,
-                            ugyldigeTidsperioder: disabledPerioder || []
+                            ugyldigeTidsperioder: disabledPerioder || [],
+                            helgedagerIkkeTillatt: true
                         }
                     }}
                 />
