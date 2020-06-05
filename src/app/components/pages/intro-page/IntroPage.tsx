@@ -17,7 +17,7 @@ import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../../../types/Ansettelse
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
 import SmittevernInfo from '../../information/SmittevernInfo';
-import ExpandableInfo from '../../expandable-content/ExpandableInfo';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 
 const bem = bemUtils('introPage');
 

@@ -23,7 +23,7 @@ import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import Box from 'common/components/box/Box';
 import SmittevernInfo from '../../components/information/SmittevernInfo';
-import ExpandableInfo from '../../components/expandable-content/ExpandableInfo';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
