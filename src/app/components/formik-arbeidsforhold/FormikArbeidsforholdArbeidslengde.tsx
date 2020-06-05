@@ -4,7 +4,7 @@ import FormikQuestion from '../formik-question/FormikQuestion';
 import intlHelper from 'common/utils/intlUtils';
 import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
@@ -157,7 +157,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                                     </LabelWithInfo>
                                 </p>
                                 <div className={'normal-tekst'}>
-                                    <FormattedHTMLMessage id="hvorLengeJobbet.fordi.legend-text" />
+                                    <FormattedMessage id="hvorLengeJobbet.fordi.legend-text" />
                                 </div>
                             </div>
                         }
@@ -170,7 +170,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
 
             {hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && fordi === HvorLengeJobbetFordi.INGEN && (
                 <FormBlock>
-                    <FormattedHTMLMessage id={'arbeidsforhold.hvorLengeJobbet.ingen.helpertext'} />
+                    <FormattedMessage id={'arbeidsforhold.hvorLengeJobbet.ingen.helpertext'} />
                     {/* TODO: Dette skaper latency issues :/ */}
                     <FormikTextarea
                         name={nameForklaring}

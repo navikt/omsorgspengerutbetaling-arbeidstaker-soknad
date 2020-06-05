@@ -129,7 +129,6 @@
 
     "steg.inntekt.væreBorteFra.spm": "Kva jobb må du vere borte frå for å pleie barnet?",
     "steg.inntekt.aktivtArbeidsforhold.spm": "Vel arbeidsforholda du har i perioden du søkjer pleiepengar for.",
-    "steg.inntekt.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepengar må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpengar, sjukepengar, foreldrepengar, pleiepengar og opplæringspengar blir også rekna som inntekt.</p><p>Vi har funne desse arbeidsforholda registrerte på deg.</p>",
     "steg.inntekt.ingenOpplysninger": "Vi har ikkje nokon opplysningar om arbeidsgivar.",
     "steg.inntekt.manglesOpplysninger": "Manglar det ein arbeidsgivar her? Be arbeidsgivaren din sende ny A-melding, anten via lønns- og personalsystemet eller gjennom Altinn.",
 
@@ -159,10 +158,6 @@
 
     "introPage.tittel": "Søknad om ekstra omsorgsdager",
     "introPage.stegTittel": "Kan jeg søke om utbetaling av omsorgspenger?",
-    "introPage.intro.html": "<p>Hvis du er selvstendig næringsdrivende eller frilanser kan du søke om å få utbetalt omsorgspenger fra NAV. Du må i de fleste tilfeller betale de 10 første dagene selv, men det er unntak fra dette hvis du har innvilget utvidet rett og ikke har andre barn under 12 år.</p><p>Hvis du er arbeidstaker og skal ha utbetalt omsorgspenger skal du ikke søke her, din arbeidsgiver må sende innteksmelding til NAV.</p>",
-    "introPage.legeerklæring.html": "<p>Har du legeerklæringen klar? Du trenger den når du skal fylle ut søknaden. Da tar du bare et bilde av den og laster den opp.</p><p>Hvis du ikke bor på samme folkeregistrerte adresse som barnet, men har en avtale om delt bosted, må du også laste opp denne.</p>",
-    "introPage.spm.kroniskEllerFunksjonshemmende": "Har du et barn som har en kronisk sykdom eller funksjonshemming?",
-    "introPage.infoIkkeKroniskEllerFunksjonshemmende.html": "<p>Du må foreløpig bruke <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener noreferrer\">papirsøknaden</a> hvis du skal<ol><li>søke om å ta over dager fra en annen omsorgsperson</li><li>fordele dager med en annen omsorgsperson</li><li>overføre dager til en ny samlivspartner</li></ol></p>",
 
     "welcomingPage.sidetittel": "Søknad om utbetaling av omsorgspenger",
     "welcomingPage.banner.tittel": "Hei,",
@@ -228,14 +223,6 @@
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphold neste 12 måneder",
     "steg.medlemsskap.annetLandSisteOgNeste12.listeTittel": "Utenlandsopphold siste 12 måneder og neste 12 måneder",
-
-    "steg.lege.info.html": "Ta bilde av feltene i papirsøknaden som legen har fylt ut om barnet. Vær nøye med at <strong>all tekst</strong> er med på bildet, inkludert legens signatur.",
-    "steg.lege.vedlegg": "Last opp forklaring fra arbeidsgiver",
-    "steg.lege.intro.1.html": "For de første 8 ukene må legeerklæringen skrives av en sykehuslege. Etter de første 8 ukene kan legeerklæringen skrives av alle leger i spesialisthelsetjenesten.",
-    "steg.lege.intro.2.html": "Disse yrkesgruppene kan <strong>ikke</strong> undertegne legeerklæringen: Sosionom, legesekretær, psykolog, psykologspesialist, fysioterapeut, fastlege og spesialist i allmennmedisin.",
-
-    "steg.samværsavtale.info.html": "<p>Ta bilde av avtalen om delt bosted og last opp.</p>Vær nøye med:<ul><li>å få all tekst med på bildet</li><li>at signaturen fra begge parter er synlig på bildet</li><li>at bildet er leselig</li></ul>",
-    "steg.samværsavtale.vedlegg": "Last opp bilde av avtalen (maks 3 bilder)",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du vil gjøre endringer, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Navn på søker",
@@ -372,8 +359,8 @@
     "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
 
     "steg.arbeidsforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1": "Her er arbeidsforholdene vi har funnet registrert på deg.",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2": "Hvis det mangler en arbeidsgiver her, må du be arbeidsgiver sende en ny A-melding. Dette gjøres enten via eget lønns- og personalsystem, eller via Altinn.",
+    "steg.arbeidsforhold.aktivtArbeidsforhold.info.del1": "Her er arbeidsforholdene vi har funnet registrert på deg.",
+    "steg.arbeidsforhold.aktivtArbeidsforhold.info.del2": "Hvis det mangler en arbeidsgiver her, må du be arbeidsgiver sende en ny A-melding. Dette gjøres enten via eget lønns- og personalsystem, eller via Altinn.",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "fosterbarn.legend": "Vi henter vanligvis informasjon om barn fra folkeregisteret, men vi har ikke tilgang til informasjon om fosterbarn der. Derfor må du selv legge inn opplysninger om eventuelle fosterbarn.",
 
@@ -399,7 +386,6 @@
 
     "arbeidsforhold.harUtbetalingLønn.alertstripe": "NAV utbetaler ikke for omsorgsdager som arbeidsgiver allerede har utbetalt for. ",
     "dinSituasjon.ingress": "Om arbeidssituasjonen din",
-    "hvorLengeJobbet.merEnnFire.counsellor.html": "<div>Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Hvis arbeidsgiver ikke utbetaler må du laste opp en forklaring fra arbeidsgiver på hvorfor de ikke utbetaler omsorgspenger til deg.<p>Du må også be arbeidsgiveren din sende inntektsmelding til NAV.</p></div>",
     "step.vedlegg.stepIndicatorLabel": "Last opp dokumenter",
     "step.vedlegg.stepTitle": "Ta bildet av forklaringen fra arbeidsgiveren din, og last opp.",
     "step.vedlegg.pageTitle": "Last opp dokumenter",
@@ -449,7 +435,6 @@
     "ingen.gjeldende.arbeidsforhold.info.text.jaja": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "ingen.gjeldende.arbeidsforhold.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden. Hvis din arbeidsgiver ikke er registrert i listen, så kan du selv legge til informasjon over. ",
     "ingen.gjeldende.arbeidsforhold.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
-    "steg.en.smittevern.info": "<div>Hvis barnehagen eller skolen som ditt barn går i åpner, men du må være hjemme med barnet på grunn av <strong>særlige smittevernhensyn</strong> kan du bruke omsorgsdager. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som barnet bor med. Dette gjelder i forbindelse med koronaviruset i perioden 20. april fram til og med 31. desember 2020.</div>",
     "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn på grunn av særlige smittevernhensyn?",
     "validation.minimum_en_periode_per_arbeidsforhold_required": "Hvis du ikke har hatt fravær fra denne arbeidsgiveren, må du gå tilbake og endre svaret ditt på samme spørsmål på forrige steg."
 }

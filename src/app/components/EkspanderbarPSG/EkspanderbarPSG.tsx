@@ -1,6 +1,6 @@
 import * as React from 'react';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
-import ExpandableInfo from '../expandable-content/ExpandableInfo';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import PictureScanningGuide from '../picture-scanning-guide/PictureScanningGuide';
 import FormBlock from 'common/components/form-block/FormBlock';
 

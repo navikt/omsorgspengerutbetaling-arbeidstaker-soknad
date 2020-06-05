@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import Lenke from 'nav-frontend-lenker';
@@ -18,13 +18,25 @@ const PictureScanningGuide: React.FunctionComponent = () => {
             <Undertittel className={bem.element('title')}>
                 <FormattedMessage id="psg-temp.section1.tittel" />
             </Undertittel>
-            <FormattedHTMLMessage tagName="ul" id="psg-temp.section1.liste" />
+            <FormattedMessage
+                tagName="ul"
+                id="psg-temp.section1.liste"
+                values={{
+                    li: (msg: string): React.ReactNode => <li>{msg}</li>
+                }}
+            />
 
             <Undertittel className={bem.element('title')}>
                 <FormattedMessage id="psg-temp.section2.tittel" />
             </Undertittel>
 
-            <FormattedHTMLMessage tagName="ul" id="psg-temp.section2.liste" />
+            <FormattedMessage
+                tagName="ul"
+                id="psg-temp.section2.liste"
+                values={{
+                    li: (msg: string): React.ReactNode => <li>{msg}</li>
+                }}
+            />
             <div className={bem.element('examples')}>
                 <Undertittel tag="h3" className={bem.element('title')}>
                     <FormattedMessage id="psg-temp.icon.heading" />

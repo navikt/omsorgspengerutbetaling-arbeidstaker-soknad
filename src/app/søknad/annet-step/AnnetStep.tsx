@@ -10,7 +10,7 @@ import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utlan
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { useFormikContext } from 'formik';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import SøknadStep from '../SøknadStep';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
@@ -22,6 +22,8 @@ import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVed
 import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import Box from 'common/components/box/Box';
+import SmittevernInfo from '../../components/information/SmittevernInfo';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
@@ -90,10 +92,10 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                     name={SøknadFormField.hjemmePgaSmittevernhensynYesOrNo}
                     legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
                     validate={validateYesOrNoIsAnswered}
-                    info={
-                        <div className={'smittevern-info'}>
-                            <FormattedHTMLMessage id={'steg.en.smittevern.info'} />
-                        </div>
+                    description={
+                        <ExpandableInfo title="Mer om særlige smittevernhensyn">
+                            <SmittevernInfo />
+                        </ExpandableInfo>
                     }
                 />
             </FormBlock>

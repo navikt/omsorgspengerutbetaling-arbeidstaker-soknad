@@ -8,22 +8,14 @@ import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
 const selvstendigMessagesNb = require('../../i18n/selvstendigOgFrilans.nb.json');
-const selvstendigMessagesNn = require('../../i18n/selvstendigOgFrilans.nn.json');
 
 const appBokmålstekster = require('../../i18n/nb.json');
-const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
     ...appBokmålstekster,
     ...selvstendigMessagesNb,
     ...bostedUtlandMessages.nb
-};
-const nynorsktekster = {
-    ...allCommonMessages.nn,
-    ...appNynorsktekster,
-    ...selvstendigMessagesNn,
-    ...bostedUtlandMessages.nn
 };
 
 export interface IntlProviderProps {
@@ -36,9 +28,8 @@ export interface IntlProviderProps {
 }
 
 const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, children, onError }) => {
-    const messages = locale === 'nb' ? bokmålstekster : nynorsktekster;
     return (
-        <Provider locale={locale} messages={messages} onError={onError}>
+        <Provider locale={locale} messages={bokmålstekster} onError={onError}>
             {children}
         </Provider>
     );
