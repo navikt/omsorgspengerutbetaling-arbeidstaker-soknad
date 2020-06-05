@@ -7,7 +7,7 @@ interface Props {
     index: number;
 }
 
-const FraværTimerSelect: React.FunctionComponent<Props> = ({ name, index }) => (
+const FraværTimerSelect: React.FunctionComponent<Props> = ({ name, index }: Props) => (
     <FormikSelect bredde="s" label="Antall timer" name={`${name}.${index}.timer`} validate={validateRequiredField}>
         <option />
         <option value="0.5">0,5 time</option>

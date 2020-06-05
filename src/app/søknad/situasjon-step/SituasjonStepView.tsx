@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'common/components/box/Box';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
@@ -103,10 +103,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 <Box padBottom="xxl">
                     <CounsellorPanel>
                         <Box padBottom={'l'}>
-                            <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del1" />
+                            <FormattedMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.del1" />
                         </Box>
                         <Box>
-                            <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html.del2" />
+                            <FormattedMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.del2" />
                         </Box>
                     </CounsellorPanel>
                 </Box>
@@ -137,7 +137,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {!isLoading && arbeidsforhold.length === 0 && (
                     <FormBlock>
                         <AlertStripe type={'info'}>
-                            <FormattedHTMLMessage id={'ingen.arbeidsforhold.info.text'} />
+                            <FormattedMessage id={'ingen.arbeidsforhold.info.text'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
@@ -154,7 +154,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 </Box>
 
                 <CounsellorPanel>
-                    <FormattedHTMLMessage id="fosterbarn.legend" />
+                    <FormattedMessage id="fosterbarn.legend" />
                 </CounsellorPanel>
 
                 <FormBlock paddingBottom={'xxl'}>
@@ -177,21 +177,21 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'l'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
                 {harKlikketNeiPåAlle && (
                     <FormBlock paddingBottom={'l'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
                 {harKlikketNeiElleJajaBlanding && (
                     <FormBlock paddingBottom={'l'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedHTMLMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
                         </AlertStripe>
                     </FormBlock>
                 )}

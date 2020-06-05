@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from 'common/components/box/Box';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import './arbeidsforholdSummary.less';
 import JaNeiSvar from './JaNeiSvar';
@@ -89,10 +89,10 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                 <Box margin={'s'}>
                                     <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}>
                                         {arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
-                                            <FormattedHTMLMessage id={'hvorLengeJobbet.mer'} />
+                                            <FormattedMessage id={'hvorLengeJobbet.mer'} />
                                         )}
                                         {arbeidsforhold.ansettelseslengde.merEnn4Uker === false && (
-                                            <FormattedHTMLMessage id={'hvorLengeJobbet.mindre'} />
+                                            <FormattedMessage id={'hvorLengeJobbet.mindre'} />
                                         )}
                                     </SummaryBlock>
                                 </Box>
@@ -103,7 +103,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                         <Box margin={'s'}>
                                             <SummaryBlock
                                                 header={intlHelper(intl, 'hvorLengeJobbet.fordi.legend-text')}>
-                                                <FormattedHTMLMessage
+                                                <FormattedMessage
                                                     id={getRadioTextIdBegrunnelseFordi(
                                                         arbeidsforhold.ansettelseslengde.begrunnelse
                                                     )}

@@ -13,7 +13,7 @@ import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import Box from 'common/components/box/Box';
-import { FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 
@@ -77,10 +77,13 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             <FormBlock>
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
-                        <FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del1'} />
+                        <FormattedMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del1'} />
                     </Box>
                     <Box>
-                        <FormattedHTMLMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del2'} />
+                        <FormattedMessage
+                            id={'steg2.arbeidslengdeOgPerioder.infopanel.del2'}
+                            values={{ strong: (msg: string): React.ReactNode => <strong>{msg}</strong> }}
+                        />
                     </Box>
                 </CounsellorPanel>
             </FormBlock>

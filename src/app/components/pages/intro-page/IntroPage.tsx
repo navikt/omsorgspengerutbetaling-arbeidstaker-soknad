@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
@@ -16,6 +16,7 @@ import FormikQuestion from '../../formik-question/FormikQuestion';
 import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../../../types/AnsettelseslengdeTypes';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
+import SmittevernInfo from '../../information/SmittevernInfo';
 
 const bem = bemUtils('introPage');
 
@@ -164,7 +165,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                             </LabelWithInfo>
                                                         </p>
                                                         <div className={'normal-tekst'}>
-                                                            <FormattedHTMLMessage id="hvorLengeJobbet.fordi.legend-text" />
+                                                            <FormattedMessage id="hvorLengeJobbet.fordi.legend-text" />
                                                         </div>
                                                     </div>
                                                 }
@@ -210,11 +211,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                             <PageForm.YesOrNoQuestion
                                                 name={PageFormField.smittevernHensyn}
                                                 legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
-                                                info={
-                                                    <div className={'smittevern-info'}>
-                                                        <FormattedHTMLMessage id={'steg.en.smittevern.info'} />
-                                                    </div>
-                                                }
+                                                info={<SmittevernInfo />}
                                             />
                                         </FormBlock>
                                     )}
