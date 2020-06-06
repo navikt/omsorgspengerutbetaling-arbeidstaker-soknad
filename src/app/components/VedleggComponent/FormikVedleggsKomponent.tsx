@@ -1,13 +1,13 @@
 import * as React from 'react';
+import { useIntl } from 'react-intl';
+import Box from 'common/components/box/Box';
+import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
 import FormBlock from 'common/components/form-block/FormBlock';
-import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
+import { Attachment } from 'common/types/Attachment';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
 import { validateDocuments } from '../../validation/fieldValidations';
-import Box from 'common/components/box/Box';
-import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
+import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
-import { Attachment } from 'common/types/Attachment';
-import { useIntl } from 'react-intl';
 
 interface Props {
     uploadButtonLabel: string;

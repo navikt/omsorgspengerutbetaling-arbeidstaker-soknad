@@ -1,26 +1,21 @@
 import * as React from 'react';
-import FormBlock from 'common/components/form-block/FormBlock';
-import FormikQuestion from '../formik-question/FormikQuestion';
-import intlHelper from 'common/utils/intlUtils';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import { FormattedMessage, useIntl } from 'react-intl';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
-import { navigateToLoginPage } from '../../utils/navigationUtils';
-import { validateDocuments } from '../../validation/fieldValidations';
 import Box from 'common/components/box/Box';
-import FileUploadErrors from '../file-upload-errors/FileUploadErrors';
-import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
-import { FieldValidationResult } from 'common/validation/types';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import FormBlock from 'common/components/form-block/FormBlock';
+import intlHelper from 'common/utils/intlUtils';
 import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { FieldValidationResult } from 'common/validation/types';
 import {
     AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
     HvorLengeJobbetFordi
 } from '../../types/AnsettelseslengdeTypes';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import EkspanderbarPSG from '../EkspanderbarPSG/EkspanderbarPSG';
+import FormikQuestion from '../formik-question/FormikQuestion';
 import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {

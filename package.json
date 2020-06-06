@@ -37,7 +37,7 @@
         "@formatjs/intl-pluralrules": "^2.2.3",
         "@formatjs/intl-relativetimeformat": "^5.2.3",
         "@navikt/fnrvalidator": "^1.1.0",
-        "@navikt/sif-common-core": "^4.0.5",
+        "@navikt/sif-common-core": "^4.0.8",
         "@navikt/sif-common-formik": "^7.2.0",
         "@navikt/sif-common-forms": "^7.1.0",
         "@navikt/sif-common-question-config": "0.0.6",
