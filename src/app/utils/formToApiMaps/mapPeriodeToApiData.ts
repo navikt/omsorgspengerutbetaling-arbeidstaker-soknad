@@ -5,10 +5,10 @@ import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
 export const mapFraværTilUtbetalingsperiode = (
-    perioderMedFravær: FraværPeriode[],
-    dagerMedDelvisFravær: FraværDag[]
+    fraværPerioder: FraværPeriode[],
+    fraværDager: FraværDag[]
 ): Utbetalingsperiode[] => {
-    const periodeMappedTilUtbetalingsperiode: Utbetalingsperiode[] = perioderMedFravær.map(
+    const periodeMappedTilUtbetalingsperiode: Utbetalingsperiode[] = fraværPerioder.map(
         (periode: FraværPeriode): Utbetalingsperiode => {
             return {
                 fraOgMed: formatDateToApiFormat(periode.from),
@@ -19,14 +19,15 @@ export const mapFraværTilUtbetalingsperiode = (
         }
     );
 
-    const fraværDeleravDagMappedTilUtbetalingsperiode: Utbetalingsperiode[] = dagerMedDelvisFravær.map(
+    const fraværDeleravDagMappedTilUtbetalingsperiode: Utbetalingsperiode[] = fraværDager.map(
         (fravær: FraværDag): Utbetalingsperiode => {
-            return {
+            const utbetalingsperiode = {
                 fraOgMed: formatDateToApiFormat(fravær.dato),
                 tilOgMed: formatDateToApiFormat(fravær.dato),
-                antallTimerPlanlagt: timeToIso8601Duration(decimalTimeToTime(fravær.timerArbeidsdag)),
-                antallTimerBorte: timeToIso8601Duration(decimalTimeToTime(fravær.timerFravær))
+                antallTimerPlanlagt: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerArbeidsdag))),
+                antallTimerBorte: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerFravær)))
             };
+            return utbetalingsperiode;
         }
     );
 

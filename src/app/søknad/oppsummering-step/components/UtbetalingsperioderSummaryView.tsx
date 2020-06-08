@@ -3,7 +3,7 @@ import { IntlShape, useIntl } from 'react-intl';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import { Time } from 'common/types/Time';
 import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
-import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
+import { iso8601DurationToTime, isValidTime, timeToString } from 'common/utils/timeUtils';
 import { Utbetalingsperiode } from '../../../types/SøknadApiData';
 import SummaryBlock from './SummaryBlock';
 import { isString } from 'formik';
@@ -18,15 +18,15 @@ interface UtbetalingsperiodeDag {
     antallTimerBorte: Time;
 }
 
-const isUtbetalingsperiodeDag = (value: any): value is UtbetalingsperiodeDag => {
-    return isString(value.dato) && isValidTime(value.time);
+const isUtbetalingsperiode = (value: any): value is Utbetalingsperiode => {
+    return isString(value.fraOgMed) && isString(value.tilOgMed) && value.antallTimerPlanlagt && value.antallTimerBorte;
 };
 
 export const timeToStringTemporaryFix = (time: Time, intl: IntlShape, hideZeroMinutes?: boolean): string => {
     if (hideZeroMinutes && time.minutes === 0) {
-        return `${time.hours} timer.`;
+        return `${time.hours} timer`;
     }
-    return `${time.hours} timer og ${time.minutes} minutter.`;
+    return `${time.hours} timer og ${time.minutes} minutter`;
 };
 
 export const isTime = (value: any): value is Time => {
@@ -34,9 +34,13 @@ export const isTime = (value: any): value is Time => {
 };
 
 export const toMaybeUtbetalingsperiodeDag = (p: Utbetalingsperiode): UtbetalingsperiodeDag | null => {
-    if (isUtbetalingsperiodeDag(p)) {
-        const antallTimerPlanlagtTime: Partial<Time> | undefined = iso8601DurationToTime(p.antallTimerPlanlagt);
-        const antallTimerBorteTime = iso8601DurationToTime(p.antallTimerBorte);
+    if (isUtbetalingsperiode(p)) {
+        const antallTimerPlanlagtTime: Partial<Time> | undefined = p.antallTimerPlanlagt
+            ? iso8601DurationToTime(p.antallTimerPlanlagt)
+            : undefined;
+        const antallTimerBorteTime: Partial<Time> | undefined = p.antallTimerBorte
+            ? iso8601DurationToTime(p.antallTimerBorte)
+            : undefined;
         if (isTime(antallTimerPlanlagtTime) && isTime(antallTimerBorteTime)) {
             return {
                 dato: p.fraOgMed,
@@ -79,8 +83,9 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
                         items={dager}
                         itemRenderer={(dag: UtbetalingsperiodeDag): JSX.Element => (
                             <span>
-                                {prettifyDate(apiStringDateToDate(dag.dato))}:{' '}
-                                {timeToStringTemporaryFix(dag.antallTimerPlanlagt, intl, true)}
+                                {prettifyDate(apiStringDateToDate(dag.dato))}: Skulle jobbet:{' '}
+                                {timeToString(dag.antallTimerPlanlagt, intl, true)}. Borte fra jobb:{' '}
+                                {timeToString(dag.antallTimerBorte, intl, true)}
                             </span>
                         )}
                     />

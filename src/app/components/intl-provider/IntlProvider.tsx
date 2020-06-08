@@ -4,6 +4,7 @@ import '@formatjs/intl-pluralrules/dist/locale-data/nb';
 import '@formatjs/intl-pluralrules/dist/locale-data/nn';
 import '@formatjs/intl-pluralrules/polyfill';
 import bostedUtlandMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
+import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
@@ -15,7 +16,8 @@ const bokmålstekster = {
     ...allCommonMessages.nb,
     ...appBokmålstekster,
     ...selvstendigMessagesNb,
-    ...bostedUtlandMessages.nb
+    ...bostedUtlandMessages.nb,
+    ...fraværMessages.nb
 };
 
 export interface IntlProviderProps {

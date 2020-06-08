@@ -39,7 +39,7 @@
         "@navikt/fnrvalidator": "^1.1.0",
         "@navikt/sif-common-core": "^4.0.8",
         "@navikt/sif-common-formik": "^7.2.0",
-        "@navikt/sif-common-forms": "^7.2.5",
+        "@navikt/sif-common-forms": "^7.2.9",
         "@navikt/sif-common-question-config": "0.0.6",
         "@sentry/browser": "^5.15.5",
         "@testing-library/react": "^9.4.0",

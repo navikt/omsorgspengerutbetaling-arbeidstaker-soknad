@@ -27,8 +27,8 @@ const validPerioderMedFravær: FraværPeriode[] = [gylidgPeriodeMedFravær1];
 
 const validFraværDelerAvDag: FraværDag = {
     dato: new Date('2020-02-01'),
-    timerArbeidsdag: 6,
-    timerFravær: 3
+    timerArbeidsdag: "6",
+    timerFravær: "3"
 };
 
 const validListeAvFraværDelerAvDag: FraværDag[] = [validFraværDelerAvDag];
