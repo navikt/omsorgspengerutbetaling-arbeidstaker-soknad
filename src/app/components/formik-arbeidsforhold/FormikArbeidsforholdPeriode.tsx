@@ -4,15 +4,23 @@ import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { FieldArray, useFormikContext } from 'formik';
-import PeriodeMedFulltFraværList from './components/PerioderMedFulltFraværList';
-import DagerMedDelvisFraværList from './components/DagerMedDelvisFraværList';
-import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
+import {
+    createFieldValidationError,
+    FieldValidationErrors,
+    validateRequiredList
+} from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
+import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
+import { GYLDIG_TIDSROM } from '../../validation/constants';
+import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
+import { validateAll } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
+import { fraværDagToFraværDateRange, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
+import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
@@ -40,7 +48,6 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     nameDagerMedDelvisFravær
 }) => {
     const intl = useIntl();
-    const { validateField, validateForm } = useFormikContext<SøknadFormData>();
 
     const kanIkkeFortsette =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO &&
@@ -65,50 +72,38 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
             </FormBlock>
             {/* DAGER MED FULLT FRAVÆR*/}
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.YES && (
-                <FormBlock margin={'m'}>
-                    <AlertStripeInfo>
-                        Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller søndag.
-                        Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i perioden du legger
-                        inn.
-                    </AlertStripeInfo>
-                    <FieldArray
-                        name={namePerioderMedFravær}
-                        render={(arrayHelpers): JSX.Element => {
-                            return (
-                                <PeriodeMedFulltFraværList
-                                    name={namePerioderMedFravær}
-                                    perioderMedFravær={
-                                        arbeidsforholdFormData[ArbeidsforholdFormDataFields.perioderMedFravær]
-                                    }
-                                    dagerMedGradvisFravær={
-                                        arbeidsforholdFormData[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
-                                    }
-                                    onCreateNew={(): void => {
-                                        const emptyPeriodeMedFravær: Partial<Periode> = {
-                                            fom: undefined,
-                                            tom: undefined
-                                        };
-
-                                        arrayHelpers.insert(
-                                            arbeidsforholdFormData[ArbeidsforholdFormDataFields.perioderMedFravær]
-                                                .length,
-                                            emptyPeriodeMedFravær
-                                        );
-                                        setTimeout(() => {
-                                            validateField(namePerioderMedFravær);
-                                        });
-                                    }}
-                                    onRemove={(idx): void => {
-                                        arrayHelpers.remove(idx);
-                                        setTimeout(() => {
-                                            validateForm();
-                                        });
-                                    }}
-                                />
-                            );
-                        }}
-                    />
-                </FormBlock>
+                <>
+                    <FormBlock paddingBottom={'l'} margin={'l'}>
+                        <FraværPerioderListAndDialog
+                            name={namePerioderMedFravær}
+                            minDate={GYLDIG_TIDSROM.from || date1YearAgo}
+                            maxDate={GYLDIG_TIDSROM.to || dateToday}
+                            validate={validateAll([
+                                validateRequiredList,
+                                validateNoCollisions(
+                                    arbeidsforholdFormData.fraværDager,
+                                    arbeidsforholdFormData.fraværPerioder
+                                )
+                            ])}
+                            labels={{
+                                addLabel: 'Legg til ny periode med fullt fravær',
+                                modalTitle: 'Fravær hele dager'
+                            }}
+                            dateRangesToDisable={[
+                                ...arbeidsforholdFormData.fraværPerioder,
+                                ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange)
+                            ]}
+                            helgedagerIkkeTillat={true}
+                        />
+                        <FormBlock margin={'l'}>
+                            <ExpandableInfo title="Hvorfor kan jeg ikke velge lørdag eller søndag?">
+                                Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller
+                                søndag. Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i
+                                perioden du legger inn.
+                            </ExpandableInfo>
+                        </FormBlock>
+                    </FormBlock>
+                </>
             )}
             <FormBlock>
                 <FormikYesOrNoQuestion
@@ -127,48 +122,38 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
             </FormBlock>
             {/* DAGER MED DELVIS FRAVÆR*/}
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.YES && (
-                <FormBlock margin={'m'}>
-                    <AlertStripeInfo>
-                        Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller søndag.
-                        Derfor kan du ikke legge inn delvis fravær på lørdager eller søndager.
-                    </AlertStripeInfo>
-                    <FieldArray
-                        name={nameDagerMedDelvisFravær}
-                        render={(arrayHelpers): JSX.Element => {
-                            return (
-                                <DagerMedDelvisFraværList
-                                    name={nameDagerMedDelvisFravær}
-                                    dagerMedDelvisFravær={
-                                        arbeidsforholdFormData[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
-                                    }
-                                    perioderMedFravær={
-                                        arbeidsforholdFormData[ArbeidsforholdFormDataFields.perioderMedFravær]
-                                    }
-                                    onCreateNew={(): void => {
-                                        const emptyDagMedFravær: Partial<FraværDelerAvDag> = {
-                                            dato: undefined,
-                                            timer: undefined
-                                        };
-                                        arrayHelpers.insert(
-                                            arbeidsforholdFormData[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
-                                                .length,
-                                            emptyDagMedFravær
-                                        );
-                                        setTimeout(() => {
-                                            validateField(nameDagerMedDelvisFravær);
-                                        });
-                                    }}
-                                    onRemove={(idx): void => {
-                                        arrayHelpers.remove(idx);
-                                        setTimeout(() => {
-                                            validateForm();
-                                        });
-                                    }}
-                                />
-                            );
-                        }}
-                    />
-                </FormBlock>
+                <>
+                    <FormBlock margin={'l'} paddingBottom={'l'}>
+                        <FraværDagerListAndDialog
+                            name={nameDagerMedDelvisFravær}
+                            minDate={GYLDIG_TIDSROM.from || date1YearAgo}
+                            maxDate={GYLDIG_TIDSROM.to || dateToday}
+                            validate={validateAll([
+                                validateRequiredList,
+                                validateNoCollisions(
+                                    arbeidsforholdFormData.fraværDager,
+                                    arbeidsforholdFormData.fraværPerioder
+                                )
+                            ])}
+                            labels={{
+                                addLabel: 'Legg til ny dag med delvis fravær',
+                                modalTitle: 'Fravær deler av dag'
+                            }}
+                            dateRangesToDisable={[
+                                ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
+                                ...arbeidsforholdFormData.fraværPerioder
+                            ]}
+                            helgedagerIkkeTillatt={true}
+                            maksArbeidstidPerDag={24}
+                        />
+                        <FormBlock margin={'l'}>
+                            <ExpandableInfo title="Hvorfor kan jeg ikke klikke på/velge lørdag eller søndag?">
+                                Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller
+                                søndag. Derfor kan du ikke legge inn delvis fravær på lørdager eller søndager.
+                            </ExpandableInfo>
+                        </FormBlock>
+                    </FormBlock>
+                </>
             )}
 
             {kanIkkeFortsette && (

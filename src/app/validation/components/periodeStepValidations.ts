@@ -2,20 +2,13 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { skalInkludereArbeidsforhold } from './arbeidsforholdValidations';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
-export const perioderIsValid = (harPerioderMedFravær: YesOrNo, perioderMedFravær: Periode[]): boolean =>
-    harPerioderMedFravær === YesOrNo.NO || (harPerioderMedFravær === YesOrNo.YES && perioderMedFravær.length > 0);
+export const perioderIsValid = (harPerioderMedFravær: YesOrNo, fraværPerioder: FraværPeriode[]): boolean =>
+    harPerioderMedFravær === YesOrNo.NO || (harPerioderMedFravær === YesOrNo.YES && fraværPerioder.length > 0);
 
-export const perioderForGjeldendeArbeidsforholdIsValid = (gjeldendeArbeidsforhold: ArbeidsforholdFormData): boolean =>
-    gjeldendeArbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær].length > 0 ||
-    gjeldendeArbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær].length > 0;
-
-export const delvisFraværIsValid = (
-    harDagerMedDelvisFravær: YesOrNo,
-    dagerMedDelvisFravær: FraværDelerAvDag[]
-): boolean =>
-    harDagerMedDelvisFravær === YesOrNo.NO ||
-    (harDagerMedDelvisFravær === YesOrNo.YES && dagerMedDelvisFravær.length > 0);
+export const delvisFraværIsValid = (harDagerMedDelvisFravær: YesOrNo, fraværDager: FraværDag[]): boolean =>
+    harDagerMedDelvisFravær === YesOrNo.NO || (harDagerMedDelvisFravær === YesOrNo.YES && fraværDager.length > 0);
 
 export const harIkkeBesvartAltEnnå = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     if (

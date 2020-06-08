@@ -20,13 +20,13 @@ const FormikArbeidsforholdDelTrePeriodeView: React.FunctionComponent<Props> = ({
                     ArbeidsforholdFormDataFields.harPerioderMedFravær
                 );
                 const namePerioderMedFravær = getArbeidsforholdFormDataFieldName(
-                    ArbeidsforholdFormDataFields.perioderMedFravær
+                    ArbeidsforholdFormDataFields.fraværPerioder
                 );
                 const nameHarDagerMedDelvisFravær = getArbeidsforholdFormDataFieldName(
                     ArbeidsforholdFormDataFields.harDagerMedDelvisFravær
                 );
                 const nameDagerMedDelvisFravær = getArbeidsforholdFormDataFieldName(
-                    ArbeidsforholdFormDataFields.dagerMedDelvisFravær
+                    ArbeidsforholdFormDataFields.fraværDager
                 );
 
                 return (

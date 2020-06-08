@@ -20,14 +20,14 @@ import { YesOrNo } from 'common/types/YesOrNo';
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
         ...arbeidsforhold,
-        perioderMedFravær:
+        fraværPerioder:
             arbeidsforhold[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO
                 ? []
-                : arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær],
-        dagerMedDelvisFravær:
+                : arbeidsforhold[ArbeidsforholdFormDataFields.fraværPerioder],
+        fraværDager:
             arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.NO
                 ? []
-                : arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
+                : arbeidsforhold[ArbeidsforholdFormDataFields.fraværDager]
     };
 };
 

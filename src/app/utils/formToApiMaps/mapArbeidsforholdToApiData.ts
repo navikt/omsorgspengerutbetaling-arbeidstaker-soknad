@@ -2,7 +2,7 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../type
 import { ArbeidsgiverDetaljer } from '../../types/SøknadApiData';
 import { yesOrNoToBoolean } from './mapFunctions';
 import { mapAnsettelseslengde } from './mapAnsettelseslengdeToApiData';
-import { mapPeriodeTilUtbetalingsperiode } from './mapPeriodeToApiData';
+import { mapFraværTilUtbetalingsperiode } from './mapPeriodeToApiData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 
 export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
@@ -14,19 +14,12 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
         })
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
             return {
-                navn: arbeidsforhold[ArbeidsforholdFormDataFields.navn],
-                organisasjonsnummer: arbeidsforhold[ArbeidsforholdFormDataFields.organisasjonsnummer],
-                harHattFraværHosArbeidsgiver: yesOrNoToBoolean(
-                    arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]
-                ),
-                arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(
-                    arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]
-                ),
-                ansettelseslengde: mapAnsettelseslengde(arbeidsforhold[ArbeidsforholdFormDataFields.ansettelseslengde]),
-                perioder: mapPeriodeTilUtbetalingsperiode(
-                    arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær],
-                    arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
-                )
+                navn: arbeidsforhold.navn,
+                organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
+                harHattFraværHosArbeidsgiver: yesOrNoToBoolean(arbeidsforhold.harHattFraværHosArbeidsgiver),
+                arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(arbeidsforhold.arbeidsgiverHarUtbetaltLønn),
+                ansettelseslengde: mapAnsettelseslengde(arbeidsforhold.ansettelseslengde),
+                perioder: mapFraværTilUtbetalingsperiode(arbeidsforhold.fraværPerioder, arbeidsforhold.fraværDager)
             };
         });
 };

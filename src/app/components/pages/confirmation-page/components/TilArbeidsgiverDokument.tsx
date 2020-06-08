@@ -17,6 +17,17 @@ interface Props {
     søknadNavn: string;
 }
 
+const isoDurationToMaybeTime = (value: string | null): Time | undefined => {
+    if (value) {
+        const partialTimeOrUndefined: Partial<Time> | undefined = iso8601DurationToTime(value);
+        const maybeTime: Time | undefined = isValidTime(partialTimeOrUndefined)
+            ? { ...partialTimeOrUndefined }
+            : undefined;
+        return maybeTime;
+    }
+    return undefined;
+};
+
 const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søkersNavn, søknadNavn }: Props) => {
     const intl = useIntl();
 
@@ -40,16 +51,18 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                 {arbeidsgiverDetaljer.perioder.length > 0 && (
                     <ul>
                         {arbeidsgiverDetaljer.perioder.map((periode: Utbetalingsperiode, i: number) => {
-                            const lengde = periode.lengde;
-                            const maybeValidTime: Partial<Time> | undefined = lengde
-                                ? iso8601DurationToTime(lengde)
-                                : undefined;
-                            return (
+                            const maybePlanlagt: Time | undefined = isoDurationToMaybeTime(periode.antallTimerPlanlagt);
+                            const maybeBorte: Time | undefined = isoDurationToMaybeTime(periode.antallTimerBorte);
+                            return maybePlanlagt && maybeBorte ? (
+                                <li key={`periode-${i}`}>
+                                    {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))}: Skulle jobbet{' '}
+                                    {timeToStringTemporaryFix(maybePlanlagt, intl, true)}. Borte fra jobb{' '}
+                                    {timeToStringTemporaryFix(maybeBorte, intl, true)}.
+                                </li>
+                            ) : (
                                 <li key={`periode-${i}`}>
                                     {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))} -{' '}
-                                    {lengde && isValidTime(maybeValidTime)
-                                        ? timeToStringTemporaryFix(maybeValidTime, intl, true)
-                                        : prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}
+                                    {prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}
                                 </li>
                             );
                         })}

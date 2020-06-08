@@ -15,7 +15,7 @@ import SøknadStep from '../SøknadStep';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import { mapPeriodeTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
+import { mapFraværTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
 import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
@@ -24,30 +24,30 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import Box from 'common/components/box/Box';
 import SmittevernInfo from '../../components/information/SmittevernInfo';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
-    const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const { perioderHarVærtIUtlandet } = values;
     const intl = useIntl();
 
-    const arbeidsforholdPerioder: Periode[] = values[SøknadFormField.arbeidsforhold]
+    const arbeidsforholdPerioder: FraværPeriode[] = values[SøknadFormField.arbeidsforhold]
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær];
+            return arbeidsforhold[ArbeidsforholdFormDataFields.fraværPerioder];
         })
         .flat();
 
-    const arbeidsforholdDager: FraværDelerAvDag[] = values[SøknadFormField.arbeidsforhold]
+    const arbeidsforholdDager: FraværDag[] = values[SøknadFormField.arbeidsforhold]
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær];
+            return arbeidsforhold[ArbeidsforholdFormDataFields.fraværDager];
         })
         .flat();
 
-    const annetPeriode: Periode[] =
-        values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.perioderMedFravær];
-    const annetDag: FraværDelerAvDag[] =
-        values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.dagerMedDelvisFravær];
+    const annetPeriode: FraværPeriode[] =
+        values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.fraværPerioder];
+    const annetDag: FraværDag[] = values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.fraværDager];
 
-    const utbetalingsperioder: Utbetalingsperiode[] = mapPeriodeTilUtbetalingsperiode(
+    const utbetalingsperioder: Utbetalingsperiode[] = mapFraværTilUtbetalingsperiode(
         [...arbeidsforholdPerioder, ...annetPeriode],
         [...arbeidsforholdDager, ...annetDag]
     );

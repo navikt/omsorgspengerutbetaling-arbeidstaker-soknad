@@ -38,18 +38,18 @@ export const stegEnAnnetArbeidsforholdIsValid = (annetArbeidsforhold: Arbeidsfor
     arbeidsforholdFormDataPartOneIsValid(annetArbeidsforhold);
 
 export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
-    const ansettelsesLengde = arbeidsforhold[ArbeidsforholdFormDataFields.ansettelseslengde];
-    const dokumenter = arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter];
-    const harPerioderMedFravær = arbeidsforhold[ArbeidsforholdFormDataFields.harPerioderMedFravær];
-    const perioderMedFravær = arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær];
-    const harDagerMedDelvisFravær = arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær];
-    const dagerMedDelvisFravær = arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær];
+    const ansettelsesLengde = arbeidsforhold.ansettelseslengde;
+    const dokumenter = arbeidsforhold.dokumenter;
+    const harPerioderMedFravær = arbeidsforhold.harPerioderMedFravær;
+    const fraværPerioder = arbeidsforhold.fraværPerioder;
+    const harDagerMedDelvisFravær = arbeidsforhold.harDagerMedDelvisFravær;
+    const fraværDager = arbeidsforhold.fraværDager;
 
     if (
         arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) &&
         ansettelsesLengdeIsValid(ansettelsesLengde, dokumenter) &&
-        perioderIsValid(harPerioderMedFravær, perioderMedFravær) &&
-        delvisFraværIsValid(harDagerMedDelvisFravær, dagerMedDelvisFravær)
+        perioderIsValid(harPerioderMedFravær, fraværPerioder) &&
+        delvisFraværIsValid(harDagerMedDelvisFravær, fraværDager)
     ) {
         return true;
     } else {
