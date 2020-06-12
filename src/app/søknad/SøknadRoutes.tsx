@@ -23,8 +23,7 @@ import { redirectIfForbiddenOrUnauthorized } from '../api/api';
 import { WillRedirect } from '../types/types';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import AnnetStepView from './annet-step/AnnetStep';
-import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../utils/sentryUtils';
-import { Severity } from '@sentry/types';
+import appSentryLogger from '../utils/appSentryLogger';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -61,7 +60,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                     navigateToLoginPage();
                 } else {
                     setShowErrorMessage(true);
-                    logApiCallErrorToSentryOrConsole(error);
+                    appSentryLogger.logApiError(error);
                 }
             }
         }
@@ -115,7 +114,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             try {
                 await SøknadTempStorage.purge();
             } catch (error) {
-                logApiCallErrorToSentryOrConsole(error);
+                appSentryLogger.logApiError(error);
             }
         }
         navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
@@ -218,9 +217,8 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                                     handleSøknadSentSuccessfully(apiData);
                                 } else {
                                     setShowErrorMessage(true);
-                                    logToSentryOrConsole(
-                                        `onApplicationSent: sentSuccessfully: ${sentSuccessfully}`,
-                                        Severity.Critical
+                                    appSentryLogger.logError(
+                                        `onApplicationSent: sentSuccessfully: ${sentSuccessfully}`
                                     );
                                 }
                             }}

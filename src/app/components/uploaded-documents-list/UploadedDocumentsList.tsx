@@ -7,8 +7,6 @@ import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/uti
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { deleteFile } from '../../api/api';
 import { SøknadFormData } from '../../types/SøknadFormData';
-import { logToSentryOrConsole } from '../../utils/sentryUtils';
-import { Severity } from '@sentry/types';
 
 interface Props {
     attachments: Attachment[];
