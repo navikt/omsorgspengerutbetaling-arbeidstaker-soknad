@@ -7,8 +7,7 @@ import Page from 'common/components/page/Page';
 import intlHelper from 'common/utils/intlUtils';
 import VeilederLokal from './VeilederLokal';
 import './generalErrorPage.less';
-import { logToSentryOrConsole } from '../../../utils/sentryUtils';
-import { Severity } from '@sentry/types';
+import appSentryLogger from '../../../utils/appSentryLogger';
 
 export interface Props {
     cause: string;
@@ -18,7 +17,7 @@ const GeneralErrorPage: React.FC<Props> = ({ cause }: Props): JSX.Element => {
     const intl = useIntl();
 
     useEffect(() => {
-        logToSentryOrConsole(`User on GeneralErrorPage. Cause:${cause}`, Severity.Critical);
+        appSentryLogger.logError(`User on GeneralErrorPage. Cause:${cause}`);
     });
 
     return (

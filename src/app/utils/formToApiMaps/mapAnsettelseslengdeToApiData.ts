@@ -1,12 +1,11 @@
 import { Ansettelseslengde, Begrunnelse } from '../../types/SøknadApiData';
-import { logToSentryOrConsole } from '../sentryUtils';
-import { Severity } from '@sentry/types';
 import {
     AnsettelseslengdeFormData,
     AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
     HvorLengeJobbetFordi
 } from '../../types/AnsettelseslengdeTypes';
+import appSentryLogger from '../appSentryLogger';
 
 export const forklaringEllerNull = (ansettelseslengdeFormData: AnsettelseslengdeFormData): string | null => {
     if (
@@ -60,16 +59,14 @@ export const mapHvorLengeJobbetToBoolean = (hvorLengeJobbet: HvorLengeJobbet): b
         case HvorLengeJobbet.MER_ENN_FIRE_UKER:
             return true;
         case HvorLengeJobbet.IKKE_BESVART: {
-            logToSentryOrConsole(
-                `Mapping Error in mapHvorLengeJobbetToBoolean. Case: ${HvorLengeJobbet.IKKE_BESVART}. Det skal ikke være mulig å komme til oppsummeringssiden uten å ha valgt enten mer eller mindre enn fire uker`,
-                Severity.Critical
+            appSentryLogger.logError(
+                `Mapping Error in mapHvorLengeJobbetToBoolean. Case: ${HvorLengeJobbet.IKKE_BESVART}. Det skal ikke være mulig å komme til oppsummeringssiden uten å ha valgt enten mer eller mindre enn fire uker`
             );
             return false;
         }
         default: {
-            logToSentryOrConsole(
-                `Mapping Error in mapHvorLengeJobbetToBoolean. Case: Default. Det skal ikke være mulig å oppnå Default`,
-                Severity.Critical
+            appSentryLogger.logError(
+                `Mapping Error in mapHvorLengeJobbetToBoolean. Case: Default. Det skal ikke være mulig å oppnå Default`
             );
             return false;
         }

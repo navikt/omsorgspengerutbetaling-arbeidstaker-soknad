@@ -11,9 +11,8 @@ import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 import { WillRedirect } from '../types/types';
-import Sentry, { Severity } from '@sentry/browser';
-import { logApiCallErrorToSentryOrConsole, logToSentryOrConsole } from '../utils/sentryUtils';
 import { isSøknadFormData } from '../types/SøknadFormDataTypeGuards';
+import appSentryLogger from '../utils/appSentryLogger';
 
 interface Props {
     contentLoadedRenderer: (
@@ -65,7 +64,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
         });
         if (!isSøkerApiResponse(søkerResponse.data)) {
             setApiCallError(true);
-            logToSentryOrConsole('søkerApiResponse invalid (SøknadEssentialsLoader)', Severity.Critical);
+            appSentryLogger.logError('søkerApiResponse invalid (SøknadEssentialsLoader)');
         }
     };
 
@@ -84,7 +83,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
             const willRedirect = redirectIfForbiddenOrUnauthorized(error);
             if (willRedirect === WillRedirect.No) {
                 setApiCallError(true);
-                logApiCallErrorToSentryOrConsole(error);
+                appSentryLogger.logApiError(error);
             } else {
                 setState({ ...state, isLoading: true });
             }
