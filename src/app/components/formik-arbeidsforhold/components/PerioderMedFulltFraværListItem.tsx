@@ -36,6 +36,8 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
         to: GYLDIG_TIDSROM.to
     };
 
+    const disabledDateRanges = disabledPerioder?.map((p) => ({ from: p.fom, to: p.tom })) || [];
+
     return (
         <div className={bem.classNames(bem.block, bem.modifierConditional('firstRow', index === 0))}>
             <div className={bem.element('rangeWrapper')}>
@@ -48,12 +50,10 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                             validatePeriodeNotWeekend
                         ]),
                         name: `${name}.${index}.fom`,
-                        dateLimitations: {
-                            minDato: GYLDIG_TIDSROM.from,
-                            maksDato: dateToday,
-                            ugyldigeTidsperioder: disabledPerioder || [],
-                            helgedagerIkkeTillatt: true
-                        }
+                        minDate: GYLDIG_TIDSROM.from,
+                        maxDate: dateToday,
+                        disabledDateRanges,
+                        disableWeekend: true
                     }}
                     toDatepickerProps={{
                         validate: validateAll([
@@ -65,12 +65,10 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                         ]),
                         label: 'Til og med',
                         name: `${name}.${index}.tom`,
-                        dateLimitations: {
-                            minDato: tomDateRange.from,
-                            maksDato: dateToday,
-                            ugyldigeTidsperioder: disabledPerioder || [],
-                            helgedagerIkkeTillatt: true
-                        }
+                        minDate: tomDateRange.from,
+                        maxDate: dateToday,
+                        disabledDateRanges,
+                        disableWeekend: true
                     }}
                 />
             </div>
