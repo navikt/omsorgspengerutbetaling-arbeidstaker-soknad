@@ -13,8 +13,6 @@ import {
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import * as apiUtils from '../../utils/apiUtils';
-import { logToSentryOrConsole } from '../../utils/sentryUtils';
-import { Severity } from '@sentry/types';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;

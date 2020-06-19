@@ -18,11 +18,11 @@ import MedlemskapSummaryView from './components/MedlemskapSummaryView';
 import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSummaryView';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
 import FosterbarnSummaryView from './components/FosterbarnSummaryView';
-import { logApiCallErrorToSentryOrConsole } from '../../utils/sentryUtils';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SmittevernSummaryView from './components/SmittevernSummaryView';
+import appSentryLogger from '../../utils/appSentryLogger';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -49,7 +49,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                 navigateToLoginPage();
             } else {
                 onApplicationSent(false);
-                logApiCallErrorToSentryOrConsole(error);
+                appSentryLogger.logApiError(error);
             }
         }
     }

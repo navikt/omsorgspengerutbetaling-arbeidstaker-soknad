@@ -19,8 +19,6 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { logToSentryOrConsole } from '../../utils/sentryUtils';
-import { Severity } from '@sentry/types';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -30,6 +28,7 @@ import {
     checkHarKlikketNeiElleJajaBlanding,
     checkHarKlikketNeiPåAlle
 } from '../../validation/components/arbeidsforholdValidations';
+import appSentryLogger from '../../utils/appSentryLogger';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -62,13 +61,12 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 }
                 setIsLoading(false);
             } else {
-                logToSentryOrConsole(
+                appSentryLogger.logError(
                     `listeAvArbeidsgivereApiResponse invalid (SituasjonStepView). Response: ${JSON.stringify(
                         maybeResponse,
                         null,
                         4
-                    )}`,
-                    Severity.Critical
+                    )}`
                 );
             }
         };

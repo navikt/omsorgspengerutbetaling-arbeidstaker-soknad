@@ -8,7 +8,7 @@ import { AxiosResponse } from 'axios';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../types/ArbeidsforholdTypes';
 import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
 import { SøknadFormField } from '../types/SøknadFormData';
-import { logApiCallErrorToSentryOrConsole } from './sentryUtils';
+import appSentryLogger from './appSentryLogger';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -54,7 +54,7 @@ export const getArbeidsgivere = async (
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
         } else {
-            logApiCallErrorToSentryOrConsole(error);
+            appSentryLogger.logApiError(error);
         }
         return null;
     }
