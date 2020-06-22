@@ -8,7 +8,10 @@ import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtil
 import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { timeToStringTemporaryFix } from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
+import {
+    utbetalingsperiodeDagToDagSummaryStringView,
+    timeToStringTemporaryFix
+} from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
 
 interface Props {
     arbeidsgiverDetaljer: ArbeidsgiverDetaljer;
@@ -54,10 +57,12 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                             const maybePlanlagt: Time | undefined = isoDurationToMaybeTime(periode.antallTimerPlanlagt);
                             const maybeBorte: Time | undefined = isoDurationToMaybeTime(periode.antallTimerBorte);
                             return maybePlanlagt && maybeBorte ? (
-                                <li key={`periode-${i}`}>
-                                    {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))}: Skulle jobbet{' '}
-                                    {timeToStringTemporaryFix(maybePlanlagt, intl, true)}. Borte fra jobb{' '}
-                                    {timeToStringTemporaryFix(maybeBorte, intl, true)}.
+                                <li key={`delvisDag-${i}`}>
+                                    {utbetalingsperiodeDagToDagSummaryStringView({
+                                        dato: periode.fraOgMed,
+                                        antallTimerPlanlagt: maybePlanlagt,
+                                        antallTimerBorte: maybeBorte
+                                    })}
                                 </li>
                             ) : (
                                 <li key={`periode-${i}`}>
