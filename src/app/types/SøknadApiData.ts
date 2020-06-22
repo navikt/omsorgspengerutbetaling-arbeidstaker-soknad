@@ -78,7 +78,8 @@ export interface JobbHosNåværendeArbeidsgiver {
 export interface Utbetalingsperiode {
     fraOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
-    lengde: string | null; // f eks PT5H30M | "null" (type Duration)
+    antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)
+    antallTimerPlanlagt: string | null; // f eks PT5H30M | "null" (type Duration)
 }
 
 export interface SøknadApiData {

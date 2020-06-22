@@ -2,6 +2,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { FraværDelerAvDag, Periode } from './PeriodeTypes';
 import { Attachment } from 'common/types/Attachment';
 import { AnsettelseslengdeFormData, initialAnsettelseslengdeFormData } from './AnsettelseslengdeTypes';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
 export enum ArbeidsforholdFormDataFields {
     navn = 'navn',
@@ -10,9 +11,9 @@ export enum ArbeidsforholdFormDataFields {
     arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn',
     ansettelseslengde = 'ansettelseslengde',
     harPerioderMedFravær = 'harPerioderMedFravær',
-    perioderMedFravær = 'perioderMedFravær',
+    fraværPerioder = 'fraværPerioder',
     harDagerMedDelvisFravær = 'harDagerMedDelvisFravær',
-    dagerMedDelvisFravær = 'dagerMedDelvisFravær',
+    fraværDager = 'fraværDager',
     dokumenter = 'dokumenter'
 }
 
@@ -23,9 +24,9 @@ export interface ArbeidsforholdFormData {
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
     [ArbeidsforholdFormDataFields.ansettelseslengde]: AnsettelseslengdeFormData;
     [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo;
-    [ArbeidsforholdFormDataFields.perioderMedFravær]: Periode[];
+    [ArbeidsforholdFormDataFields.fraværPerioder]: FraværPeriode[];
     [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo;
-    [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: FraværDelerAvDag[];
+    [ArbeidsforholdFormDataFields.fraværDager]: FraværDag[];
     [ArbeidsforholdFormDataFields.dokumenter]: Attachment[];
 }
 
@@ -36,8 +37,8 @@ export const initialArbeidsforholdFormData: ArbeidsforholdFormData = {
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo.UNANSWERED,
     [ArbeidsforholdFormDataFields.ansettelseslengde]: initialAnsettelseslengdeFormData,
     [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo.UNANSWERED,
-    [ArbeidsforholdFormDataFields.perioderMedFravær]: [],
+    [ArbeidsforholdFormDataFields.fraværPerioder]: [],
     [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.UNANSWERED,
-    [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: [],
+    [ArbeidsforholdFormDataFields.fraværDager]: [],
     [ArbeidsforholdFormDataFields.dokumenter]: []
 };

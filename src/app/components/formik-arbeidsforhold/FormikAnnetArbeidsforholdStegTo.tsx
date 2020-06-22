@@ -28,11 +28,11 @@ const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({ annetArbeidsforhold,
     const nameDokumenter = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.dokumenter);
 
     const nameHarPerioderMedFravær = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.harPerioderMedFravær);
-    const namePerioderMedFravær = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.perioderMedFravær);
+    const namePerioderMedFravær = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.fraværPerioder);
     const nameHarDagerMedDelvisFravær = getFieldNameAnnetArbeidsforhold(
         ArbeidsforholdFormDataFields.harDagerMedDelvisFravær
     );
-    const nameDagerMedDelvisFravær = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.dagerMedDelvisFravær);
+    const nameDagerMedDelvisFravær = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.fraværDager);
 
     return (
         <FormBlock paddingBottom={'xl'}>

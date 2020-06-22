@@ -10,44 +10,42 @@ import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utlan
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { useFormikContext } from 'formik';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import SøknadStep from '../SøknadStep';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import { mapPeriodeTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
-import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { mapFraværTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
+import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import Box from 'common/components/box/Box';
 import SmittevernInfo from '../../components/information/SmittevernInfo';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
-    const { values, validateField, validateForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const { perioderHarVærtIUtlandet } = values;
     const intl = useIntl();
 
-    const arbeidsforholdPerioder: Periode[] = values[SøknadFormField.arbeidsforhold]
+    const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold[ArbeidsforholdFormDataFields.perioderMedFravær];
+            return arbeidsforhold.fraværPerioder;
         })
         .flat();
 
-    const arbeidsforholdDager: FraværDelerAvDag[] = values[SøknadFormField.arbeidsforhold]
+    const arbeidsforholdDager: FraværDag[] = values.arbeidsforhold
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold[ArbeidsforholdFormDataFields.dagerMedDelvisFravær];
+            return arbeidsforhold.fraværDager;
         })
         .flat();
 
-    const annetPeriode: Periode[] =
-        values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.perioderMedFravær];
-    const annetDag: FraværDelerAvDag[] =
-        values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.dagerMedDelvisFravær];
+    const annetPeriode: FraværPeriode[] = values.annetArbeidsforhold.fraværPerioder;
+    const annetDag: FraværDag[] = values.annetArbeidsforhold.fraværDager;
 
-    const utbetalingsperioder: Utbetalingsperiode[] = mapPeriodeTilUtbetalingsperiode(
+    const utbetalingsperioder: Utbetalingsperiode[] = mapFraværTilUtbetalingsperiode(
         [...arbeidsforholdPerioder, ...annetPeriode],
         [...arbeidsforholdDager, ...annetDag]
     );
@@ -99,7 +97,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                     }
                 />
             </FormBlock>
-            {values[SøknadFormField.hjemmePgaSmittevernhensynYesOrNo] === YesOrNo.YES && (
+            {values.hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES && (
                 <>
                     <CounsellorPanel>
                         <Box padBottom={'l'}>
@@ -115,7 +113,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                     <FormikVedleggsKomponent
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.smittevernVedlegg')}
                         formikName={SøknadFormField.smittevernDokumenter}
-                        dokumenter={values[SøknadFormField.smittevernDokumenter]}
+                        dokumenter={values.smittevernDokumenter}
                     />
                 </>
             )}
@@ -125,7 +123,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                     legend={intlHelper(intl, 'step.periode.har_søkt_andre_utbetalinger.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
-                {values[SøknadFormField.harSøktAndreUtbetalinger] === YesOrNo.YES && (
+                {values.harSøktAndreUtbetalinger === YesOrNo.YES && (
                     <FormBlock>
                         <SøknadFormComponents.CheckboxPanelGroup
                             name={SøknadFormField.andreUtbetalinger}

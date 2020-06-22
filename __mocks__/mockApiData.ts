@@ -50,7 +50,8 @@ export const mock1: SøknadApiData = {
                 {
                     fraOgMed: '2002-01-21',
                     tilOgMed: '2002-01-31',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 }
             ]
         }

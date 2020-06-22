@@ -6,11 +6,7 @@ import { apiUtils } from './apiUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AxiosResponse } from 'axios';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../types/ArbeidsforholdTypes';
-import {
-    AnsettelseslengdeFormDataFields,
-    HvorLengeJobbet,
-    HvorLengeJobbetFordi
-} from '../types/AnsettelseslengdeTypes';
+import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
 import { SøknadFormField } from '../types/SøknadFormData';
 import appSentryLogger from './appSentryLogger';
 
@@ -25,32 +21,20 @@ export const syncArbeidsforholdWithArbeidsgivere = (
 
         return {
             ...arbeidsgiver,
-            [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: a
-                ? a[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]
-                : YesOrNo.UNANSWERED,
-            [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: a
-                ? a[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]
-                : YesOrNo.UNANSWERED,
-            [ArbeidsforholdFormDataFields.ansettelseslengde]: a
-                ? a[ArbeidsforholdFormDataFields.ansettelseslengde]
+            arbeidsgiverHarUtbetaltLønn: a ? a.arbeidsgiverHarUtbetaltLønn : YesOrNo.UNANSWERED,
+            harHattFraværHosArbeidsgiver: a ? a.harHattFraværHosArbeidsgiver : YesOrNo.UNANSWERED,
+            ansettelseslengde: a
+                ? a.ansettelseslengde
                 : {
-                      [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
-                      [AnsettelseslengdeFormDataFields.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
-                      [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: ''
+                      hvorLengeJobbet: HvorLengeJobbet.IKKE_BESVART,
+                      begrunnelse: HvorLengeJobbetFordi.IKKE_BESVART,
+                      ingenAvSituasjoneneForklaring: ''
                   },
-            [ArbeidsforholdFormDataFields.harPerioderMedFravær]: a
-                ? a[ArbeidsforholdFormDataFields.harPerioderMedFravær]
-                : YesOrNo.UNANSWERED,
-            [ArbeidsforholdFormDataFields.perioderMedFravær]: a
-                ? a[ArbeidsforholdFormDataFields.perioderMedFravær]
-                : [],
-            [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: a
-                ? a[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]
-                : YesOrNo.UNANSWERED,
-            [ArbeidsforholdFormDataFields.dagerMedDelvisFravær]: a
-                ? a[ArbeidsforholdFormDataFields.dagerMedDelvisFravær]
-                : [],
-            [ArbeidsforholdFormDataFields.dokumenter]: a ? a[ArbeidsforholdFormDataFields.dokumenter] : []
+            harPerioderMedFravær: a ? a.harPerioderMedFravær : YesOrNo.UNANSWERED,
+            fraværPerioder: a ? a.fraværPerioder : [],
+            harDagerMedDelvisFravær: a ? a.harDagerMedDelvisFravær : YesOrNo.UNANSWERED,
+            fraværDager: a ? a.fraværDager : [],
+            dokumenter: a ? a.dokumenter : []
         };
     });
     return arbeidsforholdUpdatedList;

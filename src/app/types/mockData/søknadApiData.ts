@@ -19,22 +19,26 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                 {
                     fraOgMed: '2020-05-01',
                     tilOgMed: '2020-05-02',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-05-04',
                     tilOgMed: '2020-05-05',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-05-06',
                     tilOgMed: '2020-05-06',
-                    lengde: 'PT1H0M'
+                    antallTimerPlanlagt: 'PT5H0M',
+                    antallTimerBorte: 'PT5H0M'
                 },
                 {
                     fraOgMed: '2020-05-07',
                     tilOgMed: '2020-05-07',
-                    lengde: 'PT2H30M'
+                    antallTimerPlanlagt: 'PT7H0M',
+                    antallTimerBorte: 'PT7H0M'
                 }
             ]
         },
@@ -52,22 +56,26 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                 {
                     fraOgMed: '2020-04-01',
                     tilOgMed: '2020-04-02',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-04-03',
                     tilOgMed: '2020-04-04',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-04-06',
                     tilOgMed: '2020-04-06',
-                    lengde: 'PT2H30M'
+                    antallTimerPlanlagt: 'PT2H30M',
+                    antallTimerBorte: 'PT2H30M'
                 },
                 {
                     fraOgMed: '2020-04-07',
                     tilOgMed: '2020-04-07',
-                    lengde: 'PT4H0M'
+                    antallTimerPlanlagt: 'PT4H0M',
+                    antallTimerBorte: 'PT4H0M'
                 }
             ]
         },
@@ -85,22 +93,26 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                 {
                     fraOgMed: '2020-03-02',
                     tilOgMed: '2020-03-03',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-03-04',
                     tilOgMed: '2020-03-05',
-                    lengde: null
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-03-09',
                     tilOgMed: '2020-03-09',
-                    lengde: 'PT3H0M'
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 },
                 {
                     fraOgMed: '2020-03-10',
                     tilOgMed: '2020-03-10',
-                    lengde: 'PT5H0M'
+                    antallTimerPlanlagt: null,
+                    antallTimerBorte: null
                 }
             ]
         }
