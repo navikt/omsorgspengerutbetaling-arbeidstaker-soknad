@@ -1,7 +1,6 @@
 export enum Feature {
     'UTILGJENGELIG' = 'UTILGJENGELIG',
-    'MELLOMLAGRING' = 'MELLOMLAGRING',
-    'DEMO_MODE' = 'DEMO_MODE'
+    'MELLOMLAGRING' = 'MELLOMLAGRING'
 }
 
 export const isFeatureEnabled = (feature: Feature): boolean => {
