@@ -91,7 +91,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                     legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title="Mer om særlige smittevernhensyn">
+                        <ExpandableInfo title="Hva menes med særlige smittevernhensyn?">
                             <SmittevernInfo />
                         </ExpandableInfo>
                     }

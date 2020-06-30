@@ -213,7 +213,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                 name={PageFormField.smittevernHensyn}
                                                 legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
                                                 description={
-                                                    <ExpandableInfo title="Mer om særlige smittevernhensyn">
+                                                    <ExpandableInfo title="Hva menes med særlige smittevernhensyn?">
                                                         <SmittevernInfo />
                                                     </ExpandableInfo>
                                                 }
