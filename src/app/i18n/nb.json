@@ -437,6 +437,6 @@
     "ingen.gjeldende.arbeidsforhold.info.text.jaja": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "ingen.gjeldende.arbeidsforhold.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden. Hvis din arbeidsgiver ikke er registrert i listen, så kan du selv legge til informasjon over. ",
     "ingen.gjeldende.arbeidsforhold.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
-    "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn på grunn av særlige smittevernhensyn?",
+    "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn grunnet særlige smittevernhensyn?",
     "validation.minimum_en_periode_per_arbeidsforhold_required": "Hvis du ikke har hatt fravær fra denne arbeidsgiveren, må du gå tilbake og endre svaret ditt på samme spørsmål på forrige steg."
 }
