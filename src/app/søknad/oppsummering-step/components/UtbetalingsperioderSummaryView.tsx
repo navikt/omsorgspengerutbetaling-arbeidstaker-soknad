@@ -3,7 +3,7 @@ import { IntlShape, useIntl, FormattedMessage } from 'react-intl';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import { Time } from 'common/types/Time';
 import { apiStringDateToDate, prettifyDate, prettifyDateExtended } from 'common/utils/dateUtils';
-import { iso8601DurationToTime, isValidTime, timeToDecimalTime, timeToString } from 'common/utils/timeUtils';
+import { iso8601DurationToTime, timeToDecimalTime } from 'common/utils/timeUtils';
 import { Utbetalingsperiode } from '../../../types/SøknadApiData';
 import SummaryBlock from './SummaryBlock';
 import { isString } from 'formik';
@@ -31,6 +31,7 @@ export const timeToStringTemporaryFix = (time: Time, intl: IntlShape, hideZeroMi
     return `${time.hours} timer og ${time.minutes} minutter`;
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const isTime = (value: any): value is Time => {
     return value && value.hours !== undefined && value.minutes !== undefined;
 };
@@ -47,7 +48,7 @@ export const toMaybeUtbetalingsperiodeDag = (p: Utbetalingsperiode): Utbetalings
             return {
                 dato: p.fraOgMed,
                 antallTimerPlanlagt: antallTimerPlanlagtTime,
-                antallTimerBorte: antallTimerBorteTime
+                antallTimerBorte: antallTimerBorteTime,
             };
         }
     }
@@ -72,7 +73,7 @@ export const utbetalingsperiodeDagToDagSummaryStringView = (dag: Utbetalingsperi
             values={{
                 dato: prettifyDateExtended(apiStringDateToDate(dag.dato)),
                 timerSkulleJobbet: antallTimerSkulleJobbet,
-                timerBorte: antallTimerBorteFraJobb
+                timerBorte: antallTimerBorteFraJobb,
             }}
         />
     );
@@ -96,7 +97,7 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
                                 id="steg.oppsummering.utbetaling.fravær.heleDager.item"
                                 values={{
                                     fom: prettifyDate(apiStringDateToDate(periode.fraOgMed)),
-                                    tom: prettifyDate(apiStringDateToDate(periode.tilOgMed))
+                                    tom: prettifyDate(apiStringDateToDate(periode.tilOgMed)),
                                 }}
                             />
                         )}

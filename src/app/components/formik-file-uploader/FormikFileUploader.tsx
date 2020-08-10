@@ -9,7 +9,7 @@ import {
     getPendingAttachmentFromFile,
     isFileObject,
     mapFileToPersistedFile,
-    VALID_EXTENSIONS
+    VALID_EXTENSIONS,
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import * as apiUtils from '../../utils/apiUtils';
@@ -37,7 +37,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     onUnauthorizedOrForbiddenUpload,
     listOfAttachments,
     ...otherProps
-}) => {
+}: Props) => {
     function setAttachmentPendingToFalse(attachment: Attachment): Attachment {
         attachment.pending = false;
         return attachment;

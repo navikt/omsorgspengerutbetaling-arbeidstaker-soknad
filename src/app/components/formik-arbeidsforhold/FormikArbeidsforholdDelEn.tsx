@@ -9,7 +9,7 @@ interface Props {
     index: number;
 }
 
-const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
+const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }: Props) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }): JSX.Element => {

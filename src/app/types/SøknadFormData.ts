@@ -32,7 +32,7 @@ export enum SøknadFormField {
     utenlandsoppholdNeste12Mnd = 'utenlandsoppholdNeste12Mnd',
 
     hjemmePgaSmittevernhensynYesOrNo = 'hjemmePgaSmittevernhensynYesOrNo',
-    smittevernDokumenter = 'smittevernDokumenter'
+    smittevernDokumenter = 'smittevernDokumenter',
 }
 
 export interface SøknadFormData {
@@ -92,5 +92,5 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
 
     [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo.UNANSWERED,
-    [SøknadFormField.smittevernDokumenter]: []
+    [SøknadFormField.smittevernDokumenter]: [],
 };

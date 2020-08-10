@@ -17,7 +17,7 @@ const renderSteps = (stepConfig: StepConfigInterface, intl: IntlShape): JSX.Elem
         return <Step label={stepIndicatorLabel} index={index} key={`${stepIndicatorLabel + index}`} />;
     });
 
-const StepIndicator: React.FunctionComponent<StepIndicatorProps> = ({ activeStep, stepConfig }) => {
+const StepIndicator: React.FunctionComponent<StepIndicatorProps> = ({ activeStep, stepConfig }: StepIndicatorProps) => {
     const intl = useIntl();
     return (
         <NAVStepIndicator visLabel={false} autoResponsiv={false} aktivtSteg={activeStep}>

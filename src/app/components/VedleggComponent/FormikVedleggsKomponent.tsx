@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -17,7 +16,6 @@ interface Props {
 
 const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uploadButtonLabel }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const intl = useIntl();
 
     return (
         <div>

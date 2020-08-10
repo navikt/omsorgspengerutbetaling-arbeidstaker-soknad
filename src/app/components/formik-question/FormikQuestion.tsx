@@ -34,12 +34,12 @@ const FormikQuestion = <FieldName, FieldValueType>(
             radios={[
                 {
                     label: firstAlternative.label,
-                    value: firstAlternative.value
+                    value: firstAlternative.value,
                 },
                 {
                     label: secondAlternative.label,
-                    value: secondAlternative.value
-                }
+                    value: secondAlternative.value,
+                },
             ]}
             {...restProps}
             legend={

@@ -1,5 +1,4 @@
 import { YesOrNo } from 'common/types/YesOrNo';
-import { FraværDelerAvDag, Periode } from './PeriodeTypes';
 import { Attachment } from 'common/types/Attachment';
 import { AnsettelseslengdeFormData, initialAnsettelseslengdeFormData } from './AnsettelseslengdeTypes';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
@@ -14,7 +13,7 @@ export enum ArbeidsforholdFormDataFields {
     fraværPerioder = 'fraværPerioder',
     harDagerMedDelvisFravær = 'harDagerMedDelvisFravær',
     fraværDager = 'fraværDager',
-    dokumenter = 'dokumenter'
+    dokumenter = 'dokumenter',
 }
 
 export interface ArbeidsforholdFormData {
@@ -40,5 +39,5 @@ export const initialArbeidsforholdFormData: ArbeidsforholdFormData = {
     [ArbeidsforholdFormDataFields.fraværPerioder]: [],
     [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo.UNANSWERED,
     [ArbeidsforholdFormDataFields.fraværDager]: [],
-    [ArbeidsforholdFormDataFields.dokumenter]: []
+    [ArbeidsforholdFormDataFields.dokumenter]: [],
 };

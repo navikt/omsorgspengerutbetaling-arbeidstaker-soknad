@@ -1,5 +1,4 @@
 import { Attachment } from 'common/types/Attachment';
-import { notUndefined } from '../../types/typeGuardUtilities';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { AnsettelseslengdeFormDataFields, HvorLengeJobbet } from '../../types/AnsettelseslengdeTypes';
 

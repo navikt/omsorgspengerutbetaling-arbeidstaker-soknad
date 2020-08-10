@@ -22,15 +22,12 @@ export interface StepProps {
 }
 
 interface OwnProps {
+    children: React.ReactNode;
     stepConfig: StepConfigInterface;
 }
 
-const Step: React.FunctionComponent<StepProps & OwnProps> = ({
-    id,
-    stepConfig,
-    useValidationErrorSummary,
-    children
-}) => {
+type Props = StepProps & OwnProps;
+const Step: React.FunctionComponent<Props> = ({ id, stepConfig, useValidationErrorSummary, children }: Props) => {
     const intl = useIntl();
     const conf = stepConfig[id];
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);

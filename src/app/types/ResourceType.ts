@@ -4,5 +4,5 @@ export enum ResourceType {
     SEND_SØKNAD = 'soknad',
     SØKER = 'soker',
     MELLOMLAGRING = 'mellomlagring',
-    VEDLEGG = 'vedlegg'
+    VEDLEGG = 'vedlegg',
 }

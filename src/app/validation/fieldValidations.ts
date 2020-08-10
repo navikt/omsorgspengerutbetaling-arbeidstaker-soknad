@@ -7,7 +7,7 @@ import {
     DateRange,
     dateRangesCollide,
     dateRangesExceedsRange,
-    dateToday
+    dateToday,
 } from 'common/utils/dateUtils';
 import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
@@ -44,7 +44,7 @@ export enum AppFieldValidationErrors {
     'for_mange_dokumenter' = 'fieldvalidation.for_mange_dokumenter',
     'ingen_dokumenter' = 'fieldvalidation.ingen_dokumenter',
     'ikke_lørdag_eller_søndag_periode' = 'fieldvalidation.saturday_and_sunday_not_possible_periode',
-    'ikke_lørdag_eller_søndag_dag' = 'fieldvalidation.saturday_and_sunday_not_possible_dag'
+    'ikke_lørdag_eller_søndag_dag' = 'fieldvalidation.saturday_and_sunday_not_possible_dag',
 }
 
 export const createAppFieldValidationError = (

@@ -22,7 +22,7 @@ const PictureScanningGuide: React.FunctionComponent = () => {
                 tagName="ul"
                 id="psg-temp.section1.liste"
                 values={{
-                    li: (msg: string): React.ReactNode => <li>{msg}</li>
+                    li: (msg: string): React.ReactNode => <li>{msg}</li>,
                 }}
             />
 
@@ -34,7 +34,7 @@ const PictureScanningGuide: React.FunctionComponent = () => {
                 tagName="ul"
                 id="psg-temp.section2.liste"
                 values={{
-                    li: (msg: string): React.ReactNode => <li>{msg}</li>
+                    li: (msg: string): React.ReactNode => <li>{msg}</li>,
                 }}
             />
             <div className={bem.element('examples')}>

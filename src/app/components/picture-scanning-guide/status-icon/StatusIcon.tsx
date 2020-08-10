@@ -2,15 +2,13 @@ import React from 'react';
 
 export type StatusIconStatusKey = 'suksess' | 'advarsel' | 'feil';
 
-export interface OwnProps {
+export interface Props {
     status: StatusIconStatusKey;
     title?: string;
     size?: number;
 }
 
-type Props = OwnProps;
-
-const FeilSirkelFyll: React.StatelessComponent<Props> = (props) => {
+const FeilSirkelFyll: React.StatelessComponent<Props> = (props: Props) => {
     return (
         <svg role="presentation" focusable="false" viewBox="0 0 24 24" width={props.size} height={props.size}>
             <g fill="none" fillRule="evenodd">
@@ -29,7 +27,7 @@ const FeilSirkelFyll: React.StatelessComponent<Props> = (props) => {
     );
 };
 
-const InfoSirkelFyll: React.StatelessComponent<Props> = (props) => {
+const InfoSirkelFyll: React.StatelessComponent<Props> = (props: Props) => {
     return (
         <svg role="presentation" focusable="false" viewBox="0 0 24 24" width={props.size} height={props.size}>
             {props.title && <title>{props.title}</title>}
@@ -46,7 +44,7 @@ const InfoSirkelFyll: React.StatelessComponent<Props> = (props) => {
     );
 };
 
-const OkSirkelFyll: React.StatelessComponent<Props> = (props) => {
+const OkSirkelFyll: React.StatelessComponent<Props> = (props: Props) => {
     return (
         <svg role="presentation" focusable="false" viewBox="0 0 24 24" width={props.size} height={props.size}>
             <g fillRule="nonzero" fill="none">

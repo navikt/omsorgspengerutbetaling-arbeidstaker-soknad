@@ -68,7 +68,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     }
 
     const navigateToNextStepIfExistsFrom = (stepID: StepID): void => {
-        const nextStepID: StepID | undefined = getNextStepId(stepID, values);
+        const nextStepID: StepID | undefined = getNextStepId(stepID);
         if (nextStepID) {
             navigateToStep(nextStepID);
         }
@@ -92,7 +92,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             formikProps.setFormikState((prevState) => {
                 return {
                     ...prevState,
-                    values: initialValues
+                    values: initialValues,
                 };
             });
         } catch (e) {

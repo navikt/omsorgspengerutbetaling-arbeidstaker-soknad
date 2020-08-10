@@ -3,7 +3,7 @@ import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { fødselsnummerIsValid } from 'common/validation/fødselsnummerValidator';
 
 export const fosterbarnIsValid = (fosterbarn: Fosterbarn): boolean => {
-    const [isValid, fødselsnummerValidationErrorReasonListe] = fødselsnummerIsValid(fosterbarn.fødselsnummer);
+    const [isValid] = fødselsnummerIsValid(fosterbarn.fødselsnummer);
     return isValid;
 };
 

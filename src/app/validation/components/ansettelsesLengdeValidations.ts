@@ -2,7 +2,7 @@ import {
     AnsettelseslengdeFormData,
     AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
-    HvorLengeJobbetFordi
+    HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
 import { Attachment } from 'common/types/Attachment';
 

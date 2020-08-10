@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage, useIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Sidetittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
@@ -33,7 +33,7 @@ const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
                         bannerSize="large"
                         counsellorWithSpeechBubbleProps={{
                             strongText: intlHelper(intl, 'welcomingPage.banner.tittel'),
-                            normalText: intlHelper(intl, 'welcomingPage.banner.tekst')
+                            normalText: intlHelper(intl, 'welcomingPage.banner.tekst'),
                         }}
                     />
                 )}>

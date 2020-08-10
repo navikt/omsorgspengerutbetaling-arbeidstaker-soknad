@@ -25,7 +25,7 @@ import UtbetalingsperioderSummaryView from '../oppsummering-step/components/Utbe
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 
-const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
+const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
     const { perioderHarVærtIUtlandet } = values;
     const intl = useIntl();
@@ -78,7 +78,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                         maxDate={dateToday}
                         labels={{
                             addLabel: intlHelper(intl, 'step.annet.periodeoversikt.leggTilLabel'),
-                            modalTitle: intlHelper(intl, 'step.annet.periodeoversikt.modalTittel')
+                            modalTitle: intlHelper(intl, 'step.annet.periodeoversikt.modalTittel'),
                         }}
                         validate={validateRequiredList}
                     />
@@ -129,13 +129,13 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                                 {
                                     id: AndreUtbetalinger.dagpenger,
                                     value: AndreUtbetalinger.dagpenger,
-                                    label: intlHelper(intl, 'andre_utbetalinger.dagpenger')
+                                    label: intlHelper(intl, 'andre_utbetalinger.dagpenger'),
                                 },
                                 {
                                     id: AndreUtbetalinger.sykepenger,
                                     value: AndreUtbetalinger.sykepenger,
-                                    label: intlHelper(intl, 'andre_utbetalinger.sykepenger')
-                                }
+                                    label: intlHelper(intl, 'andre_utbetalinger.sykepenger'),
+                                },
                             ]}
                             validate={validateRequiredList}
                         />

@@ -1,6 +1,6 @@
 export enum WillRedirect {
     Yes = 'Yes',
-    No = 'No'
+    No = 'No',
 }
 
 export type StringOrNull = string | null;

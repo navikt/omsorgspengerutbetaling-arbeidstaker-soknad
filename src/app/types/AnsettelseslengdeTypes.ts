@@ -1,7 +1,7 @@
 export enum HvorLengeJobbet {
     MINDRE_ENN_FIRE_UKER = 'MINDRE_ENN_FIRE_UKER',
     MER_ENN_FIRE_UKER = 'MER_ENN_FIRE_UKER',
-    IKKE_BESVART = 'IKKE_BESVART'
+    IKKE_BESVART = 'IKKE_BESVART',
 }
 
 export enum HvorLengeJobbetFordi {
@@ -10,13 +10,13 @@ export enum HvorLengeJobbetFordi {
     LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = 'LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON',
     MILITÆRTJENESTE = 'MILITÆRTJENESTE',
     INGEN = 'INGEN',
-    IKKE_BESVART = 'IKKE_BESVART'
+    IKKE_BESVART = 'IKKE_BESVART',
 }
 
 export enum AnsettelseslengdeFormDataFields {
     hvorLengeJobbet = 'hvorLengeJobbet',
     begrunnelse = 'begrunnelse',
-    ingenAvSituasjoneneForklaring = 'ingenAvSituasjoneneForklaring'
+    ingenAvSituasjoneneForklaring = 'ingenAvSituasjoneneForklaring',
 }
 
 export interface AnsettelseslengdeFormData {
@@ -28,5 +28,5 @@ export interface AnsettelseslengdeFormData {
 export const initialAnsettelseslengdeFormData: AnsettelseslengdeFormData = {
     [AnsettelseslengdeFormDataFields.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
     [AnsettelseslengdeFormDataFields.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
-    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: ''
+    [AnsettelseslengdeFormDataFields.ingenAvSituasjoneneForklaring]: '',
 };

@@ -6,7 +6,7 @@ import {
     medlemskapStepIsAvailable,
     periodeStepIsAvailable,
     situasjonStepIsAvailable,
-    summaryStepAvailable
+    summaryStepAvailable,
 } from './stepUtils';
 
 export const getMaybeSøknadRoute = (stepId: StepID | undefined): string | undefined => {
@@ -18,13 +18,13 @@ export const getMaybeSøknadRoute = (stepId: StepID | undefined): string | undef
 
 export const getSøknadRoute = (stepId: StepID): string => `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
 
-export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): string | undefined => {
-    const stepConfig = getStepConfig(formData);
+export const getNextStepRoute = (stepId: StepID): string | undefined => {
+    const stepConfig = getStepConfig();
     return stepConfig[stepId] ? getMaybeSøknadRoute(stepConfig[stepId].nextStep) : undefined;
 };
 
-export const getNextStepId = (stepId: StepID, formData?: SøknadFormData): StepID | undefined => {
-    const stepConfig = getStepConfig(formData);
+export const getNextStepId = (stepId: StepID): StepID | undefined => {
+    const stepConfig = getStepConfig();
     return stepConfig[stepId] ? stepConfig[stepId].nextStep : undefined;
 };
 

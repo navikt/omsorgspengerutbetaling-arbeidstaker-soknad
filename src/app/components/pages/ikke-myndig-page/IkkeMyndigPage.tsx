@@ -25,7 +25,7 @@ const IkkeMyndigPage: React.FC = (): JSX.Element => {
                             <Lenke href={getLenker(intl.locale).papirskjemaPrivat} target="_blank">
                                 <FormattedMessage id="page.ikkeMyndig.banner.lastNed" />
                             </Lenke>
-                        )
+                        ),
                     }}
                 />
             )}>
