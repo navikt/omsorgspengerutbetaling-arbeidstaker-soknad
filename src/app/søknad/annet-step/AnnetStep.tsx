@@ -10,7 +10,7 @@ import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utlan
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { useFormikContext } from 'formik';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import SøknadStep from '../SøknadStep';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
@@ -27,6 +27,8 @@ import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import { FormikCheckboxPanelGroupProps } from '@navikt/sif-common-formik/lib/components/formik-checkbox-panel-group/FormikCheckboxPanelGroup';
 import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import InformasjonOmSelvstendigOgFrilans from './InformasjonOmSelvstendigOgFrilans';
 
 const TypedCheckboxPanelGroup: (
     props: FormikCheckboxPanelGroupProps<SøknadFormField>
@@ -153,33 +155,36 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                 )}
             </FormBlock>
 
-            <FormBlock margin={'l'}>
+            <FormBlock margin={'l'} paddingBottom={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.erSelvstendigOgEllerFrilans}
                     legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
+                {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
+                    <>
+                        <FormBlock margin={'m'}>
+                            <TypedCheckboxPanelGroup
+                                name={SøknadFormField.selvstendigOgEllerFrilans}
+                                checkboxes={[
+                                    {
+                                        id: SelvstendigOgEllerFrilans.selvstendig,
+                                        value: SelvstendigOgEllerFrilans.selvstendig,
+                                        label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label')
+                                    },
+                                    {
+                                        id: SelvstendigOgEllerFrilans.frilans,
+                                        value: SelvstendigOgEllerFrilans.frilans,
+                                        label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label')
+                                    }
+                                ]}
+                                validate={validateRequiredList}
+                            />
+                        </FormBlock>
+                        <InformasjonOmSelvstendigOgFrilans />
+                    </>
+                )}
             </FormBlock>
-            {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
-                <FormBlock paddingBottom={'l'}>
-                    <TypedCheckboxPanelGroup
-                        name={SøknadFormField.selvstendigOgEllerFrilans}
-                        checkboxes={[
-                            {
-                                id: SelvstendigOgEllerFrilans.selvstendig,
-                                value: SelvstendigOgEllerFrilans.selvstendig,
-                                label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label')
-                            },
-                            {
-                                id: SelvstendigOgEllerFrilans.frilans,
-                                value: SelvstendigOgEllerFrilans.frilans,
-                                label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label')
-                            }
-                        ]}
-                        validate={validateRequiredList}
-                    />
-                </FormBlock>
-            )}
         </SøknadStep>
     );
 };
