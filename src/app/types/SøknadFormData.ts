@@ -4,6 +4,7 @@ import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { AndreUtbetalinger } from './AndreUtbetalinger';
 import { ArbeidsforholdFormData, initialArbeidsforholdFormData } from './ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
+import { SelvstendigOgEllerFrilans } from './SelvstendigOgEllerFrilansTypes';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -24,6 +25,10 @@ export enum SøknadFormField {
     // Andre Utbeatlinger
     harSøktAndreUtbetalinger = 'harSøktAndreUtbetalinger',
     andreUtbetalinger = 'andreUtbetalinger',
+
+    // Er SN&F i tillegg
+    erSelvstendigOgEllerFrilans = 'erSelvstendigOgEllerFrilans',
+    selvstendigOgEllerFrilans = 'selvstendigOgEllerFrilans',
 
     // Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -55,6 +60,10 @@ export interface SøknadFormData {
     [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo;
     [SøknadFormField.andreUtbetalinger]: AndreUtbetalinger[];
 
+    // Selvstendig og eller frilans
+    [SøknadFormField.erSelvstendigOgEllerFrilans]: YesOrNo;
+    [SøknadFormField.selvstendigOgEllerFrilans]: SelvstendigOgEllerFrilans[];
+
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
@@ -84,6 +93,10 @@ export const initialValues: SøknadFormData = {
     // Andre Utbeatlinger
     [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo.UNANSWERED,
     [SøknadFormField.andreUtbetalinger]: [],
+
+    // Er selvstendig og eller frilans
+    [SøknadFormField.erSelvstendigOgEllerFrilans]: YesOrNo.UNANSWERED,
+    [SøknadFormField.selvstendigOgEllerFrilans]: [],
 
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
