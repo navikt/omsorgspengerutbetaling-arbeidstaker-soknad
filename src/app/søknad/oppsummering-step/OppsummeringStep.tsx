@@ -23,6 +23,7 @@ import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryV
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SmittevernSummaryView from './components/SmittevernSummaryView';
 import appSentryLogger from '../../utils/appSentryLogger';
+import SelvstendigOgEllerFrilansSummaryView from './components/SelvstendigOgEllerFrilansSummaryView';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -86,6 +87,9 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
                     <SmittevernSummaryView apiValues={apiValues} />
                     <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
+                    <SelvstendigOgEllerFrilansSummaryView
+                        selvstendigOgEllerFrilans={apiValues.selvstendigOgEllerFrilans}
+                    />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                     {/*<VedleggSummaryView apiValues={apiValues} />*/}
                 </Panel>

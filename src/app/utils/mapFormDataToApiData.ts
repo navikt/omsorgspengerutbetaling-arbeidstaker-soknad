@@ -31,6 +31,8 @@ export const mapFormDataToApiData = (
         perioderUtenlandsopphold,
         harSøktAndreUtbetalinger,
         andreUtbetalinger,
+        erSelvstendigOgEllerFrilans,
+        selvstendigOgEllerFrilans,
 
         // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
@@ -59,6 +61,7 @@ export const mapFormDataToApiData = (
         ]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
+        selvstendigOgEllerFrilans: erSelvstendigOgEllerFrilans === YesOrNo.YES ? [...selvstendigOgEllerFrilans] : [],
         fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         vedlegg: [

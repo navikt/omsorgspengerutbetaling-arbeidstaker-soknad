@@ -122,6 +122,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
         harForståttRettigheterOgPlikter: true
     },
     andreUtbetalinger: [],
+    selvstendigOgEllerFrilans: [],
     fosterbarn: null,
     hjemmePgaSmittevernhensyn: false,
     vedlegg: []

@@ -61,6 +61,7 @@ export const mock1: SøknadApiData = {
         harForståttRettigheterOgPlikter: true
     },
     andreUtbetalinger: [],
+    selvstendigOgEllerFrilans: [],
     fosterbarn: [
         {
             fødselsnummer: '12345678903',
