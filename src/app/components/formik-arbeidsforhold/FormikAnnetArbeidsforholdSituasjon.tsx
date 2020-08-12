@@ -42,7 +42,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
         annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES;
 
     return (
-        <FormBlock paddingBottom={'xxl'}>
+        <FormBlock paddingBottom={'l'}>
             <Box padBottom={'l'}>
                 <Undertittel>
                     <FormattedMessage id={'annetArbeidsforhold.undertittel'} />
@@ -77,7 +77,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                             validate={validateInputField}
                         />
                     </FormBlock>
-                    <Box margin="s" padBottom="xl">
+                    <Box margin="s" padBottom="l">
                         <AlertStripe type="info">
                             <FormattedMessage id="annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.infopanel.txt" />
                         </AlertStripe>
@@ -85,7 +85,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                 </>
             )}
             {skalViseInfopanelHarUtbetalt && (
-                <Box margin="s" padBottom="xl">
+                <Box margin="s" padBottom="l">
                     <AlertStripe type="info">
                         <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
                     </AlertStripe>

@@ -143,6 +143,28 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {/* ANNET ARBEIDSFORHOLD*/}
                 <FormikAnnetArbeidsforholdSituasjon />
 
+                {harKlikketJaJaPåAlle && (
+                    <FormBlock paddingBottom={'xxl'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+                {harKlikketNeiPåAlle && (
+                    <FormBlock paddingBottom={'xxl'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+                {harKlikketNeiElleJajaBlanding && (
+                    <FormBlock paddingBottom={'xxl'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+
                 {/* FOSTERBARN */}
 
                 <Box padBottom={'xxl'}>
@@ -171,28 +193,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                         </FormBlock>
                     )}
                 </FormBlock>
-
-                {harKlikketJaJaPåAlle && (
-                    <FormBlock paddingBottom={'l'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
-                {harKlikketNeiPåAlle && (
-                    <FormBlock paddingBottom={'l'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
-                {harKlikketNeiElleJajaBlanding && (
-                    <FormBlock paddingBottom={'l'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
             </>
         </SøknadStep>
     );
