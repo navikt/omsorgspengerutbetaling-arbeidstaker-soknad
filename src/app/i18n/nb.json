@@ -440,9 +440,10 @@
     "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn grunnet særlige smittevernhensyn?",
     "validation.minimum_en_periode_per_arbeidsforhold_required": "Hvis du ikke har hatt fravær fra denne arbeidsgiveren, må du gå tilbake og endre svaret ditt på samme spørsmål på forrige steg.",
 
+    "selvstendig_og_eller_frilans.ja_nei.undertittel": "Selvstendig næringsdrivende og frilanser",
     "selvstendig_og_eller_frilans.ja_nei.spm": "Er du selvstendig næringsdrivende og/eller frilanser i tillegg til at du er arbeidstaker?",
-    "selvstendig_og_eller_frilans.selvstendig.label": "Jeg er også selvstendig næringsdrivende",
-    "selvstendig_og_eller_frilans.frilans.label": "Jeg er også frilanser",
+    "selvstendig_og_eller_frilans.selvstendig.label": "Ja, jeg er også selvstendig næringsdrivende",
+    "selvstendig_og_eller_frilans.frilans.label": "Ja, jeg er også frilanser",
     "selvstendig_og_eller_frilans.selvstendig.ja.info": "Hvis du skal søke om omsorgspenger som frilanser, {lenkeKomponent}, i tillegg til denne.",
     "selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst": "må du sende en egen søknad om det",
     "selvstendig_og_eller_frilans.frilans.ja.info": "Hvis du skal søke om omsorgspenger som selvstendig næringsdrivende, {lenkeKomponent}, i tillegg til denne.",

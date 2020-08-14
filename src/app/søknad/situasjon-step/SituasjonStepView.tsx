@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'common/components/box/Box';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
@@ -29,6 +29,15 @@ import {
     checkHarKlikketNeiPåAlle
 } from '../../validation/components/arbeidsforholdValidations';
 import appSentryLogger from '../../utils/appSentryLogger';
+import intlHelper from 'common/utils/intlUtils';
+import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
+import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
+import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { FormikCheckboxPanelGroupProps } from '@navikt/sif-common-formik/lib/components/formik-checkbox-panel-group/FormikCheckboxPanelGroup';
+
+const TypedCheckboxPanelGroup: (
+    props: FormikCheckboxPanelGroupProps<SøknadFormField>
+) => JSX.Element = getTypedFormComponents<SøknadFormField, SøknadFormData>().CheckboxPanelGroup;
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -42,6 +51,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const { values } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
     const [doApiCalls, setDoApiCalls] = useState(true);
+    const intl = useIntl();
 
     useEffect(() => {
         const today: Date = dateToday;
@@ -164,6 +174,44 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                         </AlertStripe>
                     </FormBlock>
                 )}
+
+                {/* SELVSTENDIG OG ELLER FRILANS */}
+
+                <FormBlock margin={'xl'} paddingBottom={'xxxl'}>
+                    <Box padBottom={'xl'}>
+                        <Undertittel>
+                            <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
+                        </Undertittel>
+                    </Box>
+                    <SøknadFormComponents.YesOrNoQuestion
+                        name={SøknadFormField.erSelvstendigOgEllerFrilans}
+                        legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                    {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
+                        <>
+                            <FormBlock margin={'m'}>
+                                <TypedCheckboxPanelGroup
+                                    name={SøknadFormField.selvstendigOgEllerFrilans}
+                                    checkboxes={[
+                                        {
+                                            id: SelvstendigOgEllerFrilans.selvstendig,
+                                            value: SelvstendigOgEllerFrilans.selvstendig,
+                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label')
+                                        },
+                                        {
+                                            id: SelvstendigOgEllerFrilans.frilans,
+                                            value: SelvstendigOgEllerFrilans.frilans,
+                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label')
+                                        }
+                                    ]}
+                                    validate={validateRequiredList}
+                                />
+                            </FormBlock>
+                            <InformasjonOmSelvstendigOgFrilans />
+                        </>
+                    )}
+                </FormBlock>
 
                 {/* FOSTERBARN */}
 

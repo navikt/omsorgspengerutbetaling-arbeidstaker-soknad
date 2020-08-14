@@ -9,7 +9,7 @@
         "build": "node src/build/scripts/production-build.js",
         "build-heroku": "node src/build/scripts/heroku-build.js",
         "dev-api": "PORT=8082 node ./api-mock.js",
-        "dev": "npm-run-all -p start-api-mock start-no-decorator",
+        "dev": "npm-run-all -p api-mock snd",
         "prestart": "npm-run-all eslint",
         "start": "node ./src/build/scripts/start-dev.js",
         "snd": "node ./src/build/scripts/start-dev-no-decorator.js",

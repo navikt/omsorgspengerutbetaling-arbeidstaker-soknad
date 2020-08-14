@@ -11,7 +11,7 @@ const InformasjonOmSelvstendigOgFrilans: React.FC = () => {
                 <>
                     <Box padBottom={'l'}>
                         <FormattedMessage
-                            id={'selvstendig_og_eller_frilans.selvstendig.ja.info'}
+                            id={'selvstendig_og_eller_frilans.frilans.ja.info'}
                             values={{
                                 lenkeKomponent: (
                                     <a
@@ -27,10 +27,9 @@ const InformasjonOmSelvstendigOgFrilans: React.FC = () => {
                             }}
                         />
                     </Box>
-
                     <Box>
                         <FormattedMessage
-                            id={'selvstendig_og_eller_frilans.frilans.ja.info'}
+                            id={'selvstendig_og_eller_frilans.selvstendig.ja.info'}
                             values={{
                                 lenkeKomponent: (
                                     <a

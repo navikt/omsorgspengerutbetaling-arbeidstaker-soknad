@@ -82,14 +82,14 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                         mellomnavn={mellomnavn || undefined}
                         fødselsnummer={fødselsnummer}
                     />
-                    <FosterbarnSummaryView fosterbarn={fosterbarn} />
                     <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
-                    <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
-                    <SmittevernSummaryView apiValues={apiValues} />
-                    <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
                     <SelvstendigOgEllerFrilansSummaryView
                         selvstendigOgEllerFrilans={apiValues.selvstendigOgEllerFrilans}
                     />
+                    <FosterbarnSummaryView fosterbarn={fosterbarn} />
+                    <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
+                    <SmittevernSummaryView apiValues={apiValues} />
+                    <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                     {/*<VedleggSummaryView apiValues={apiValues} />*/}
                 </Panel>

@@ -24,15 +24,6 @@ import Box from 'common/components/box/Box';
 import SmittevernInfo from '../../components/information/SmittevernInfo';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { FormikCheckboxPanelGroupProps } from '@navikt/sif-common-formik/lib/components/formik-checkbox-panel-group/FormikCheckboxPanelGroup';
-import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import InformasjonOmSelvstendigOgFrilans from './InformasjonOmSelvstendigOgFrilans';
-
-const TypedCheckboxPanelGroup: (
-    props: FormikCheckboxPanelGroupProps<SøknadFormField>
-) => JSX.Element = getTypedFormComponents<SøknadFormField, SøknadFormData>().CheckboxPanelGroup;
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -152,37 +143,6 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }) => {
                             validate={validateRequiredList}
                         />
                     </FormBlock>
-                )}
-            </FormBlock>
-
-            <FormBlock margin={'l'} paddingBottom={'l'}>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.erSelvstendigOgEllerFrilans}
-                    legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
-                    validate={validateYesOrNoIsAnswered}
-                />
-                {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
-                    <>
-                        <FormBlock margin={'m'}>
-                            <TypedCheckboxPanelGroup
-                                name={SøknadFormField.selvstendigOgEllerFrilans}
-                                checkboxes={[
-                                    {
-                                        id: SelvstendigOgEllerFrilans.selvstendig,
-                                        value: SelvstendigOgEllerFrilans.selvstendig,
-                                        label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label')
-                                    },
-                                    {
-                                        id: SelvstendigOgEllerFrilans.frilans,
-                                        value: SelvstendigOgEllerFrilans.frilans,
-                                        label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label')
-                                    }
-                                ]}
-                                validate={validateRequiredList}
-                            />
-                        </FormBlock>
-                        <InformasjonOmSelvstendigOgFrilans />
-                    </>
                 )}
             </FormBlock>
         </SøknadStep>
