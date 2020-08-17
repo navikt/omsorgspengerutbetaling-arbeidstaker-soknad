@@ -15,13 +15,7 @@ interface Props {
     onCreateNew: () => void;
 }
 
-const DagerMedDelvisFraværList: React.FunctionComponent<Props> = ({
-    name,
-    dagerMedDelvisFravær,
-    perioderMedFravær,
-    onRemove,
-    onCreateNew
-}) => {
+const DagerMedDelvisFraværList = ({ name, dagerMedDelvisFravær, perioderMedFravær, onRemove, onCreateNew }: Props) => {
     return (
         <>
             <FormikInputGroup

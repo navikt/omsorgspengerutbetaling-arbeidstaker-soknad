@@ -5,7 +5,7 @@ import {
     listeAvArbeidsforholdIsValid,
     skalInkludereArbeidsforhold,
     stegEnAnnetArbeidsforholdIsValid,
-    stegEnListeAvArbeidsforholdIsValid
+    stegEnListeAvArbeidsforholdIsValid,
 } from './components/arbeidsforholdValidations';
 import { harFosterbarnOgListeAvFosterbarnIsValid } from './components/fosterbarnValidations';
 import { utenlandsoppholdFormIsValid } from './components/utenlandsoppholdValidations';
@@ -65,7 +65,7 @@ export const annetStepIsValid = (formData: SøknadFormData): boolean => {
 
 export const medlemskapStepIsValid = ({
     harBoddUtenforNorgeSiste12Mnd,
-    skalBoUtenforNorgeNeste12Mnd
+    skalBoUtenforNorgeNeste12Mnd,
 }: SøknadFormData): boolean =>
     (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES || harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO) &&
     (skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES || skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO);

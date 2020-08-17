@@ -9,7 +9,7 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import {
     createFieldValidationError,
     FieldValidationErrors,
-    validateYesOrNoIsAnswered
+    validateYesOrNoIsAnswered,
 } from 'common/validation/fieldValidations';
 import Box from 'common/components/box/Box';
 import { Undertittel } from 'nav-frontend-typografi';

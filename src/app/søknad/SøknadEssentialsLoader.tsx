@@ -32,7 +32,7 @@ interface State {
 const initialState: State = {
     isLoading: true,
     lastStepID: undefined,
-    formData: initialValues
+    formData: initialValues,
 };
 
 const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => {
@@ -47,12 +47,12 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
     ): void => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
-        const søknadFormData: SøknadFormData | undefined | {} = tempStorage?.formData;
+        const søknadFormData: SøknadFormData | undefined | any = tempStorage?.formData;
         const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
 
         const updatedSokerData: Søkerdata | undefined = isSøkerApiResponse(søkerResponse.data)
             ? {
-                  person: søkerApiResponseToPerson(søkerResponse.data)
+                  person: søkerApiResponseToPerson(søkerResponse.data),
               }
             : undefined;
 
@@ -60,7 +60,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
             isLoading: false,
             lastStepID: isSøknadFormData(søknadFormData) ? maybeStoredLastStepID : undefined,
             formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
-            søkerdata: updatedSokerData
+            søkerdata: updatedSokerData,
         });
         if (!isSøkerApiResponse(søkerResponse.data)) {
             setApiCallError(true);

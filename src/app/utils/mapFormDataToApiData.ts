@@ -8,7 +8,7 @@ import { settInnOpphold } from './formToApiMaps/mapUtenlandsoppholdToApiData';
 import { YesOrNo } from 'common/types/YesOrNo';
 import {
     listOfArbeidsforholdFormDataToListOfAttachmentStrings,
-    listOfAttachmentsToListOfUrlStrings
+    listOfAttachmentsToListOfUrlStrings,
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
 
@@ -41,7 +41,7 @@ export const mapFormDataToApiData = (
         utenlandsoppholdNeste12Mnd,
 
         hjemmePgaSmittevernhensynYesOrNo,
-        smittevernDokumenter
+        smittevernDokumenter,
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
@@ -57,7 +57,7 @@ export const mapFormDataToApiData = (
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
         arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([
             ...arbeidsforhold,
-            annetArbeidsforhold
+            annetArbeidsforhold,
         ]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
@@ -68,8 +68,8 @@ export const mapFormDataToApiData = (
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
             ...(hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES
                 ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
-                : [])
-        ]
+                : []),
+        ],
     };
 
     return apiData;

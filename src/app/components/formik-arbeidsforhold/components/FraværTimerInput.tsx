@@ -9,7 +9,7 @@ interface Props {
     index: number;
 }
 
-const FraværTimerInput: React.FunctionComponent<Props> = ({ name, index }) => (
+const FraværTimerInput = ({ name, index }: Props) => (
     <FormikInput
         inputMode="decimal"
         label={'Timer'}
@@ -21,8 +21,8 @@ const FraværTimerInput: React.FunctionComponent<Props> = ({ name, index }) => (
             validateRequiredField,
             validateHours({
                 min: MIN_ANTALL_TIMER_MED_FRAVÆR_EN_DAG,
-                max: MAKS_ANTALL_TIMER_MED_FRAVÆR_EN_DAG
-            })
+                max: MAKS_ANTALL_TIMER_MED_FRAVÆR_EN_DAG,
+            }),
         ])}
     />
 );

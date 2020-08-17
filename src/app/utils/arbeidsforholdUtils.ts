@@ -28,13 +28,13 @@ export const syncArbeidsforholdWithArbeidsgivere = (
                 : {
                       hvorLengeJobbet: HvorLengeJobbet.IKKE_BESVART,
                       begrunnelse: HvorLengeJobbetFordi.IKKE_BESVART,
-                      ingenAvSituasjoneneForklaring: ''
+                      ingenAvSituasjoneneForklaring: '',
                   },
             harPerioderMedFravær: a ? a.harPerioderMedFravær : YesOrNo.UNANSWERED,
             fraværPerioder: a ? a.fraværPerioder : [],
             harDagerMedDelvisFravær: a ? a.harDagerMedDelvisFravær : YesOrNo.UNANSWERED,
             fraværDager: a ? a.fraværDager : [],
-            dokumenter: a ? a.dokumenter : []
+            dokumenter: a ? a.dokumenter : [],
         };
     });
     return arbeidsforholdUpdatedList;

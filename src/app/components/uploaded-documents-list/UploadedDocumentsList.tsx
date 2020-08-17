@@ -18,8 +18,7 @@ interface Props {
 const UploadedDocumentsList: React.FunctionComponent<Props> = ({
     attachments,
     formikFieldName,
-    wrapNoAttachmentsInBox,
-    includeDeletionFunctionality
+    includeDeletionFunctionality,
 }) => {
     const { setFieldValue } = useFormikContext<SøknadFormData>();
 

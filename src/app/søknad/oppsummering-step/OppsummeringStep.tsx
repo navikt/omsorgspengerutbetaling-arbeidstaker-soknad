@@ -30,7 +30,7 @@ interface Props {
     onApplicationSent: (sentSuccessfully: boolean, apiValues?: SøknadApiData) => void;
 }
 
-const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, søkerdata }) => {
+const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, søkerdata }: Props) => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
@@ -56,7 +56,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
     }
 
     const {
-        person: { fornavn, mellomnavn, etternavn, fødselsnummer }
+        person: { fornavn, mellomnavn, etternavn, fødselsnummer },
     } = søkerdata;
 
     return (

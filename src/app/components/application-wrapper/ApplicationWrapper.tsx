@@ -9,11 +9,15 @@ import IntlProvider from '../intl-provider/IntlProvider';
 
 interface ApplicationWrapperProps {
     søkerdata?: Søkerdata;
+    children: React.ReactNode;
     locale: Locale;
     onChangeLocale: (locale: Locale) => void;
 }
 
-const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ locale, onChangeLocale, children }) => {
+const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({
+    locale,
+    children,
+}: ApplicationWrapperProps) => {
     return (
         <IntlProvider locale={locale}>
             <Normaltekst tag="div">

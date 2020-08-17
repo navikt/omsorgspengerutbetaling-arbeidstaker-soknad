@@ -3,7 +3,7 @@ import {
     AnsettelseslengdeFormData,
     AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
-    HvorLengeJobbetFordi
+    HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
 import appSentryLogger from '../appSentryLogger';
 
@@ -79,7 +79,7 @@ export const mapAnsettelseslengde = (ansettelseslengdeFormData: Ansettelseslengd
             ansettelseslengdeFormData[AnsettelseslengdeFormDataFields.hvorLengeJobbet]
         ),
         begrunnelse: hvorLengeJobbetFordiToBegrunnelseEllerNull(ansettelseslengdeFormData),
-        ingenAvSituasjoneneForklaring: forklaringEllerNull(ansettelseslengdeFormData)
+        ingenAvSituasjoneneForklaring: forklaringEllerNull(ansettelseslengdeFormData),
     };
 };
 

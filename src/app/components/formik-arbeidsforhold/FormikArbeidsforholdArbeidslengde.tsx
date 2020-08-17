@@ -11,7 +11,7 @@ import { FieldValidationResult } from 'common/validation/types';
 import {
     AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
-    HvorLengeJobbetFordi
+    HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import EkspanderbarPSG from '../EkspanderbarPSG/EkspanderbarPSG';
@@ -73,8 +73,8 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
     nameHvorLengeJobbet,
     nameBegrunnelse,
     nameForklaring,
-    nameDokumenter
-}) => {
+    nameDokumenter,
+}: Props) => {
     const intl = useIntl();
 
     const hvorLengeJobbet: HvorLengeJobbet =
@@ -92,11 +92,11 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                 <FormikQuestion
                     firstAlternative={{
                         label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
-                        value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
+                        value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
                     }}
                     secondAlternative={{
                         label: intlHelper(intl, 'hvorLengeJobbet.mer'),
-                        value: HvorLengeJobbet.MER_ENN_FIRE_UKER
+                        value: HvorLengeJobbet.MER_ENN_FIRE_UKER,
                     }}
                     useTwoColumns={true}
                     name={nameHvorLengeJobbet}
@@ -114,14 +114,14 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                                     intl,
                                     getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD)
                                 ),
-                                value: HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD
+                                value: HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD,
                             },
                             {
                                 label: intlHelper(
                                     intl,
                                     getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.ANDRE_YTELSER)
                                 ),
-                                value: HvorLengeJobbetFordi.ANDRE_YTELSER
+                                value: HvorLengeJobbetFordi.ANDRE_YTELSER,
                             },
                             {
                                 label: intlHelper(
@@ -130,19 +130,19 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                                         HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
                                     )
                                 ),
-                                value: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
+                                value: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON,
                             },
                             {
                                 label: intlHelper(
                                     intl,
                                     getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.MILITÆRTJENESTE)
                                 ),
-                                value: HvorLengeJobbetFordi.MILITÆRTJENESTE
+                                value: HvorLengeJobbetFordi.MILITÆRTJENESTE,
                             },
                             {
                                 label: intlHelper(intl, getRadioTextIdHvorLengeJobbetFordi(HvorLengeJobbetFordi.INGEN)),
-                                value: HvorLengeJobbetFordi.INGEN
-                            }
+                                value: HvorLengeJobbetFordi.INGEN,
+                            },
                         ]}
                         legend={
                             <div>

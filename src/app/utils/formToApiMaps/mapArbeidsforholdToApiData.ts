@@ -1,4 +1,4 @@
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { ArbeidsgiverDetaljer } from '../../types/SøknadApiData';
 import { yesOrNoToBoolean } from './mapFunctions';
 import { mapAnsettelseslengde } from './mapAnsettelseslengdeToApiData';
@@ -19,7 +19,7 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
                 harHattFraværHosArbeidsgiver: yesOrNoToBoolean(arbeidsforhold.harHattFraværHosArbeidsgiver),
                 arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(arbeidsforhold.arbeidsgiverHarUtbetaltLønn),
                 ansettelseslengde: mapAnsettelseslengde(arbeidsforhold.ansettelseslengde),
-                perioder: mapFraværTilUtbetalingsperiode(arbeidsforhold.fraværPerioder, arbeidsforhold.fraværDager)
+                perioder: mapFraværTilUtbetalingsperiode(arbeidsforhold.fraværPerioder, arbeidsforhold.fraværDager),
             };
         });
 };

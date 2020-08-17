@@ -5,13 +5,9 @@ import { ArbeidsgiverDetaljer, Utbetalingsperiode } from '../../../../types/Søk
 import { Time } from 'common/types/Time';
 import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
 import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
-import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
-import {
-    utbetalingsperiodeDagToDagSummaryStringView,
-    timeToStringTemporaryFix
-} from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
+import { utbetalingsperiodeDagToDagSummaryStringView } from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
 
 interface Props {
     arbeidsgiverDetaljer: ArbeidsgiverDetaljer;
@@ -32,8 +28,6 @@ const isoDurationToMaybeTime = (value: string | null): Time | undefined => {
 };
 
 const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søkersNavn, søknadNavn }: Props) => {
-    const intl = useIntl();
-
     return (
         <div className={'pagebreak tilArbeidsgiverPanel'}>
             <Panel border={true} className={'luftOver'}>
@@ -61,7 +55,7 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                                     {utbetalingsperiodeDagToDagSummaryStringView({
                                         dato: periode.fraOgMed,
                                         antallTimerPlanlagt: maybePlanlagt,
-                                        antallTimerBorte: maybeBorte
+                                        antallTimerBorte: maybeBorte,
                                     })}
                                 </li>
                             ) : (

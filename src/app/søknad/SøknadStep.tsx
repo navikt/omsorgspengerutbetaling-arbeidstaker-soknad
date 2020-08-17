@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
-import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
@@ -26,11 +25,10 @@ export interface FormikStepProps {
 
 type Props = FormikStepProps & StepProps;
 
-const SøknadStep: React.FunctionComponent<Props> = (props) => {
-    const formik = useFormikContext<SøknadFormData>();
+const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
     const intl = useIntl();
     const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, cleanupStep } = props;
-    const stepConfig = getStepConfig(formik.values);
+    const stepConfig = getStepConfig();
     const texts = getStepTexts(intl, id, stepConfig);
 
     // TODO: Må sjekke errorhandling på disse to

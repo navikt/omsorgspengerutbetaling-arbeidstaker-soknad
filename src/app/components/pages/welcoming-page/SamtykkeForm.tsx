@@ -22,8 +22,8 @@ const bem = bemHelper('welcomingPage');
 const SamtykkeForm: React.FC<Props> = ({
     onConfirm,
     onOpenDinePlikterModal,
-    openBehandlingAvPersonopplysningerModal
-}): JSX.Element => {
+    openBehandlingAvPersonopplysningerModal,
+}: Props): JSX.Element => {
     const intl = useIntl();
     return (
         <AppForm.Form
@@ -44,7 +44,7 @@ const SamtykkeForm: React.FC<Props> = ({
                                 <Lenke href="#" onClick={onOpenDinePlikterModal}>
                                     {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
                                 </Lenke>
-                            )
+                            ),
                         }}
                     />
                 </AppForm.ConfirmationCheckbox>

@@ -1,5 +1,4 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { skalInkludereArbeidsforhold } from './arbeidsforholdValidations';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';

@@ -38,7 +38,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
 
     const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = [
         ...values[SøknadFormField.arbeidsforhold],
-        values[SøknadFormField.annetArbeidsforhold]
+        values[SøknadFormField.annetArbeidsforhold],
     ].filter(skalInkludereArbeidsforhold);
 
     return (
@@ -47,7 +47,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                 {listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsgiverDetaljer, index: number) => {
                     const orgInfo = {
                         navn: arbeidsforhold.navn,
-                        organisasjonsnummer: arbeidsforhold.organisasjonsnummer
+                        organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
                     };
 
                     const kreverVedlegg = arbeidsforhold.ansettelseslengde.merEnn4Uker;

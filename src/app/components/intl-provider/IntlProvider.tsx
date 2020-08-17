@@ -17,7 +17,7 @@ const bokmålstekster = {
     ...appBokmålstekster,
     ...selvstendigMessagesNb,
     ...bostedUtlandMessages.nb,
-    ...fraværMessages.nb
+    ...fraværMessages.nb,
 };
 
 export interface IntlProviderProps {
@@ -25,11 +25,12 @@ export interface IntlProviderProps {
 }
 
 export interface IntlProviderProps {
+    children: React.ReactNode;
     locale: Locale;
     onError?: (err: any) => void;
 }
 
-const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, children, onError }) => {
+const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, children, onError }: IntlProviderProps) => {
     return (
         <Provider locale={locale} messages={bokmålstekster} onError={onError}>
             {children}

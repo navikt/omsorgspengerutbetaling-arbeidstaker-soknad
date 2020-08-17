@@ -20,7 +20,7 @@ const PeriodeMedFulltFraværList: React.FunctionComponent<Props> = ({
     dagerMedGradvisFravær,
     onCreateNew,
     onRemove,
-    name
+    name,
 }) => {
     return (
         <>

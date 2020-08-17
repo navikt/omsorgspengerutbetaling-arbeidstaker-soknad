@@ -9,7 +9,7 @@ interface Props {
     index: number;
 }
 
-const FormikArbeidsforholdDelTrePeriodeView: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
+const FormikArbeidsforholdDelTrePeriodeView = ({ arbeidsforholdFormData, index }: Props) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }): JSX.Element => {

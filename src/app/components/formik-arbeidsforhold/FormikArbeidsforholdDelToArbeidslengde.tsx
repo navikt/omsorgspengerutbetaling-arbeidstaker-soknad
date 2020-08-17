@@ -11,7 +11,10 @@ interface Props {
     index: number;
 }
 
-const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }) => {
+const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = ({
+    arbeidsforholdFormData,
+    index,
+}: Props) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }): JSX.Element => {
