@@ -35,7 +35,7 @@ function persistence<StorageFormat>({ requestConfig, url }: PersistenceConfig): 
         },
         purge: (): Promise<AxiosResponse<any>> => {
             return Axios.delete(url, { ...requestConfig, data: {} });
-        }
+        },
     };
 }
 

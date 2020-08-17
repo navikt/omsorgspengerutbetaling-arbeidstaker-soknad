@@ -31,7 +31,7 @@ import {
     ugyldigSøknadFormData2,
     ugyldigSøknadFormData3,
     ugyldigSøknadFormData4,
-    ugyldigSøknadFormData5
+    ugyldigSøknadFormData5,
 } from '../mockData/typeGuardsMockData';
 import { isString } from 'formik';
 import { isStringOrNull } from '../typeGuardUtilities';

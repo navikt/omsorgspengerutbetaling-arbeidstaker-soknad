@@ -2,7 +2,7 @@ import { History } from 'history';
 import { navigateTo } from '../navigationUtils';
 
 const historyMock: Partial<History> = {
-    push: jest.fn()
+    push: jest.fn(),
 };
 
 jest.mock('./../envUtils.ts', () => {

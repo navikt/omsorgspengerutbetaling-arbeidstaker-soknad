@@ -5,7 +5,7 @@ import { medlemskapStepIsValid, welcomingPageIsValid } from '../stepValidations'
 jest.mock('./../fieldValidations', () => {
     return {
         validateNavn: jest.fn(() => undefined),
-        validateFødselsnummer: jest.fn(() => undefined)
+        validateFødselsnummer: jest.fn(() => undefined),
     };
 });
 

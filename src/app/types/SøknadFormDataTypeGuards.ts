@@ -1,4 +1,4 @@
-import { SøknadFormData, SøknadFormField } from './SøknadFormData';
+import { SøknadFormData } from './SøknadFormData';
 
 export const isSøknadFormData = (søknadFormData: any): søknadFormData is SøknadFormData => {
     if (

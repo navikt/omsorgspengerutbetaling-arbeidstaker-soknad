@@ -11,24 +11,24 @@ const validAttachment: Attachment = {
         name: 'navn-pa-fil',
         lastModified: 3,
         size: 2,
-        type: 'pdf'
+        type: 'pdf',
     },
     pending: false,
     uploaded: true,
-    url: 'alskdn'
+    url: 'alskdn',
 };
 
 const gylidgPeriodeMedFravær1: FraværPeriode = {
     from: new Date('2020-01-01'),
-    to: new Date('2020-01-02')
+    to: new Date('2020-01-02'),
 };
 
 const validPerioderMedFravær: FraværPeriode[] = [gylidgPeriodeMedFravær1];
 
 const validFraværDelerAvDag: FraværDag = {
     dato: new Date('2020-02-01'),
-    timerArbeidsdag: "6",
-    timerFravær: "3"
+    timerArbeidsdag: '6',
+    timerFravær: '3',
 };
 
 const validListeAvFraværDelerAvDag: FraværDag[] = [validFraværDelerAvDag];
@@ -36,13 +36,13 @@ const validListeAvFraværDelerAvDag: FraværDag[] = [validFraværDelerAvDag];
 const validAnsettelseslengde1: AnsettelseslengdeFormData = {
     hvorLengeJobbet: HvorLengeJobbet.MER_ENN_FIRE_UKER,
     begrunnelse: HvorLengeJobbetFordi.IKKE_BESVART,
-    ingenAvSituasjoneneForklaring: ''
+    ingenAvSituasjoneneForklaring: '',
 };
 
 const validAnsettelseslengde2: AnsettelseslengdeFormData = {
     hvorLengeJobbet: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
     begrunnelse: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON,
-    ingenAvSituasjoneneForklaring: ''
+    ingenAvSituasjoneneForklaring: '',
 };
 
 const validArbeidsforhold1: ArbeidsforholdFormData = {
@@ -55,7 +55,7 @@ const validArbeidsforhold1: ArbeidsforholdFormData = {
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
     fraværDager: validListeAvFraværDelerAvDag,
-    dokumenter: [validAttachment]
+    dokumenter: [validAttachment],
 };
 
 const validArbeidsforhold2: ArbeidsforholdFormData = {
@@ -68,7 +68,7 @@ const validArbeidsforhold2: ArbeidsforholdFormData = {
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
     fraværDager: validListeAvFraværDelerAvDag,
-    dokumenter: []
+    dokumenter: [],
 };
 
 const validArbeidsforhold3: ArbeidsforholdFormData = {
@@ -81,7 +81,7 @@ const validArbeidsforhold3: ArbeidsforholdFormData = {
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
     fraværDager: validListeAvFraværDelerAvDag,
-    dokumenter: []
+    dokumenter: [],
 };
 
 const validListeAvArbeidsforhold: ArbeidsforholdFormData[] = [validArbeidsforhold1, validArbeidsforhold2];
@@ -96,13 +96,13 @@ const invalidArbeidsforhold1: ArbeidsforholdFormData = {
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
     fraværDager: validListeAvFraværDelerAvDag,
-    dokumenter: []
+    dokumenter: [],
 };
 
 const invalidListeAvArbeidsforhold: ArbeidsforholdFormData[] = [
     validArbeidsforhold1,
     invalidArbeidsforhold1,
-    validArbeidsforhold2
+    validArbeidsforhold2,
 ];
 
 describe('fieldValidations', () => {

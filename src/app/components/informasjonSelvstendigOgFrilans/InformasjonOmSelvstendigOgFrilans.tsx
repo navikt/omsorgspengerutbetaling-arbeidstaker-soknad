@@ -23,7 +23,7 @@ const InformasjonOmSelvstendigOgFrilans: React.FC = () => {
                                             id={'selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst'}
                                         />
                                     </a>
-                                )
+                                ),
                             }}
                         />
                     </Box>
@@ -41,7 +41,7 @@ const InformasjonOmSelvstendigOgFrilans: React.FC = () => {
                                             id={'selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst'}
                                         />
                                     </a>
-                                )
+                                ),
                             }}
                         />
                     </Box>

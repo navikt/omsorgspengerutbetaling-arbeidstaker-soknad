@@ -8,7 +8,7 @@ export const gyldigPerson: Person = {
     mellomnavn: 'Mc.',
     kjønn: 'mann',
     fødselsnummer: '12345678903',
-    myndig: true
+    myndig: true,
 };
 export const ugyldigPerson1: any = null;
 export const ugyldigPerson2: any = undefined;
@@ -19,17 +19,17 @@ export const ugyldigPerson5: any = {
     fornavn: 'Donald',
     mellomnavn: 'Mc.',
     kjønn: 'mann',
-    fødselsnummer: '12345678903'
+    fødselsnummer: '12345678903',
 };
 
 export const gyldigArbeidsgiver1: Arbeidsgiver = {
     navn: 'Wizard og the Coast',
-    organisasjonsnummer: '12345678903'
+    organisasjonsnummer: '12345678903',
 };
 
 export const gyldigArbeidsgiver2: Arbeidsgiver = {
     navn: 'Wizard og the Coast',
-    organisasjonsnummer: '12345678903'
+    organisasjonsnummer: '12345678903',
 };
 
 export const ugyldigArbeidsgiver1: any = null;
@@ -37,10 +37,10 @@ export const ugyldigArbeidsgiver2: any = undefined;
 export const ugyldigArbeidsgiver3: any = {};
 export const ugyldigArbeidsgiver4: any = 'ugyldig arbeidsgiver';
 export const ugyldigArbeidsgiver5: any = {
-    navn: 'En ugyldig arbeidsgiver'
+    navn: 'En ugyldig arbeidsgiver',
 };
 export const gyldigArbeidsgiver6: any = {
-    organisasjonsnummer: 'En ugyldig arbeidsgiver'
+    organisasjonsnummer: 'En ugyldig arbeidsgiver',
 };
 
 export const listeAvGydligeArbeidsgivere: Arbeidsgiver[] = [gyldigArbeidsgiver1, gyldigArbeidsgiver2];
@@ -49,25 +49,25 @@ export const listeAvUgyldigeArbeidsgivere: any[] = [
     ugyldigArbeidsgiver2,
     ugyldigArbeidsgiver3,
     ugyldigArbeidsgiver4,
-    ugyldigArbeidsgiver5
+    ugyldigArbeidsgiver5,
 ];
 export const listeAvBådeUgyldigeOgGyldigeArbeidsgivere: any[] = [
     gyldigArbeidsgiver1,
     ugyldigArbeidsgiver1,
     gyldigArbeidsgiver2,
     ugyldigArbeidsgiver3,
-    ugyldigArbeidsgiver4
+    ugyldigArbeidsgiver4,
 ];
 
 export const gyldigSøkerdata1: Søkerdata = {
-    person: gyldigPerson
+    person: gyldigPerson,
 };
 export const ugyldigSøkerdata1: any = null;
 export const ugyldigSøkerdata2: any = undefined;
 export const ugyldigSøkerdata3: any = {};
 export const ugyldigSøkerdata4: any = 'ugyldig søkerdata';
 export const ugyldigSøkerdata5: any = {
-    navn: 'Ugyldig søkerdata'
+    navn: 'Ugyldig søkerdata',
 };
 
 export const gyldigSøkerdata2: Søkerdata = {
@@ -76,8 +76,8 @@ export const gyldigSøkerdata2: Søkerdata = {
         mellomnavn: null,
         etternavn: 'Testesen',
         fødselsnummer: '12345123456',
-        myndig: true
-    }
+        myndig: true,
+    },
 };
 
 export const gyldigSøknadFormData: SøknadFormData = initialValues;
@@ -109,7 +109,7 @@ export const ugyldigSøknadFormData5: any = {
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
-    [SøknadFormField.utenlandsoppholdNeste12Mnd]: []
+    [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
 };
 
 export const gyldigSøkerApiResponse: SøkerApiResponse = {
@@ -119,7 +119,7 @@ export const gyldigSøkerApiResponse: SøkerApiResponse = {
     fornavn: 'string',
     mellomnavn: 'string',
     etternavn: 'string',
-    myndig: true
+    myndig: true,
 };
 export const ugyldigSøkerApiResponse: any = {
     aktørId: 'string',
@@ -127,5 +127,5 @@ export const ugyldigSøkerApiResponse: any = {
     fødselsnummer: 'string',
     fornavn: 'string',
     mellomnavn: 'string',
-    etternavn: 'string'
+    etternavn: 'string',
 };

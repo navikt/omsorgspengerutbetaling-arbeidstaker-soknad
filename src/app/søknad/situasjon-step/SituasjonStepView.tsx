@@ -32,12 +32,6 @@ import appSentryLogger from '../../utils/appSentryLogger';
 import intlHelper from 'common/utils/intlUtils';
 import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
 import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { FormikCheckboxPanelGroupProps } from '@navikt/sif-common-formik/lib/components/formik-checkbox-panel-group/FormikCheckboxPanelGroup';
-
-const TypedCheckboxPanelGroup: (
-    props: FormikCheckboxPanelGroupProps<SøknadFormField>
-) => JSX.Element = getTypedFormComponents<SøknadFormField, SøknadFormData>().CheckboxPanelGroup;
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -191,19 +185,19 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
                         <>
                             <FormBlock margin={'m'}>
-                                <TypedCheckboxPanelGroup
+                                <SøknadFormComponents.CheckboxPanelGroup
                                     name={SøknadFormField.selvstendigOgEllerFrilans}
                                     checkboxes={[
                                         {
                                             id: SelvstendigOgEllerFrilans.selvstendig,
                                             value: SelvstendigOgEllerFrilans.selvstendig,
-                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label')
+                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label'),
                                         },
                                         {
                                             id: SelvstendigOgEllerFrilans.frilans,
                                             value: SelvstendigOgEllerFrilans.frilans,
-                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label')
-                                        }
+                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label'),
+                                        },
                                     ]}
                                     validate={validateRequiredList}
                                 />
