@@ -1,7 +1,6 @@
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from 'common/utils/timeUtils';
-import { FraværDelerAvDag, Periode } from '../../types/PeriodeTypes';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
 export const mapFraværTilUtbetalingsperiode = (
@@ -14,7 +13,7 @@ export const mapFraværTilUtbetalingsperiode = (
                 fraOgMed: formatDateToApiFormat(periode.from),
                 tilOgMed: formatDateToApiFormat(periode.to),
                 antallTimerPlanlagt: null,
-                antallTimerBorte: null
+                antallTimerBorte: null,
             };
         }
     );
@@ -25,7 +24,7 @@ export const mapFraværTilUtbetalingsperiode = (
                 fraOgMed: formatDateToApiFormat(fravær.dato),
                 tilOgMed: formatDateToApiFormat(fravær.dato),
                 antallTimerPlanlagt: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerArbeidsdag))),
-                antallTimerBorte: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerFravær)))
+                antallTimerBorte: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerFravær))),
             };
             return utbetalingsperiode;
         }

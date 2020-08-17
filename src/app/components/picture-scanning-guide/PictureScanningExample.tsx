@@ -12,7 +12,7 @@ interface Props {
 
 const bem = bemUtils('pictureScanningGuide').child('example');
 
-const PictureScanningExample: React.FunctionComponent<Props> = ({ image, status, statusText, description }) => (
+const PictureScanningExample: React.FunctionComponent<Props> = ({ image, status, statusText, description }: Props) => (
     <div className={bem.block}>
         <div className={bem.element('image')}>{image}</div>
         <Element tag="div" className={bem.element('title')}>

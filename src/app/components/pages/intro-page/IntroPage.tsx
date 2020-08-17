@@ -24,7 +24,7 @@ const bem = bemUtils('introPage');
 enum PageFormField {
     hvorLengeJobbet = 'hvorLengeJobbet',
     begrunnelse = 'begrunnelse',
-    smittevernHensyn = 'smittevernHensyn'
+    smittevernHensyn = 'smittevernHensyn',
 }
 
 interface PageFormValues {
@@ -36,7 +36,7 @@ interface PageFormValues {
 const initialValues: PageFormValues = {
     [PageFormField.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
     [PageFormField.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
-    [PageFormField.smittevernHensyn]: YesOrNo.UNANSWERED
+    [PageFormField.smittevernHensyn]: YesOrNo.UNANSWERED,
 };
 const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
 
@@ -92,11 +92,11 @@ const IntroPage: React.FC = (): JSX.Element => {
                                         <FormikQuestion
                                             firstAlternative={{
                                                 label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
-                                                value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER
+                                                value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
                                             }}
                                             secondAlternative={{
                                                 label: intlHelper(intl, 'hvorLengeJobbet.mer'),
-                                                value: HvorLengeJobbet.MER_ENN_FIRE_UKER
+                                                value: HvorLengeJobbet.MER_ENN_FIRE_UKER,
                                             }}
                                             useTwoColumns={true}
                                             name={PageFormField.hvorLengeJobbet}
@@ -115,7 +115,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                                 HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD
                                                             )
                                                         ),
-                                                        value: HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD
+                                                        value: HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD,
                                                     },
                                                     {
                                                         label: intlHelper(
@@ -124,7 +124,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                                 HvorLengeJobbetFordi.ANDRE_YTELSER
                                                             )
                                                         ),
-                                                        value: HvorLengeJobbetFordi.ANDRE_YTELSER
+                                                        value: HvorLengeJobbetFordi.ANDRE_YTELSER,
                                                     },
                                                     {
                                                         label: intlHelper(
@@ -133,7 +133,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                                 HvorLengeJobbetFordi.MILITÆRTJENESTE
                                                             )
                                                         ),
-                                                        value: HvorLengeJobbetFordi.MILITÆRTJENESTE
+                                                        value: HvorLengeJobbetFordi.MILITÆRTJENESTE,
                                                     },
                                                     {
                                                         label: intlHelper(
@@ -143,7 +143,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                             )
                                                         ),
                                                         value:
-                                                            HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON
+                                                            HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON,
                                                     },
                                                     {
                                                         label: intlHelper(
@@ -152,8 +152,8 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                                 HvorLengeJobbetFordi.INGEN
                                                             )
                                                         ),
-                                                        value: HvorLengeJobbetFordi.INGEN
-                                                    }
+                                                        value: HvorLengeJobbetFordi.INGEN,
+                                                    },
                                                 ]}
                                                 legend={
                                                     <div>

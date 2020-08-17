@@ -7,7 +7,7 @@ export const mapToBekreftelser = (
     harBekreftetOpplysninger: boolean
 ): Bekreftelser => ({
     harBekreftetOpplysninger,
-    harForståttRettigheterOgPlikter
+    harForståttRettigheterOgPlikter,
 });
 
 export const settInnFosterbarn = (harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null => {
@@ -16,7 +16,7 @@ export const settInnFosterbarn = (harFosterbarn: YesOrNo, listeAvFosterbarn: Fos
               return {
                   fødselsnummer: fosterbarn.fødselsnummer,
                   fornavn: fosterbarn.fornavn || null,
-                  etternavn: fosterbarn.etternavn || null
+                  etternavn: fosterbarn.etternavn || null,
               };
           })
         : null;

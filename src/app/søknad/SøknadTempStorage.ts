@@ -13,7 +13,7 @@ interface SøknadPersistenceInterface extends Omit<PersistenceInterface<Temporar
 
 const persistSetup = persistence<TemporaryStorage>({
     url: getApiUrlByResourceType(ResourceType.MELLOMLAGRING),
-    requestConfig: { ...axiosConfig }
+    requestConfig: { ...axiosConfig },
 });
 
 const SøknadTempStorage: SøknadPersistenceInterface = {
@@ -21,7 +21,7 @@ const SøknadTempStorage: SøknadPersistenceInterface = {
         return persistSetup.persist({ formData, metadata: { lastStepID } });
     },
     purge: persistSetup.purge,
-    rehydrate: persistSetup.rehydrate
+    rehydrate: persistSetup.rehydrate,
 };
 
 export default SøknadTempStorage;

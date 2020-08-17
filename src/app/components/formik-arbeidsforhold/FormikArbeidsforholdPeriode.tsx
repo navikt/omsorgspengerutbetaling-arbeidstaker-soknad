@@ -1,26 +1,24 @@
 import * as React from 'react';
-import FormBlock from 'common/components/form-block/FormBlock';
-import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { SøknadFormData } from '../../types/SøknadFormData';
-import intlHelper from 'common/utils/intlUtils';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { fraværDagToFraværDateRange, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær';
+import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
+import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
+import { validateAll } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
+import FormBlock from 'common/components/form-block/FormBlock';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
 import {
     createFieldValidationError,
     FieldValidationErrors,
-    validateRequiredList
+    validateRequiredList,
 } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
-import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { GYLDIG_TIDSROM } from '../../validation/constants';
-import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
-import { validateAll } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
-import { fraværDagToFraværDateRange, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær';
-import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
-import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
@@ -45,8 +43,8 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     nameHarPerioderMedFravær,
     namePerioderMedFravær,
     nameHarDagerMedDelvisFravær,
-    nameDagerMedDelvisFravær
-}) => {
+    nameDagerMedDelvisFravær,
+}: Props) => {
     const intl = useIntl();
 
     const kanIkkeFortsette =
@@ -83,15 +81,15 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                 validateNoCollisions(
                                     arbeidsforholdFormData.fraværDager,
                                     arbeidsforholdFormData.fraværPerioder
-                                )
+                                ),
                             ])}
                             labels={{
                                 addLabel: 'Legg til ny periode med fullt fravær',
-                                modalTitle: 'Fravær hele dager'
+                                modalTitle: 'Fravær hele dager',
                             }}
                             dateRangesToDisable={[
                                 ...arbeidsforholdFormData.fraværPerioder,
-                                ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange)
+                                ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
                             ]}
                             helgedagerIkkeTillat={true}
                         />
@@ -133,15 +131,15 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                 validateNoCollisions(
                                     arbeidsforholdFormData.fraværDager,
                                     arbeidsforholdFormData.fraværPerioder
-                                )
+                                ),
                             ])}
                             labels={{
                                 addLabel: 'Legg til ny dag med delvis fravær',
-                                modalTitle: 'Fravær deler av dag'
+                                modalTitle: 'Fravær deler av dag',
                             }}
                             dateRangesToDisable={[
                                 ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
-                                ...arbeidsforholdFormData.fraværPerioder
+                                ...arbeidsforholdFormData.fraværPerioder,
                             ]}
                             helgedagerIkkeTillatt={true}
                             maksArbeidstidPerDag={24}

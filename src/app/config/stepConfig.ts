@@ -1,4 +1,3 @@
-import { SøknadFormData } from '../types/SøknadFormData';
 import { getMaybeSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
@@ -7,7 +6,7 @@ export enum StepID {
     'PERIODE' = 'periode',
     'ANNET' = 'annet',
     'MEDLEMSKAP' = 'medlemskap',
-    'OPPSUMMERING' = 'oppsummering'
+    'OPPSUMMERING' = 'oppsummering',
 }
 
 export interface StepConfigItemTexts {
@@ -34,11 +33,11 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
         stepTitle: `step.${stepId}.stepTitle`,
         stepIndicatorLabel: `step.${stepId}.stepIndicatorLabel`,
         nextButtonLabel: 'step.nextButtonLabel',
-        nextButtonAriaLabel: 'step.nextButtonAriaLabel'
+        nextButtonAriaLabel: 'step.nextButtonAriaLabel',
     };
 };
 
-export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface => {
+export const getStepConfig = (): StepConfigInterface => {
     let idx = 0;
 
     return {
@@ -46,33 +45,33 @@ export const getStepConfig = (formData?: SøknadFormData): StepConfigInterface =
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
             nextStep: StepID.PERIODE,
-            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
+            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
         },
         [StepID.PERIODE]: {
             ...getStepConfigItemTextKeys(StepID.PERIODE),
             index: idx++,
             nextStep: StepID.ANNET,
-            backLinkHref: getMaybeSøknadRoute(StepID.SITUASJON)
+            backLinkHref: getMaybeSøknadRoute(StepID.SITUASJON),
         },
         [StepID.ANNET]: {
             ...getStepConfigItemTextKeys(StepID.ANNET),
             index: idx++,
             nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getMaybeSøknadRoute(StepID.PERIODE)
+            backLinkHref: getMaybeSøknadRoute(StepID.PERIODE),
         },
         [StepID.MEDLEMSKAP]: {
             ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
             index: idx++,
             nextStep: StepID.OPPSUMMERING,
-            backLinkHref: getMaybeSøknadRoute(StepID.ANNET)
+            backLinkHref: getMaybeSøknadRoute(StepID.ANNET),
         },
         [StepID.OPPSUMMERING]: {
             ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),
             index: idx++,
             backLinkHref: getMaybeSøknadRoute(StepID.MEDLEMSKAP),
             nextButtonLabel: 'step.sendButtonLabel',
-            nextButtonAriaLabel: 'step.sendButtonAriaLabel'
-        }
+            nextButtonAriaLabel: 'step.sendButtonAriaLabel',
+        },
     };
 };
 

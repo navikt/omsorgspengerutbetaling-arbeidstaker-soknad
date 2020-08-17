@@ -26,7 +26,7 @@ import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import {
     checkHarKlikketJaJaPåAlle,
     checkHarKlikketNeiElleJajaBlanding,
-    checkHarKlikketNeiPåAlle
+    checkHarKlikketNeiPåAlle,
 } from '../../validation/components/arbeidsforholdValidations';
 import appSentryLogger from '../../utils/appSentryLogger';
 

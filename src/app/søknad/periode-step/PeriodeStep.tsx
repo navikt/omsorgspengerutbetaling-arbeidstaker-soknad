@@ -1,21 +1,21 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { isString, useFormikContext } from 'formik';
+import Box from 'common/components/box/Box';
+import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import FormBlock from 'common/components/form-block/FormBlock';
+import FormSection from 'common/components/form-section/FormSection';
+import { YesOrNo } from 'common/types/YesOrNo';
+import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
+import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
+import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
-import FormBlock from 'common/components/form-block/FormBlock';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
-import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
-import FormSection from 'common/components/form-section/FormSection';
-import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
-import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import Box from 'common/components/box/Box';
-import { FormattedMessage } from 'react-intl';
-import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
-import { YesOrNo } from 'common/types/YesOrNo';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -27,7 +27,7 @@ const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData):
         fraværDager:
             arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.NO
                 ? []
-                : arbeidsforhold[ArbeidsforholdFormDataFields.fraværDager]
+                : arbeidsforhold[ArbeidsforholdFormDataFields.fraværDager],
     };
 };
 
@@ -40,11 +40,11 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
         arbeidsforhold: listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) =>
             cleanPerioderForArbeidsforhold(arbeidsforhold)
         ),
-        annetArbeidsforhold: cleanPerioderForArbeidsforhold(annetArbeidsforhold)
+        annetArbeidsforhold: cleanPerioderForArbeidsforhold(annetArbeidsforhold),
     };
 };
 
-const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
 
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];

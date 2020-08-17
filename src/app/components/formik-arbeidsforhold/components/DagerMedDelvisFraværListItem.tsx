@@ -40,18 +40,12 @@ const getFjernLabel = (dato?: Date, timer?: number): string => {
     return 'Fjern dag med delvis fravær (dato og antall timer ikke valgt)';
 };
 
-const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({
-    name,
-    index,
-    dag,
-    disabledDager,
-    onRemove
-}) => {
+const DagerMedDelvisFraværListItem = ({ name, index, dag, disabledDager, onRemove }: Props) => {
     const ugyldigeTidsperioder = disabledDager
         ?.filter((d) => d.dato)
         .map((d) => ({
             from: d.dato,
-            to: d.dato
+            to: d.dato,
         }));
     return (
         <div className={bem.classNames(bem.block, bem.modifierConditional('firstRow', index === 0))}>
@@ -62,7 +56,7 @@ const DagerMedDelvisFraværListItem: React.FunctionComponent<Props> = ({
                         validateRequiredField,
                         validateDateInRange(GYLDIG_TIDSROM),
                         validateDateNotInFuture(),
-                        validateFraværDelerAvDagNotWeekend
+                        validateFraværDelerAvDagNotWeekend,
                     ])}
                     name={`${name}.${index}.dato`}
                     minDate={GYLDIG_TIDSROM.from}

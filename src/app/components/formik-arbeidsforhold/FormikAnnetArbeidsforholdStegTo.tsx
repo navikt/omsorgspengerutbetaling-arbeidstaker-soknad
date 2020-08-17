@@ -13,7 +13,7 @@ interface Props {
     annetArbeidsforholdName: string;
 }
 
-const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({ annetArbeidsforhold, annetArbeidsforholdName }) => {
+const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({ annetArbeidsforhold, annetArbeidsforholdName }: Props) => {
     const getFieldNameAnnetArbeidsforhold = (arbeidsforholdFieldName: ArbeidsforholdFormDataFields): string =>
         `${SøknadFormField.annetArbeidsforhold}.${arbeidsforholdFieldName}`;
 

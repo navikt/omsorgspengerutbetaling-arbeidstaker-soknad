@@ -18,8 +18,8 @@ interface Props {
 const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
     arbeidsforholdFormData,
     nameHarHattFraværHosArbeidsgiver,
-    nameArbeidsgiverHarUtbetaltLønn
-}) => {
+    nameArbeidsgiverHarUtbetaltLønn,
+}: Props) => {
     const intl = useIntl();
 
     return (

@@ -3,7 +3,7 @@ import intlHelper from 'common/utils/intlUtils';
 import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
 import { SøknadApiData } from '../../../types/SøknadApiData';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useFormikContext } from 'formik';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
@@ -24,11 +24,11 @@ const SmittevernSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
             <JaNeiSvar harSvartJa={apiValues.hjemmePgaSmittevernhensyn} />
 
             {apiValues.hjemmePgaSmittevernhensyn && (
-                <SummaryBlock header={'Bekreftelse fra lege'}>
+                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.smittevern.bekreftelse.header')}>
                     {attachments.length > 0 ? (
                         <AttachmentList attachments={attachments} />
                     ) : (
-                        <i>Ikke lastet opp, må ettersendes</i>
+                        <FormattedMessage id="steg.oppsummering.smittevern.bekreftelse.ikkeLastetOpp" tagName="em" />
                     )}
                 </SummaryBlock>
             )}
