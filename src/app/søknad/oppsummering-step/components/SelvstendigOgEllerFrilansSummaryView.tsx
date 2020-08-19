@@ -3,27 +3,38 @@ import intlHelper from 'common/utils/intlUtils';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { SelvstendigOgEllerFrilans } from '../../../types/SelvstendigOgEllerFrilansTypes';
 
 interface Props {
-    selvstendigOgEllerFrilans: string[];
+    erSelvstendig: boolean;
+    erFrilanser: boolean;
 }
 
-const SelvstendigOgEllerFrilansSummaryView: React.FC<Props> = ({ selvstendigOgEllerFrilans }: Props): JSX.Element => {
+const insertIfSelvstendig = (erSelvstendig: boolean): SelvstendigOgEllerFrilans[] =>
+    erSelvstendig ? [SelvstendigOgEllerFrilans.selvstendig] : [];
+
+const insertIfFrilanser = (erFrilanser: boolean): SelvstendigOgEllerFrilans[] =>
+    erFrilanser ? [SelvstendigOgEllerFrilans.frilans] : [];
+
+const SelvstendigOgEllerFrilansSummaryView: React.FC<Props> = ({
+    erSelvstendig,
+    erFrilanser,
+}: Props): JSX.Element | null => {
     const intl = useIntl();
-    return (
-        <>
-            {selvstendigOgEllerFrilans.length > 0 && (
-                <SummaryBlock header={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}>
-                    <SummaryList
-                        items={selvstendigOgEllerFrilans}
-                        itemRenderer={(utbetaling): JSX.Element => (
-                            <span>{intlHelper(intl, `selvstendig_og_eller_frilans.${utbetaling}.label`)}</span>
-                        )}
-                    />
-                </SummaryBlock>
-            )}
-        </>
-    );
+    const erSelvstendigOgEllerFrilans = erSelvstendig || erFrilanser;
+
+    const selvstendigOgEllerFrilansList = [...insertIfSelvstendig(erSelvstendig), ...insertIfFrilanser(erFrilanser)];
+
+    return erSelvstendigOgEllerFrilans ? (
+        <SummaryBlock header={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}>
+            <SummaryList
+                items={selvstendigOgEllerFrilansList}
+                itemRenderer={(value): JSX.Element => (
+                    <span>{intlHelper(intl, `selvstendig_og_eller_frilans.${value}.label`)}</span>
+                )}
+            />
+        </SummaryBlock>
+    ) : null;
 };
 
 export default SelvstendigOgEllerFrilansSummaryView;

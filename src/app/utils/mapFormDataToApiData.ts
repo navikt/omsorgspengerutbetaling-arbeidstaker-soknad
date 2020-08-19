@@ -11,6 +11,7 @@ import {
     listOfAttachmentsToListOfUrlStrings,
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
+import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -61,7 +62,8 @@ export const mapFormDataToApiData = (
         ]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
-        selvstendigOgEllerFrilans: erSelvstendigOgEllerFrilans === YesOrNo.YES ? [...selvstendigOgEllerFrilans] : [],
+        erSelvstendig: isSelvstendig(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
+        erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
         fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         vedlegg: [

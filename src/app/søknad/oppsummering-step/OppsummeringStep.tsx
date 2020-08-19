@@ -84,7 +84,8 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                     />
                     <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
                     <SelvstendigOgEllerFrilansSummaryView
-                        selvstendigOgEllerFrilans={apiValues.selvstendigOgEllerFrilans}
+                        erSelvstendig={apiValues.erSelvstendig}
+                        erFrilanser={apiValues.erFrilanser}
                     />
                     <FosterbarnSummaryView fosterbarn={fosterbarn} />
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
