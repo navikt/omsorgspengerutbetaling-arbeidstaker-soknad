@@ -68,5 +68,6 @@ const App: React.FunctionComponent = () => {
 };
 
 const root = document.getElementById('app');
+
 Modal.setAppElement('#app');
 render(<App />, root);
