@@ -202,7 +202,14 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                     validate={validateRequiredList}
                                 />
                             </FormBlock>
-                            <InformasjonOmSelvstendigOgFrilans />
+                            <InformasjonOmSelvstendigOgFrilans
+                                erSelvstendig={values.selvstendigOgEllerFrilans.includes(
+                                    SelvstendigOgEllerFrilans.selvstendig
+                                )}
+                                erFrilanser={values.selvstendigOgEllerFrilans.includes(
+                                    SelvstendigOgEllerFrilans.frilans
+                                )}
+                            />
                         </>
                     )}
                 </FormBlock>
