@@ -28,7 +28,7 @@ const JobbHosNavaerendeArbeidsgiverSummaryView: React.FC<Props> = (props: Props)
     const intl = useIntl();
 
     const {
-        data: { merEnn4Uker, begrunnelse }
+        data: { merEnn4Uker, begrunnelse },
     } = props;
 
     return (

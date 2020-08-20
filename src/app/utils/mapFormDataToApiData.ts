@@ -11,6 +11,7 @@ import {
     listOfAttachmentsToListOfUrlStrings,
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
+import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -31,6 +32,8 @@ export const mapFormDataToApiData = (
         perioderUtenlandsopphold,
         harSøktAndreUtbetalinger,
         andreUtbetalinger,
+        erSelvstendigOgEllerFrilans,
+        selvstendigOgEllerFrilans,
 
         // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
@@ -59,6 +62,8 @@ export const mapFormDataToApiData = (
         ]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
+        erSelvstendig: isSelvstendig(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
+        erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
         fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         vedlegg: [

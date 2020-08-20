@@ -7,7 +7,7 @@ import Box from 'common/components/box/Box';
 import {
     filterArbeidsforholdMedVedlegg,
     listAlleVedleggFraArbeidsforhold,
-    listOfAttachmentsToListOfDocumentName
+    listOfAttachmentsToListOfDocumentName,
 } from '../../../utils/formToApiMaps/mapVedleggToApiData';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import SummaryBlock from './SummaryBlock';
@@ -29,16 +29,16 @@ const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props): React.ReactE
     const listeAvAlleVedlegg: string[] = [
         ...listAlleVedleggFraArbeidsforhold([
             ...values[SøknadFormField.arbeidsforhold],
-            values[SøknadFormField.annetArbeidsforhold]
+            values[SøknadFormField.annetArbeidsforhold],
         ]),
         ...(values[SøknadFormField.hjemmePgaSmittevernhensynYesOrNo] === YesOrNo.YES
             ? listOfAttachmentsToListOfDocumentName(values[SøknadFormField.smittevernDokumenter])
-            : [])
+            : []),
     ];
 
     const listeAvAlleAttachmentsFraArbeidsforhold: Attachment[] = filterArbeidsforholdMedVedlegg([
         ...values[SøknadFormField.arbeidsforhold],
-        values[SøknadFormField.annetArbeidsforhold]
+        values[SøknadFormField.annetArbeidsforhold],
     ])
         .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter])
         .flat();

@@ -89,6 +89,8 @@ export interface SøknadApiData {
     arbeidsgivere: ArbeidsgiverDetaljer[];
     bekreftelser: Bekreftelser;
     andreUtbetalinger: string[];
+    erSelvstendig: boolean;
+    erFrilanser: boolean;
     fosterbarn: FosterbarnApi[] | null;
     hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];

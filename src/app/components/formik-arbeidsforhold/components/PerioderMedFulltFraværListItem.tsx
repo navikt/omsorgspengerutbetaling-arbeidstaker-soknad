@@ -8,7 +8,7 @@ import {
     validateAll,
     validateDateInRange,
     validateDateNotInFuture,
-    validateTomAfterFom
+    validateTomAfterFom,
 } from '../../../validation/fieldValidations';
 import { FormikDateIntervalPicker } from '@navikt/sif-common-formik/lib';
 import { Periode } from '../../../types/PeriodeTypes';
@@ -29,11 +29,11 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
     periode,
     disabledPerioder,
     onRemove,
-    name
+    name,
 }) => {
     const tomDateRange: Partial<DateRange> = {
         from: periode?.fom ? periode.fom : GYLDIG_TIDSROM.from,
-        to: GYLDIG_TIDSROM.to
+        to: GYLDIG_TIDSROM.to,
     };
 
     const disabledDateRanges = disabledPerioder?.map((p) => ({ from: p.fom, to: p.tom })) || [];
@@ -47,13 +47,13 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                         validate: validateAll([
                             validateRequiredField,
                             validateDateInRange(GYLDIG_TIDSROM),
-                            validatePeriodeNotWeekend
+                            validatePeriodeNotWeekend,
                         ]),
                         name: `${name}.${index}.fom`,
                         minDate: GYLDIG_TIDSROM.from,
                         maxDate: dateToday,
                         disabledDateRanges,
-                        disableWeekend: true
+                        disableWeekend: true,
                     }}
                     toDatepickerProps={{
                         validate: validateAll([
@@ -61,14 +61,14 @@ const PerioderMedFulltFraværListItem: React.FunctionComponent<Props> = ({
                             ...(periode?.fom ? [validateTomAfterFom(periode.fom)] : []),
                             validateDateInRange(tomDateRange),
                             validateDateNotInFuture(),
-                            validatePeriodeNotWeekend
+                            validatePeriodeNotWeekend,
                         ]),
                         label: 'Til og med',
                         name: `${name}.${index}.tom`,
                         minDate: tomDateRange.from,
                         maxDate: dateToday,
                         disabledDateRanges,
-                        disableWeekend: true
+                        disableWeekend: true,
                     }}
                 />
             </div>

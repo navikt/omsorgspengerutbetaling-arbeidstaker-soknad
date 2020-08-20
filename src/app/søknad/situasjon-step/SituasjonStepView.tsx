@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from 'common/components/box/Box';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
@@ -29,6 +29,9 @@ import {
     checkHarKlikketNeiPåAlle,
 } from '../../validation/components/arbeidsforholdValidations';
 import appSentryLogger from '../../utils/appSentryLogger';
+import intlHelper from 'common/utils/intlUtils';
+import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
+import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -42,6 +45,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const { values } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
     const [doApiCalls, setDoApiCalls] = useState(true);
+    const intl = useIntl();
 
     useEffect(() => {
         const today: Date = dateToday;
@@ -143,6 +147,73 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {/* ANNET ARBEIDSFORHOLD*/}
                 <FormikAnnetArbeidsforholdSituasjon />
 
+                {harKlikketJaJaPåAlle && (
+                    <FormBlock paddingBottom={'xxl'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+                {harKlikketNeiPåAlle && (
+                    <FormBlock paddingBottom={'xxl'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+                {harKlikketNeiElleJajaBlanding && (
+                    <FormBlock paddingBottom={'xxl'}>
+                        <AlertStripe type={'advarsel'}>
+                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
+                        </AlertStripe>
+                    </FormBlock>
+                )}
+
+                {/* SELVSTENDIG OG ELLER FRILANS */}
+
+                <FormBlock margin={'xl'} paddingBottom={'xxxl'}>
+                    <Box padBottom={'xl'}>
+                        <Undertittel>
+                            <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
+                        </Undertittel>
+                    </Box>
+                    <SøknadFormComponents.YesOrNoQuestion
+                        name={SøknadFormField.erSelvstendigOgEllerFrilans}
+                        legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                    {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
+                        <>
+                            <FormBlock margin={'m'}>
+                                <SøknadFormComponents.CheckboxPanelGroup
+                                    name={SøknadFormField.selvstendigOgEllerFrilans}
+                                    checkboxes={[
+                                        {
+                                            id: SelvstendigOgEllerFrilans.selvstendig,
+                                            value: SelvstendigOgEllerFrilans.selvstendig,
+                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label'),
+                                        },
+                                        {
+                                            id: SelvstendigOgEllerFrilans.frilans,
+                                            value: SelvstendigOgEllerFrilans.frilans,
+                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label'),
+                                        },
+                                    ]}
+                                    validate={validateRequiredList}
+                                />
+                            </FormBlock>
+                            <InformasjonOmSelvstendigOgFrilans
+                                erSelvstendig={values.selvstendigOgEllerFrilans.includes(
+                                    SelvstendigOgEllerFrilans.selvstendig
+                                )}
+                                erFrilanser={values.selvstendigOgEllerFrilans.includes(
+                                    SelvstendigOgEllerFrilans.frilans
+                                )}
+                            />
+                        </>
+                    )}
+                </FormBlock>
+
                 {/* FOSTERBARN */}
 
                 <Box padBottom={'xxl'}>
@@ -171,28 +242,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                         </FormBlock>
                     )}
                 </FormBlock>
-
-                {harKlikketJaJaPåAlle && (
-                    <FormBlock paddingBottom={'l'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
-                {harKlikketNeiPåAlle && (
-                    <FormBlock paddingBottom={'l'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
-                {harKlikketNeiElleJajaBlanding && (
-                    <FormBlock paddingBottom={'l'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
             </>
         </SøknadStep>
     );

@@ -58,7 +58,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
 
         setState({
             isLoading: false,
-            lastStepID: maybeStoredLastStepID,
+            lastStepID: isSøknadFormData(søknadFormData) ? maybeStoredLastStepID : undefined,
             formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
             søkerdata: updatedSokerData,
         });

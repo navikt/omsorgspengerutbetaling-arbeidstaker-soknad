@@ -448,9 +448,17 @@
     "ingen.gjeldende.arbeidsforhold.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden. Hvis din arbeidsgiver ikke er registrert i listen, så kan du selv legge til informasjon over. ",
     "ingen.gjeldende.arbeidsforhold.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "steg.en.smittevern.sporsmal": "Har du vært hjemme med barn grunnet særlige smittevernhensyn?",
-
     "validation.minimum_en_periode_per_arbeidsforhold_required": "Hvis du ikke har hatt fravær fra denne arbeidsgiveren, må du gå tilbake og endre svaret ditt på samme spørsmål på forrige steg.",
 
     "info.smittevern.tittel": "Hva menes med særlige smittevernhensyn?",
-    "info.smittevern.info.html": "Når barnehagen eller skolen er åpen, men du må være hjemme med barnet ditt på grunn <strong>av særlige smittevernhensyn</strong>, kan du bruke omsorgsdager. Det er en lege som avgjør om det foreligger særlige smittevernhensyn. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som bor med barnet."
+    "info.smittevern.info.html": "Når barnehagen eller skolen er åpen, men du må være hjemme med barnet ditt på grunn <strong>av særlige smittevernhensyn</strong>, kan du bruke omsorgsdager. Det er en lege som avgjør om det foreligger særlige smittevernhensyn. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som bor med barnet.",
+
+    "selvstendig_og_eller_frilans.ja_nei.undertittel": "Selvstendig næringsdrivende og frilanser",
+    "selvstendig_og_eller_frilans.ja_nei.spm": "Er du selvstendig næringsdrivende og/eller frilanser i tillegg til at du er arbeidstaker?",
+    "selvstendig_og_eller_frilans.selvstendig.label": "Ja, jeg er også selvstendig næringsdrivende",
+    "selvstendig_og_eller_frilans.frilans.label": "Ja, jeg er også frilanser",
+    "selvstendig_og_eller_frilans.selvstendig.ja.info": "Hvis du skal søke om omsorgspenger som frilanser, {lenkeKomponent}, i tillegg til denne.",
+    "selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst": "må du sende en egen søknad om det",
+    "selvstendig_og_eller_frilans.frilans.ja.info": "Hvis du skal søke om omsorgspenger som selvstendig næringsdrivende, {lenkeKomponent}, i tillegg til denne.",
+    "selvstendig_og_eller_frilans.frilans.ja.info.lenketekst": "må du sende en egen søknad om det"
 }
