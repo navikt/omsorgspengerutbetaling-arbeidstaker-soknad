@@ -106,7 +106,9 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                             <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.2" />
                         </Box>
                     </CounsellorPanel>
-                    <PictureScanningGuide />
+                    <Box margin={'l'}>
+                        <PictureScanningGuide />
+                    </Box>
                     <FormikVedleggsKomponent
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.smittevernVedlegg')}
                         formikName={SøknadFormField.smittevernDokumenter}
