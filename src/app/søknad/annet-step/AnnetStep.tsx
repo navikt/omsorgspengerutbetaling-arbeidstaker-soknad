@@ -12,7 +12,6 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
-import EkspanderbarPSG from '../../components/EkspanderbarPSG/EkspanderbarPSG';
 import SmittevernInfo from '../../components/information/SmittevernInfo';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
@@ -24,6 +23,7 @@ import { mapFraværTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPe
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
+import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -106,7 +106,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                             <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.2" />
                         </Box>
                     </CounsellorPanel>
-                    <EkspanderbarPSG />
+                    <PictureScanningGuide />
                     <FormikVedleggsKomponent
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.smittevernVedlegg')}
                         formikName={SøknadFormField.smittevernDokumenter}

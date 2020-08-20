@@ -14,9 +14,9 @@ import {
     HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import EkspanderbarPSG from '../EkspanderbarPSG/EkspanderbarPSG';
 import FormikQuestion from '../formik-question/FormikQuestion';
 import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
+import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
@@ -180,19 +180,23 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     <FormBlock>
                         <CounsellorPanel>
                             <Box padBottom={'l'}>
-                                Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4
-                                uker. Hvis arbeidsgiver ikke utbetaler{' '}
-                                <strong>må du laste opp en forklaring fra arbeidsgiver</strong> på hvorfor de ikke
-                                utbetaler omsorgspenger til deg.
+                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.1.1'} />
+                                <strong>
+                                    <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.1.2'} />
+                                </strong>
+                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.1.3'} />
                             </Box>
                             <Box padBottom={'l'}>
-                                Hvis du ikke har forklaringen tilgjengelig nå, må du ettersende den til oss så snart du
-                                har den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.
+                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.2'} />
                             </Box>
-                            <Box padBottom={'l'}>Du må også be arbeidsgiveren din sende inntektsmelding til NAV.</Box>
+                            <Box padBottom={'l'}>
+                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.3'} />
+                            </Box>
                         </CounsellorPanel>
                     </FormBlock>
-                    <EkspanderbarPSG />
+                    <Box margin={'l'}>
+                        <PictureScanningGuide />
+                    </Box>
                     <FormikVedleggsKomponent
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.vedlegg')}
                         formikName={nameDokumenter}
