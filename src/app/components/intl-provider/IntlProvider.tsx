@@ -7,6 +7,7 @@ import bostedUtlandMessages from '@navikt/sif-common-forms/lib/bosted-utland/bos
 import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
+import fosterbarnMessages from '@navikt/sif-common-forms/lib/fosterbarn/fosterbarnMessages';
 
 const selvstendigMessagesNb = require('../../i18n/selvstendigOgFrilans.nb.json');
 
@@ -15,6 +16,7 @@ const appBokmålstekster = require('../../i18n/nb.json');
 const bokmålstekster = {
     ...allCommonMessages.nb,
     ...appBokmålstekster,
+    ...fosterbarnMessages.nb,
     ...selvstendigMessagesNb,
     ...bostedUtlandMessages.nb,
     ...fraværMessages.nb,
