@@ -7,6 +7,9 @@ import { navigateToLoginPage } from '../../utils/navigationUtils';
 import { validateDocuments } from '../../validation/fieldValidations';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
+import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import { FormattedMessage } from 'react-intl';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 interface Props {
     uploadButtonLabel: string;
@@ -16,6 +19,7 @@ interface Props {
 
 const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uploadButtonLabel }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
+    const totalSize = getTotalSizeOfAttachments(dokumenter);
 
     return (
         <div>
@@ -32,6 +36,13 @@ const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uplo
                     listOfAttachments={dokumenter}
                 />
             </FormBlock>
+            {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
+                <Box margin={'l'}>
+                    <AlertStripeAdvarsel>
+                        <FormattedMessage id={'dokumenter.advarsel.totalstørrelse'} />
+                    </AlertStripeAdvarsel>
+                </Box>
+            )}
             <Box margin="m">
                 <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             </Box>
