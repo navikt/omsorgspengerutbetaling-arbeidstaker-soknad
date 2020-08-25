@@ -4,7 +4,7 @@ import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErr
 import FormBlock from 'common/components/form-block/FormBlock';
 import { Attachment } from 'common/types/Attachment';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
-import { validateDocuments } from '../../validation/fieldValidations';
+import { attachmentsToFieldValidationResult } from '../../validation/fieldValidations';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
@@ -33,7 +33,7 @@ const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uplo
                         setFilesThatDidntGetUploaded([]);
                     }}
                     onUnauthorizedOrForbiddenUpload={(): void => navigateToLoginPage()}
-                    validate={validateDocuments}
+                    validate={attachmentsToFieldValidationResult}
                     listOfAttachments={dokumenter}
                 />
             </FormBlock>

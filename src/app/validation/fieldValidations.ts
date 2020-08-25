@@ -236,7 +236,21 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     return undefined;
 };
 
-export const validateDocuments = (attachments: Attachment[]): FieldValidationResult => {
+export const attachmentsAreValid = (attachments: Attachment[]): boolean => {
+    const uploadedAttachments = attachments.filter((attachment) => {
+        return attachment ? attachmentHasBeenUploaded(attachment) : false;
+    });
+    const totalSizeInBytes: number = getTotalSizeOfAttachments(uploadedAttachments);
+    if (totalSizeInBytes > MAX_TOTAL_ATTACHMENT_SIZE_BYTES) {
+        return false;
+    }
+    if (uploadedAttachments.length > 100) {
+        return false;
+    }
+    return true;
+};
+
+export const attachmentsToFieldValidationResult = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => {
         return attachment ? attachmentHasBeenUploaded(attachment) : false;
     });
