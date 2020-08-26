@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 import { useFormikContext } from 'formik';
@@ -24,6 +24,8 @@ import UtbetalingsperioderSummaryView from '../oppsummering-step/components/Utbe
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from 'common/types/Attachment';
+import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -49,6 +51,8 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
         [...arbeidsforholdPerioder, ...annetPeriode],
         [...arbeidsforholdDager, ...annetDag]
     );
+
+    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 
     return (
         <SøknadStep
@@ -113,6 +117,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.smittevernVedlegg')}
                         formikName={SøknadFormField.smittevernDokumenter}
                         dokumenter={values.smittevernDokumenter}
+                        alleDokumenterISøknaden={alleDokumenterISøknaden}
                     />
                 </>
             )}

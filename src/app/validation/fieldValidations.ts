@@ -250,17 +250,17 @@ export const attachmentsAreValid = (attachments: Attachment[]): boolean => {
     return true;
 };
 
-export const attachmentsToFieldValidationResult = (attachments: Attachment[]): FieldValidationResult => {
+export const alleDokumenterISøknadenToFieldValidationResult = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => {
         return attachment ? attachmentHasBeenUploaded(attachment) : false;
     });
-    const totalSizeInBytes: number = getTotalSizeOfAttachments(attachments);
-    // if (uploadedAttachments.length === 0) {
-    //     return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
-    // }
+    const totalSizeInBytes: number = getTotalSizeOfAttachments(uploadedAttachments);
     if (totalSizeInBytes > MAX_TOTAL_ATTACHMENT_SIZE_BYTES) {
         return createAppFieldValidationError(AppFieldValidationErrors.samlet_storrelse_for_hoy);
     }
+    // if (uploadedAttachments.length === 0) {
+    //     return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
+    // }
     if (uploadedAttachments.length > 100) {
         return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
     }

@@ -4,7 +4,7 @@ import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErr
 import FormBlock from 'common/components/form-block/FormBlock';
 import { Attachment } from 'common/types/Attachment';
 import { navigateToLoginPage } from '../../utils/navigationUtils';
-import { attachmentsToFieldValidationResult } from '../../validation/fieldValidations';
+import { alleDokumenterISøknadenToFieldValidationResult } from '../../validation/fieldValidations';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
@@ -16,11 +16,17 @@ interface Props {
     uploadButtonLabel: string;
     formikName: string;
     dokumenter: Attachment[];
+    alleDokumenterISøknaden: Attachment[];
 }
 
-const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uploadButtonLabel }: Props) => {
+const FormikVedleggsKomponent: React.FC<Props> = ({
+    formikName,
+    dokumenter,
+    alleDokumenterISøknaden,
+    uploadButtonLabel,
+}: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const totalSize = getTotalSizeOfAttachments(dokumenter);
+    const totalSize = getTotalSizeOfAttachments(alleDokumenterISøknaden);
 
     return (
         <div>
@@ -33,7 +39,7 @@ const FormikVedleggsKomponent: React.FC<Props> = ({ formikName, dokumenter, uplo
                         setFilesThatDidntGetUploaded([]);
                     }}
                     onUnauthorizedOrForbiddenUpload={(): void => navigateToLoginPage()}
-                    validate={attachmentsToFieldValidationResult}
+                    validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
                     listOfAttachments={dokumenter}
                 />
             </FormBlock>

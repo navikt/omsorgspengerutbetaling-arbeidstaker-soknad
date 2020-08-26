@@ -17,6 +17,10 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../type
 import FormikQuestion from '../formik-question/FormikQuestion';
 import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from 'common/types/Attachment';
+import { useFormikContext } from 'formik';
+import { SøknadFormData } from '../../types/SøknadFormData';
+import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
@@ -85,6 +89,9 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.ansettelseslengde][
             AnsettelseslengdeFormDataFields.begrunnelse
         ];
+
+    const { values } = useFormikContext<SøknadFormData>();
+    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 
     return (
         <>
@@ -201,6 +208,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.vedlegg')}
                         formikName={nameDokumenter}
                         dokumenter={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
+                        alleDokumenterISøknaden={alleDokumenterISøknaden}
                     />
                 </div>
             )}
