@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
 import Page from 'common/components/page/Page';
@@ -18,6 +17,8 @@ import { PopoverOrientering } from 'nav-frontend-popover';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
 import SmittevernInfo from '../../information/SmittevernInfo';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
+import Knappelenke from 'common/components/knappelenke/Knappelenke';
+import './introPage.less';
 
 const bem = bemUtils('introPage');
 
@@ -243,10 +244,15 @@ const IntroPage: React.FC = (): JSX.Element => {
 
                                     {skalViseGåTilSøknadLink && (
                                         <>
-                                            <Box margin="xl" textAlignCenter={true}>
-                                                <Lenke href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>
+                                            <Box
+                                                margin="xl"
+                                                textAlignCenter={true}
+                                                className={bem.element('gaTilSoknadenKnappelenkeWrapper')}>
+                                                <Knappelenke
+                                                    type={'hoved'}
+                                                    href={getRouteUrl(RouteConfig.WELCOMING_PAGE_ROUTE)}>
                                                     <FormattedMessage id="gotoApplicationLink.lenketekst" />
-                                                </Lenke>
+                                                </Knappelenke>
                                             </Box>
                                         </>
                                     )}

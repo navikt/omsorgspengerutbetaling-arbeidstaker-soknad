@@ -12,7 +12,11 @@ import {
 import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
 import { datesCollide } from './dateValidationUtils';
-import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
+import {
+    attachmentHasBeenUploaded,
+    getTotalSizeOfAttachments,
+    MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
+} from 'common/utils/attachmentUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 
@@ -42,6 +46,7 @@ export enum AppFieldValidationErrors {
     'tom_er_i_fremtiden' = 'fieldvalidation.tom_er_i_fremtiden',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
     'for_mange_dokumenter' = 'fieldvalidation.for_mange_dokumenter',
+    'samlet_storrelse_for_hoy' = 'fieldvalidation.samlet_storrelse_for_hoy',
     'ingen_dokumenter' = 'fieldvalidation.ingen_dokumenter',
     'ikke_lørdag_eller_søndag_periode' = 'fieldvalidation.saturday_and_sunday_not_possible_periode',
     'ikke_lørdag_eller_søndag_dag' = 'fieldvalidation.saturday_and_sunday_not_possible_dag',
@@ -231,14 +236,32 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     return undefined;
 };
 
-export const validateDocuments = (attachments: Attachment[]): FieldValidationResult => {
+export const attachmentsAreValid = (attachments: Attachment[]): boolean => {
     const uploadedAttachments = attachments.filter((attachment) => {
         return attachment ? attachmentHasBeenUploaded(attachment) : false;
     });
+    const totalSizeInBytes: number = getTotalSizeOfAttachments(uploadedAttachments);
+    if (totalSizeInBytes > MAX_TOTAL_ATTACHMENT_SIZE_BYTES) {
+        return false;
+    }
+    if (uploadedAttachments.length > 100) {
+        return false;
+    }
+    return true;
+};
+
+export const alleDokumenterISøknadenToFieldValidationResult = (attachments: Attachment[]): FieldValidationResult => {
+    const uploadedAttachments = attachments.filter((attachment) => {
+        return attachment ? attachmentHasBeenUploaded(attachment) : false;
+    });
+    const totalSizeInBytes: number = getTotalSizeOfAttachments(uploadedAttachments);
+    if (totalSizeInBytes > MAX_TOTAL_ATTACHMENT_SIZE_BYTES) {
+        return createAppFieldValidationError(AppFieldValidationErrors.samlet_storrelse_for_hoy);
+    }
     // if (uploadedAttachments.length === 0) {
     //     return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
     // }
-    if (uploadedAttachments.length > 3) {
+    if (uploadedAttachments.length > 100) {
         return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
     }
     return undefined;
