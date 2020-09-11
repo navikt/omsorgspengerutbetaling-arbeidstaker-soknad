@@ -68,29 +68,28 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
         }
     };
 
-    async function loadAppEssentials(): Promise<void> {
-        try {
-            if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                const [søkerApiResponse, tempStorage]: Array<
-                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
-                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
-                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
-            } else {
-                const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
-                handleSøkerdataFetchSuccess(søkerApiResponse);
-            }
-        } catch (error) {
-            const willRedirect = redirectIfForbiddenOrUnauthorized(error);
-            if (willRedirect === WillRedirect.No) {
-                setApiCallError(true);
-                appSentryLogger.logApiError(error);
-            } else {
-                setState({ ...state, isLoading: true });
+    useEffect(() => {
+        async function loadAppEssentials(): Promise<void> {
+            try {
+                if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
+                    const [søkerApiResponse, tempStorage]: Array<
+                        AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
+                    > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
+                    handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
+                } else {
+                    const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
+                    handleSøkerdataFetchSuccess(søkerApiResponse);
+                }
+            } catch (error) {
+                const willRedirect = redirectIfForbiddenOrUnauthorized(error);
+                if (willRedirect === WillRedirect.No) {
+                    setApiCallError(true);
+                    appSentryLogger.logApiError(error);
+                } else {
+                    setState({ ...state, isLoading: true });
+                }
             }
         }
-    }
-
-    useEffect(() => {
         if (doApiCalls) {
             loadAppEssentials();
             setDoApiCalls(false);
