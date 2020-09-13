@@ -1,41 +1,45 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { FormikRadioPanelGroup, getTypedFormComponents, LabelWithInfo, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { AlertStripeFeil, AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { PopoverOrientering } from 'nav-frontend-popover';
 import Box from 'common/components/box/Box';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
+import FormBlock from 'common/components/form-block/FormBlock';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
+import Knappelenke from 'common/components/knappelenke/Knappelenke';
 import Page from 'common/components/page/Page';
 import StepBanner from 'common/components/step-banner/StepBanner';
 import bemUtils from 'common/utils/bemUtils';
+import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
-import { FormikRadioPanelGroup, getTypedFormComponents, LabelWithInfo, YesOrNo } from '@navikt/sif-common-formik/lib';
-import FormBlock from 'common/components/form-block/FormBlock';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
-import { AlertStripeFeil, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import FormikQuestion from '../../formik-question/FormikQuestion';
 import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../../../types/AnsettelseslengdeTypes';
-import { PopoverOrientering } from 'nav-frontend-popover';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
+import FormikQuestion from '../../formik-question/FormikQuestion';
 import SmittevernInfo from '../../information/SmittevernInfo';
-import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
-import Knappelenke from 'common/components/knappelenke/Knappelenke';
 import './introPage.less';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 const bem = bemUtils('introPage');
 
 enum PageFormField {
     hvorLengeJobbet = 'hvorLengeJobbet',
     begrunnelse = 'begrunnelse',
+    hjemmePgaStengt = 'hjemmePgaStengt',
     smittevernHensyn = 'smittevernHensyn',
 }
 
 interface PageFormValues {
     [PageFormField.hvorLengeJobbet]: HvorLengeJobbet;
+    [PageFormField.hjemmePgaStengt]: YesOrNo;
     [PageFormField.begrunnelse]: HvorLengeJobbetFordi;
     [PageFormField.smittevernHensyn]: YesOrNo;
 }
 
 const initialValues: PageFormValues = {
     [PageFormField.hvorLengeJobbet]: HvorLengeJobbet.IKKE_BESVART,
+    [PageFormField.hjemmePgaStengt]: YesOrNo.UNANSWERED,
     [PageFormField.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
     [PageFormField.smittevernHensyn]: YesOrNo.UNANSWERED,
 };
@@ -66,7 +70,9 @@ const IntroPage: React.FC = (): JSX.Element => {
                 <PageForm.FormikWrapper
                     onSubmit={(): null => null}
                     initialValues={initialValues}
-                    renderForm={({ values: { hvorLengeJobbet, begrunnelse, smittevernHensyn } }): JSX.Element => {
+                    renderForm={({
+                        values: { hvorLengeJobbet, begrunnelse, smittevernHensyn, hjemmePgaStengt },
+                    }): JSX.Element => {
                         const skalViseMerEnnFireUkerInfoPanel = hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER;
 
                         const skalViseIngenAvSituasjonenePanel =
@@ -80,6 +86,11 @@ const IntroPage: React.FC = (): JSX.Element => {
                                 begrunnelse !== HvorLengeJobbetFordi.INGEN);
 
                         const skalViseSmittevernInfo = skalViseSmittevernSpørsmål && smittevernHensyn === YesOrNo.YES;
+
+                        const skalViseStengtBarnehageSpørsmål = smittevernHensyn === YesOrNo.NO;
+
+                        const skalViseStengtBhgSkoleInfo =
+                            skalViseSmittevernInfo !== true && hjemmePgaStengt === YesOrNo.YES;
 
                         const skalViseGåTilSøknadLink =
                             skalViseSmittevernSpørsmål && smittevernHensyn !== YesOrNo.UNANSWERED;
@@ -222,6 +233,15 @@ const IntroPage: React.FC = (): JSX.Element => {
                                         </FormBlock>
                                     )}
 
+                                    {skalViseStengtBarnehageSpørsmål && (
+                                        <FormBlock>
+                                            <PageForm.YesOrNoQuestion
+                                                name={PageFormField.hjemmePgaStengt}
+                                                legend={intlHelper(intl, 'steg.intro.form.spm.hjemmePgaStengt')}
+                                            />
+                                        </FormBlock>
+                                    )}
+
                                     {skalViseSmittevernInfo && (
                                         <Box margin="xl">
                                             <AlertStripeInfo>
@@ -237,6 +257,19 @@ const IntroPage: React.FC = (): JSX.Element => {
                                                     Hvis du ikke har bekreftelse tilgjengelig når du søker, kan du
                                                     ettersende den. Vi kan ikke behandle søknaden før vi mottar
                                                     bekreftelsen.
+                                                </p>
+                                            </AlertStripeInfo>
+                                        </Box>
+                                    )}
+
+                                    {skalViseStengtBhgSkoleInfo && (
+                                        <Box margin="xl">
+                                            <AlertStripeInfo>
+                                                <p style={{ marginTop: 0, marginBottom: 0 }}>
+                                                    <FormattedHtmlMessage id="steg.intro.stengtBhgSkole.1" />
+                                                </p>
+                                                <p>
+                                                    <FormattedHtmlMessage id="steg.intro.stengtBhgSkole.2" />
                                                 </p>
                                             </AlertStripeInfo>
                                         </Box>
