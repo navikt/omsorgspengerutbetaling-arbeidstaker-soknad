@@ -24,6 +24,8 @@ import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SmittevernSummaryView from './components/SmittevernSummaryView';
 import appSentryLogger from '../../utils/appSentryLogger';
 import SelvstendigOgEllerFrilansSummaryView from './components/SelvstendigOgEllerFrilansSummaryView';
+import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
+import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -90,6 +92,7 @@ const OppsummeringStep: React.StatelessComponent<Props> = ({ onApplicationSent, 
                     <FosterbarnSummaryView fosterbarn={fosterbarn} />
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
                     <SmittevernSummaryView apiValues={apiValues} />
+                    {isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && <StengtBhgSkoleSummaryView apiValues={apiValues} />}
                     <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
                     <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                     {/*<VedleggSummaryView apiValues={apiValues} />*/}

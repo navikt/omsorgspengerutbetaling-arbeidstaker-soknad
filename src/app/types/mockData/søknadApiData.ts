@@ -126,5 +126,8 @@ export const gyldigSøknadApiData1: SøknadApiData = {
     erFrilanser: false,
     fosterbarn: null,
     hjemmePgaSmittevernhensyn: false,
+    hjemmePgaStengtBhgSkole: false,
     vedlegg: [],
+    _vedleggSmittevern: [],
+    _vedleggStengtBhgSkole: [],
 };

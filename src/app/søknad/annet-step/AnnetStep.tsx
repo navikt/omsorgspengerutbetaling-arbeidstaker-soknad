@@ -8,6 +8,8 @@ import ContentWithHeader from 'common/components/content-with-header/ContentWith
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import FormBlock from 'common/components/form-block/FormBlock';
+import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
@@ -19,13 +21,12 @@ import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 import { mapFraværTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
-import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from 'common/types/Attachment';
-import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
+import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -121,6 +122,40 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                     />
                 </>
             )}
+
+            {isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && (
+                <>
+                    <FormBlock>
+                        <SøknadFormComponents.YesOrNoQuestion
+                            name={SøknadFormField.hjemmePgaStengtBhgSkole}
+                            legend={intlHelper(intl, 'steg.annet.hjemmePgaStengt.spm')}
+                            validate={validateYesOrNoIsAnswered}
+                        />
+                    </FormBlock>
+                    {values.hjemmePgaStengtBhgSkole === YesOrNo.YES && (
+                        <FormBlock>
+                            <CounsellorPanel>
+                                <Box padBottom={'l'}>
+                                    <FormattedMessage id="steg.annet.stengtBhgSkole.info.1" />
+                                </Box>
+                                <Box padBottom={'l'}>
+                                    <FormattedMessage id="steg.annet.stengtBhgSkole.info.2" />
+                                </Box>
+                            </CounsellorPanel>
+                            <Box margin={'l'}>
+                                <PictureScanningGuide />
+                            </Box>
+                            <FormikVedleggsKomponent
+                                uploadButtonLabel={intlHelper(intl, 'steg.annet.stengtBhgSkole.vedlegg')}
+                                formikName={SøknadFormField.dokumenterStengtBkgSkole}
+                                dokumenter={values.dokumenterStengtBkgSkole}
+                                alleDokumenterISøknaden={alleDokumenterISøknaden}
+                            />
+                        </FormBlock>
+                    )}
+                </>
+            )}
+
             <FormBlock>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.harSøktAndreUtbetalinger}
