@@ -1,11 +1,11 @@
 import * as React from 'react';
 import IkkeMyndigPage from '../components/pages/ikke-myndig-page/IkkeMyndigPage';
+import { StepID } from '../config/stepConfig';
+import { Søkerdata } from '../types/Søkerdata';
 import { SøknadFormData } from '../types/SøknadFormData';
 import SøknadEssentialsLoader from './SøknadEssentialsLoader';
 import SøknadFormComponents from './SøknadFormComponents';
 import SøknadRoutes from './SøknadRoutes';
-import { StepID } from '../config/stepConfig';
-import { Søkerdata } from '../types/Søkerdata';
 
 const Søknad: React.FC = (): JSX.Element => (
     <SøknadEssentialsLoader

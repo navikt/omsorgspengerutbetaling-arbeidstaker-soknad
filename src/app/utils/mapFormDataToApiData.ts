@@ -12,6 +12,7 @@ import {
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
 import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
+import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -43,9 +44,21 @@ export const mapFormDataToApiData = (
 
         hjemmePgaSmittevernhensynYesOrNo,
         smittevernDokumenter,
+        hjemmePgaStengtBhgSkole,
+        dokumenterStengtBkgSkole,
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
+    const _vedleggSmittevern =
+        hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES
+            ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
+            : [];
+
+    const _vedleggStengtBhgSkole =
+        isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && hjemmePgaStengtBhgSkole === YesOrNo.YES
+            ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
+            : [];
+
     const apiData: SøknadApiData = {
         språk: (intl.locale as any) === 'en' ? 'nn' : (intl.locale as Locale),
         bosteder: settInnBosteder(
@@ -66,12 +79,16 @@ export const mapFormDataToApiData = (
         erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
         fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
+        hjemmePgaStengtBhgSkole: isFeatureEnabled(Feature.STENGT_BHG_SKOLE)
+            ? hjemmePgaStengtBhgSkole === YesOrNo.YES
+            : undefined,
         vedlegg: [
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
-            ...(hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES
-                ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
-                : []),
+            ..._vedleggSmittevern,
+            ..._vedleggStengtBhgSkole,
         ],
+        _vedleggSmittevern,
+        _vedleggStengtBhgSkole,
     };
 
     return apiData;

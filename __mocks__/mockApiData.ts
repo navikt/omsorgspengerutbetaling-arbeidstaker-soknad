@@ -9,15 +9,15 @@ export const mock1: SøknadApiData = {
             tilOgMed: '2001-01-31',
             landkode: 'abc',
             landnavn: 'Abcland',
-            erEØSLand: false
+            erEØSLand: false,
         },
         {
             fraOgMed: '2002-01-31',
             tilOgMed: '2003-01-31',
             landkode: 'def',
             landnavn: 'Defland',
-            erEØSLand: false
-        }
+            erEØSLand: false,
+        },
     ],
     opphold: [
         {
@@ -25,15 +25,15 @@ export const mock1: SøknadApiData = {
             tilOgMed: '2001-01-31',
             landkode: 'abc',
             landnavn: 'Abcland',
-            erEØSLand: false
+            erEØSLand: false,
         },
         {
             fraOgMed: '2002-01-31',
             tilOgMed: '2003-01-31',
             landkode: 'def',
             landnavn: 'Defland',
-            erEØSLand: false
-        }
+            erEØSLand: false,
+        },
     ],
     arbeidsgivere: [
         {
@@ -44,21 +44,21 @@ export const mock1: SøknadApiData = {
             ansettelseslengde: {
                 merEnn4Uker: false,
                 begrunnelse: Begrunnelse.INGEN_AV_SITUASJONENE,
-                ingenAvSituasjoneneForklaring: 'En spesiell annen begrunnelse'
+                ingenAvSituasjoneneForklaring: 'En spesiell annen begrunnelse',
             },
             perioder: [
                 {
                     fraOgMed: '2002-01-21',
                     tilOgMed: '2002-01-31',
                     antallTimerPlanlagt: null,
-                    antallTimerBorte: null
-                }
-            ]
-        }
+                    antallTimerBorte: null,
+                },
+            ],
+        },
     ],
     bekreftelser: {
         harBekreftetOpplysninger: true,
-        harForståttRettigheterOgPlikter: true
+        harForståttRettigheterOgPlikter: true,
     },
     andreUtbetalinger: [],
     erSelvstendig: false,
@@ -67,11 +67,14 @@ export const mock1: SøknadApiData = {
         {
             fødselsnummer: '12345678903',
             fornavn: 'Doffen',
-            etternavn: 'Duck'
-        }
+            etternavn: 'Duck',
+        },
     ],
     hjemmePgaSmittevernhensyn: false,
-    vedlegg: ['location/1', 'location/3', 'location/1']
+    vedlegg: ['location/1', 'location/3', 'location/1'],
+    _vedleggSmittevern: [],
+    _vedleggStengtBhgSkole: [],
+    hjemmePgaStengtBhgSkole: false,
 };
 
 export const sokerApiData: SøkerApiResponse = {
@@ -81,7 +84,7 @@ export const sokerApiData: SøkerApiResponse = {
     fornavn: 'LOTTE',
     mellomnavn: null,
     etternavn: 'FAMILIE 5',
-    myndig: true
+    myndig: true,
 };
 
 export const mellomlagringResponse1 = {};

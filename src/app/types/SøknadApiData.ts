@@ -94,4 +94,7 @@ export interface SøknadApiData {
     fosterbarn: FosterbarnApi[] | null;
     hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
+    hjemmePgaStengtBhgSkole?: boolean;
+    _vedleggSmittevern: string[]; // Used in summary view
+    _vedleggStengtBhgSkole: string[]; // Used in summary view
 }

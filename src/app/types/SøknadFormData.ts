@@ -38,6 +38,10 @@ export enum SøknadFormField {
 
     hjemmePgaSmittevernhensynYesOrNo = 'hjemmePgaSmittevernhensynYesOrNo',
     smittevernDokumenter = 'smittevernDokumenter',
+
+    // Felter knyttet til stengt bhg eller skole
+    hjemmePgaStengtBhgSkole = 'hjemmePgaStengtBhgSkole',
+    dokumenterStengtBkgSkole = 'dokumenterStengtBkgSkole',
 }
 
 export interface SøknadFormData {
@@ -72,6 +76,9 @@ export interface SøknadFormData {
 
     [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo;
     [SøknadFormField.smittevernDokumenter]: Attachment[];
+
+    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo;
+    [SøknadFormField.dokumenterStengtBkgSkole]: Attachment[];
 }
 
 export const initialValues: SøknadFormData = {
@@ -106,4 +113,7 @@ export const initialValues: SøknadFormData = {
 
     [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo.UNANSWERED,
     [SøknadFormField.smittevernDokumenter]: [],
+
+    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo.UNANSWERED,
+    [SøknadFormField.dokumenterStengtBkgSkole]: [],
 };

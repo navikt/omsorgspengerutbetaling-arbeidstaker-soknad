@@ -153,6 +153,9 @@
 
     "introPage.tittel": "Søknad om ekstra omsorgsdager",
     "introPage.stegTittel": "Kan jeg søke om utbetaling av omsorgspenger?",
+    "steg.intro.form.spm.hjemmePgaStengt": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært stengt på grunn av koronaviruset?",
+    "steg.intro.stengtBhgSkole.1": "I søknaden må du laste opp en bekreftelse fra barnehagen eller skolen på at de har stengt.",
+    "steg.intro.stengtBhgSkole.2": "Hvis du ikke har bekreftelsen tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
 
     "welcomingPage.sidetittel": "Søknad om utbetaling av omsorgspenger",
     "welcomingPage.banner.tittel": "Hei,",
@@ -209,6 +212,11 @@
     "steg.omBarnet.relasjon": "Min relasjon til barnet",
     "steg.omBarnet.veileder.samværsavtale": "Senere i søknaden laster du opp avtale om delt bosted for barnet.",
 
+    "steg.annet.hjemmePgaStengt.spm": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært stengt på grunn av koronaviruset?",
+    "steg.annet.stengtBhgSkole.vedlegg": "Last opp bekreftelse fra barnehagen eller skolen",
+    "steg.annet.stengtBhgSkole.info.1": "Du må laste opp en bekreftelse fra barnehagen eller skolen på at de har vært stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilde av bekreftelsen, eller ved å scanne den.",
+    "steg.annet.stengtBhgSkole.info.2": "Hvis du ikke har bekreftelsen tilgjengelig nå, må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.",
+
     "steg.arbeid.spm": "Hva er din arbeidssituasjon? Du kan velge flere.",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i utlandet i hele eller deler av de siste 12 månedene?",
@@ -249,6 +257,10 @@
 
     "steg.oppsummering.smittevern.bekreftelse.header": "Bekreftelse fra lege",
     "steg.oppsummering.smittevern.bekreftelse.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
+
+    "steg.oppsummering.stengtBhgSkole.bekreftelse.header": "Bekreftelse fra barnehage eller skole",
+    "steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
+
     "steg.oppsummering.utbetaling.delvisFravær.header": "Dager med delvis fravær",
     "steg.oppsummering.utbetaling.delvisFravær.item": "{dato}: Skulle jobbet {timerSkulleJobbet}. Borte fra jobb {timerBorte}.",
     "steg.oppsummering.utbetaling.fravær.heleDager.header": "Hele dager med fravær",
@@ -470,5 +482,4 @@
     "arbeidslengde.merEnnFireUker.infopanel.1.3": "på hvorfor de ikke utbetaler omsorgspenger til deg. Det gjør du enten ved å ta bilde av forklaringen, eller ved å scanne den.",
     "arbeidslengde.merEnnFireUker.infopanel.2": "Hvis du ikke har forklaringen tilgjengelig nå, må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.",
     "arbeidslengde.merEnnFireUker.infopanel.3": "Du må også be arbeidsgiveren din sende inntektsmelding til NAV."
-
 }

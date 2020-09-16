@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import Box from 'common/components/box/Box';
 import { FormattedMessage, useIntl } from 'react-intl';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormSection from 'common/components/form-section/FormSection';
-import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
-import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
-import { StepConfigProps, StepID } from '../../config/stepConfig';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import SøknadStep from '../SøknadStep';
-import { FormikProps, useFormikContext } from 'formik';
-import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import FormBlock from 'common/components/form-block/FormBlock';
-import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/FosterbarnListAndDialog';
-import SøknadFormComponents from '../SøknadFormComponents';
-import { Undertittel } from 'nav-frontend-typografi';
 import { AxiosResponse } from 'axios';
+import { FormikProps, useFormikContext } from 'formik';
+import AlertStripe from 'nav-frontend-alertstriper';
+import { Undertittel } from 'nav-frontend-typografi';
+import Box from 'common/components/box/Box';
+import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import FormBlock from 'common/components/form-block/FormBlock';
+import FormSection from 'common/components/form-section/FormSection';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
-import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
+import intlHelper from 'common/utils/intlUtils';
+import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
-import AlertStripe from 'nav-frontend-alertstriper';
+import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
+import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
+import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
+import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
+import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import appSentryLogger from '../../utils/appSentryLogger';
 import {
     checkHarKlikketJaJaPåAlle,
     checkHarKlikketNeiElleJajaBlanding,
     checkHarKlikketNeiPåAlle,
 } from '../../validation/components/arbeidsforholdValidations';
-import appSentryLogger from '../../utils/appSentryLogger';
-import intlHelper from 'common/utils/intlUtils';
-import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
-import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
+import SøknadFormComponents from '../SøknadFormComponents';
+import SøknadStep from '../SøknadStep';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -79,7 +79,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
             fetchData(today);
             setDoApiCalls(false);
         }
-    }, [doApiCalls]);
+    }, [doApiCalls, formikProps]);
 
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
