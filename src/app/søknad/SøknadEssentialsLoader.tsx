@@ -5,7 +5,7 @@ import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
 import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
-import { TemporaryStorage } from '../types/TemporaryStorage';
+import { TemporaryStorage, TemporaryStorageVersion as CurrentTemporaryStorageVersion } from '../types/TemporaryStorage';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
@@ -47,8 +47,12 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
     ): void => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
-        const søknadFormData: SøknadFormData | undefined | any = tempStorage?.formData;
-        const maybeStoredLastStepID: StepID | undefined | any = tempStorage?.metadata?.lastStepID;
+        const tempStorageIsValid =
+            tempStorage?.formData && tempStorage?.metadata?.version === CurrentTemporaryStorageVersion;
+        const søknadFormData: SøknadFormData | undefined | any = tempStorageIsValid ? tempStorage?.formData : undefined;
+        const maybeStoredLastStepID: StepID | undefined | any = tempStorageIsValid
+            ? tempStorage?.metadata?.lastStepID
+            : undefined;
 
         const updatedSokerData: Søkerdata | undefined = isSøkerApiResponse(søkerResponse.data)
             ? {
