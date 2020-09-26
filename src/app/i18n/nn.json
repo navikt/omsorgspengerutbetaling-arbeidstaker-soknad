@@ -153,9 +153,9 @@
 
     "introPage.tittel": "Søknad om ekstra omsorgsdagar",
     "introPage.stegTittel": "Kan eg søkje om utbetaling av omsorgspengar?",
-    "steg.intro.form.spm.hjemmePgaStengt": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært lokalt stengt på grunn av koronaviruset?",
-    "steg.intro.stengtBhgSkole.1": "I søknaden må du laste opp en bekreftelse fra barnehagen eller skolen på at de har stengt.",
-    "steg.intro.stengtBhgSkole.2": "Hvis du ikke har bekreftelsen tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
+    "steg.intro.form.spm.hjemmePgaStengt": "Har du vore heime frå jobb fordi barnehagen eller skulen har vært lokalt stengt på grunn av koronaviruset?",
+    "steg.intro.stengtBhgSkole.1": "I søknaden må du laste opp ei stadfestinga frå barnehagen eller skulen på at dei har stengt.",
+    "steg.intro.stengtBhgSkole.2": "Dersom du ikkje har stadfestinga tilgjengeleg når du søkjer, kan du ettersende den. Vi kan ikkje behandle søknaden før vi mottar stadfestinga.",
 
     "welcomingPage.sidetittel": "Søknad om utbetaling av omsorgspengar",
     "welcomingPage.banner.tittel": "Hei,",
@@ -212,10 +212,10 @@
     "steg.omBarnet.relasjon": "Min relasjon til barnet",
     "steg.omBarnet.veileder.samværsavtale": "Seinare i søknaden lastar du opp avtale om delt bustad for barnet.",
 
-    "steg.annet.hjemmePgaStengt.spm": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært lokalt stengt på grunn av koronaviruset?",
-    "steg.annet.stengtBhgSkole.vedlegg": "Last opp bekreftelse fra barnehagen eller skolen",
-    "steg.annet.stengtBhgSkole.info.1": "Du må laste opp en bekreftelse fra barnehagen eller skolen på at de har vært stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilde av bekreftelsen, eller ved å scanne den.",
-    "steg.annet.stengtBhgSkole.info.2": "Hvis du ikke har bekreftelsen tilgjengelig nå, må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.",
+    "steg.annet.hjemmePgaStengt.spm": "Har du vore heime frå jobb fordi barnehagen eller skulen har vært lokalt stengt på grunn av koronaviruset?",
+    "steg.annet.stengtBhgSkole.vedlegg": "Last opp stadfesting frå barnehagen eller skulen",
+    "steg.annet.stengtBhgSkole.info.1": "Du må laste opp ei stadfesting frå barnehagen eller skulen på at dei har vore stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilete av stadfestinga, eller ved å scanne den.",
+    "steg.annet.stengtBhgSkole.info.2": "Dersom du ikkje har stadfestinga tilgjengeleg nå, må du ettersende den til oss så snart du har den. Vi kan ikkje behandle søknaden før vi har motteke stadfestinga.",
 
     "steg.arbeid.spm": "Kva er arbeidssituasjonen din? Du kan velje fleire.",
 
@@ -258,8 +258,8 @@
     "steg.oppsummering.smittevern.bekreftelse.header": "Stadfesting frå lege",
     "steg.oppsummering.smittevern.bekreftelse.ikkeLastetOpp": "Ikkje lasta opp, må ettersendast",
 
-    "steg.oppsummering.stengtBhgSkole.bekreftelse.header": "Bekreftelse fra barnehage eller skole",
-    "steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
+    "steg.oppsummering.stengtBhgSkole.bekreftelse.header": "Bekreftelse frå barnehage eller skole",
+    "steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp": "Ikkje lastet opp, må ettersendes",
 
     "steg.oppsummering.utbetaling.delvisFravær.header": "Dagar med delvis fråvær",
     "steg.oppsummering.utbetaling.delvisFravær.item": "{dato}: Skulle jobba {timerSkulleJobbet}. Borte frå jobb {timerBorte}.",
@@ -320,7 +320,7 @@
     "fieldvalidation.timer_for_mange_timer": "Verdien må vere mellom 0,5 og 7,5 timar",
     "fieldvalidation.dato_utenfor_gyldig_tidsrom": "Datoen er utanfor gyldig tidsperiode",
     "fieldvalidation.tom_er_før_fom": "Til-datoen kan ikkje vere før frå-datoen",
-    "fieldvalidation.tom_er_i_fremtiden": "Det er ikkje mogleg å søkje fram i tid",
+    "fieldvalidation.tom_er_i_fremtiden": "Det er ikkje mogleg å søkje fråm i tid",
     "fieldvalidation.nBarn": "Du må gi opp talet på barn.",
     "fieldvalidation.ingen_dokumenter": "Ingen dokument er lasta opp",
     "fieldvalidation.for_mange_dokumenter": "For mange dokument er lasta opp",
@@ -465,21 +465,21 @@
 
     "info.smittevern.tittel": "Kva meiner vi med særlege smittevernomsyn?",
     "info.smittevern.info.html": "Når barnehagen eller skulen er open, men du må vere heime med barnet ditt på grunn av <strong>særlege smittevernomsyn</strong>, kan du bruke omsorgsdagar. Det er ein lege som avgjer om det ligg føre særlege smittevernomsyn. Det kan vere smittevernomsyn til barnet eller andre familiemedlemmer som bur med barnet.",
-    "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du ",
-    "dokumenter.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
+    "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lasta opp meir enn grensa på 24 Mb. Det betyr at du må fjerne nokre av dei vedlegga du har lasta opp. Dersom det betyr at du ikkje får plass til alt du ønskjer å sende nå, kan du ",
+    "dokumenter.advarsel.totalstørrelse.2": "ettersende fleire dokumenter.",
 
-    "selvstendig_og_eller_frilans.ja_nei.undertittel": "Selvstendig næringsdrivende og frilanser",
-    "selvstendig_og_eller_frilans.ja_nei.spm": "Er du selvstendig næringsdrivende og/eller frilanser i tillegg til at du er arbeidstaker?",
-    "selvstendig_og_eller_frilans.selvstendig.label": "Ja, jeg er også selvstendig næringsdrivende",
-    "selvstendig_og_eller_frilans.frilans.label": "Ja, jeg er også frilanser",
-    "selvstendig_og_eller_frilans.selvstendig.ja.info": "Hvis du skal søke om omsorgspenger som frilanser, {lenkeKomponent}, i tillegg til denne.",
-    "selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst": "må du sende en egen søknad om det",
-    "selvstendig_og_eller_frilans.frilans.ja.info": "Hvis du skal søke om omsorgspenger som selvstendig næringsdrivende, {lenkeKomponent}, i tillegg til denne.",
-    "selvstendig_og_eller_frilans.frilans.ja.info.lenketekst": "må du sende en egen søknad om det",
+    "selvstendig_og_eller_frilans.ja_nei.undertittel": "Sjølvstendig næringsdrivande og frilansar",
+    "selvstendig_og_eller_frilans.ja_nei.spm": "Er du sjølvstendig næringsdrivande og/eller frilansar i tillegg til at du er arbeidstakar?",
+    "selvstendig_og_eller_frilans.selvstendig.label": "Ja, eg er også sjølvstendig næringsdrivande",
+    "selvstendig_og_eller_frilans.frilans.label": "Ja, eg er også frilansar",
+    "selvstendig_og_eller_frilans.selvstendig.ja.info": "Dersom du skal søkje om omsorgspengar som frilansar, {lenkeKomponent}, i tillegg til denne.",
+    "selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst": "må du sende ein eigen søknad om det",
+    "selvstendig_og_eller_frilans.frilans.ja.info": "Dersom du skal søkje om omsorgspengar som sjølvstendig næringsdrivande, {lenkeKomponent}, i tillegg til denne.",
+    "selvstendig_og_eller_frilans.frilans.ja.info.lenketekst": "må du sende ein eigen søknad om det",
 
-    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Hvis arbeidsgiver ikke utbetaler, ",
-    "arbeidslengde.merEnnFireUker.infopanel.1.2": "må du laste opp en forklaring fra arbeidsgiver ",
-    "arbeidslengde.merEnnFireUker.infopanel.1.3": "på hvorfor de ikke utbetaler omsorgspenger til deg. Det gjør du enten ved å ta bilde av forklaringen, eller ved å scanne den.",
-    "arbeidslengde.merEnnFireUker.infopanel.2": "Hvis du ikke har forklaringen tilgjengelig nå, må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.",
-    "arbeidslengde.merEnnFireUker.infopanel.3": "Du må også be arbeidsgiveren din sende inntektsmelding til NAV."
+    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanlegvis skal arbeidsgjever utbetale omsorgspengar når du har jobba hos dei i meir enn 4 veker. Dersom arbeidsgjever ikkje utbetalar, ",
+    "arbeidslengde.merEnnFireUker.infopanel.1.2": "må du laste opp ei forklaring frå arbeidsgjever ",
+    "arbeidslengde.merEnnFireUker.infopanel.1.3": "på kvifor dei ikkje utbetalar omsorgspengar til deg. Det gjør du enten ved å ta bilete av forklaringa, eller ved å scanne den.",
+    "arbeidslengde.merEnnFireUker.infopanel.2": "Dersom du ikkje har forklaringa tilgjengeleg nå, må du ettersende den til oss så snart du har den. Vi kan ikkje behandle søknaden før vi har motteke forklaringa.",
+    "arbeidslengde.merEnnFireUker.infopanel.3": "Du må også be arbeidsgjeveren din sende inntektsmelding til NAV."
 }
