@@ -9,15 +9,12 @@ import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessage
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
-const selvstendigMessagesNb = require('../../i18n/selvstendigOgFrilans.nb.json');
-
 const appBokmålstekster = require('../../i18n/nb.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
     ...appBokmålstekster,
     ...fosterbarnMessages.nb,
-    ...selvstendigMessagesNb,
     ...bostedUtlandMessages.nb,
     ...fraværMessages.nb,
 };
