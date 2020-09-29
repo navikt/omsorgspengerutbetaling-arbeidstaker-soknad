@@ -15,9 +15,7 @@ export interface FormikQuestionProps<FieldName> extends Omit<FormikRadioPanelGro
     infoPlassering?: PopoverOrientering;
 }
 
-const FormikQuestion = <FieldName, FieldValueType>(
-    props: FormikQuestionProps<FieldName> & TypedFormInputCommonProps
-): JSX.Element => {
+function FormikQuestion<FieldName>(props: FormikQuestionProps<FieldName> & TypedFormInputCommonProps) {
     const {
         firstAlternative,
         secondAlternative,
@@ -52,6 +50,6 @@ const FormikQuestion = <FieldName, FieldValueType>(
             validate={props.validate}
         />
     );
-};
+}
 
 export default FormikQuestion;
