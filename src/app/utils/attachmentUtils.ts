@@ -6,4 +6,5 @@ export const valuesToAlleDokumenterISøknaden = (values: SøknadFormData): Attac
     ...values.arbeidsforhold.map((arbeidsforhold) => arbeidsforhold.dokumenter).flat(),
     ...values[SøknadFormField.annetArbeidsforhold][ArbeidsforholdFormDataFields.dokumenter],
     ...values[SøknadFormField.smittevernDokumenter],
+    ...values[SøknadFormField.dokumenterStengtBkgSkole],
 ];

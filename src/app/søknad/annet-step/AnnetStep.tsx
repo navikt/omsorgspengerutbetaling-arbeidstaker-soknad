@@ -27,6 +27,7 @@ import UtbetalingsperioderSummaryView from '../oppsummering-step/components/Utbe
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
+import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -55,13 +56,16 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
 
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 
+    const sizeOver24Mb = getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
+
     return (
         <SøknadStep
             id={StepID.ANNET}
             onValidFormSubmit={(): void => {
                 onValidSubmit();
             }}
-            showSubmitButton={true}>
+            showSubmitButton={true}
+            buttonDisabled={sizeOver24Mb}>
             <FormBlock paddingBottom={'l'}>
                 <ContentWithHeader header={intlHelper(intl, 'step.annet.periodeoversikt.tittel')}>
                     <UtbetalingsperioderSummaryView utbetalingsperioder={utbetalingsperioder} />

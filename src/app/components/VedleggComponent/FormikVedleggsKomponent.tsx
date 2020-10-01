@@ -30,19 +30,21 @@ const FormikVedleggsKomponent: React.FC<Props> = ({
 
     return (
         <div>
-            <FormBlock>
-                <FormikFileUploader
-                    name={formikName}
-                    label={uploadButtonLabel}
-                    onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                    onFileInputClick={(): void => {
-                        setFilesThatDidntGetUploaded([]);
-                    }}
-                    onUnauthorizedOrForbiddenUpload={(): void => navigateToLoginPage()}
-                    validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
-                    listOfAttachments={dokumenter}
-                />
-            </FormBlock>
+            {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
+                <FormBlock>
+                    <FormikFileUploader
+                        name={formikName}
+                        label={uploadButtonLabel}
+                        onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                        onFileInputClick={(): void => {
+                            setFilesThatDidntGetUploaded([]);
+                        }}
+                        onUnauthorizedOrForbiddenUpload={(): void => navigateToLoginPage()}
+                        validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
+                        listOfAttachments={dokumenter}
+                    />
+                </FormBlock>
+            )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin={'l'}>
                     <AlertStripeAdvarsel>
