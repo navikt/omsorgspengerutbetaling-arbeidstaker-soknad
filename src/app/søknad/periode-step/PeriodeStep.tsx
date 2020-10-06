@@ -17,6 +17,9 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
+import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -66,6 +69,10 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             ) : null;
         }
     );
+    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
+
+    const attachmentsSizeOver24Mb =
+        getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
         <SøknadStep
@@ -74,7 +81,8 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                 onValidSubmit();
             }}
             cleanupStep={cleanupStep}
-            showSubmitButton={true}>
+            showSubmitButton={true}
+            buttonDisabled={attachmentsSizeOver24Mb}>
             <FormBlock>
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
@@ -88,9 +96,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     </Box>
                 </CounsellorPanel>
             </FormBlock>
-
             {arbeidsforholdElementListe.length > 0 && arbeidsforholdElementListe}
-
             {skalInkludereArbeidsforhold(annetArbeidsforhold) && isString(annetArbeidsforholdName) && (
                 <>
                     <FormikAnnetArbeidsforholdStegTo
