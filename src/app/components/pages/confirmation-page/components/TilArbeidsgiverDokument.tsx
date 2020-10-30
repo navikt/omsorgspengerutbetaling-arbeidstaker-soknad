@@ -97,6 +97,7 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                     <p>
                         Du får mer informasjon om inntektsmeldingen på{' '}
                         <a
+                            className="lenke"
                             target="_blank"
                             rel="noopener noreferrer"
                             href={
