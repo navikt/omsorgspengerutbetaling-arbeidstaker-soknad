@@ -9,8 +9,8 @@ import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessage
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
-const appBokmålstekster = require('../../i18n/nb.json');
-const appNynorsktekster = require('../../i18n/nn.json');
+export const appBokmålstekster = require('../../i18n/nb.json');
+export const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
