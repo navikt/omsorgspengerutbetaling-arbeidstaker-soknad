@@ -153,6 +153,14 @@
 
     "introPage.tittel": "Søknad om ekstra omsorgsdagar",
     "introPage.stegTittel": "Kan eg søkje om utbetaling av omsorgspengar?",
+    "introPage.info.1": "Dersom du ikkje har rett på omsorgspengar hos arbeidsgivaren din, kan du likevel ha rett til det frå NAV.",
+    "introPage.info.2": "Vi vil nå stille deg nokre spørsmål som avgjer om du kan ha rett på utbetaling av omsorgspengar fra NAV.",
+    "introPage.feil.skalViseIngenAvSituasjonenePanel": "For at du som arbeidstakar skal ha rett på utbetaling av omsorgspengar fra NAV, må éin av situasjonene over gjelde.",
+    "introPage.feil.skalViseMerEnnFireUkerInfoPanel.1": "Vanlegvis skal arbeidsgivar betale ut omsorgspengar når du har jobba hos dei i meir enn 4 veker.",
+    "introPage.feil.skalViseMerEnnFireUkerInfoPanel.2": "Dersom arbeidsgivar likevel ikkje betalar ut, må du i søknaden laste opp ei forklaring frå arbeidsgivar på kvifor dei ikkje betalar ut omsorgspengar til deg. Du må også be arbeidsgivar sende inntektsmelding til NAV.",
+    "introPage.info.skalViseSmittevernSpørsmål.title": "Kva meines med særlege smittevernomsyn?",
+    "introPage.info.smittevern.1.html": "I søknaden må du laste opp ei stadfesting frå lege. Legen må stadfeste at barnet ikkje kan gå i barnehagen eller på skulen fordi det er <strong>særlege smittevernomsyn</strong> i samband med koronaviruset som det må takast hand om for anten barnet eller ein familiemedlem som barnet bur saman med. Legen skal ikkje gi opp diagnose eller kva familiemedlem det gjeld.",
+    "steg.intro.smittevernInfo.2": "Dersom du ikkje har stadfestinga tilgjengeleg når du søkjer, kan du ettersende stadfestinga. Vi kan ikkje behandle søknaden før vi får stadfestinga.",
     "steg.intro.form.spm.hjemmePgaStengt": "Har du vore heime frå jobb fordi barnehagen eller skulen har vært lokalt stengt på grunn av koronaviruset?",
     "steg.intro.stengtBhgSkole.1": "I søknaden må du laste opp ei stadfestinga frå barnehagen eller skulen på at dei har stengt.",
     "steg.intro.stengtBhgSkole.2": "Dersom du ikkje har stadfestinga tilgjengeleg når du søkjer, kan du ettersende den. Vi kan ikkje behandle søknaden før vi mottar stadfestinga.",
@@ -394,7 +402,7 @@
     "hvorLengeJobbet.fordi.legend-text": "Eg har jobba mindre enn 4 veker, men direkte før det:",
     "arbeidsforhold.hvorLengeJobbet.ingen.helpertext": "Når ingen av situasjonane gjeld for deg, vil du som hovudregel ikkje har rett på å få betalt ut omsorgspengar. Her kan du forklare kva som gjer at arbeidsgivaren ikkje betaler ut omsorgspengar til deg:",
 
-    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobba hos ein annan arbeidsgivar.",
+    "hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobba eg hos ein annan arbeidsgivar.",
     "hvorLengeJobbet.fordi.andreYtelser.label": "fekk eg dagpengar, sjukepengar, pleiepengar, omsorgspengar, opplæringspengar, foreldrepengar eller svangerskapspengar.",
     "hvorLengeJobbet.fordi.militærtjeneste.label": "var eg i militærteneste.",
     "hvorLengeJobbet.fordi.lovbestemtFerie.label": "hadde eg ulønt permisjon direkte etter ein periode med foreldrepengar, og eg har no teke opp igjen arbeidet etter permisjonen.",

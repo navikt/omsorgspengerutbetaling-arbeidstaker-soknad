@@ -9,7 +9,8 @@ import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessage
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
-const appBokmålstekster = require('../../i18n/nb.json');
+export const appBokmålstekster = require('../../i18n/nb.json');
+export const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
@@ -17,6 +18,14 @@ const bokmålstekster = {
     ...fosterbarnMessages.nb,
     ...bostedUtlandMessages.nb,
     ...fraværMessages.nb,
+};
+
+const nynorsktekster = {
+    ...allCommonMessages.nn,
+    ...appNynorsktekster,
+    ...fosterbarnMessages.nn,
+    ...bostedUtlandMessages.nn,
+    ...fraværMessages.nn,
 };
 
 export interface IntlProviderProps {
@@ -31,7 +40,7 @@ export interface IntlProviderProps {
 
 const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, children, onError }: IntlProviderProps) => {
     return (
-        <Provider locale={locale} messages={bokmålstekster} onError={onError}>
+        <Provider locale={locale} messages={locale === 'nb' ? bokmålstekster : nynorsktekster} onError={onError}>
             {children}
         </Provider>
     );
