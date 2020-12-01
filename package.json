@@ -96,7 +96,7 @@
         "@types/react-document-title": "^2.0.4",
         "@types/react-dom": "^16.9.9",
         "@types/react-router-dom": "^5.1.6",
-        "@typescript-eslint/eslint-plugin": "^4.6.0",
+        "@typescript-eslint/eslint-plugin": "^4.9.0",
         "@typescript-eslint/parser": "^4.6.0",
         "autoprefixer": "^9.8.6",
         "awesome-typescript-loader": "^5.2.1",
