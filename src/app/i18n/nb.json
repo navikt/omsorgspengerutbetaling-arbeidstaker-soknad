@@ -240,7 +240,7 @@
     "steg.medlemsskap.utenlandsopphold.leggTilLabel": "Legg til nytt utenlandsopphold",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du vil gjøre endringer, kan du gå tilbake.",
-    "steg.oppsummering.søker.header": "Navn på søker",
+    "steg.oppsummering.søker.omDeg": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
 
     "steg.oppsummering.barnet.header": "Om barnet",
@@ -254,7 +254,7 @@
 
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
 
-    "steg.oppsummering.utlandetSiste12.header": "Bodd i utlandet siste 12 måneder",
+    "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
     "steg.oppsummering.utlandetSiste12.liste.header": "Utenlandsopphold siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphold neste 12 måneder",
@@ -266,14 +266,24 @@
     "steg.oppsummering.smittevern.bekreftelse.header": "Bekreftelse fra lege",
     "steg.oppsummering.smittevern.bekreftelse.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
 
+    "steg.oppsummering.stengtBhgSkole.bekreftelse.titel": "Lokalt stengt barnehage eller skole",
     "steg.oppsummering.stengtBhgSkole.bekreftelse.header": "Bekreftelse fra barnehage eller skole",
     "steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
 
+    "steg.oppsummering.utbetaling.titel": "Fravær fra arbeid",
     "steg.oppsummering.utbetaling.delvisFravær.header": "Dager med delvis fravær",
     "steg.oppsummering.utbetaling.delvisFravær.item": "{dato}: Skulle jobbet {timerSkulleJobbet}. Borte fra jobb {timerBorte}.",
     "steg.oppsummering.utbetaling.fravær.heleDager.header": "Hele dager med fravær",
     "steg.oppsummering.utbetaling.fravær.heleDager.item": "Fra og med {fom}, til og med {tom}",
+
+    "steg.oppsummering.smittevernhensyn.titel": "Særlige smittevernhensyn",
+
+    "steg.oppsummering.utenlandsopphold.titel": "Utenlandsopphold",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
+
+    "steg.oppsummering.andreInntekter.titel": "Andre inntekter",
+
+    "steg.oppsummering.medlemskap.header": "Medlemskap i folketrygden",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel": "Vi har mottatt søknad fra deg om utbetaling av omsorgspenger",
