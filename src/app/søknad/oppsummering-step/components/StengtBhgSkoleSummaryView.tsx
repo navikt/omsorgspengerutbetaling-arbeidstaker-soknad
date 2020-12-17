@@ -8,7 +8,7 @@ import { useFormikContext } from 'formik';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
 import { Attachment } from 'common/types/Attachment';
-
+import SummarySection from './summary-section/SummarySection';
 interface Props {
     apiValues: SøknadApiData;
 }
@@ -20,22 +20,24 @@ const StengtBhgSkoleSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
     const attachments: Attachment[] = values[SøknadFormField.dokumenterStengtBkgSkole];
 
     return (
-        <SummaryBlock header={intlHelper(intl, 'steg.annet.hjemmePgaStengt.spm')}>
-            <JaNeiSvar harSvartJa={apiValues.hjemmePgaStengtBhgSkole} />
+        <SummarySection header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.titel')}>
+            <SummaryBlock header={intlHelper(intl, 'steg.annet.hjemmePgaStengt.spm')}>
+                <JaNeiSvar harSvartJa={apiValues.hjemmePgaStengtBhgSkole} />
 
-            {apiValues.hjemmePgaStengtBhgSkole && (
-                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.header')}>
-                    {attachments.length > 0 ? (
-                        <AttachmentList attachments={attachments} />
-                    ) : (
-                        <FormattedMessage
-                            id="steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp"
-                            tagName="em"
-                        />
-                    )}
-                </SummaryBlock>
-            )}
-        </SummaryBlock>
+                {apiValues.hjemmePgaStengtBhgSkole && (
+                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.header')}>
+                        {attachments.length > 0 ? (
+                            <AttachmentList attachments={attachments} />
+                        ) : (
+                            <FormattedMessage
+                                id="steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp"
+                                tagName="em"
+                            />
+                        )}
+                    </SummaryBlock>
+                )}
+            </SummaryBlock>
+        </SummarySection>
     );
 };
 

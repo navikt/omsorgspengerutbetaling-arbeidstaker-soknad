@@ -5,6 +5,7 @@ import intlHelper from 'common/utils/intlUtils';
 import { Bosted } from '../../../types/SøknadApiData';
 import { renderUtenlandsoppholdIPeriodenSummary } from './renderUtenlandsoppholdSummary';
 import SummaryBlock from './SummaryBlock';
+import SummarySection from './summary-section/SummarySection';
 
 export interface Props {
     utenlandsopphold: Bosted[];
@@ -13,9 +14,11 @@ export interface Props {
 const UtenlandsoppholdISøkeperiodeSummaryView: React.FC<Props> = ({ utenlandsopphold }: Props): JSX.Element | null => {
     const intl = useIntl();
     return utenlandsopphold && utenlandsopphold.length > 0 ? (
-        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utenlandsoppholdIPerioden.listetittel')}>
-            <SummaryList items={utenlandsopphold} itemRenderer={renderUtenlandsoppholdIPeriodenSummary} />
-        </SummaryBlock>
+        <SummarySection header={intlHelper(intl, 'steg.oppsummering.utenlandsopphold.titel')}>
+            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utenlandsoppholdIPerioden.listetittel')}>
+                <SummaryList items={utenlandsopphold} itemRenderer={renderUtenlandsoppholdIPeriodenSummary} />
+            </SummaryBlock>
+        </SummarySection>
     ) : null;
 };
 

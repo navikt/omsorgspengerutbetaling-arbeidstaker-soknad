@@ -5,6 +5,10 @@ import SummaryList from 'common/components/summary-list/SummaryList';
 import { Bosted } from '../../../types/SøknadApiData';
 import { renderUtenlandsoppholdIPeriodenSummary } from './renderUtenlandsoppholdSummary';
 import SummaryBlock from './SummaryBlock';
+import JaNeiSvar from './JaNeiSvar';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 export interface Props {
     bosteder: Bosted[];
@@ -12,23 +16,29 @@ export interface Props {
 
 const MedlemskapSummaryView = (props: Props): JSX.Element | null => {
     const { bosteder } = props;
+    const intl = useIntl();
 
-    if (bosteder.length === 0) {
-        return null;
-    }
     const bostederSiste12 = bosteder.filter((b) => moment(apiStringDateToDate(b.tilOgMed)).isSameOrBefore(dateToday));
     const bostederNeste12 = bosteder.filter((b) => moment(apiStringDateToDate(b.tilOgMed)).isSameOrAfter(dateToday));
+
     return (
         <>
+            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
+                <JaNeiSvar harSvartJa={bostederSiste12.length > 0} />
+            </SummaryBlock>
+
             {bostederSiste12.length > 0 && (
-                <SummaryBlock header="Bosteder i utlandet siste 12 måneder">
+                <Box margin="m">
                     <SummaryList items={bostederSiste12} itemRenderer={renderUtenlandsoppholdIPeriodenSummary} />
-                </SummaryBlock>
+                </Box>
             )}
+
+            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
+                <JaNeiSvar harSvartJa={bostederNeste12.length > 0} />
+            </SummaryBlock>
+
             {bostederNeste12.length > 0 && (
-                <SummaryBlock header="Bosteder i utlandet neste 12 måneder">
-                    <SummaryList items={bostederNeste12} itemRenderer={renderUtenlandsoppholdIPeriodenSummary} />
-                </SummaryBlock>
+                <SummaryList items={bostederNeste12} itemRenderer={renderUtenlandsoppholdIPeriodenSummary} />
             )}
         </>
     );
