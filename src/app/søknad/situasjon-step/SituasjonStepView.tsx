@@ -32,7 +32,6 @@ import {
 } from '../../validation/components/arbeidsforholdValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
-import './situasjonstep.less';
 
 interface OwnProps {
     søkerdata: Søkerdata;

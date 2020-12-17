@@ -35,24 +35,26 @@ const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({ annetArbeidsforhold,
     const nameDagerMedDelvisFravær = getFieldNameAnnetArbeidsforhold(ArbeidsforholdFormDataFields.fraværDager);
 
     return (
-        <FormBlock paddingBottom={'xl'}>
-            <FormSection titleTag="h4" title={annetArbeidsforholdName} titleIcon={<BuildingIcon />}>
-                <FormikArbeidsforholdArbeidslengde
-                    arbeidsforholdFormData={annetArbeidsforhold}
-                    nameHvorLengeJobbet={nameHvorLengeJobbet}
-                    nameBegrunnelse={nameBegrunnelse}
-                    nameForklaring={nameForklaring}
-                    nameDokumenter={nameDokumenter}
-                />
-                <FormikArbeidsforholdPeriodeView
-                    arbeidsforholdFormData={annetArbeidsforhold}
-                    nameHarPerioderMedFravær={nameHarPerioderMedFravær}
-                    namePerioderMedFravær={namePerioderMedFravær}
-                    nameHarDagerMedDelvisFravær={nameHarDagerMedDelvisFravær}
-                    nameDagerMedDelvisFravær={nameDagerMedDelvisFravær}
-                />
-            </FormSection>
-        </FormBlock>
+        <div className="arbeidsforhold-liste">
+            <FormBlock>
+                <FormSection titleTag="h2" title={annetArbeidsforholdName} titleIcon={<BuildingIcon />}>
+                    <FormikArbeidsforholdArbeidslengde
+                        arbeidsforholdFormData={annetArbeidsforhold}
+                        nameHvorLengeJobbet={nameHvorLengeJobbet}
+                        nameBegrunnelse={nameBegrunnelse}
+                        nameForklaring={nameForklaring}
+                        nameDokumenter={nameDokumenter}
+                    />
+                    <FormikArbeidsforholdPeriodeView
+                        arbeidsforholdFormData={annetArbeidsforhold}
+                        nameHarPerioderMedFravær={nameHarPerioderMedFravær}
+                        namePerioderMedFravær={namePerioderMedFravær}
+                        nameHarDagerMedDelvisFravær={nameHarDagerMedDelvisFravær}
+                        nameDagerMedDelvisFravær={nameDagerMedDelvisFravær}
+                    />
+                </FormSection>
+            </FormBlock>
+        </div>
     );
 };
 
