@@ -95,7 +95,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
 
     return (
         <>
-            <FormBlock margin={'xxl'}>
+            <FormBlock margin="none">
                 <FormikQuestion
                     firstAlternative={{
                         label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
@@ -183,7 +183,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
             )}
 
             {hvorLengeJobbet === HvorLengeJobbet.MER_ENN_FIRE_UKER && (
-                <div>
+                <>
                     <FormBlock>
                         <CounsellorPanel>
                             <Box padBottom={'l'}>
@@ -210,7 +210,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         dokumenter={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
                         alleDokumenterISøknaden={alleDokumenterISøknaden}
                     />
-                </div>
+                </>
             )}
         </>
     );

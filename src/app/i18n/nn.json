@@ -4,7 +4,7 @@
     "VetIkke": "Eg er usikker",
 
     "locale.nb": "Bokmål – norsk",
-    "locale.nn": "Nynorsk – norsk",
+    "locale.nn": "Nynorsk – norsk",
 
     "mandag": "måndag",
     "tirsdag": "tysdag",
@@ -41,6 +41,8 @@
     "timeInput.hours": "Timar",
     "timeInput.minutes": "Minutt",
 
+    "page.form.ubesvarteSpørsmålInfo": "For å kome vidare, må du svare på alle spørsmåla ovanfor",
+
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplastinga av følgjande vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp følgjande feil:",
 
@@ -54,7 +56,6 @@
     "relasjonTilBarnet.fosterforelder": "Fosterforelder",
 
     "step.nextButtonLabel": "Fortset",
-    "step.nextButtonAriaLabel": "Gå til det neste steget.",
     "step.sendButtonLabel": "Send inn søknaden",
     "step.sendButtonAriaLabel": "Send inn søknaden",
 
@@ -131,7 +132,7 @@
     "step.opplysninger-om-barnet.stepTitle": "Barn",
     "step.opplysninger-om-barnet.stepIndicatorLabel": "Om barnet",
 
-    "step.arbeid.pageTitle": "Omsorgspengesøknad – arbeidssituasjon",
+    "step.arbeid.pageTitle": "Omsorgspengesøknad – arbeidssituasjon",
     "step.arbeid.stepTitle": "Arbeidssituasjon",
     "step.arbeid.stepIndicatorLabel": "Arbeidssituasjon",
 
@@ -296,7 +297,7 @@
     "page.generalErrorPage.tittel": "Noko gjekk gale ...",
     "page.generalErrorPage.tekst": "Beklagar, her har det dessverre skjedd ein feil.",
 
-    "page.ikkeMyndig.sidetittel": "Søknad om ekstra omsorgsdagar – ikkje myndig",
+    "page.ikkeMyndig.sidetittel": "Søknad om ekstra omsorgsdagar – ikkje myndig",
     "page.ikkeMyndig.banner.tittel": "Hei!",
     "page.ikkeMyndig.banner.tekst": "Fordi du er under 18 år, må ein av foreldra dine eller ein føresett skrive under på søknaden saman med deg. Du må derfor fylle ut søknaden på papir og sende han i posten.",
     "page.ikkeMyndig.banner.lastNed": "Har kan du laste ned papirsøknaden",
@@ -495,7 +496,7 @@
     "selvstendig_og_eller_frilans.frilans.ja.info": "Dersom du skal søkje om omsorgspengar som sjølvstendig næringsdrivande, {lenkeKomponent}, i tillegg til denne.",
     "selvstendig_og_eller_frilans.frilans.ja.info.lenketekst": "må du sende ein eigen søknad om det",
 
-    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanlegvis skal arbeidsgjever utbetale omsorgspengar når du har jobba hos dei i meir enn 4 veker. Dersom arbeidsgjever ikkje utbetalar, ",
+    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanlegvis skal arbeidsgjever utbetale omsorgspengar når du har jobba hos dei i meir enn 4 veker. Dersom arbeidsgjever ikkje utbetalar, ",
     "arbeidslengde.merEnnFireUker.infopanel.1.2": "må du laste opp ei forklaring frå arbeidsgjever ",
     "arbeidslengde.merEnnFireUker.infopanel.1.3": "på kvifor dei ikkje utbetalar omsorgspengar til deg. Det gjør du enten ved å ta bilete av forklaringa, eller ved å scanne den.",
     "arbeidslengde.merEnnFireUker.infopanel.2": "Dersom du ikkje har forklaringa tilgjengeleg nå, må du ettersende den til oss så snart du har den. Vi kan ikkje behandle søknaden før vi har motteke forklaringa.",

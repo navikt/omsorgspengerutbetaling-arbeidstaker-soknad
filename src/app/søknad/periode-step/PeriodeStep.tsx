@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -8,6 +9,8 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormSection from 'common/components/form-section/FormSection';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
@@ -17,9 +20,6 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
-import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -57,15 +57,14 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
-                <FormBlock paddingBottom={'xl'} key={arbeidsforhold.organisasjonsnummer}>
-                    <FormSection
-                        titleTag="h4"
-                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                        titleIcon={<BuildingIcon />}>
-                        <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
-                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
-                    </FormSection>
-                </FormBlock>
+                <FormSection
+                    key={arbeidsforhold.organisasjonsnummer}
+                    titleTag="h2"
+                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                    titleIcon={<BuildingIcon />}>
+                    <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
+                    <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
+                </FormSection>
             ) : null;
         }
     );
@@ -96,14 +95,16 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     </Box>
                 </CounsellorPanel>
             </FormBlock>
-            {arbeidsforholdElementListe.length > 0 && arbeidsforholdElementListe}
+            {arbeidsforholdElementListe.length > 0 && (
+                <FormBlock paddingBottom="l">
+                    <div className="arbeidsforhold-liste">{arbeidsforholdElementListe}</div>
+                </FormBlock>
+            )}
             {skalInkludereArbeidsforhold(annetArbeidsforhold) && isString(annetArbeidsforholdName) && (
-                <>
-                    <FormikAnnetArbeidsforholdStegTo
-                        annetArbeidsforhold={annetArbeidsforhold}
-                        annetArbeidsforholdName={annetArbeidsforholdName}
-                    />
-                </>
+                <FormikAnnetArbeidsforholdStegTo
+                    annetArbeidsforhold={annetArbeidsforhold}
+                    annetArbeidsforholdName={annetArbeidsforholdName}
+                />
             )}
         </SøknadStep>
     );
