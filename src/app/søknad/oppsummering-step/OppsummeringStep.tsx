@@ -26,8 +26,7 @@ import appSentryLogger from '../../utils/appSentryLogger';
 import SelvstendigOgEllerFrilansSummaryView from './components/SelvstendigOgEllerFrilansSummaryView';
 import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
-
+import SummarySection from './components/summary-section/SummarySection';
 interface Props {
     søkerdata: Søkerdata;
     onApplicationSent: (sentSuccessfully: boolean, apiValues?: SøknadApiData) => void;

@@ -8,8 +8,7 @@ import { useFormikContext } from 'formik';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
 import { Attachment } from 'common/types/Attachment';
-import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
-
+import SummarySection from './summary-section/SummarySection';
 interface Props {
     apiValues: SøknadApiData;
 }
