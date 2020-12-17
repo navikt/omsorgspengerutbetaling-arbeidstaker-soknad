@@ -41,6 +41,8 @@
     "timeInput.hours": "Timer",
     "timeInput.minutes": "Minutter",
 
+    "page.form.ubesvarteSpørsmålInfo": "For å komme videre, må du svare på alle spørsmålene ovenfor",
+
     "fileUploadErrors.part1": "Det har dessverre skjedd en feil under opplasting av følgende vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgende feil:",
 
@@ -485,7 +487,7 @@
     "selvstendig_og_eller_frilans.frilans.ja.info": "Hvis du skal søke om omsorgspenger som selvstendig næringsdrivende, {lenkeKomponent}, i tillegg til denne.",
     "selvstendig_og_eller_frilans.frilans.ja.info.lenketekst": "må du sende en egen søknad om det",
 
-    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Hvis arbeidsgiver ikke utbetaler, ",
+    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanligvis skal arbeidsgiver utbetale omsorgspenger når du har jobbet hos dem i mer enn 4 uker. Hvis arbeidsgiver ikke utbetaler, ",
     "arbeidslengde.merEnnFireUker.infopanel.1.2": "må du laste opp en forklaring fra arbeidsgiver ",
     "arbeidslengde.merEnnFireUker.infopanel.1.3": "på hvorfor de ikke utbetaler omsorgspenger til deg. Det gjør du enten ved å ta bilde av forklaringen, eller ved å scanne den.",
     "arbeidslengde.merEnnFireUker.infopanel.2": "Hvis du ikke har forklaringen tilgjengelig nå, må du ettersende den til oss så snart du har den. Vi kan ikke behandle søknaden før vi har mottatt forklaringen.",
