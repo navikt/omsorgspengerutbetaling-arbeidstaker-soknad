@@ -42,13 +42,12 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
         annetArbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES;
 
     return (
-        <FormBlock paddingBottom={'l'}>
-            <Box padBottom={'l'}>
-                <Undertittel>
-                    <FormattedMessage id={'annetArbeidsforhold.undertittel'} />
-                </Undertittel>
-            </Box>
-            <FormBlock>
+        <FormBlock margin="none">
+            <Undertittel>
+                <FormattedMessage id={'annetArbeidsforhold.undertittel'} />
+            </Undertittel>
+
+            <FormBlock margin="l">
                 <FormikYesOrNoQuestion
                     name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver)}
                     legend={intlHelper(intl, 'annetArbeidsforhold.harHattFravaer.spm')}
@@ -56,7 +55,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                 />
             </FormBlock>
             {skalViseArbeidsgiverHarUtbetaltLønnSpørsmål && (
-                <FormBlock paddingBottom={'l'}>
+                <FormBlock>
                     <FormikYesOrNoQuestion
                         name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn)}
                         legend={intlHelper(intl, 'annetArbeidsforhold.ikkeUtbetaltLonn.spm')}
@@ -66,7 +65,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
             )}
             {skalViseNavnPåAnnenArbeidsgiverTextArea && (
                 <>
-                    <FormBlock paddingBottom={'l'}>
+                    <FormBlock>
                         <FormikInput
                             label={intlHelper(
                                 intl,
@@ -77,7 +76,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                             validate={validateInputField}
                         />
                     </FormBlock>
-                    <Box margin="s" padBottom="l">
+                    <Box margin="l">
                         <AlertStripe type="info">
                             <FormattedMessage id="annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.infopanel.txt" />
                         </AlertStripe>
@@ -85,7 +84,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                 </>
             )}
             {skalViseInfopanelHarUtbetalt && (
-                <Box margin="s" padBottom="l">
+                <Box margin="l">
                     <AlertStripe type="info">
                         <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
                     </AlertStripe>

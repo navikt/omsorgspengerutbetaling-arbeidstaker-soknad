@@ -24,7 +24,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
 
     return (
         <>
-            <FormBlock>
+            <FormBlock margin="none">
                 <FormikYesOrNoQuestion
                     legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}
                     name={nameHarHattFraværHosArbeidsgiver}
@@ -32,7 +32,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                 />
             </FormBlock>
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
-                <FormBlock paddingBottom={'xl'}>
+                <FormBlock>
                     <FormikYesOrNoQuestion
                         legend={intlHelper(intl, 'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm')}
                         name={nameArbeidsgiverHarUtbetaltLønn}
@@ -42,7 +42,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
             )}
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES &&
                 arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.YES && (
-                    <Box margin="s" padBottom="xl">
+                    <Box margin="l">
                         <AlertStripe type="info">
                             <FormattedMessage id="arbeidsforhold.harUtbetalingLønn.alertstripe" />
                         </AlertStripe>

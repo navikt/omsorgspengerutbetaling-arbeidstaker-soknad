@@ -32,6 +32,7 @@ import {
 } from '../../validation/components/arbeidsforholdValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
+import './situasjonstep.less';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -96,20 +97,18 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading || disableFortsettButton}>
             <>
-                <Box padBottom={'xxl'}>
-                    <Undertittel>
-                        <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
-                    </Undertittel>
-                </Box>
+                <Undertittel>
+                    <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
+                </Undertittel>
 
-                <Box padBottom="xxl">
+                <Box margin="l">
                     <CounsellorPanel>
-                        <Box padBottom={'l'}>
+                        <p>
                             <FormattedMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.del1" />
-                        </Box>
-                        <Box>
+                        </p>
+                        <p>
                             <FormattedMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.del2" />
-                        </Box>
+                        </p>
                     </CounsellorPanel>
                 </Box>
 
@@ -122,18 +121,20 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 )}
 
                 {!isLoading && arbeidsforhold.length > 0 && (
-                    <>
-                        {arbeidsforhold.map((forhold, index) => (
-                            <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
-                                <FormSection
-                                    titleTag="h4"
-                                    title={forhold.navn || forhold.organisasjonsnummer}
-                                    titleIcon={<BuildingIcon />}>
-                                    <FormikArbeidsforholdDelEn arbeidsforholdFormData={forhold} index={index} />
-                                </FormSection>
-                            </Box>
-                        ))}
-                    </>
+                    <FormBlock>
+                        <div className="arbeidsforhold-liste">
+                            {arbeidsforhold.map((forhold, index) => (
+                                <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
+                                    <FormSection
+                                        titleTag="h3"
+                                        title={forhold.navn || forhold.organisasjonsnummer}
+                                        titleIcon={<BuildingIcon />}>
+                                        <FormikArbeidsforholdDelEn arbeidsforholdFormData={forhold} index={index} />
+                                    </FormSection>
+                                </Box>
+                            ))}
+                        </div>
+                    </FormBlock>
                 )}
 
                 {!isLoading && arbeidsforhold.length === 0 && (
@@ -148,21 +149,21 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 <FormikAnnetArbeidsforholdSituasjon />
 
                 {harKlikketJaJaPåAlle && (
-                    <FormBlock paddingBottom={'xxl'}>
+                    <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
                 {harKlikketNeiPåAlle && (
-                    <FormBlock paddingBottom={'xxl'}>
+                    <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
                 {harKlikketNeiElleJajaBlanding && (
-                    <FormBlock paddingBottom={'xxl'}>
+                    <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
                         </AlertStripe>
@@ -171,17 +172,18 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
 
                 {/* SELVSTENDIG OG ELLER FRILANS */}
 
-                <FormBlock margin={'xl'} paddingBottom={'xxxl'}>
-                    <Box padBottom={'xl'}>
-                        <Undertittel>
-                            <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
-                        </Undertittel>
-                    </Box>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.erSelvstendigOgEllerFrilans}
-                        legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
-                        validate={validateYesOrNoIsAnswered}
-                    />
+                <FormBlock margin="xxl">
+                    <Undertittel>
+                        <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
+                    </Undertittel>
+
+                    <FormBlock margin="l">
+                        <SøknadFormComponents.YesOrNoQuestion
+                            name={SøknadFormField.erSelvstendigOgEllerFrilans}
+                            legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
+                            validate={validateYesOrNoIsAnswered}
+                        />
+                    </FormBlock>
                     {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
                         <>
                             <FormBlock margin={'m'}>
@@ -216,17 +218,19 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
 
                 {/* FOSTERBARN */}
 
-                <Box padBottom={'xxl'}>
+                <FormBlock margin="xxl">
                     <Undertittel>
                         <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
                     </Undertittel>
+                </FormBlock>
+
+                <Box margin="l">
+                    <CounsellorPanel>
+                        <FormattedMessage id="fosterbarn.legend" />
+                    </CounsellorPanel>
                 </Box>
 
-                <CounsellorPanel>
-                    <FormattedMessage id="fosterbarn.legend" />
-                </CounsellorPanel>
-
-                <FormBlock paddingBottom={'xxl'}>
+                <FormBlock>
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.harFosterbarn}
                         legend="Har du fosterbarn?"
