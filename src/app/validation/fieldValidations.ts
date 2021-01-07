@@ -1,6 +1,13 @@
 import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import { Attachment } from 'common/types/Attachment';
+import {
+    attachmentHasBeenUploaded,
+    getTotalSizeOfAttachments,
+    MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
+} from 'common/utils/attachmentUtils';
 import {
     date1YearAgo,
     date1YearFromNow,
@@ -11,14 +18,10 @@ import {
 } from 'common/utils/dateUtils';
 import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
-import { datesCollide } from './dateValidationUtils';
-import {
-    attachmentHasBeenUploaded,
-    getTotalSizeOfAttachments,
-    MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from 'common/utils/attachmentUtils';
-import { Attachment } from 'common/types/Attachment';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
+import { datesCollide } from './dateValidationUtils';
+
+dayjs.extend(isBetween);
 
 export const hasValue = (v: any): boolean => v !== '' && v !== undefined && v !== null;
 
@@ -113,13 +116,13 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
 
 const datoErInnenforTidsrom = (dato: Date, range: Partial<DateRange>): boolean => {
     if (range.from && range.to) {
-        return moment(dato).isBetween(range.from, range.to, 'days', '[]');
+        return dayjs(dato).isBetween(range.from, range.to, 'days', '[]');
     }
     if (range.from) {
-        return moment(dato).isSameOrAfter(range.from);
+        return dayjs(dato).isSameOrAfter(range.from);
     }
     if (range.to) {
-        return moment(dato).isSameOrBefore(range.to);
+        return dayjs(dato).isSameOrBefore(range.to);
     }
     return true;
 };
@@ -133,13 +136,13 @@ export const harLikeDager = (dager: FraværDelerAvDag[]): boolean => {
 };
 
 export const validateTomAfterFom = (fom: Date) => (date: Date): FieldValidationResult => {
-    if (moment(date).isBefore(fom)) {
+    if (dayjs(date).isBefore(fom)) {
         return createFieldValidationError(AppFieldValidationErrors.tom_er_før_fom);
     }
 };
 
 export const validateDateNotInFuture = () => (date: Date): FieldValidationResult => {
-    if (moment(date).isAfter(dateToday)) {
+    if (dayjs(date).isAfter(dateToday)) {
         return createFieldValidationError(AppFieldValidationErrors.tom_er_i_fremtiden);
     }
 };
@@ -147,7 +150,7 @@ export const validateDateNotInFuture = () => (date: Date): FieldValidationResult
 export const datesCollideWithDateRanges = (dates: Date[], ranges: DateRange[]): boolean => {
     if (ranges.length > 0 && dates.length > 0) {
         return dates.some((d) => {
-            return ranges.some((range) => moment(d).isSameOrAfter(range.from) && moment(d).isSameOrBefore(range.to));
+            return ranges.some((range) => dayjs(d).isSameOrAfter(range.from) && dayjs(d).isSameOrBefore(range.to));
         });
     }
     return false;

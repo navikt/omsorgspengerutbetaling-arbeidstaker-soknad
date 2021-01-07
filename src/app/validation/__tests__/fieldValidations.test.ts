@@ -1,6 +1,6 @@
-import moment from 'moment';
-import { harLikeDager } from '../fieldValidations';
+import dayjs from 'dayjs';
 import { FraværDelerAvDag } from '../../types/PeriodeTypes';
+import { harLikeDager } from '../fieldValidations';
 
 jest.mock('common/utils/dateUtils', () => {
     return {
@@ -12,7 +12,7 @@ describe('fieldValidations', () => {
     describe('harLikeDager', () => {
         const dag1: FraværDelerAvDag = { dato: new Date(), timer: 2 };
         const dag2: FraværDelerAvDag = {
-            dato: moment().add(1, 'day').toDate(),
+            dato: dayjs().add(1, 'day').toDate(),
             timer: 2,
         };
         it('should return false when only one item in array', () => {
