@@ -5,11 +5,12 @@ import intlHelper from 'common/utils/intlUtils';
 
 interface Props {
     labelKey: string;
+    children: React.ReactNode;
 }
 
 const bem = bemUtils('summaryLabelValue');
 
-const IntlLabelValue: React.FunctionComponent<Props> = ({ labelKey: intlLabelKey, children }) => {
+const IntlLabelValue = ({ labelKey: intlLabelKey, children }: Props) => {
     const intl = useIntl();
     return (
         <div className={bem.block}>
