@@ -8,7 +8,6 @@ import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
-import { SøknadApiData } from '../../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import {
     filterArbeidsforholdMedVedlegg,
@@ -17,11 +16,7 @@ import {
 } from '../../../utils/formToApiMaps/mapVedleggToApiData';
 import SummaryBlock from './SummaryBlock';
 
-interface Props {
-    apiValues: SøknadApiData;
-}
-
-const VedleggSummaryView: React.FC<Props> = (): React.ReactElement | null => {
+const VedleggSummaryView = (): React.ReactElement | null => {
     const intl = useIntl();
 
     const { values } = useFormikContext<SøknadFormData>();

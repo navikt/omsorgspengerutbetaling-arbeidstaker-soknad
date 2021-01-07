@@ -10,11 +10,11 @@ interface Props {
 
 const bem = bemUtils('summaryLabelValue');
 
-const IntlLabelValue = ({ labelKey: intlLabelKey, children }: Props) => {
+const IntlLabelValue = ({ labelKey, children }: Props) => {
     const intl = useIntl();
     return (
         <div className={bem.block}>
-            <span className={bem.element('label')}>{intlHelper(intl, intlLabelKey)}:</span>{' '}
+            <span className={bem.element('label')}>{intlHelper(intl, labelKey)}:</span>{' '}
             <span className={bem.element('value')}>{children}</span>
         </div>
     );
