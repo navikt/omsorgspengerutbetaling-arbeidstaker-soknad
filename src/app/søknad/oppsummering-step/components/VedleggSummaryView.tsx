@@ -1,30 +1,25 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { SøknadApiData } from '../../../types/SøknadApiData';
 import { useFormikContext } from 'formik';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import AttachmentList from 'common/components/attachment-list/AttachmentList';
 import Box from 'common/components/box/Box';
+import SummaryList from 'common/components/summary-list/SummaryList';
+import { Attachment } from 'common/types/Attachment';
+import { YesOrNo } from 'common/types/YesOrNo';
+import intlHelper from 'common/utils/intlUtils';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
+import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import {
     filterArbeidsforholdMedVedlegg,
     listAlleVedleggFraArbeidsforhold,
     listOfAttachmentsToListOfDocumentName,
 } from '../../../utils/formToApiMaps/mapVedleggToApiData';
-import SummaryList from 'common/components/summary-list/SummaryList';
 import SummaryBlock from './SummaryBlock';
-import { YesOrNo } from 'common/types/YesOrNo';
-import intlHelper from 'common/utils/intlUtils';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
-import { Attachment } from 'common/types/Attachment';
-import AttachmentList from 'common/components/attachment-list/AttachmentList';
 
-interface Props {
-    apiValues: SøknadApiData;
-}
-
-const VedleggSummaryView: React.FC<Props> = ({ apiValues }: Props): React.ReactElement | null => {
+const VedleggSummaryView = (): React.ReactElement | null => {
     const intl = useIntl();
 
-    const { values, setFormikState } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
 
     const listeAvAlleVedlegg: string[] = [
         ...listAlleVedleggFraArbeidsforhold([
