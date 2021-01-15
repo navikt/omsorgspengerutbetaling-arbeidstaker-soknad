@@ -255,8 +255,23 @@
 
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
 
-    "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
-    "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
+    "steg.oppsummering.dokumenter.header": "Vedlegg til søknad: Forklaring fra arbeidsgiver",
+    "steg.oppsummering.arbeidsforhold.dokumenter.header": "Forklaring fra arbeidsgiver om hvorfor de ikke utbetaler når du har jobbet der mer enn 4 uker",
+    "steg.oppsummering.dokumenter.legend": "Vedlegg til søknad",
+    "steg.oppsummering.dokumenter.ikkelastetopp": "Ikke lastet opp, må ettersendes",
+
+    "steg.oppsummering.søkt_om_andre_utbetalinger": "Andre utbetalinger du har søkt om fra NAV",
+
+    "steg.oppsummering.hvorLengeJobbet.spørsmål": "Hvor lenge har du vært i jobb hos denne arbeidsgiveren?",
+    "steg.oppsummering.hvorLengeJobbet.fordi.legend-text": "Du har jobbet mindre enn 4 uker, men direkte før det:",
+    "steg.oppsummering.hvorLengeJobbet.fordi.andreYtelser.label": "mottok du dagpenger, sykepenger, pleiepenger, omsorgspenger, opplæringspenger, foreldrepenger, svangerskapspenger eller kompensasjonsordning for selvstendig næringsdrivende og frilansere.",
+    "steg.oppsummering.hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobbet du hos en annen arbeidsgiver.",
+    "steg.oppsummering.hvorLengeJobbet.fordi.lovbestemtFerie.label": "hadde du ulønnet permisjon direkte etter en periode med foreldrepenger, og du har nå gjenopptatt arbeidet etter permisjonen.",
+    "steg.oppsummering.hvorLengeJobbet.fordi.militærtjeneste.label": "var du i militærtjeneste.",
+    "steg.oppsummering.hvorLengeJobbet.fordi.ingen.forklaring.label": "Egen forklaring fordi ingen av situasjonene passet deg:",
+
+    "steg.oppsummering.utlandetSiste12.header": "Har du bodd i utlandet de siste 12 månedene?",
+    "steg.oppsummering.utlandetNeste12.header": "Skal du bo i utlandet de neste 12 månedene?",
     "steg.oppsummering.utlandetSiste12.liste.header": "Utenlandsopphold siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphold neste 12 måneder",
     "steg.oppsummering.legeerklæring.header": "Legeerklæring",
@@ -280,7 +295,7 @@
     "steg.oppsummering.smittevernhensyn.titel": "Særlige smittevernhensyn",
 
     "steg.oppsummering.utenlandsopphold.titel": "Utenlandsopphold",
-    "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
+    "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden du har brukt omsorgsdager",
 
     "steg.oppsummering.andreInntekter.titel": "Andre inntekter",
 
@@ -418,7 +433,6 @@
     "hvorLengeJobbet.fordi.militærtjeneste.label": "var jeg i militærtjeneste.",
     "hvorLengeJobbet.fordi.lovbestemtFerie.label": "hadde jeg ulønnet permisjon direkte etter en periode med foreldrepenger, og jeg har nå gjenopptatt arbeidet etter permisjonen.",
     "hvorLengeJobbet.fordi.ingen.label": "Ingen av situasjonene over gjelder for meg.",
-    "hvorLengeJobbet.fordi.ingen.forklaring.summary.label": "Forklaring:",
 
     "dinSituasjon.arbeidsforhold.tittel": "Om arbeidsforhold",
     "dinSituasjon.fosterbarn.tittel": "Om fosterbarn",
@@ -430,15 +444,10 @@
     "step.vedlegg.pageTitle": "Last opp dokumenter",
     "steg.dokumenter.vedlegg": "Last opp forklaring fra arbeidsgiver",
     "steg.dokumenter.smittevernVedlegg": "Last opp bekreftelse fra lege",
-    "steg.oppsummering.dokumenter.header": "Vedlegg til søknad: Forklaring fra arbeidsgiver",
-    "steg.oppsummering.arbeidsforhold.dokumenter.header": "Forklaring fra arbeidsgiver",
-    "steg.oppsummering.dokumenter.legend": "Vedlegg til søknad",
-    "steg.oppsummering.dokumenter.ikkelastetopp": "Ikke lastet opp, må ettersendes",
     "step.periode.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalinger fra NAV for samme periode?",
     "step.periode.hvilke_utbetalinger.spm": "Hvilke andre utbetalinger fra NAV har du søkt om?",
     "andre_utbetalinger.dagpenger": "Dagpenger",
     "andre_utbetalinger.sykepenger": "Sykepenger",
-    "steg.oppsummering.søkt_om_andre_utbetalinger": "Andre utbetalinger det er søkt om fra NAV",
 
     "psg-temp.innholdstittel": "Ta bilde av dokumentene og last opp",
     "psg-temp.section1.tittel": "Slik tar du et godt bilde:",
