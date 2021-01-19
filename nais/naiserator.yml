@@ -1,10 +1,10 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-    name: omsorgspengerutbetaling-arbeidstaker-soknad
-    namespace: dusseldorf
+    name: {{app}}
+    namespace: {{namespace}}
     labels:
-        team: dusseldorf
+        team: {{team}}
 spec:
     image: {{ image }}
     port: 8080
