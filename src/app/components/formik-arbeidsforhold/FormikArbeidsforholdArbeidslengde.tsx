@@ -40,25 +40,40 @@ const validateIngenAvSituasjoneneTekstField = (value: string): FieldValidationRe
         : createFieldValidationError(FieldValidationErrors.påkrevd);
 };
 
-export const getRadioTextIdHvorLengeJobbetFordi = (hvorLengeJobbetFordi: HvorLengeJobbetFordi): string => {
+export const getRadioTextIdHvorLengeJobbetFordi = (
+    hvorLengeJobbetFordi: HvorLengeJobbetFordi,
+    oppsummering?: boolean
+): string => {
     switch (hvorLengeJobbetFordi) {
         case HvorLengeJobbetFordi.ANNET_ARBEIDSFORHOLD: {
-            return 'hvorLengeJobbet.fordi.annetArbeidsforhold.label';
+            return oppsummering
+                ? 'steg.oppsummering.hvorLengeJobbet.fordi.annetArbeidsforhold.label'
+                : 'hvorLengeJobbet.fordi.annetArbeidsforhold.label';
         }
         case HvorLengeJobbetFordi.ANDRE_YTELSER: {
-            return 'hvorLengeJobbet.fordi.andreYtelser.label';
+            return oppsummering
+                ? 'steg.oppsummering.hvorLengeJobbet.fordi.andreYtelser.label'
+                : 'hvorLengeJobbet.fordi.andreYtelser.label';
         }
         case HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON: {
-            return 'hvorLengeJobbet.fordi.lovbestemtFerie.label';
+            return oppsummering
+                ? 'steg.oppsummering.hvorLengeJobbet.fordi.lovbestemtFerie.label'
+                : 'hvorLengeJobbet.fordi.lovbestemtFerie.label';
         }
         case HvorLengeJobbetFordi.MILITÆRTJENESTE: {
-            return 'hvorLengeJobbet.fordi.militærtjeneste.label';
+            return oppsummering
+                ? 'steg.oppsummering.hvorLengeJobbet.fordi.militærtjeneste.label'
+                : 'hvorLengeJobbet.fordi.militærtjeneste.label';
         }
         case HvorLengeJobbetFordi.INGEN: {
-            return 'hvorLengeJobbet.fordi.ingen.label';
+            return oppsummering
+                ? 'steg.oppsummering.hvorLengeJobbet.fordi.ingen.label'
+                : 'hvorLengeJobbet.fordi.ingen.label';
         }
         case HvorLengeJobbetFordi.IKKE_BESVART: {
-            return 'hvorLengeJobbet.fordi.ikkeBesvart.label';
+            return oppsummering
+                ? 'steg.oppsummering.hvorLengeJobbet.fordi.ikkeBesvart.label'
+                : 'hvorLengeJobbet.fordi.ikkeBesvart.label';
         }
     }
 };

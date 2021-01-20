@@ -20,7 +20,7 @@ import AttachmentList from 'common/components/attachment-list/AttachmentList';
 const bem = bemUtils('arbeidsforholdSummary');
 
 export const getRadioTextIdBegrunnelseFordi = (begrunnelse: Begrunnelse): string => {
-    return getRadioTextIdHvorLengeJobbetFordi(begrunnelseTilHvorLengeJobbetFordi(begrunnelse));
+    return getRadioTextIdHvorLengeJobbetFordi(begrunnelseTilHvorLengeJobbetFordi(begrunnelse), true);
 };
 
 const maybeArbeidsforholdToAttachmentList = (
@@ -84,7 +84,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                             {/* ansettelsesLengde */}
 
                             <Box margin={'s'}>
-                                <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}>
+                                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.hvorLengeJobbet.spørsmål')}>
                                     {arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
                                         <FormattedMessage id={'hvorLengeJobbet.mer'} />
                                     )}
@@ -96,9 +96,14 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
 
                             {/* Mindre enn 4 uker */}
                             {!arbeidsforhold.ansettelseslengde.merEnn4Uker &&
-                                arbeidsforhold.ansettelseslengde.begrunnelse && (
+                                arbeidsforhold.ansettelseslengde.begrunnelse &&
+                                !arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring && (
                                     <Box margin={'s'}>
-                                        <SummaryBlock header={intlHelper(intl, 'hvorLengeJobbet.fordi.legend-text')}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'steg.oppsummering.hvorLengeJobbet.fordi.legend-text'
+                                            )}>
                                             <FormattedMessage
                                                 id={getRadioTextIdBegrunnelseFordi(
                                                     arbeidsforhold.ansettelseslengde.begrunnelse
@@ -115,7 +120,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                         <SummaryBlock
                                             header={intlHelper(
                                                 intl,
-                                                'hvorLengeJobbet.fordi.ingen.forklaring.summary.label'
+                                                'steg.oppsummering.hvorLengeJobbet.fordi.ingen.forklaring.label'
                                             )}>
                                             {arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring}
                                         </SummaryBlock>
