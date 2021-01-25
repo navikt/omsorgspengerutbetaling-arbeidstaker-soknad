@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 import {
     FormikRadioPanelGroup,
@@ -82,8 +82,7 @@ const getHvorLengeRadios = (intl: IntlShape): RadioPanelProps[] => [
 const IntroPage: React.FC = (): JSX.Element => {
     const intl = useIntl();
 
-    const { logSidevisning } = useAmplitudeInstance();
-    logSidevisning(SIFCommonPageKey.intro);
+    useLogSidevisning(SIFCommonPageKey.intro);
 
     return (
         <Page

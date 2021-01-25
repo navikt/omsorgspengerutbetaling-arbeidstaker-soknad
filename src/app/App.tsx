@@ -32,6 +32,7 @@ const getAppStatusSanityConfig = ():
 };
 
 const APPLICATION_KEY = 'omsorgspengerutbetaling-arbeidstaker';
+export const SKJEMANAVN = 'omsorgspengerutbetaling-arbeidstaker';
 
 const App: React.FunctionComponent = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
@@ -47,7 +48,7 @@ const App: React.FunctionComponent = () => {
         <AmplitudeProvider applicationKey={APPLICATION_KEY}>
             <ApplicationWrapper
                 locale={locale}
-                onChangeLocale={(activeLocale: Locale): void => {
+                onChangeLocale={(activeLocale: Locale) => {
                     setLocaleInSessionStorage(activeLocale);
                     setLocale(activeLocale);
                 }}>

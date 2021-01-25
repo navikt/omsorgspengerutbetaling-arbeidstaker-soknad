@@ -61,7 +61,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
     return (
         <SøknadStep
             id={StepID.ANNET}
-            onValidFormSubmit={(): void => {
+            onValidFormSubmit={() => {
                 onValidSubmit();
             }}
             showSubmitButton={true}

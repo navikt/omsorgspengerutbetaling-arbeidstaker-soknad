@@ -36,10 +36,10 @@ const FormikVedleggsKomponent: React.FC<Props> = ({
                         name={formikName}
                         label={uploadButtonLabel}
                         onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                        onFileInputClick={(): void => {
+                        onFileInputClick={() => {
                             setFilesThatDidntGetUploaded([]);
                         }}
-                        onUnauthorizedOrForbiddenUpload={(): void => navigateToLoginPage()}
+                        onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
                         validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
                         listOfAttachments={dokumenter}
                     />

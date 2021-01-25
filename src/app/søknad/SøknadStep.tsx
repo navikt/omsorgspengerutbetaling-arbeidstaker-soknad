@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { ApplikasjonHendelse, useAmplitudeInstance, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
 import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
 import { Knapp } from 'nav-frontend-knapper';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -28,21 +28,22 @@ type Props = FormikStepProps & StepProps;
 
 const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
     const intl = useIntl();
+    const { logHendelse } = useAmplitudeInstance();
+
     const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, cleanupStep } = props;
     const stepConfig = getStepConfig();
     const texts = getStepTexts(intl, id, stepConfig);
 
-    const { logSidevisning } = useAmplitudeInstance();
-    logSidevisning(props.id);
+    useLogSidevisning(props.id);
 
-    // TODO: Må sjekke errorhandling på disse to
-    const handleAvsluttOgFortsettSenere = (): void => {
+    const handleAvsluttOgFortsettSenere = async () => {
+        await logHendelse(ApplikasjonHendelse.fortsettSenere);
         navigateToNAVno();
     };
-    const handleAvbrytOgSlettSøknad = (): void => {
-        SøknadTempStorage.purge().then(() => {
-            navigateToWelcomePage();
-        });
+    const handleAvbrytOgSlettSøknad = async () => {
+        await SøknadTempStorage.purge();
+        await logHendelse(ApplikasjonHendelse.fortsettSenere);
+        navigateToWelcomePage();
     };
 
     return (

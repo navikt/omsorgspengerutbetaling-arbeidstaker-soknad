@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
 import { Sidetittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
@@ -22,8 +22,7 @@ const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
     const [visDinePlikterModal, setVisDinePlikterModal] = React.useState(false);
     const [visBehandlingAvPersonopplysningerModal, setVisBehandlingAvPersonopplysningerModal] = React.useState(false);
 
-    const { logSidevisning } = useAmplitudeInstance();
-    logSidevisning(SIFCommonPageKey.velkommen);
+    useLogSidevisning(SIFCommonPageKey.velkommen);
 
     const { onValidSubmit } = props;
 
@@ -47,22 +46,20 @@ const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
                     </Sidetittel>
                 </Box>
                 <SamtykkeForm
-                    onOpenDinePlikterModal={(): void => setVisDinePlikterModal(true)}
-                    openBehandlingAvPersonopplysningerModal={(): void =>
-                        setVisBehandlingAvPersonopplysningerModal(true)
-                    }
+                    onOpenDinePlikterModal={() => setVisDinePlikterModal(true)}
+                    openBehandlingAvPersonopplysningerModal={() => setVisBehandlingAvPersonopplysningerModal(true)}
                     onConfirm={onValidSubmit}
                 />
             </Page>
 
             <DinePlikterModal
                 isOpen={visDinePlikterModal}
-                onRequestClose={(): void => setVisDinePlikterModal(false)}
+                onRequestClose={() => setVisDinePlikterModal(false)}
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
             />
             <BehandlingAvPersonopplysningerModal
                 isOpen={visBehandlingAvPersonopplysningerModal}
-                onRequestClose={(): void => setVisBehandlingAvPersonopplysningerModal(false)}
+                onRequestClose={() => setVisBehandlingAvPersonopplysningerModal(false)}
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
             />
         </>

@@ -24,6 +24,8 @@ import { WillRedirect } from '../types/types';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import AnnetStepView from './annet-step/AnnetStep';
 import appSentryLogger from '../utils/appSentryLogger';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { SKJEMANAVN } from '../App';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -51,12 +53,15 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
-    async function navigateToStep(stepID: StepID): Promise<void> {
+    const { logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
+
+    async function navigateToStep(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
             try {
                 await SøknadTempStorage.persist(values, stepID);
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                    logUserLoggedOut('Ved mellomlagring');
                     navigateToLoginPage();
                 } else {
                     setShowErrorMessage(true);
@@ -67,7 +72,12 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
         navigateTo(getSøknadRoute(stepID), history);
     }
 
-    const navigateToNextStepIfExistsFrom = (stepID: StepID): void => {
+    const doStartSoknad = async () => {
+        await logSoknadStartet(SKJEMANAVN);
+        navigateToStep(StepID.SITUASJON);
+    };
+
+    const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
         const nextStepID: StepID | undefined = getNextStepId(stepID);
         if (nextStepID) {
             navigateToStep(nextStepID);
@@ -135,7 +145,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                 render={(): JSX.Element => {
                     return (
                         <div>
-                            <WelcomingPage onValidSubmit={(): Promise<void> => navigateToStep(StepID.SITUASJON)} />
+                            <WelcomingPage onValidSubmit={doStartSoknad} />
                             <FortsettSøknadModalView
                                 isOpen={!!lastStepID && !hasBeenClosed}
                                 buttonsAreDisabled={buttonsAreDisabled}
@@ -156,7 +166,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                         StepID.SITUASJON,
                         values,
                         <SituasjonStepView
-                            onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.SITUASJON)}
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.SITUASJON)}
                             søkerdata={søkerdata}
                             formikProps={formikProps}
                         />
@@ -171,7 +181,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                     return ifAvailable(
                         StepID.PERIODE,
                         values,
-                        <PeriodeStep onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
+                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
                     );
                 }}
             />
@@ -183,7 +193,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                     return ifAvailable(
                         StepID.ANNET,
                         values,
-                        <AnnetStepView onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
+                        <AnnetStepView onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
                     );
                 }}
             />
@@ -195,9 +205,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                     return ifAvailable(
                         StepID.MEDLEMSKAP,
                         values,
-                        <MedlemsskapStep
-                            onValidSubmit={(): void => navigateToNextStepIfExistsFrom(StepID.MEDLEMSKAP)}
-                        />
+                        <MedlemsskapStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.MEDLEMSKAP)} />
                     );
                 }}
             />
@@ -211,7 +219,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                         values,
                         <OppsummeringStep
                             søkerdata={søkerdata}
-                            onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData): void => {
+                            onApplicationSent={(sentSuccessfully, apiData?: SøknadApiData) => {
                                 if (sentSuccessfully && apiData) {
                                     setIsLoading(true);
                                     handleSøknadSentSuccessfully(apiData);

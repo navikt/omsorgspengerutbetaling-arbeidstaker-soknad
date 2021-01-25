@@ -44,7 +44,7 @@ const Step: React.FunctionComponent<Props> = ({ id, stepConfig, useValidationErr
             <BackLink
                 href={conf.backLinkHref}
                 className={bem.element('backLink')}
-                onClick={(nextHref: string, history: History, event: React.SyntheticEvent): void => {
+                onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
                     event.preventDefault();
                     history.push(nextHref);
                 }}

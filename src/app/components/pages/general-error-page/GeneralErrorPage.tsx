@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
 import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 import Veilederpanel from 'nav-frontend-veilederpanel';
 import Box from 'common/components/box/Box';
@@ -17,8 +17,7 @@ export interface Props {
 const GeneralErrorPage: React.FC<Props> = ({ cause }: Props): JSX.Element => {
     const intl = useIntl();
 
-    const { logSidevisning } = useAmplitudeInstance();
-    logSidevisning(SIFCommonPageKey.feilside);
+    useLogSidevisning(SIFCommonPageKey.feilside);
 
     useEffect(() => {
         appSentryLogger.logError(`User on GeneralErrorPage. Cause:${cause}`);

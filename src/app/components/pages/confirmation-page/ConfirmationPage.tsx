@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler/lib';
@@ -26,8 +26,7 @@ const ConfirmationPage: React.FC<OwnProps> = (props: OwnProps): JSX.Element => {
     const { søkerdata, søknadApiData } = props;
     const intl = useIntl();
 
-    const { logSidevisning } = useAmplitudeInstance();
-    logSidevisning(SIFCommonPageKey.kvittering);
+    useLogSidevisning(SIFCommonPageKey.kvittering);
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
