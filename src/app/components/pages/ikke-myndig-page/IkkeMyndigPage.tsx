@@ -8,9 +8,14 @@ import Page from 'common/components/page/Page';
 import intlHelper from 'common/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './ikkeMyndigPage.less';
+import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 
 const IkkeMyndigPage: React.FC = (): JSX.Element => {
     const intl = useIntl();
+
+    const { logSidevisning } = useAmplitudeInstance();
+    logSidevisning(SIFCommonPageKey.ikkeMyndig);
+
     return (
         <Page
             className="ikkeMyndigPage"

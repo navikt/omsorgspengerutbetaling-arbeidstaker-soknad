@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { Sidetittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
@@ -20,6 +21,9 @@ const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
     const [visDinePlikterModal, setVisDinePlikterModal] = React.useState(false);
     const [visBehandlingAvPersonopplysningerModal, setVisBehandlingAvPersonopplysningerModal] = React.useState(false);
+
+    const { logSidevisning } = useAmplitudeInstance();
+    logSidevisning(SIFCommonPageKey.velkommen);
 
     const { onValidSubmit } = props;
 

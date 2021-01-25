@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SIFCommonPageKey, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
@@ -14,6 +15,10 @@ const link =
 
 const UnavailablePage: React.FC = (): JSX.Element => {
     const title = 'Søknad om ekstra omsorgsdager';
+
+    const { logSidevisning } = useAmplitudeInstance();
+    logSidevisning(SIFCommonPageKey.ikkeTilgjengelig);
+
     return (
         <Page className={bem.block} title={title} topContentRenderer={(): JSX.Element => <StepBanner text={title} />}>
             <Box margin="xxxl">
