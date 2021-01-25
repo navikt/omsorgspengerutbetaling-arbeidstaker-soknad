@@ -45,7 +45,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
     const handleSøkerdataFetchSuccess = (
         søkerResponse: AxiosResponse<SøkerApiResponse>,
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
-    ): void => {
+    ) => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
         const tempStorageIsValid =
             tempStorage?.formData && tempStorage?.metadata?.version === CurrentTemporaryStorageVersion;

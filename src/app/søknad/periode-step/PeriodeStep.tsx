@@ -76,7 +76,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     return (
         <SøknadStep
             id={StepID.PERIODE}
-            onValidFormSubmit={(): void => {
+            onValidFormSubmit={() => {
                 onValidSubmit();
             }}
             cleanupStep={cleanupStep}

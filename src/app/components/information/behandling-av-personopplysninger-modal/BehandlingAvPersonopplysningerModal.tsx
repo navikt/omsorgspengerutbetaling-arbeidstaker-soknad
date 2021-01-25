@@ -4,8 +4,11 @@ import bemUtils from 'common/utils/bemUtils';
 import BehandlingAvPersonopplysningerContent from '../behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
 import './behandlingAvPersonopplysningerModal.less';
 
+type Props = Omit<ModalProps, 'children'>;
+
 const bem = bemUtils('behandlingAvPersonopplysningerModal');
-const BehandlingAvPersonopplysningerModal: React.FunctionComponent<ModalProps> = (props) => (
+
+const BehandlingAvPersonopplysningerModal: React.FunctionComponent<Props> = (props) => (
     <Modal className={bem.block} {...props}>
         <BehandlingAvPersonopplysningerContent />
     </Modal>

@@ -6,6 +6,6 @@ export const getLocaleFromSessionStorage = (): Locale => {
     return (sessionStorage.getItem(LocaleSessionKey) as Locale) || 'nb';
 };
 
-export const setLocaleInSessionStorage = (locale: Locale): void => {
+export const setLocaleInSessionStorage = (locale: Locale) => {
     sessionStorage.setItem(LocaleSessionKey, locale);
 };

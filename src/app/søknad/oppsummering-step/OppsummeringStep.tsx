@@ -27,6 +27,8 @@ import SelvstendigOgEllerFrilansSummaryView from './components/SelvstendigOgElle
 import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import SummarySection from './components/summary-section/SummarySection';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { SKJEMANAVN } from '../../App';
 interface Props {
     søkerdata: Søkerdata;
     onApplicationSent: (sentSuccessfully: boolean, apiValues?: SøknadApiData) => void;
@@ -36,6 +38,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
+    const { logSoknadFailed, logUserLoggedOut, logSoknadSent } = useAmplitudeInstance();
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
@@ -45,11 +48,14 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
         setSendingInProgress(true);
         try {
             await postApplication(data);
+            await logSoknadSent(SKJEMANAVN);
             onApplicationSent(true, apiValues);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                await logUserLoggedOut('Ved innsending av søknad');
                 navigateToLoginPage();
             } else {
+                await logSoknadFailed(SKJEMANAVN);
                 onApplicationSent(false);
                 appSentryLogger.logApiError(error);
             }
@@ -63,7 +69,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
     return (
         <SøknadStep
             id={StepID.OPPSUMMERING}
-            onValidFormSubmit={(): void => {
+            onValidFormSubmit={() => {
                 setTimeout(() => {
                     sendApplication(apiValues); // La view oppdatere seg først
                 });

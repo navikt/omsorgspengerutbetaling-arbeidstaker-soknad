@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
+import AlertStripe from 'nav-frontend-alertstriper';
+import { Knapp } from 'nav-frontend-knapper';
+import Panel from 'nav-frontend-paneler/lib';
 import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import CheckmarkIcon from 'common/components/checkmark-icon/CheckmarkIcon';
 import Page from 'common/components/page/Page';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
-import './confirmationPage.less';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { Knapp } from 'nav-frontend-knapper';
-import { SøknadApiData } from '../../../types/SøknadApiData';
 import { Søkerdata } from '../../../types/Søkerdata';
-import Panel from 'nav-frontend-paneler/lib';
+import { SøknadApiData } from '../../../types/SøknadApiData';
 import TilArbeidsgiverDokumentListe from './components/TilArbeidsgiverDokumentListe';
+import './confirmationPage.less';
 
 const bem = bemUtils('confirmationPage');
 
@@ -24,6 +25,8 @@ export interface OwnProps {
 const ConfirmationPage: React.FC<OwnProps> = (props: OwnProps): JSX.Element => {
     const { søkerdata, søknadApiData } = props;
     const intl = useIntl();
+
+    useLogSidevisning(SIFCommonPageKey.kvittering);
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>

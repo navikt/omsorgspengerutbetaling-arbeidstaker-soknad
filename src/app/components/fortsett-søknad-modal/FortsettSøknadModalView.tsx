@@ -19,7 +19,7 @@ const FortsettSøknadModalView: React.FC<Props> = (props: Props): JSX.Element =>
     return (
         <Modal
             isOpen={isOpen}
-            onRequestClose={(): void => {
+            onRequestClose={() => {
                 if (!buttonsAreDisabled) {
                     onRequestClose();
                 }

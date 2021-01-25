@@ -13,6 +13,7 @@ import {
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import * as apiUtils from '../../utils/apiUtils';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -38,6 +39,8 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     listOfAttachments,
     ...otherProps
 }: Props) => {
+    const { logUserLoggedOut } = useAmplitudeInstance();
+
     function setAttachmentPendingToFalse(attachment: Attachment): Attachment {
         attachment.pending = false;
         return attachment;
@@ -55,7 +58,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
         attachments: Attachment[],
         attachment: Attachment,
         replaceFn: FieldArrayReplaceFn
-    ): void {
+    ) {
         replaceFn(attachments.indexOf(attachment), { ...attachment, file: mapFileToPersistedFile(attachment.file) });
     }
 
@@ -69,7 +72,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
         allAttachments: Attachment[],
         failedAttachments: Attachment[],
         replaceFn: FieldArrayReplaceFn
-    ): void {
+    ) {
         failedAttachments.forEach((attachment) => {
             attachment = setAttachmentPendingToFalse(attachment);
             updateAttachmentListElement(allAttachments, attachment, replaceFn);
@@ -91,6 +94,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
                 attachment.uploaded = true;
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                    await logUserLoggedOut('Ved opplasting av dokument');
                     onUnauthorizedOrForbiddenUpload();
                 }
                 setAttachmentPendingToFalse(attachment);
