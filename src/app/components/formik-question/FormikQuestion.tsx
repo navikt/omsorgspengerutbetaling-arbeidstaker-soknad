@@ -16,16 +16,7 @@ export interface FormikQuestionProps<FieldName> extends Omit<FormikRadioPanelGro
 }
 
 function FormikQuestion<FieldName>(props: FormikQuestionProps<FieldName> & TypedFormInputCommonProps) {
-    const {
-        firstAlternative,
-        secondAlternative,
-        legend,
-        info,
-        useTwoColumns,
-        infoPlassering,
-        name,
-        ...restProps
-    } = props;
+    const { firstAlternative, secondAlternative, legend, useTwoColumns, infoPlassering, name, ...restProps } = props;
 
     return (
         <FormikRadioPanelGroup<FieldName>
@@ -40,11 +31,7 @@ function FormikQuestion<FieldName>(props: FormikQuestionProps<FieldName> & Typed
                 },
             ]}
             {...restProps}
-            legend={
-                <LabelWithInfo infoPlassering={infoPlassering} info={info}>
-                    {legend}
-                </LabelWithInfo>
-            }
+            legend={<LabelWithInfo infoPlassering={infoPlassering}>{legend}</LabelWithInfo>}
             name={name}
             useTwoColumns={useTwoColumns}
             validate={props.validate}
