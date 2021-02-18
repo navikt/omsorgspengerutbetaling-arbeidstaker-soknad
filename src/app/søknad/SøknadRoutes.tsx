@@ -58,7 +58,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     async function navigateToStep(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
             try {
-                await SøknadTempStorage.persist(values, stepID);
+                await SøknadTempStorage.update(values, stepID);
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     logUserLoggedOut('Ved mellomlagring');
@@ -74,6 +74,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
 
     const doStartSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
+        await SøknadTempStorage.create();
         navigateToStep(StepID.SITUASJON);
     };
 

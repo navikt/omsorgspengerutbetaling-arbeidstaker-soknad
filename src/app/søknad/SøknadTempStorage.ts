@@ -7,8 +7,8 @@ import { SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage, TemporaryStorageVersion } from '../types/TemporaryStorage';
 import { getApiUrlByResourceType } from '../utils/apiUtils';
 
-interface SøknadPersistenceInterface extends Omit<PersistenceInterface<TemporaryStorage>, 'persist'> {
-    persist: (formData: SøknadFormData, lastStepID: StepID) => Promise<AxiosResponse>;
+interface SøknadPersistenceInterface extends Omit<PersistenceInterface<TemporaryStorage>, 'update'> {
+    update: (formData: SøknadFormData | undefined, lastStepID: StepID) => Promise<AxiosResponse>;
 }
 
 const persistSetup = persistence<TemporaryStorage>({
@@ -17,8 +17,11 @@ const persistSetup = persistence<TemporaryStorage>({
 });
 
 const SøknadTempStorage: SøknadPersistenceInterface = {
-    persist: (formData: SøknadFormData, lastStepID: StepID) => {
-        return persistSetup.persist({ formData, metadata: { lastStepID, version: TemporaryStorageVersion } });
+    create: () => {
+        return persistSetup.create();
+    },
+    update: (formData: SøknadFormData, lastStepID: StepID) => {
+        return persistSetup.update({ formData, metadata: { lastStepID, version: TemporaryStorageVersion } });
     },
     purge: persistSetup.purge,
     rehydrate: persistSetup.rehydrate,

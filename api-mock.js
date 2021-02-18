@@ -39,7 +39,7 @@ server.use((req, res, next) => {
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('X-Content-Type-Options', 'nosniff');
     res.set('Access-Control-Allow-Headers', 'content-type');
-    res.set('Access-Control-Allow-Methods', ['GET', 'POST', 'DELETE']);
+    res.set('Access-Control-Allow-Methods', ['GET', 'POST', 'DELETE', 'PUT']);
     res.set('Access-Control-Allow-Credentials', true);
     res.set('Access-Control-Expose-Headers', 'X-Request-Id');
     next();
@@ -52,37 +52,21 @@ const søkerMock1 = {
     etternavn: 'Testesen',
     myndig: true,
     fødselsnummer: '12345123456',
-    fødselsdato: '2020-01-01'
-};
-
-const søkerMock2 = {
-    aktørId: '1234567890',
-    fornavn: null,
-    mellomnavn: null,
-    etternavn: null,
-    myndig: true,
-    fødselsnummer: '12345123456',
-    fødselsdato: '2020-01-01'
+    fødselsdato: '2020-01-01',
 };
 
 const barnMock = {
     barn: [
         { fødselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '1' },
-        { fodselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' }
-    ]
+        { fodselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
+    ],
 };
-
-// const arbeidsgivereMock = { organisasjoner: []};
 
 const arbeidsgivereMock = {
     organisasjoner: [
         { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' }
-    ]
-};
-
-const arbeidsgivereMockEmptyList = {
-    organisasjoner: []
+        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
+    ],
 };
 
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
@@ -93,9 +77,6 @@ const isJSON = (str) => {
     } catch (e) {
         return false;
     }
-};
-const writeFileSync = (path, text) => {
-    return fs.writeFileSync(path, text);
 };
 const writeFileAsync = async (path, text) => {
     return new Promise((resolve, reject) => {
@@ -154,6 +135,12 @@ const startServer = () => {
         }
     });
     server.post('/mellomlagring', (req, res) => {
+        const body = req.body;
+        const jsBody = isJSON(body) ? JSON.parse(body) : body;
+        writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
+        res.sendStatus(200);
+    });
+    server.put('/mellomlagring', (req, res) => {
         const body = req.body;
         const jsBody = isJSON(body) ? JSON.parse(body) : body;
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
