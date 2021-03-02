@@ -8,6 +8,9 @@ import fosterbarnMessages from '@navikt/sif-common-forms/lib/fosterbarn/fosterba
 import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
+import dayjs from 'dayjs';
+require('dayjs/locale/nb');
+require('dayjs/locale/nn');
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 export const appNynorsktekster = require('../../i18n/nn.json');
@@ -39,6 +42,7 @@ export interface IntlProviderProps {
 }
 
 const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, children, onError }: IntlProviderProps) => {
+    dayjs.locale(locale === 'nb' ? 'nb' : 'nn');
     return (
         <Provider locale={locale} messages={locale === 'nb' ? bokmålstekster : nynorsktekster} onError={onError}>
             {children}
