@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { fraværDagToFraværDateRange, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær';
+import {
+    fraværDagToFraværDateRange,
+    fraværPeriodeToDateRange,
+    validateNoCollisions,
+} from '@navikt/sif-common-forms/lib/fravær';
 import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
 import { validateAll } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
@@ -88,7 +92,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                                 modalTitle: 'Fravær hele dager',
                             }}
                             dateRangesToDisable={[
-                                ...arbeidsforholdFormData.fraværPerioder,
+                                ...arbeidsforholdFormData.fraværPerioder.map(fraværPeriodeToDateRange),
                                 ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
                             ]}
                             helgedagerIkkeTillat={true}
@@ -139,7 +143,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             }}
                             dateRangesToDisable={[
                                 ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
-                                ...arbeidsforholdFormData.fraværPerioder,
+                                ...arbeidsforholdFormData.fraværPerioder.map(fraværPeriodeToDateRange),
                             ]}
                             helgedagerIkkeTillatt={true}
                             maksArbeidstidPerDag={24}

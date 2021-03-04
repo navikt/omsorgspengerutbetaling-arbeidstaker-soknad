@@ -291,6 +291,8 @@
     "steg.oppsummering.utbetaling.delvisFravær.item": "{dato}: Skulle jobba {timerSkulleJobbet}. Borte frå jobb {timerBorte}.",
     "steg.oppsummering.utbetaling.fravær.heleDager.header": "Heile dagar med fråvær",
     "steg.oppsummering.utbetaling.fravær.heleDager.item": "Frå og med {fom}, til og med {tom}",
+    "steg.oppsummering.utbetaling.fravær.årsak.smittevernhensyn": " (særlege smittevernhensyn)",
+    "steg.oppsummering.utbetaling.fravær.årsak.stengtSkoleBhg": " (stengt skule/barnehage)",
 
     "steg.oppsummering.smittevernhensyn.titel": "Særlege smittevernhensyn",
 

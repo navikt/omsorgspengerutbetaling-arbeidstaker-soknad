@@ -10,10 +10,11 @@ export const mapFraværTilUtbetalingsperiode = (
     const periodeMappedTilUtbetalingsperiode: Utbetalingsperiode[] = fraværPerioder.map(
         (periode: FraværPeriode): Utbetalingsperiode => {
             return {
-                fraOgMed: formatDateToApiFormat(periode.from),
-                tilOgMed: formatDateToApiFormat(periode.to),
+                fraOgMed: formatDateToApiFormat(periode.fraOgMed),
+                tilOgMed: formatDateToApiFormat(periode.tilOgMed),
                 antallTimerPlanlagt: null,
                 antallTimerBorte: null,
+                årsak: periode.årsak,
             };
         }
     );
@@ -25,6 +26,7 @@ export const mapFraværTilUtbetalingsperiode = (
                 tilOgMed: formatDateToApiFormat(fravær.dato),
                 antallTimerPlanlagt: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerArbeidsdag))),
                 antallTimerBorte: timeToIso8601Duration(decimalTimeToTime(parseFloat(fravær.timerFravær))),
+                årsak: fravær.årsak,
             };
             return utbetalingsperiode;
         }

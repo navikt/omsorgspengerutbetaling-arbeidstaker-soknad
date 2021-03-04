@@ -1,5 +1,6 @@
 import { Begrunnelse, SøknadApiData } from '../src/app/types/SøknadApiData';
 import { SøkerApiResponse } from '../src/app/types/Søkerdata';
+import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 
 export const mock1: SøknadApiData = {
     språk: 'nb',
@@ -52,6 +53,7 @@ export const mock1: SøknadApiData = {
                     tilOgMed: '2002-01-31',
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
+                    årsak: FraværÅrsak.annet,
                 },
             ],
         },

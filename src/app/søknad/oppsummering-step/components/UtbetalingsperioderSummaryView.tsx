@@ -7,7 +7,7 @@ import { iso8601DurationToTime, timeToDecimalTime } from 'common/utils/timeUtils
 import { Utbetalingsperiode } from '../../../types/SøknadApiData';
 import SummaryBlock from './SummaryBlock';
 import { isString } from 'formik';
-import { timeText } from '@navikt/sif-common-forms/lib/fravær';
+import { FraværÅrsak, timeText } from '@navikt/sif-common-forms/lib/fravær';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 export interface Props {
@@ -92,14 +92,21 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
                     <SummaryList
                         items={perioder}
                         itemRenderer={(periode: Utbetalingsperiode): JSX.Element => (
-                            <FormattedMessage
-                                tagName="span"
-                                id="steg.oppsummering.utbetaling.fravær.heleDager.item"
-                                values={{
-                                    fom: prettifyDate(apiStringDateToDate(periode.fraOgMed)),
-                                    tom: prettifyDate(apiStringDateToDate(periode.tilOgMed)),
-                                }}
-                            />
+                            <>
+                                <FormattedMessage
+                                    tagName="span"
+                                    id="steg.oppsummering.utbetaling.fravær.heleDager.item"
+                                    values={{
+                                        fom: prettifyDate(apiStringDateToDate(periode.fraOgMed)),
+                                        tom: prettifyDate(apiStringDateToDate(periode.tilOgMed)),
+                                    }}
+                                />
+                                {periode.årsak !== FraværÅrsak.annet && (
+                                    <FormattedMessage
+                                        id={`steg.oppsummering.utbetaling.fravær.årsak.${periode.årsak}`}
+                                    />
+                                )}
+                            </>
                         )}
                     />
                 </SummaryBlock>

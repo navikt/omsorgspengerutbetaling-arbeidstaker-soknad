@@ -57,14 +57,15 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
-                <FormSection
-                    key={arbeidsforhold.organisasjonsnummer}
-                    titleTag="h2"
-                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                    titleIcon={<BuildingIcon />}>
-                    <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
-                    <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
-                </FormSection>
+                <FormBlock key={arbeidsforhold.organisasjonsnummer}>
+                    <FormSection
+                        titleTag="h2"
+                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                        titleIcon={<BuildingIcon />}>
+                        <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
+                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
+                    </FormSection>
+                </FormBlock>
             ) : null;
         }
     );

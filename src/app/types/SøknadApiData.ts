@@ -1,3 +1,4 @@
+import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
 
@@ -80,6 +81,7 @@ export interface Utbetalingsperiode {
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)
     antallTimerPlanlagt: string | null; // f eks PT5H30M | "null" (type Duration)
+    årsak: FraværÅrsak;
 }
 
 export interface SøknadApiData {
