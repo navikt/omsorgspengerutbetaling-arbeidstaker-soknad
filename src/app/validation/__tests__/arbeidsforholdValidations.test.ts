@@ -1,9 +1,13 @@
-import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforholdValidations';
+import {
+    checkAllePerioderErInnenforSammeKalenderår,
+    stegEnListeAvArbeidsforholdIsValid,
+} from '../components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AnsettelseslengdeFormData, HvorLengeJobbet, HvorLengeJobbetFordi } from '../../types/AnsettelseslengdeTypes';
 import { Attachment } from 'common/types/Attachment';
 import { FraværDag, FraværPeriode, FraværÅrsak } from '@navikt/sif-common-forms/lib/fravær';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 
 const validAttachment: Attachment = {
     file: {
@@ -111,5 +115,75 @@ describe('fieldValidations', () => {
     it('validates lists correctly', () => {
         expect(stegEnListeAvArbeidsforholdIsValid(validListeAvArbeidsforhold)).toBe(true);
         expect(stegEnListeAvArbeidsforholdIsValid(invalidListeAvArbeidsforhold)).toBe(false);
+    });
+
+    describe('checkAllePerioderErInnenforSammeKalenderår', () => {
+        const dagMedFravær2020: any = {
+            dato: ISOStringToDate('2020-01-01')!,
+        };
+        const dagMedFravær2021: any = {
+            dato: ISOStringToDate('2021-01-01')!,
+        };
+        const periodeMedFravær2020: any = {
+            fraOgMed: ISOStringToDate('2020-01-01')!,
+            tilOgMed: ISOStringToDate('2020-01-10')!,
+        };
+        const periodeMedFravær2020_2021: any = {
+            fraOgMed: ISOStringToDate('2020-01-01')!,
+            tilOgMed: ISOStringToDate('2021-01-10')!,
+        };
+        const periodeMedFravær2021: any = {
+            fraOgMed: ISOStringToDate('2021-01-01')!,
+            tilOgMed: ISOStringToDate('2021-01-10')!,
+        };
+
+        const arbeidsforhold: any = {};
+
+        it('returns undefined when all dates are the same year', () => {
+            const fraværDager: FraværDag[] = [dagMedFravær2020];
+            const fraværPerioder: FraværPeriode[] = [periodeMedFravær2020];
+            expect(checkAllePerioderErInnenforSammeKalenderår([], 'Feil')).toBe(undefined);
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår([{ ...arbeidsforhold, fraværDager }], 'Feil')
+            ).toBeUndefined();
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår([{ ...arbeidsforhold, fraværPerioder }], 'Feil')
+            ).toBeUndefined();
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår([{ ...arbeidsforhold, fraværPerioder, fraværDager }], 'Feil')
+            ).toBeUndefined();
+        });
+        it('returns error when two fraværPerioder has different years', () => {
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår(
+                    [{ ...arbeidsforhold, fraværPerioder: [periodeMedFravær2020, periodeMedFravær2021] }],
+                    'Feil'
+                )
+            ).toBeDefined();
+        });
+        it('returns error when one fraværPeriode spans two years', () => {
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår(
+                    [{ ...arbeidsforhold, fraværPerioder: [periodeMedFravær2020_2021] }],
+                    'Feil'
+                )
+            ).toBeDefined();
+        });
+        it('returns error when fraværDag is another year than fraværPeriode', () => {
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår(
+                    [{ ...arbeidsforhold, fraværDager: [dagMedFravær2020], fraværPerioder: [periodeMedFravær2021] }],
+                    'Feil'
+                )
+            ).toBeDefined();
+        });
+        it('returns error when fraværDag has another year than another fraværDag', () => {
+            expect(
+                checkAllePerioderErInnenforSammeKalenderår(
+                    [{ ...arbeidsforhold, fraværDager: [dagMedFravær2020, dagMedFravær2021] }],
+                    'Feil'
+                )
+            ).toBeDefined();
+        });
     });
 });
