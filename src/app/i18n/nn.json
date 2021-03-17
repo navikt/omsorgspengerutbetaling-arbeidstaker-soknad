@@ -152,7 +152,7 @@
     "step.oppsummering.stepTitle": "Oppsummering",
     "step.oppsummering.stepIndicatorLabel": "Oppsummering",
 
-    "introPage.tittel": "Søknad om ekstra omsorgsdagar",
+    "introPage.tittel": "Søknad om utbetaling av omsorgspengar",
     "introPage.stegTittel": "Kan eg søkje om utbetaling av omsorgspengar?",
     "introPage.info.1": "Dersom du ikkje har rett på omsorgspengar hos arbeidsgivaren din, kan du likevel ha rett til det frå NAV.",
     "introPage.info.2": "Vi vil nå stille deg nokre spørsmål som avgjer om du kan ha rett på utbetaling av omsorgspengar fra NAV.",
@@ -314,11 +314,11 @@
     "page.generalErrorPage.tittel": "Noko gjekk gale ...",
     "page.generalErrorPage.tekst": "Beklagar, her har det dessverre skjedd ein feil.",
 
-    "page.ikkeMyndig.sidetittel": "Søknad om ekstra omsorgsdagar – ikkje myndig",
+    "page.ikkeMyndig.sidetittel": "Søknad om utbetaling av omsorgspengar – ikkje myndig",
     "page.ikkeMyndig.banner.tittel": "Hei!",
     "page.ikkeMyndig.banner.tekst": "Fordi du er under 18 år, må ein av foreldra dine eller ein føresett skrive under på søknaden saman med deg. Du må derfor fylle ut søknaden på papir og sende han i posten.",
     "page.ikkeMyndig.banner.lastNed": "Har kan du laste ned papirsøknaden",
-    "page.ikkeMyndig.tittel": "Søknad om ekstra omsorgspengar",
+    "page.ikkeMyndig.tittel": "Søknad om utbetaling av omsorgspengar",
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lasta opp",

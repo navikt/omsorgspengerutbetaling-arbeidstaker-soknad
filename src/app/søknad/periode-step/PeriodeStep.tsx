@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -9,17 +8,19 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormSection from 'common/components/form-section/FormSection';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
-import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
+import {
+    checkAllePerioderErInnenforSammeKalenderår,
+    skalInkludereArbeidsforhold,
+} from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
+import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -69,10 +70,6 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             ) : null;
         }
     );
-    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
-
-    const attachmentsSizeOver24Mb =
-        getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
         <SøknadStep
@@ -81,8 +78,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                 onValidSubmit();
             }}
             cleanupStep={cleanupStep}
-            showSubmitButton={true}
-            buttonDisabled={attachmentsSizeOver24Mb}>
+            showSubmitButton={true}>
             <FormBlock>
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
@@ -107,6 +103,17 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     annetArbeidsforholdName={annetArbeidsforholdName}
                 />
             )}
+            <FormikInputGroup
+                name={'kontrollerÅr'}
+                legend="Test me"
+                validate={() =>
+                    checkAllePerioderErInnenforSammeKalenderår(
+                        [...values.arbeidsforhold, values.annetArbeidsforhold],
+                        'Feil'
+                    )
+                }>
+                Content in group
+            </FormikInputGroup>
         </SøknadStep>
     );
 };
