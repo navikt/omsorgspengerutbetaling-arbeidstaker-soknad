@@ -14,7 +14,7 @@ const link =
     'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson';
 
 const UnavailablePage: React.FC = (): JSX.Element => {
-    const title = 'Søknad om utbetaling av omsorgspengar';
+    const title = 'Søknad om utbetaling av omsorgspenger';
 
     useLogSidevisning(SIFCommonPageKey.ikkeTilgjengelig);
 
