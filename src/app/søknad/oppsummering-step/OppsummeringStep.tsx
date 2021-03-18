@@ -17,7 +17,6 @@ import SøknadStep from '../SøknadStep';
 import MedlemskapSummaryView from './components/MedlemskapSummaryView';
 import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSummaryView';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
-import FosterbarnSummaryView from './components/FosterbarnSummaryView';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
@@ -42,7 +41,6 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
-    const fosterbarn = apiValues.fosterbarn || [];
 
     async function sendApplication(data: SøknadApiData): Promise<void> {
         setSendingInProgress(true);
@@ -90,7 +88,6 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                             mellomnavn={mellomnavn || undefined}
                             fødselsnummer={fødselsnummer}
                         />
-                        <FosterbarnSummaryView fosterbarn={fosterbarn} />
                     </SummarySection>
 
                     {/* Fravær fra arbeid */}

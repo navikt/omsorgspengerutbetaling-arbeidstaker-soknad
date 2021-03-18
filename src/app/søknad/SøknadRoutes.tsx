@@ -25,6 +25,8 @@ import AnnetStepView from './annet-step/AnnetStep';
 import appSentryLogger from '../utils/appSentryLogger';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { SKJEMANAVN } from '../App';
+import PeriodeStep from './periode-step/PeriodeStep';
+import BarnStep from './barn-step/BarnStep';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -32,7 +34,7 @@ interface SøknadRoutesProps {
     formikProps: FormikProps<SøknadFormData>;
 }
 
-const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element): JSX.Element => {
+const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Element) => {
     if (isAvailable(stepID, values)) {
         return component;
     } else {
@@ -41,7 +43,7 @@ const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Ele
     }
 };
 
-const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps): JSX.Element => {
+const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) => {
     const { lastStepID, formikProps, søkerdata } = props;
     const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
@@ -72,7 +74,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     const doStartSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
         await SøknadTempStorage.create();
-        navigateToStep(StepID.SITUASJON);
+        navigateToStep(StepID.PERIODE);
     };
 
     const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
@@ -138,7 +140,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     return (
                         <div>
                             <WelcomingPage onValidSubmit={doStartSoknad} />
@@ -155,9 +157,34 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             />
 
             <Route
+                path={getMaybeSøknadRoute(StepID.PERIODE)}
+                exact={true}
+                render={() => {
+                    return ifAvailable(
+                        StepID.PERIODE,
+                        values,
+                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
+                    );
+                }}
+            />
+            <Route
+                path={getMaybeSøknadRoute(StepID.BARN)}
+                exact={true}
+                render={() => {
+                    return ifAvailable(
+                        StepID.BARN,
+                        values,
+                        <BarnStep
+                            registrerteBarn={[]}
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.BARN)}
+                        />
+                    );
+                }}
+            />
+            <Route
                 path={getMaybeSøknadRoute(StepID.SITUASJON)}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     return ifAvailable(
                         StepID.SITUASJON,
                         values,
@@ -173,7 +200,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             <Route
                 path={getMaybeSøknadRoute(StepID.FRAVÆR)}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     return ifAvailable(
                         StepID.FRAVÆR,
                         values,
@@ -185,7 +212,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             <Route
                 path={getMaybeSøknadRoute(StepID.ANNET)}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     return ifAvailable(
                         StepID.ANNET,
                         values,
@@ -197,7 +224,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             <Route
                 path={getMaybeSøknadRoute(StepID.MEDLEMSKAP)}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     return ifAvailable(
                         StepID.MEDLEMSKAP,
                         values,
@@ -209,7 +236,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             <Route
                 path={getMaybeSøknadRoute(StepID.OPPSUMMERING)}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     return ifAvailable(
                         StepID.OPPSUMMERING,
                         values,
@@ -234,7 +261,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             <Route
                 path={RouteConfig.SØKNAD_SENDT_ROUTE}
                 exact={true}
-                render={(): JSX.Element => {
+                render={() => {
                     if (søknadHasBeenSent) {
                         return <ConfirmationPage søkerdata={søkerdata} søknadApiData={søknadApiData} />;
                     } else {
@@ -246,7 +273,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
 
             <Route
                 path={RouteConfig.SØKNAD_ROUTE_PREFIX}
-                component={(): JSX.Element => {
+                component={() => {
                     navigateToWelcomePage();
                     return <LoadingPage />;
                 }}

@@ -7,7 +7,6 @@ import {
     stegEnAnnetArbeidsforholdIsValid,
     stegEnListeAvArbeidsforholdIsValid,
 } from './components/arbeidsforholdValidations';
-import { harFosterbarnOgListeAvFosterbarnIsValid } from './components/fosterbarnValidations';
 import { utenlandsoppholdFormIsValid } from './components/utenlandsoppholdValidations';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { AndreUtbetalinger } from '../types/AndreUtbetalinger';
@@ -20,14 +19,11 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Søkn
 export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
     const listeAvArbeidsforhold = formData[SøknadFormField.arbeidsforhold];
     const annetArbeidsforhold = formData[SøknadFormField.annetArbeidsforhold];
-    const harFosterbarn = formData[SøknadFormField.harFosterbarn];
-    const listeAvFosterbarn = formData[SøknadFormField.fosterbarn];
 
     if (
         harMinimumEtGjeldendeArbeidsforhold([...listeAvArbeidsforhold, annetArbeidsforhold]) &&
         stegEnListeAvArbeidsforholdIsValid(listeAvArbeidsforhold) &&
-        stegEnAnnetArbeidsforholdIsValid(annetArbeidsforhold) &&
-        harFosterbarnOgListeAvFosterbarnIsValid(harFosterbarn, listeAvFosterbarn)
+        stegEnAnnetArbeidsforholdIsValid(annetArbeidsforhold)
     ) {
         return true;
     } else {

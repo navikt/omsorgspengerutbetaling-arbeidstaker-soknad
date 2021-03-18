@@ -20,6 +20,7 @@ import { createFieldValidationError, fieldIsRequiredError } from 'common/validat
 import { FieldValidationResult } from 'common/validation/types';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 import { datesCollide } from './dateValidationUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 dayjs.extend(isBetween);
 
@@ -53,6 +54,14 @@ export enum AppFieldValidationErrors {
     'ingen_dokumenter' = 'fieldvalidation.ingen_dokumenter',
     'ikke_lørdag_eller_søndag_periode' = 'fieldvalidation.saturday_and_sunday_not_possible_periode',
     'ikke_lørdag_eller_søndag_dag' = 'fieldvalidation.saturday_and_sunday_not_possible_dag',
+
+    'førsteDagMedFravære_påkrevd' = 'fieldvalidation.førsteDagMedFravære_påkrevd',
+    'førsteDagMedFravære_ugyldigTidsperiode' = 'fieldvalidation.førsteDagMedFravære_ugyldigTidsperiode',
+    'sisteDagMedFravære_påkrevd' = 'fieldvalidation.sisteDagMedFravære_påkrevd',
+    'sisteDagMedFravære_ugyldigTidsperiode' = 'fieldvalidation.sisteDagMedFravære_ugyldigTidsperiode',
+    'sisteDagMedFravære_ikkeSammeÅrSomFørsteDag' = 'fieldvalidation.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag',
+    'aleneomsorgFor_påkrevd' = 'fieldvalidation.aleneomsorgFor_påkrevd',
+    'andreBarn_påkrevd' = 'fieldvalidation.andreBarn_påkrevd',
 }
 
 export const createAppFieldValidationError = (
@@ -266,6 +275,50 @@ export const alleDokumenterISøknadenToFieldValidationResult = (attachments: Att
     // }
     if (uploadedAttachments.length > 100) {
         return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
+    }
+    return undefined;
+};
+
+export const validateFørsteDagMedFravær = (value: string | undefined): FieldValidationResult => {
+    const førsteDag = datepickerUtils.getDateFromDateString(value);
+    if (førsteDag === undefined) {
+        return createFieldValidationError(AppFieldValidationErrors.førsteDagMedFravære_påkrevd);
+    }
+    if (dayjs(førsteDag).isBefore(date1YearAgo, 'day') || dayjs(førsteDag).isAfter(dateToday, 'day')) {
+        return createFieldValidationError(AppFieldValidationErrors.førsteDagMedFravære_ugyldigTidsperiode);
+    }
+
+    return undefined;
+};
+
+export const validateSisteDagMedFravær = (
+    value: string | undefined,
+    førsteDagMedFravær: string | undefined
+): FieldValidationResult => {
+    const førsteDag = datepickerUtils.getDateFromDateString(førsteDagMedFravær);
+    const sisteDag = datepickerUtils.getDateFromDateString(value);
+    if (sisteDag === undefined) {
+        return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_påkrevd);
+    }
+    if (dayjs(sisteDag).isBefore(førsteDag || date1YearAgo, 'day') || dayjs(sisteDag).isAfter(dateToday, 'day')) {
+        return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_ugyldigTidsperiode);
+    }
+    if (førsteDag && dayjs(sisteDag).get('year') !== dayjs(førsteDag).get('year')) {
+        return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag);
+    }
+    return undefined;
+};
+
+export const validateAleneomsorgForBarn = (barn: string[]): FieldValidationResult => {
+    if (barn.length === 0) {
+        return createFieldValidationError(AppFieldValidationErrors.aleneomsorgFor_påkrevd);
+    }
+    return undefined;
+};
+
+export const validateAndreBarn = (barn: string[]): FieldValidationResult => {
+    if (barn.length === 0) {
+        return createFieldValidationError(AppFieldValidationErrors.andreBarn_påkrevd);
     }
     return undefined;
 };

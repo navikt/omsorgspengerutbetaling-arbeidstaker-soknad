@@ -137,7 +137,6 @@ export const gyldigSøknadApiData1: SøknadApiData = {
     andreUtbetalinger: [],
     erSelvstendig: false,
     erFrilanser: false,
-    fosterbarn: null,
     hjemmePgaSmittevernhensyn: false,
     hjemmePgaStengtBhgSkole: false,
     vedlegg: [],

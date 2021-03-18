@@ -20,6 +20,14 @@ export interface SøkerApiResponse {
     myndig: boolean;
 }
 
+export interface Barn {
+    fornavn: string;
+    etternavn: string;
+    mellomnavn?: string;
+    aktørId: string;
+    fødselsdato: Date;
+}
+
 export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse is SøkerApiResponse => {
     if (
         isObject(søkerApiResponse) &&

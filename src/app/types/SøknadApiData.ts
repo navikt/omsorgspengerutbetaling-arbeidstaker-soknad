@@ -29,13 +29,6 @@ export interface YesNoSpørsmålOgSvar {
     spørsmål: Spørsmål;
     svar: YesNoSvar;
 }
-
-export interface FosterbarnApi {
-    fødselsnummer: string;
-    fornavn: string | null;
-    etternavn: string | null;
-}
-
 export interface Bekreftelser {
     harBekreftetOpplysninger: boolean;
     harForståttRettigheterOgPlikter: boolean;
@@ -93,7 +86,6 @@ export interface SøknadApiData {
     andreUtbetalinger: string[];
     erSelvstendig: boolean;
     erFrilanser: boolean;
-    fosterbarn: FosterbarnApi[] | null;
     hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
     hjemmePgaStengtBhgSkole?: boolean;

@@ -1,10 +1,10 @@
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { AndreUtbetalinger } from './AndreUtbetalinger';
 import { ArbeidsforholdFormData, initialArbeidsforholdFormData } from './ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
 import { SelvstendigOgEllerFrilans } from './SelvstendigOgEllerFrilansTypes';
+import { AnnetBarn } from '@navikt/sif-common-forms/lib/annet-barn/types';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -14,13 +14,14 @@ export enum SøknadFormField {
     førsteDagMedFravær = 'førsteDagMedFravær',
     sisteDagMedFravær = 'sisteDagMedFravær',
 
+    // Barn
+    andreBarn = 'andreBarn',
+    harAleneomsorg = 'harAleneomsorg',
+    harAleneomsorgFor = 'harAleneomsorgFor',
+
     // Arbeidsforhold
     arbeidsforhold = 'arbeidsforhold',
     annetArbeidsforhold = 'annetArbeidsforhold',
-
-    // Fosterbarn
-    harFosterbarn = 'harFosterbarn',
-    fosterbarn = 'fosterbarn',
 
     // Opphold Utland
     perioderHarVærtIUtlandet = 'perioderHarVærtIUtlandet',
@@ -55,13 +56,14 @@ export interface SøknadFormData {
     [SøknadFormField.førsteDagMedFravær]?: string;
     [SøknadFormField.sisteDagMedFravær]?: string;
 
+    // Barn
+    [SøknadFormField.andreBarn]: AnnetBarn[];
+    [SøknadFormField.harAleneomsorg]: YesOrNo;
+    [SøknadFormField.harAleneomsorgFor]: Array<string>;
+
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
     [SøknadFormField.annetArbeidsforhold]: ArbeidsforholdFormData;
-
-    // Fosterbarn
-    [SøknadFormField.harFosterbarn]: YesOrNo;
-    [SøknadFormField.fosterbarn]: Fosterbarn[];
 
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo;
@@ -92,13 +94,14 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
+    // Barn
+    [SøknadFormField.andreBarn]: [],
+    [SøknadFormField.harAleneomsorg]: YesOrNo.UNANSWERED,
+    [SøknadFormField.harAleneomsorgFor]: [],
+
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: [],
     [SøknadFormField.annetArbeidsforhold]: initialArbeidsforholdFormData,
-
-    // Fosterbarn
-    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fosterbarn]: [],
 
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
