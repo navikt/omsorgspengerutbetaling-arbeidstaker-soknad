@@ -6,7 +6,6 @@ import { StepID } from '../config/stepConfig';
 import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage, TemporaryStorageVersion as CurrentTemporaryStorageVersion } from '../types/TemporaryStorage';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import SøknadTempStorage from './SøknadTempStorage';
 import { søkerApiResponseToPerson } from '../utils/typeUtils';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
@@ -75,15 +74,10 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
     useEffect(() => {
         async function loadAppEssentials(): Promise<void> {
             try {
-                if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-                    const [søkerApiResponse, tempStorage]: Array<
-                        AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
-                    > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
-                    handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
-                } else {
-                    const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
-                    handleSøkerdataFetchSuccess(søkerApiResponse);
-                }
+                const [søkerApiResponse, tempStorage]: Array<
+                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
+                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
+                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
             } catch (error) {
                 const willRedirect = redirectIfForbiddenOrUnauthorized(error);
                 if (willRedirect === WillRedirect.No) {

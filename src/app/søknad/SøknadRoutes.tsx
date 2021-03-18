@@ -9,7 +9,6 @@ import { StepID } from '../config/stepConfig';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils/navigationUtils';
 import { getMaybeSøknadRoute, getNextStepId, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
@@ -56,17 +55,15 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     const { logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
 
     async function navigateToStep(stepID: StepID) {
-        if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-            try {
-                await SøknadTempStorage.update(values, stepID);
-            } catch (error) {
-                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                    logUserLoggedOut('Ved mellomlagring');
-                    navigateToLoginPage();
-                } else {
-                    setShowErrorMessage(true);
-                    appSentryLogger.logApiError(error);
-                }
+        try {
+            await SøknadTempStorage.update(values, stepID);
+        } catch (error) {
+            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                logUserLoggedOut('Ved mellomlagring');
+                navigateToLoginPage();
+            } else {
+                setShowErrorMessage(true);
+                appSentryLogger.logApiError(error);
             }
         }
         navigateTo(getSøknadRoute(stepID), history);
@@ -121,12 +118,10 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
         setSøknadHasBeenSent(true);
         setSøknadApiData(sentSøknadApiData);
         resetForm();
-        if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
-            try {
-                await SøknadTempStorage.purge();
-            } catch (error) {
-                appSentryLogger.logApiError(error);
-            }
+        try {
+            await SøknadTempStorage.purge();
+        } catch (error) {
+            appSentryLogger.logApiError(error);
         }
         navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
         setIsLoading(false);
