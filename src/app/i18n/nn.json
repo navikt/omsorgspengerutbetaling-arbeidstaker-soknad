@@ -108,10 +108,10 @@
     "step.har_utbetalt_de_første_ti_dagene.frivillig_forsikring.spm": "Eg har frivillig forsikring for tilleggssjukepengar som gjeld frå 1. dag",
     "step.har_utbetalt_de_første_ti_dagene.nettop_startet_selvstendig_frilanser.spm": "Eg har jobba som sjølvstendig næringsdrivande / frilansar i mindre enn 4 veker",
 
-    "step.periode.pageTitle": "Kva dagar søkjer du utbetaling for?",
-    "step.periode.stepTitle": "Kva dagar søkjer du utbetaling for?",
-    "step.periode.stepIndicatorLabel": "Kva dagar søkjer du utbetaling for?",
-    "step.periode.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm": "Har du vore i utlandet nokre av dagane du søkjer omsorgspengar for?",
+    "step.fravær.pageTitle": "Kva dagar søkjer du utbetaling for?",
+    "step.fravær.stepTitle": "Kva dagar søkjer du utbetaling for?",
+    "step.fravær.stepIndicatorLabel": "Kva dagar søkjer du utbetaling for?",
+    "step.fravær.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm": "Har du vore i utlandet nokre av dagane du søkjer omsorgspengar for?",
 
     "step.hvis-utenlandsopphold.pageTitle": "Opphald i utlandet",
     "step.hvis-utenlandsopphold.stepTitle": "Spesifiser kva periodar du har opphalde deg i utlandet",
@@ -446,8 +446,8 @@
     "step.vedlegg.pageTitle": "Last opp dokument",
     "steg.dokumenter.vedlegg": "Last opp forklaringa frå arbeidsgivaren",
     "steg.dokumenter.smittevernVedlegg": "Last opp stadfestinga frå legen",
-    "step.periode.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalingar frå NAV for same perioden?",
-    "step.periode.hvilke_utbetalinger.spm": "Kva andre utbetalingar frå NAV har du søkt om?",
+    "step.fravær.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalingar frå NAV for same perioden?",
+    "step.fravær.hvilke_utbetalinger.spm": "Kva andre utbetalingar frå NAV har du søkt om?",
     "andre_utbetalinger.dagpenger": "Dagpengar",
     "andre_utbetalinger.sykepenger": "Sjukepengar",
 

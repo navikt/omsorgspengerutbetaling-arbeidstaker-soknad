@@ -75,7 +75,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
             <FormBlock margin={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.perioderHarVærtIUtlandet}
-                    legend={intlHelper(intl, 'step.periode.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm')}
+                    legend={intlHelper(intl, 'step.fravær.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
             </FormBlock>
@@ -163,14 +163,14 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
             <FormBlock>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.harSøktAndreUtbetalinger}
-                    legend={intlHelper(intl, 'step.periode.har_søkt_andre_utbetalinger.spm')}
+                    legend={intlHelper(intl, 'step.fravær.har_søkt_andre_utbetalinger.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
                 {values.harSøktAndreUtbetalinger === YesOrNo.YES && (
                     <FormBlock>
                         <SøknadFormComponents.CheckboxPanelGroup
                             name={SøknadFormField.andreUtbetalinger}
-                            legend={intlHelper(intl, 'step.periode.hvilke_utbetalinger.spm')}
+                            legend={intlHelper(intl, 'step.fravær.hvilke_utbetalinger.spm')}
                             checkboxes={[
                                 {
                                     id: AndreUtbetalinger.dagpenger,

@@ -13,7 +13,7 @@ import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils
 import { getMaybeSøknadRoute, getNextStepId, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
-import PeriodeStep from './periode-step/PeriodeStep';
+import FraværStep from './fravær-step/FraværStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
@@ -171,13 +171,13 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             />
 
             <Route
-                path={getMaybeSøknadRoute(StepID.PERIODE)}
+                path={getMaybeSøknadRoute(StepID.FRAVÆR)}
                 exact={true}
                 render={(): JSX.Element => {
                     return ifAvailable(
-                        StepID.PERIODE,
+                        StepID.FRAVÆR,
                         values,
-                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
+                        <FraværStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.FRAVÆR)} />
                     );
                 }}
             />

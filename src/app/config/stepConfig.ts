@@ -3,7 +3,7 @@ import routeConfig from './routeConfig';
 
 export enum StepID {
     'SITUASJON' = 'situasjon',
-    'PERIODE' = 'periode',
+    'FRAVÆR' = 'fravær',
     'ANNET' = 'annet',
     'MEDLEMSKAP' = 'medlemskap',
     'OPPSUMMERING' = 'oppsummering',
@@ -42,11 +42,11 @@ export const getStepConfig = (): StepConfigInterface => {
         [StepID.SITUASJON]: {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
-            nextStep: StepID.PERIODE,
+            nextStep: StepID.FRAVÆR,
             backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
         },
-        [StepID.PERIODE]: {
-            ...getStepConfigItemTextKeys(StepID.PERIODE),
+        [StepID.FRAVÆR]: {
+            ...getStepConfigItemTextKeys(StepID.FRAVÆR),
             index: idx++,
             nextStep: StepID.ANNET,
             backLinkHref: getMaybeSøknadRoute(StepID.SITUASJON),
@@ -55,7 +55,7 @@ export const getStepConfig = (): StepConfigInterface => {
             ...getStepConfigItemTextKeys(StepID.ANNET),
             index: idx++,
             nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getMaybeSøknadRoute(StepID.PERIODE),
+            backLinkHref: getMaybeSøknadRoute(StepID.FRAVÆR),
         },
         [StepID.MEDLEMSKAP]: {
             ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),

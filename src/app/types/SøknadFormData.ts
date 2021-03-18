@@ -10,6 +10,10 @@ export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
+    // Avgrense periodevalg
+    førsteDagMedFravær = 'førsteDagMedFravær',
+    sisteDagMedFravær = 'sisteDagMedFravær',
+
     // Arbeidsforhold
     arbeidsforhold = 'arbeidsforhold',
     annetArbeidsforhold = 'annetArbeidsforhold',
@@ -47,6 +51,9 @@ export enum SøknadFormField {
 export interface SøknadFormData {
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
+
+    [SøknadFormField.førsteDagMedFravær]?: string;
+    [SøknadFormField.sisteDagMedFravær]?: string;
 
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];

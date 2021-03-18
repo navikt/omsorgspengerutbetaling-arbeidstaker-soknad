@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -19,8 +20,7 @@ import {
     skalInkludereArbeidsforhold,
 } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
-import './periodeStep.less';
-import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
+import './fraværStep.less';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -49,7 +49,7 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
     };
 };
 
-const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
+const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
 
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
@@ -73,7 +73,7 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
 
     return (
         <SøknadStep
-            id={StepID.PERIODE}
+            id={StepID.FRAVÆR}
             onValidFormSubmit={() => {
                 onValidSubmit();
             }}
@@ -118,4 +118,4 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     );
 };
 
-export default PeriodeStep;
+export default FraværStep;
