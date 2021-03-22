@@ -3,12 +3,14 @@ import axiosConfig from '../config/axiosConfig';
 import { ResourceType } from '../types/ResourceType';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
-import { ArbeidsgiverResponse, SøkerApiResponse } from '../types/Søkerdata';
+import { ArbeidsgiverResponse, SøkerApiResponse, BarnApiResponse } from '../types/Søkerdata';
 import { navigateToLoginPage } from '../utils/navigationUtils';
 import { WillRedirect } from '../types/types';
 
 export const getSøker: () => Promise<AxiosResponse<SøkerApiResponse>> = () =>
     axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
+
+export const getBarn = () => axios.get<BarnApiResponse>(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
 
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<ArbeidsgiverResponse>> =>
     axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);

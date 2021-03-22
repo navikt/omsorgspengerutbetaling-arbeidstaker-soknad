@@ -20,6 +20,16 @@ export interface SøkerApiResponse {
     myndig: boolean;
 }
 
+export interface BarnApiResponse {
+    barnOppslag: {
+        fødselsdato: string;
+        fornavn: string;
+        mellomnavn: string | null;
+        etternavn: string;
+        aktørId: string;
+    }[];
+}
+
 export interface Barn {
     fornavn: string;
     etternavn: string;
@@ -47,6 +57,7 @@ export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse i
 
 export interface Søkerdata {
     person: Person;
+    barn: Barn[];
 }
 
 export interface ArbeidsgiverResponse {

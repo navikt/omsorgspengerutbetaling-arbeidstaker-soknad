@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
-import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
+import { getBarn, getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
-import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
+import { BarnApiResponse, isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
 import { TemporaryStorage, TemporaryStorageVersion as CurrentTemporaryStorageVersion } from '../types/TemporaryStorage';
 import SøknadTempStorage from './SøknadTempStorage';
-import { søkerApiResponseToPerson } from '../utils/typeUtils';
+import { barnApiResponseToPerson, søkerApiResponseToPerson } from '../utils/typeUtils';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 import { WillRedirect } from '../types/types';
 import { isSøknadFormData } from '../types/SøknadFormDataTypeGuards';
@@ -41,8 +41,9 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
     const { isLoading, søkerdata, formData, lastStepID } = state;
     const [doApiCalls, setDoApiCalls] = useState<boolean>(true);
 
-    const handleSøkerdataFetchSuccess = (
+    const handleSøknadEssentialsFetchSuccess = (
         søkerResponse: AxiosResponse<SøkerApiResponse>,
+        barnResponse: AxiosResponse<BarnApiResponse>,
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
     ) => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
@@ -56,6 +57,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
         const updatedSokerData: Søkerdata | undefined = isSøkerApiResponse(søkerResponse.data)
             ? {
                   person: søkerApiResponseToPerson(søkerResponse.data),
+                  barn: barnApiResponseToPerson(barnResponse.data),
               }
             : undefined;
 
@@ -74,10 +76,10 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
     useEffect(() => {
         async function loadAppEssentials(): Promise<void> {
             try {
-                const [søkerApiResponse, tempStorage]: Array<
-                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
-                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
-                handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
+                const [søkerApiResponse, barnApiResponse, tempStorage]: Array<
+                    AxiosResponse<SøkerApiResponse> | AxiosResponse<BarnApiResponse> | AxiosResponse<TemporaryStorage>
+                > = await Promise.all([getSøker(), getBarn(), SøknadTempStorage.rehydrate()]);
+                handleSøknadEssentialsFetchSuccess(søkerApiResponse, barnApiResponse, tempStorage);
             } catch (error) {
                 const willRedirect = redirectIfForbiddenOrUnauthorized(error);
                 if (willRedirect === WillRedirect.No) {

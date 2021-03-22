@@ -27,7 +27,7 @@ const server = express();
 
 server.use(express.json());
 server.use((req, res, next) => {
-    const allowedOrigins = ['http://localhost:8080'];
+    const allowedOrigins = ['http://localhost:8080', 'http://localhost:8090'];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
         res.set('Access-Control-Allow-Origin', requestOrigin);
@@ -92,7 +92,7 @@ const readFileSync = (path) => {
 const existsSync = (path) => fs.existsSync(path);
 
 const startServer = () => {
-    const port = 8083;
+    const port = 8093;
 
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
