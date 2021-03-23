@@ -18,6 +18,7 @@ export interface UtbetalingsperiodeDag {
     dato: string;
     antallTimerPlanlagt: Time;
     antallTimerBorte: Time;
+    årsak: FraværÅrsak;
 }
 
 const isUtbetalingsperiode = (value: any): value is Utbetalingsperiode => {
@@ -49,6 +50,7 @@ export const toMaybeUtbetalingsperiodeDag = (p: Utbetalingsperiode): Utbetalings
                 dato: p.fraOgMed,
                 antallTimerPlanlagt: antallTimerPlanlagtTime,
                 antallTimerBorte: antallTimerBorteTime,
+                årsak: p.årsak,
             };
         }
     }
@@ -67,15 +69,20 @@ export const utbetalingsperiodeDagToDagSummaryStringView = (dag: Utbetalingsperi
         `${timeToDecimalTime(dag.antallTimerBorte)}`
     )}`;
     return (
-        <FormattedMessage
-            tagName="span"
-            id="steg.oppsummering.utbetaling.delvisFravær.item"
-            values={{
-                dato: prettifyDateExtended(apiStringDateToDate(dag.dato)),
-                timerSkulleJobbet: antallTimerSkulleJobbet,
-                timerBorte: antallTimerBorteFraJobb,
-            }}
-        />
+        <>
+            <FormattedMessage
+                tagName="span"
+                id="steg.oppsummering.utbetaling.delvisFravær.item"
+                values={{
+                    dato: prettifyDateExtended(apiStringDateToDate(dag.dato)),
+                    timerSkulleJobbet: antallTimerSkulleJobbet,
+                    timerBorte: antallTimerBorteFraJobb,
+                }}
+            />
+            {dag.årsak !== FraværÅrsak.ordinært && (
+                <FormattedMessage id={`steg.oppsummering.utbetaling.fravær.årsak.${dag.årsak}`} />
+            )}
+        </>
     );
 };
 
