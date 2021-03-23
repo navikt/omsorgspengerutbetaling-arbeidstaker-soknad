@@ -1,3 +1,6 @@
+import { SøknadFormData } from '../types/SøknadFormData';
+import { getAlleUtbetalingsperioder } from '../utils/arbeidsforholdUtils';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from '../utils/periodeUtils';
 import { getMaybeSøknadRoute } from '../utils/routeUtils';
 import RouteConfig from './routeConfig';
 
@@ -38,10 +41,34 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
     };
 };
 
-export const getStepConfig = (): StepConfigInterface => {
+export const getStepConfig = (values: SøknadFormData): StepConfigInterface => {
     let idx = 0;
 
-    return {
+    const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values);
+    const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
+    const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
+
+    const getMedlemskapPrevStep = (): StepID => {
+        if (visDokumenterSmittevern) {
+            return StepID.DOKUMENTER_SMITTEVERNHENSYN;
+        }
+        if (visDokumenterStengtBhgSkole) {
+            return StepID.DOKUMENTER_STENGT_SKOLE_BHG;
+        }
+        return StepID.ANNET;
+    };
+
+    const getAnnetNextStep = (): StepID => {
+        if (visDokumenterStengtBhgSkole) {
+            return StepID.DOKUMENTER_STENGT_SKOLE_BHG;
+        }
+        if (visDokumenterSmittevern) {
+            return StepID.DOKUMENTER_SMITTEVERNHENSYN;
+        }
+        return StepID.MEDLEMSKAP;
+    };
+
+    const config: StepConfigInterface = {
         [StepID.BARN]: {
             ...getStepConfigItemTextKeys(StepID.BARN),
             index: idx++,
@@ -63,26 +90,47 @@ export const getStepConfig = (): StepConfigInterface => {
         [StepID.ANNET]: {
             ...getStepConfigItemTextKeys(StepID.ANNET),
             index: idx++,
-            nextStep: StepID.MEDLEMSKAP,
+            nextStep: getAnnetNextStep(),
             backLinkHref: getMaybeSøknadRoute(StepID.FRAVÆR),
         },
-        [StepID.MEDLEMSKAP]: {
-            ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
-            index: idx++,
-            nextStep: StepID.OPPSUMMERING,
-            backLinkHref: getMaybeSøknadRoute(StepID.ANNET),
-        },
-        [StepID.OPPSUMMERING]: {
-            ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),
-            index: idx++,
-            backLinkHref: getMaybeSøknadRoute(StepID.MEDLEMSKAP),
-            nextButtonLabel: 'step.sendButtonLabel',
-        },
     };
+
+    if (visDokumenterStengtBhgSkole) {
+        config[StepID.DOKUMENTER_STENGT_SKOLE_BHG] = {
+            ...getStepConfigItemTextKeys(StepID.DOKUMENTER_STENGT_SKOLE_BHG),
+            index: idx++,
+            nextStep: visDokumenterSmittevern ? StepID.DOKUMENTER_SMITTEVERNHENSYN : StepID.MEDLEMSKAP,
+            backLinkHref: getMaybeSøknadRoute(StepID.ANNET),
+        };
+    }
+    if (visDokumenterSmittevern) {
+        config[StepID.DOKUMENTER_SMITTEVERNHENSYN] = {
+            ...getStepConfigItemTextKeys(StepID.DOKUMENTER_SMITTEVERNHENSYN),
+            index: idx++,
+            nextStep: StepID.MEDLEMSKAP,
+            backLinkHref: getMaybeSøknadRoute(
+                visDokumenterStengtBhgSkole ? StepID.DOKUMENTER_STENGT_SKOLE_BHG : StepID.FRAVÆR
+            ),
+        };
+    }
+    config[StepID.MEDLEMSKAP] = {
+        ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
+        index: idx++,
+        nextStep: StepID.OPPSUMMERING,
+        backLinkHref: getMaybeSøknadRoute(getMedlemskapPrevStep()),
+    };
+    config[StepID.OPPSUMMERING] = {
+        ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),
+        index: idx++,
+        backLinkHref: getMaybeSøknadRoute(StepID.MEDLEMSKAP),
+        nextButtonLabel: 'step.sendButtonLabel',
+    };
+
+    return config;
 };
 
 export interface StepConfigProps {
     onValidSubmit: () => void;
 }
 
-export const stepConfig: StepConfigInterface = getStepConfig();
+// export const stepConfig: StepConfigInterface = getStepConfig();

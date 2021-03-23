@@ -87,4 +87,6 @@ export const getAlleUtbetalingsperioder = (values: SøknadFormData): Utbetalings
         [...arbeidsforholdPerioder, ...annetPeriode],
         [...arbeidsforholdDager, ...annetDag]
     );
+
+    console.log('who');
 };

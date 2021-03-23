@@ -26,6 +26,8 @@ import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
+import SmittevernDokumenterStep from './smittevern-dokumenter-step/SmittvernDokumenterStep';
+import StengtBhgSkoleDokumenterStep from './stengt-bhg-skole-dokumenter-step/StengtBhgSkoleDokumenterStep';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -77,7 +79,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
     };
 
     const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
-        const nextStepID: StepID | undefined = getNextStepId(stepID);
+        const nextStepID: StepID | undefined = getNextStepId(stepID, values);
         if (nextStepID) {
             navigateToStep(nextStepID);
         }
@@ -205,6 +207,34 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
                         StepID.ANNET,
                         values,
                         <AnnetStepView onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
+                    );
+                }}
+            />
+
+            <Route
+                path={getMaybeSøknadRoute(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
+                exact={true}
+                render={() => {
+                    return ifAvailable(
+                        StepID.DOKUMENTER_SMITTEVERNHENSYN,
+                        values,
+                        <SmittevernDokumenterStep
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
+                        />
+                    );
+                }}
+            />
+
+            <Route
+                path={getMaybeSøknadRoute(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
+                exact={true}
+                render={() => {
+                    return ifAvailable(
+                        StepID.DOKUMENTER_STENGT_SKOLE_BHG,
+                        values,
+                        <StengtBhgSkoleDokumenterStep
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
+                        />
                     );
                 }}
             />

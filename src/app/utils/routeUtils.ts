@@ -18,13 +18,13 @@ export const getMaybeSøknadRoute = (stepId: StepID | undefined): string | undef
 
 export const getSøknadRoute = (stepId: StepID): string => `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
 
-export const getNextStepRoute = (stepId: StepID): string | undefined => {
-    const stepConfig = getStepConfig();
+export const getNextStepRoute = (stepId: StepID, values: SøknadFormData): string | undefined => {
+    const stepConfig = getStepConfig(values);
     return stepConfig[stepId] ? getMaybeSøknadRoute(stepConfig[stepId].nextStep) : undefined;
 };
 
-export const getNextStepId = (stepId: StepID): StepID | undefined => {
-    const stepConfig = getStepConfig();
+export const getNextStepId = (stepId: StepID, values: SøknadFormData): StepID | undefined => {
+    const stepConfig = getStepConfig(values);
     return stepConfig[stepId] ? stepConfig[stepId].nextStep : undefined;
 };
 
