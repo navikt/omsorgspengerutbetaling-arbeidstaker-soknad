@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -15,10 +14,7 @@ import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbei
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import {
-    checkAllePerioderErInnenforSammeKalenderår,
-    skalInkludereArbeidsforhold,
-} from '../../validation/components/arbeidsforholdValidations';
+import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './fraværStep.less';
 
@@ -103,17 +99,6 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     annetArbeidsforholdName={annetArbeidsforholdName}
                 />
             )}
-            <FormikInputGroup
-                name={'kontrollerÅr'}
-                legend="Test me"
-                validate={() =>
-                    checkAllePerioderErInnenforSammeKalenderår(
-                        [...values.arbeidsforhold, values.annetArbeidsforhold],
-                        'Feil'
-                    )
-                }>
-                Content in group
-            </FormikInputGroup>
         </SøknadStep>
     );
 };

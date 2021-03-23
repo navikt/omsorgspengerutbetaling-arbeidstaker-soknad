@@ -25,7 +25,7 @@ const validAttachment: Attachment = {
 const gylidgPeriodeMedFravær1: FraværPeriode = {
     fraOgMed: new Date('2020-01-01'),
     tilOgMed: new Date('2020-01-02'),
-    årsak: FraværÅrsak.annet,
+    årsak: FraværÅrsak.ordinært,
 };
 
 const validPerioderMedFravær: FraværPeriode[] = [gylidgPeriodeMedFravær1];
@@ -34,7 +34,7 @@ const validFraværDelerAvDag: FraværDag = {
     dato: new Date('2020-02-01'),
     timerArbeidsdag: '6',
     timerFravær: '3',
-    årsak: FraværÅrsak.annet,
+    årsak: FraværÅrsak.ordinært,
 };
 
 const validListeAvFraværDelerAvDag: FraværDag[] = [validFraværDelerAvDag];

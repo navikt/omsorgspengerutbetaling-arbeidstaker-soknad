@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { FormikProps, useFormikContext } from 'formik';
+import { redirectIfForbiddenOrUnauthorized } from '../api/api';
+import { SKJEMANAVN } from '../App';
+import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
+import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import WelcomingPage from '../components/pages/welcoming-page/WelcomingPage';
 import RouteConfig from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { WillRedirect } from '../types/types';
+import * as apiUtils from '../utils/apiUtils';
+import appSentryLogger from '../utils/appSentryLogger';
 import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils/navigationUtils';
 import { getMaybeSøknadRoute, getNextStepId, getSøknadRoute, isAvailable } from '../utils/routeUtils';
+import AnnetStepView from './annet-step/AnnetStep';
+import BarnStep from './barn-step/BarnStep';
+import FraværStep from './fravær-step/FraværStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
-import FraværStep from './fravær-step/FraværStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
-import * as apiUtils from '../utils/apiUtils';
-import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
-import { redirectIfForbiddenOrUnauthorized } from '../api/api';
-import { WillRedirect } from '../types/types';
-import LoadingPage from '../components/pages/loading-page/LoadingPage';
-import AnnetStepView from './annet-step/AnnetStep';
-import appSentryLogger from '../utils/appSentryLogger';
-import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
-import { SKJEMANAVN } from '../App';
-import PeriodeStep from './periode-step/PeriodeStep';
-import BarnStep from './barn-step/BarnStep';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getPeriodeBoundaries } from '../utils/periodeUtils';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -74,7 +75,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
     const doStartSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
         await SøknadTempStorage.create();
-        navigateToStep(StepID.PERIODE);
+        navigateToStep(StepID.BARN);
     };
 
     const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
@@ -135,6 +136,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
     if (showErrorMessage) {
         return <GeneralErrorPage cause={'showErrorMessage in SøknadRoutes'} />;
     }
+
     return (
         <Switch>
             <Route
@@ -155,18 +157,6 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
                     );
                 }}
             />
-
-            <Route
-                path={getMaybeSøknadRoute(StepID.PERIODE)}
-                exact={true}
-                render={() => {
-                    return ifAvailable(
-                        StepID.PERIODE,
-                        values,
-                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
-                    );
-                }}
-            />
             <Route
                 path={getMaybeSøknadRoute(StepID.BARN)}
                 exact={true}
@@ -175,7 +165,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
                         StepID.BARN,
                         values,
                         <BarnStep
-                            registrerteBarn={[]}
+                            registrerteBarn={søkerdata.barn}
                             onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.BARN)}
                         />
                     );

@@ -21,6 +21,7 @@ import { FieldValidationResult } from 'common/validation/types';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 import { datesCollide } from './dateValidationUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
 
 dayjs.extend(isBetween);
 
@@ -62,6 +63,9 @@ export enum AppFieldValidationErrors {
     'sisteDagMedFravære_ikkeSammeÅrSomFørsteDag' = 'fieldvalidation.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag',
     'aleneomsorgFor_påkrevd' = 'fieldvalidation.aleneomsorgFor_påkrevd',
     'andreBarn_påkrevd' = 'fieldvalidation.andreBarn_påkrevd',
+
+    'fraværDagIkkeSammeÅrstall' = 'fieldvalidation.fraværDagIkkeSammeÅrstall',
+    'fraværPeriodeIkkeSammeÅrstall' = 'fieldvalidation.fraværPeriodeIkkeSammeÅrstall',
 }
 
 export const createAppFieldValidationError = (
@@ -319,6 +323,26 @@ export const validateAleneomsorgForBarn = (barn: string[]): FieldValidationResul
 export const validateAndreBarn = (barn: string[]): FieldValidationResult => {
     if (barn.length === 0) {
         return createFieldValidationError(AppFieldValidationErrors.andreBarn_påkrevd);
+    }
+    return undefined;
+};
+
+export const validateFraværDagHarÅrstall = (dager: FraværDag[], årstall?: number) => (): FieldValidationResult => {
+    if (årstall !== undefined) {
+        return dager.find((d) => d.dato.getFullYear() !== årstall)
+            ? createFieldValidationError(AppFieldValidationErrors.fraværDagIkkeSammeÅrstall)
+            : undefined;
+    }
+    return undefined;
+};
+export const validateFraværPeriodeHarÅrstall = (
+    perioder: FraværPeriode[],
+    årstall?: number
+) => (): FieldValidationResult => {
+    if (årstall !== undefined) {
+        return perioder.find((p) => p.fraOgMed.getFullYear() !== årstall || p.tilOgMed.getFullYear() !== årstall)
+            ? createFieldValidationError(AppFieldValidationErrors.fraværPeriodeIkkeSammeÅrstall)
+            : undefined;
     }
     return undefined;
 };

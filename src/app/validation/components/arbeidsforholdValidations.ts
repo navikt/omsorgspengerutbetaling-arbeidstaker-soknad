@@ -126,8 +126,6 @@ export const checkAllePerioderErInnenforSammeKalenderår = (
             .filter((d) => d !== undefined)
             .map((d) => d.getFullYear());
     });
-    console.log(årstall);
-
     const unikeÅrstall = uniq(årstall)[0];
     return unikeÅrstall !== undefined && uniq(unikeÅrstall).length > 1 ? errorMsg : undefined;
 };

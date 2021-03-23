@@ -101,7 +101,7 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
                                         tom: prettifyDate(apiStringDateToDate(periode.tilOgMed)),
                                     }}
                                 />
-                                {periode.årsak !== FraværÅrsak.annet && (
+                                {periode.årsak !== FraværÅrsak.ordinært && (
                                     <FormattedMessage
                                         id={`steg.oppsummering.utbetaling.fravær.årsak.${periode.årsak}`}
                                     />

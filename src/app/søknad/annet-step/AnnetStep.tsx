@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { date1YearAgo, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
-import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 import { useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
@@ -11,49 +11,30 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
+import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import SmittevernInfo from '../../components/information/SmittevernInfo';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { getAlleUtbetalingsperioder } from '../../utils/arbeidsforholdUtils';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import { mapFraværTilUtbetalingsperiode } from '../../utils/formToApiMaps/mapPeriodeToApiData';
+import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
+import { getPeriodeBoundaries } from '../../utils/periodeUtils';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
     const { perioderHarVærtIUtlandet } = values;
     const intl = useIntl();
 
-    const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
-        .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold.fraværPerioder;
-        })
-        .flat();
-
-    const arbeidsforholdDager: FraværDag[] = values.arbeidsforhold
-        .map((arbeidsforhold: ArbeidsforholdFormData) => {
-            return arbeidsforhold.fraværDager;
-        })
-        .flat();
-
-    const annetPeriode: FraværPeriode[] = values.annetArbeidsforhold.fraværPerioder;
-    const annetDag: FraværDag[] = values.annetArbeidsforhold.fraværDager;
-
-    const utbetalingsperioder: Utbetalingsperiode[] = mapFraværTilUtbetalingsperiode(
-        [...arbeidsforholdPerioder, ...annetPeriode],
-        [...arbeidsforholdDager, ...annetDag]
-    );
-
+    const utbetalingsperioder: Utbetalingsperiode[] = getAlleUtbetalingsperioder(values);
+    const førsteOgSisteDagMedFravær = getPeriodeBoundaries(utbetalingsperioder);
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 
     const sizeOver24Mb = getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
@@ -83,8 +64,8 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                 <FormBlock margin="l">
                     <BostedUtlandListAndDialog<SøknadFormField>
                         name={SøknadFormField.perioderUtenlandsopphold}
-                        minDate={date1YearAgo}
-                        maxDate={dateToday}
+                        minDate={førsteOgSisteDagMedFravær.min || date1YearAgo}
+                        maxDate={førsteOgSisteDagMedFravær.max || dateToday}
                         labels={{
                             addLabel: intlHelper(intl, 'step.annet.periodeoversikt.leggTilLabel'),
                             modalTitle: intlHelper(intl, 'step.annet.periodeoversikt.modalTittel'),

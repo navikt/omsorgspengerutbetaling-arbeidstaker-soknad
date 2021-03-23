@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ItemList from '@navikt/sif-common-core/lib/components/item-list/ItemList';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
@@ -14,6 +16,7 @@ import { AnnetBarn } from '@navikt/sif-common-forms/lib/annet-barn/types';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { CheckboksPanelProps } from 'nav-frontend-skjema';
+import FormSection from '../../components/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { Barn } from '../../types/Søkerdata';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -79,76 +82,88 @@ const BarnStep: React.FunctionComponent<Props> = ({ registrerteBarn, onValidSubm
         <SøknadStep id={StepID.BARN} onValidFormSubmit={onValidSubmit} cleanupStep={cleanupStep}>
             <FormBlock>
                 <CounsellorPanel>
-                    <p>{intlHelper(intl, 'step.barn.info')}</p>
+                    <p>
+                        <FormattedMessage id="steg.barn.info.1" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.barn.info.2" />
+                    </p>
                 </CounsellorPanel>
             </FormBlock>
 
-            {registrerteBarn.length === 0 ? (
-                <FormBlock>
+            <FormSection title={intlHelper(intl, 'steg.barn.dineBarn')}>
+                {registrerteBarn.length === 0 ? (
                     <AlertStripe type="info">
-                        <FormattedMessage id="step.barn.info.ingenBarnFunnet" />
+                        <FormattedMessage id="steg.barn.ingenBarnFunnet" />
                     </AlertStripe>
-                </FormBlock>
-            ) : (
-                <FormBlock>
-                    <ContentWithHeader header={intlHelper(intl, 'step.barn.registrerteBarn.listHeader')}>
+                ) : (
+                    <ContentWithHeader header={intlHelper(intl, 'steg.barn.registrerteBarn.listHeader')}>
                         <ItemList<Barn>
                             getItemId={(registrerteBarn): string => registrerteBarn.aktørId}
                             getItemTitle={(registrerteBarn): string => registrerteBarn.etternavn}
                             labelRenderer={(barn): React.ReactNode => barnItemLabelRenderer(barn)}
                             items={registrerteBarn}
                         />
+                        <p>
+                            <FormattedMessage id="steg.barn.flereBarn.info" />
+                        </p>
                     </ContentWithHeader>
+                )}
+                <FormBlock>
+                    <AnnetBarnListAndDialog<SøknadFormField>
+                        name={SøknadFormField.andreBarn}
+                        includeFødselsdatoSpørsmål={false}
+                        labels={{
+                            addLabel: intlHelper(intl, 'steg.barn.annetBarn.addLabel'),
+                            listTitle: intlHelper(intl, 'steg.barn.annetBarn.listTitle'),
+                            modalTitle: intlHelper(intl, 'steg.barn.annetBarn.modalTitle'),
+                        }}
+                        maxDate={dateToday}
+                        minDate={nYearsAgo(18)}
+                        aldersGrenseText={intlHelper(intl, 'steg.barn.aldersGrenseInfo')}
+                        validate={harBarn ? undefined : validateAndreBarn}
+                    />
                 </FormBlock>
-            )}
+            </FormSection>
 
-            <FormBlock>
-                <ContentWithHeader
-                    header={
-                        registrerteBarn.length === 0
-                            ? intlHelper(intl, 'step.barn.info.title.andreBarn')
-                            : intlHelper(intl, 'step.barn.info.title.flereBarn')
-                    }>
-                    {intlHelper(intl, 'step.barn.info.text')}
-                </ContentWithHeader>
-            </FormBlock>
-            <FormBlock>
-                <AnnetBarnListAndDialog<SøknadFormField>
-                    name={SøknadFormField.andreBarn}
-                    includeFødselsdatoSpørsmål={false}
-                    labels={{
-                        addLabel: intlHelper(intl, 'step.barn.annetBarn.addLabel'),
-                        listTitle: intlHelper(intl, 'step.barn.annetBarn.listTitle'),
-                        modalTitle: intlHelper(intl, 'step.barn.annetBarn.modalTitle'),
-                    }}
-                    maxDate={dateToday}
-                    minDate={nYearsAgo(18)}
-                    aldersGrenseText={intlHelper(intl, 'step.barn.aldersGrenseInfo')}
-                    validate={harBarn ? undefined : validateAndreBarn}
-                />
-            </FormBlock>
-
-            <FormBlock>
+            <FormSection title="Aleneomsorg">
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.harAleneomsorg}
+                    description={
+                        <ExpandableInfo title={intlHelper(intl, 'steg.barn.aleneomsorg.info.tittel')}>
+                            <p style={{ marginTop: '0' }}>
+                                <FormattedMessage id="steg.barn.aleneomsorg.info.tekst.1" />
+                            </p>
+                            <p>
+                                <FormattedMessage id="steg.barn.aleneomsorg.info.tekst.2" />
+                            </p>
+                        </ExpandableInfo>
+                    }
                     legend={
                         antallBarn === 1
-                            ? intlHelper(intl, 'step.barn.harAleneOmsorg.ettBarn.spm')
-                            : intlHelper(intl, 'step.barn.harAleneOmsorg.flereBarn.spm')
+                            ? intlHelper(intl, 'steg.barn.harAleneOmsorg.ettBarn.spm')
+                            : intlHelper(intl, 'steg.barn.harAleneOmsorg.flereBarn.spm')
                     }
                     validate={validateYesOrNoIsAnswered}
                 />
-            </FormBlock>
-            {harAleneomsorg === YesOrNo.YES && (
-                <FormBlock>
-                    <SøknadFormComponents.CheckboxPanelGroup
-                        legend={intlHelper(intl, 'step.barn.hvilkeAvBarnaAleneomsorg.spm')}
-                        name={SøknadFormField.harAleneomsorgFor}
-                        checkboxes={barnOptions}
-                        validate={validateAleneomsorgForBarn}
-                    />
-                </FormBlock>
-            )}
+                {harAleneomsorg === YesOrNo.YES && (
+                    <>
+                        <FormBlock>
+                            <SøknadFormComponents.CheckboxPanelGroup
+                                legend={intlHelper(intl, 'steg.barn.hvilkeAvBarnaAleneomsorg.spm')}
+                                name={SøknadFormField.harAleneomsorgFor}
+                                checkboxes={barnOptions}
+                                validate={validateAleneomsorgForBarn}
+                            />
+                        </FormBlock>
+                        <Box margin="l">
+                            <AlertStripe type="info">
+                                <FormattedMessage id="steg.barn.aleneomsorg.lagring.info" />
+                            </AlertStripe>
+                        </Box>
+                    </>
+                )}
+            </FormSection>
         </SøknadStep>
     );
 };

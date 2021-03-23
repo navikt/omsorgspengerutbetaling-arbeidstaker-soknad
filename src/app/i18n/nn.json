@@ -210,17 +210,6 @@
     "modal.minePlikter.part2a": "Eg har lese og forstått det som står på",
     "modal.minePlikter.part2b": "nav.no/rettogplikt",
 
-    "steg.omBarnet.hvilketBarn.spm": "Kva barn gjeld søknaden for ?",
-    "steg.omBarnet.hvilketBarn.info": "Dersom du skal søkje for fleire barn, må du sende éin søknad for kvart barn.",
-    "steg.omBarnet.hvilketBarn.født": "Født {dato}",
-    "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjeld eit anna barn",
-    "steg.omBarnet.fnr.spm": "Fødselsnummeret/D-nummeret til barnet",
-    "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikkje fått fødselsnummer/D-nummer enno",
-    "steg.omBarnet.fødselsdato": "Fødselsdatoen til barnet",
-    "steg.omBarnet.navn": "Namnet til barnet",
-    "steg.omBarnet.relasjon": "Min relasjon til barnet",
-    "steg.omBarnet.veileder.samværsavtale": "Seinare i søknaden lastar du opp avtale om delt bustad for barnet.",
-
     "steg.annet.hjemmePgaStengt.spm": "Har du vore heime frå jobb fordi barnehagen eller skulen har vært lokalt stengt på grunn av koronaviruset?",
     "steg.annet.stengtBhgSkole.vedlegg": "Last opp stadfesting frå barnehagen eller skulen",
     "steg.annet.stengtBhgSkole.info.1": "Du må laste opp ei stadfesting frå barnehagen eller skulen på at dei har vore stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilete av stadfestinga, eller ved å scanne den.",
@@ -291,8 +280,8 @@
     "steg.oppsummering.utbetaling.delvisFravær.item": "{dato}: Skulle jobba {timerSkulleJobbet}. Borte frå jobb {timerBorte}.",
     "steg.oppsummering.utbetaling.fravær.heleDager.header": "Heile dagar med fråvær",
     "steg.oppsummering.utbetaling.fravær.heleDager.item": "Frå og med {fom}, til og med {tom}",
-    "steg.oppsummering.utbetaling.fravær.årsak.smittevernhensyn": " (særlege smittevernhensyn)",
-    "steg.oppsummering.utbetaling.fravær.årsak.stengtSkoleBhg": " (stengt skule/barnehage)",
+    "steg.oppsummering.utbetaling.fravær.årsak.SMITTEVERNHENSYN": " (særlege smittevernhensyn)",
+    "steg.oppsummering.utbetaling.fravær.årsak.STENGT_SKOLE_ELLER_BARNEHAGE": " (stengt skule/barnehage)",
 
     "steg.oppsummering.smittevernhensyn.titel": "Særlege smittevernhensyn",
 

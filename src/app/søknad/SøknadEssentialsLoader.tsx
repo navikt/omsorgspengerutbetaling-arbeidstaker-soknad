@@ -34,6 +34,17 @@ const initialState: State = {
     formData: initialValues,
 };
 
+const ugyldigBarnRemoteData = (barn: any): boolean => {
+    return !barn.aktørId || !barn.fornavn || !barn.fornavn || !barn.fødselsdato;
+};
+const validateBarnResponse = (remoteData: BarnApiResponse) => {
+    if (!remoteData || !remoteData.barnOppslag) {
+        return false;
+    }
+    const hasInvalidBarnData = remoteData.barnOppslag.find(ugyldigBarnRemoteData) !== undefined;
+    return hasInvalidBarnData === false;
+};
+
 const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => {
     const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
     const [apiCallError, setApiCallError] = useState<boolean>(false);
@@ -54,12 +65,20 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
             ? tempStorage?.metadata?.lastStepID
             : undefined;
 
-        const updatedSokerData: Søkerdata | undefined = isSøkerApiResponse(søkerResponse.data)
-            ? {
-                  person: søkerApiResponseToPerson(søkerResponse.data),
-                  barn: barnApiResponseToPerson(barnResponse.data),
-              }
-            : undefined;
+        const barnResponseIsValid = validateBarnResponse(barnResponse.data);
+        if (barnResponseIsValid === false) {
+            throw new Error('Invalid barn response data');
+        }
+
+        const søkerApiResponseIsValid = isSøkerApiResponse(søkerResponse.data);
+        if (søkerApiResponseIsValid === false) {
+            throw new Error('Invalid søker response data');
+        }
+
+        const updatedSokerData = {
+            person: søkerApiResponseToPerson(søkerResponse.data),
+            barn: barnApiResponseToPerson(barnResponse.data),
+        };
 
         setState({
             isLoading: false,
@@ -67,6 +86,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
             formData: isSøknadFormData(søknadFormData) ? søknadFormData : { ...initialValues },
             søkerdata: updatedSokerData,
         });
+
         if (!isSøkerApiResponse(søkerResponse.data)) {
             setApiCallError(true);
             appSentryLogger.logError('søkerApiResponse invalid (SøknadEssentialsLoader)');
