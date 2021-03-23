@@ -37,11 +37,7 @@ export enum SøknadFormField {
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     utenlandsoppholdNeste12Mnd = 'utenlandsoppholdNeste12Mnd',
 
-    hjemmePgaSmittevernhensynYesOrNo = 'hjemmePgaSmittevernhensynYesOrNo',
-    smittevernDokumenter = 'smittevernDokumenter',
-
-    // Felter knyttet til stengt bhg eller skole
-    hjemmePgaStengtBhgSkole = 'hjemmePgaStengtBhgSkole',
+    dokumenterSmittevernhensyn = 'dokumenterSmittevernhensyn',
     dokumenterStengtBkgSkole = 'dokumenterStengtBkgSkole',
 }
 
@@ -76,10 +72,7 @@ export interface SøknadFormData {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
 
-    [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo;
-    [SøknadFormField.smittevernDokumenter]: Attachment[];
-
-    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo;
+    [SøknadFormField.dokumenterSmittevernhensyn]: Attachment[];
     [SøknadFormField.dokumenterStengtBkgSkole]: Attachment[];
 }
 
@@ -114,9 +107,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
 
-    [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo.UNANSWERED,
-    [SøknadFormField.smittevernDokumenter]: [],
-
-    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo.UNANSWERED,
+    [SøknadFormField.dokumenterSmittevernhensyn]: [],
     [SøknadFormField.dokumenterStengtBkgSkole]: [],
 };

@@ -26,8 +26,6 @@ import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getPeriodeBoundaries } from '../utils/periodeUtils';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;

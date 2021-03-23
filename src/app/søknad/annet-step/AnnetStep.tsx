@@ -1,28 +1,21 @@
 import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { date1YearAgo, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { useFormikContext } from 'formik';
-import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import FormBlock from 'common/components/form-block/FormBlock';
-import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
-import SmittevernInfo from '../../components/information/SmittevernInfo';
-import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { getAlleUtbetalingsperioder } from '../../utils/arbeidsforholdUtils';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import { getPeriodeBoundaries } from '../../utils/periodeUtils';
 import UtbetalingsperioderSummaryView from '../oppsummering-step/components/UtbetalingsperioderSummaryView';
 import SøknadFormComponents from '../SøknadFormComponents';
@@ -74,7 +67,8 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                     />
                 </FormBlock>
             )}
-            <FormBlock paddingBottom={'l'}>
+
+            {/* <FormBlock paddingBottom={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.hjemmePgaSmittevernhensynYesOrNo}
                     legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
@@ -106,9 +100,9 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                         alleDokumenterISøknaden={alleDokumenterISøknaden}
                     />
                 </>
-            )}
+            )} */}
 
-            {isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && (
+            {/* {isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && (
                 <>
                     <FormBlock>
                         <SøknadFormComponents.YesOrNoQuestion
@@ -139,7 +133,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                         </FormBlock>
                     )}
                 </>
-            )}
+            )} */}
 
             <FormBlock>
                 <SøknadFormComponents.YesOrNoQuestion

@@ -6,6 +6,8 @@ export enum StepID {
     'SITUASJON' = 'situasjon',
     'FRAVÆR' = 'fravær',
     'ANNET' = 'annet',
+    'DOKUMENTER_STENGT_SKOLE_BHG' = 'vedlegg_stengtSkoleBhg',
+    'DOKUMENTER_SMITTEVERNHENSYN' = 'vedlegg_smittevernhensyn',
     'MEDLEMSKAP' = 'medlemskap',
     'OPPSUMMERING' = 'oppsummering',
 }
