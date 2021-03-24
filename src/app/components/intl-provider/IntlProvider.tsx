@@ -5,7 +5,7 @@ import '@formatjs/intl-pluralrules/locale-data/nn';
 import '@formatjs/intl-pluralrules/polyfill';
 import bostedUtlandMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
 import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
-import annetBarnMessages from '@navikt/sif-common-forms/lib/annet-barn/annetBarnMessages';
+import fosterbarnMessages from '@navikt/sif-common-forms/lib/fosterbarn/fosterbarnMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 import dayjs from 'dayjs';
@@ -18,7 +18,7 @@ export const appNynorsktekster = require('../../i18n/nn.json');
 const bokmålstekster = {
     ...allCommonMessages.nb,
     ...appBokmålstekster,
-    ...annetBarnMessages.nb,
+    ...fosterbarnMessages.nb,
     ...bostedUtlandMessages.nb,
     ...fraværMessages.nb,
 };
@@ -26,7 +26,7 @@ const bokmålstekster = {
 const nynorsktekster = {
     ...allCommonMessages.nn,
     ...appNynorsktekster,
-    ...annetBarnMessages.nn,
+    ...fosterbarnMessages.nn,
     ...bostedUtlandMessages.nn,
     ...fraværMessages.nn,
 };

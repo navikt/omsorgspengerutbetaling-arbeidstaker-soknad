@@ -1,4 +1,6 @@
 import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
@@ -20,8 +22,6 @@ import { createFieldValidationError, fieldIsRequiredError } from 'common/validat
 import { FieldValidationResult } from 'common/validation/types';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 import { datesCollide } from './dateValidationUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
 
 dayjs.extend(isBetween);
 
@@ -61,8 +61,6 @@ export enum AppFieldValidationErrors {
     'sisteDagMedFravære_påkrevd' = 'fieldvalidation.sisteDagMedFravære_påkrevd',
     'sisteDagMedFravære_ugyldigTidsperiode' = 'fieldvalidation.sisteDagMedFravære_ugyldigTidsperiode',
     'sisteDagMedFravære_ikkeSammeÅrSomFørsteDag' = 'fieldvalidation.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag',
-    'aleneomsorgFor_påkrevd' = 'fieldvalidation.aleneomsorgFor_påkrevd',
-    'andreBarn_påkrevd' = 'fieldvalidation.andreBarn_påkrevd',
 
     'fraværDagIkkeSammeÅrstall' = 'fieldvalidation.fraværDagIkkeSammeÅrstall',
     'fraværPeriodeIkkeSammeÅrstall' = 'fieldvalidation.fraværPeriodeIkkeSammeÅrstall',
@@ -309,20 +307,6 @@ export const validateSisteDagMedFravær = (
     }
     if (førsteDag && dayjs(sisteDag).get('year') !== dayjs(førsteDag).get('year')) {
         return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag);
-    }
-    return undefined;
-};
-
-export const validateAleneomsorgForBarn = (barn: string[]): FieldValidationResult => {
-    if (barn.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.aleneomsorgFor_påkrevd);
-    }
-    return undefined;
-};
-
-export const validateAndreBarn = (barn: string[]): FieldValidationResult => {
-    if (barn.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.andreBarn_påkrevd);
     }
     return undefined;
 };

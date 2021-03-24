@@ -164,10 +164,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
                     return ifAvailable(
                         StepID.BARN,
                         values,
-                        <BarnStep
-                            registrerteBarn={søkerdata.barn}
-                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.BARN)}
-                        />
+                        <BarnStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.BARN)} />
                     );
                 }}
             />
