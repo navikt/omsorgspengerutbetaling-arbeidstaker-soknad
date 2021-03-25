@@ -251,14 +251,8 @@
     "steg.oppsummering.søker.omDeg": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
 
-    "steg.oppsummering.barnet.header": "Om barnet",
-    "steg.oppsummering.barnet.navn": "Navn: {navn}",
-    "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
-    "steg.oppsummering.barnet.forelopigFnr": "Foreløpig fødselsnummer / D-nummer: {fnr}",
-    "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
-    "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
-    "steg.oppsummering.barnet.sammeAdresse.header": "Er du folkeregistrert på samme adresse som barnet?",
-    "steg.oppsummering.barnet.deltOmsorg.header": "Deler du omsorgen med den andre forelderen?",
+    "steg.oppsummering.barn.header": "Fosterbarn",
+    "steg.oppsummering.barn.alleBarn": "Fosterbarn du har lagt til",
 
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
 

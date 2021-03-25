@@ -3,6 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import Panel from 'nav-frontend-paneler';
@@ -10,7 +11,7 @@ import { postApplication } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import { StepID } from '../../config/stepConfig';
 import { Søkerdata } from '../../types/Søkerdata';
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { ApiFosterbarn, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
@@ -20,12 +21,14 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
+import JaNeiSvar from './components/JaNeiSvar';
 import MedlemskapSummaryView from './components/MedlemskapSummaryView';
 import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSummaryView';
 import SelvstendigOgEllerFrilansSummaryView from './components/SelvstendigOgEllerFrilansSummaryView';
 import SmittevernSummaryView from './components/SmittevernSummaryView';
 import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
 import SummarySection from './components/summary-section/SummarySection';
+import SummaryBlock from './components/SummaryBlock';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
 
 interface Props {
@@ -33,14 +36,18 @@ interface Props {
     onApplicationSent: (sentSuccessfully: boolean, apiValues?: SøknadApiData) => void;
 }
 
+const fosterbarnListItemRenderer = (fosterbarn: ApiFosterbarn): JSX.Element => {
+    return <>{fosterbarn.identitetsnummer}</>;
+};
+
 const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Props) => {
     const intl = useIntl();
-    const { values } = useFormikContext<SøknadFormData>();
+    const formik = useFormikContext<SøknadFormData>();
 
     const { logSoknadFailed, logUserLoggedOut, logSoknadSent } = useAmplitudeInstance();
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
-    const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
+    const apiValues: SøknadApiData = mapFormDataToApiData(formik.values, intl);
 
     async function sendApplication(data: SøknadApiData): Promise<void> {
         setSendingInProgress(true);
@@ -95,17 +102,31 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                         <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
                     </SummarySection>
 
+                    {/* Om barn */}
+                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.barn.header')}>
+                        <SummaryBlock header={intlHelper(intl, 'steg.barn.fosterbarn.spm')}>
+                            <JaNeiSvar harSvartJa={apiValues._harFosterbarn} />
+                        </SummaryBlock>
+                        {apiValues.fosterbarn.length > 0 && (
+                            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.barn.alleBarn')}>
+                                <SummaryList items={apiValues.fosterbarn} itemRenderer={fosterbarnListItemRenderer} />
+                            </SummaryBlock>
+                        )}
+                    </SummarySection>
+
                     {/* Særlige smittevernhensyn */}
                     {apiValues.hjemmePgaSmittevernhensyn && (
                         <SummarySection header={intlHelper(intl, 'steg.oppsummering.smittevernhensyn.titel')}>
-                            <SmittevernSummaryView dokumenterSmittevern={values.dokumenterSmittevernhensyn} />
+                            <SmittevernSummaryView dokumenterSmittevern={formik.values.dokumenterSmittevernhensyn} />
                         </SummarySection>
                     )}
 
                     {/* Lokalt stengt barnehage eller skole */}
                     {apiValues.hjemmePgaStengtBhgSkole && (
                         <SummarySection header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.titel')}>
-                            <StengtBhgSkoleSummaryView dokumenterStengBhgSkole={values.dokumenterStengtBkgSkole} />
+                            <StengtBhgSkoleSummaryView
+                                dokumenterStengBhgSkole={formik.values.dokumenterStengtBkgSkole}
+                            />
                         </SummarySection>
                     )}
 

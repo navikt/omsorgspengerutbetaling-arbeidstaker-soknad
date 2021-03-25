@@ -77,11 +77,16 @@ export interface Utbetalingsperiode {
     årsak: FraværÅrsak;
 }
 
+export interface ApiFosterbarn {
+    identitetsnummer?: string;
+}
+
 export interface SøknadApiData {
     språk: Locale;
     bosteder: Bosted[]; // medlemskap-siden
     opphold: Opphold[]; // hvis ja på har oppholdt seg i utlandet
     arbeidsgivere: ArbeidsgiverDetaljer[];
+    fosterbarn: ApiFosterbarn[];
     bekreftelser: Bekreftelser;
     andreUtbetalinger: string[];
     erSelvstendig: boolean;
@@ -91,4 +96,5 @@ export interface SøknadApiData {
     hjemmePgaStengtBhgSkole?: boolean;
     _vedleggSmittevern: string[]; // Used in summary view
     _vedleggStengtBhgSkole: string[]; // Used in summary view
+    _harFosterbarn: boolean; // Used in summary view
 }

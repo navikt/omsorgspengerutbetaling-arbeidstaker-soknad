@@ -5,6 +5,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
     språk: 'nb',
     bosteder: [],
     opphold: [],
+    fosterbarn: [],
     arbeidsgivere: [
         {
             navn: 'Arbeids- og velferdsetaten',
@@ -142,4 +143,5 @@ export const gyldigSøknadApiData1: SøknadApiData = {
     vedlegg: [],
     _vedleggSmittevern: [],
     _vedleggStengtBhgSkole: [],
+    _harFosterbarn: false,
 };
