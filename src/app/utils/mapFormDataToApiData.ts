@@ -1,7 +1,8 @@
 import { IntlShape } from 'react-intl';
+import { Fosterbarn } from '@navikt/sif-common-forms/lib';
 import { Locale } from 'common/types/Locale';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { SøknadApiData } from '../types/SøknadApiData';
+import { ApiFosterbarn, SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getAlleUtbetalingsperioder } from './arbeidsforholdUtils';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
@@ -14,6 +15,10 @@ import {
 } from './formToApiMaps/mapVedleggToApiData';
 import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from './periodeUtils';
 import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
+
+export const mapFosterbarnToApiFosterbarn = ({ fødselsnummer }: Fosterbarn): ApiFosterbarn => ({
+    identitetsnummer: fødselsnummer,
+});
 
 export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): SøknadApiData => {
     const {
@@ -37,6 +42,8 @@ export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): 
 
         dokumenterStengtBkgSkole,
         dokumenterSmittevernhensyn,
+        harFosterbarn,
+        fosterbarn,
     } = values;
 
     const allePerioder = getAlleUtbetalingsperioder(values);
@@ -51,6 +58,8 @@ export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): 
         ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
         : [];
 
+    console.log(fosterbarn);
+
     const apiData: SøknadApiData = {
         språk: (intl.locale as any) === 'en' ? 'nn' : (intl.locale as Locale),
         bosteder: settInnBosteder(
@@ -60,6 +69,7 @@ export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): 
             utenlandsoppholdNeste12Mnd,
             intl.locale
         ),
+        fosterbarn: fosterbarn.map(mapFosterbarnToApiFosterbarn),
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
         arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([
             ...arbeidsforhold,
@@ -78,6 +88,7 @@ export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): 
         ],
         _vedleggSmittevern,
         _vedleggStengtBhgSkole,
+        _harFosterbarn: harFosterbarn === YesOrNo.YES,
     };
 
     return apiData;

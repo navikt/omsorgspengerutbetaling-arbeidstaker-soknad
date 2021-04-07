@@ -48,7 +48,7 @@ export const getStepConfig = (values: SøknadFormData): StepConfigInterface => {
     const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
 
-    const getMedlemskapPrevStep = (): StepID => {
+    const getBarnPrevStep = (): StepID => {
         if (visDokumenterSmittevern) {
             return StepID.DOKUMENTER_SMITTEVERNHENSYN;
         }
@@ -65,21 +65,15 @@ export const getStepConfig = (values: SøknadFormData): StepConfigInterface => {
         if (visDokumenterSmittevern) {
             return StepID.DOKUMENTER_SMITTEVERNHENSYN;
         }
-        return StepID.MEDLEMSKAP;
+        return StepID.BARN;
     };
 
     const config: StepConfigInterface = {
-        [StepID.BARN]: {
-            ...getStepConfigItemTextKeys(StepID.BARN),
-            index: idx++,
-            nextStep: StepID.SITUASJON,
-            backLinkHref: RouteConfig.WELCOMING_PAGE_ROUTE,
-        },
         [StepID.SITUASJON]: {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
             nextStep: StepID.FRAVÆR,
-            backLinkHref: getMaybeSøknadRoute(StepID.BARN),
+            backLinkHref: RouteConfig.WELCOMING_PAGE_ROUTE,
         },
         [StepID.FRAVÆR]: {
             ...getStepConfigItemTextKeys(StepID.FRAVÆR),
@@ -99,7 +93,7 @@ export const getStepConfig = (values: SøknadFormData): StepConfigInterface => {
         config[StepID.DOKUMENTER_STENGT_SKOLE_BHG] = {
             ...getStepConfigItemTextKeys(StepID.DOKUMENTER_STENGT_SKOLE_BHG),
             index: idx++,
-            nextStep: visDokumenterSmittevern ? StepID.DOKUMENTER_SMITTEVERNHENSYN : StepID.MEDLEMSKAP,
+            nextStep: visDokumenterSmittevern ? StepID.DOKUMENTER_SMITTEVERNHENSYN : StepID.BARN,
             backLinkHref: getMaybeSøknadRoute(StepID.ANNET),
         };
     }
@@ -107,17 +101,23 @@ export const getStepConfig = (values: SøknadFormData): StepConfigInterface => {
         config[StepID.DOKUMENTER_SMITTEVERNHENSYN] = {
             ...getStepConfigItemTextKeys(StepID.DOKUMENTER_SMITTEVERNHENSYN),
             index: idx++,
-            nextStep: StepID.MEDLEMSKAP,
+            nextStep: StepID.BARN,
             backLinkHref: getMaybeSøknadRoute(
                 visDokumenterStengtBhgSkole ? StepID.DOKUMENTER_STENGT_SKOLE_BHG : StepID.FRAVÆR
             ),
         };
     }
+    config[StepID.BARN] = {
+        ...getStepConfigItemTextKeys(StepID.BARN),
+        index: idx++,
+        nextStep: StepID.MEDLEMSKAP,
+        backLinkHref: getMaybeSøknadRoute(getBarnPrevStep()),
+    };
     config[StepID.MEDLEMSKAP] = {
         ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
         index: idx++,
         nextStep: StepID.OPPSUMMERING,
-        backLinkHref: getMaybeSøknadRoute(getMedlemskapPrevStep()),
+        backLinkHref: getMaybeSøknadRoute(StepID.BARN),
     };
     config[StepID.OPPSUMMERING] = {
         ...getStepConfigItemTextKeys(StepID.OPPSUMMERING),

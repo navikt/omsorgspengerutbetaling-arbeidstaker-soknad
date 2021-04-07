@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
-import { getBarn, getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
+import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
+import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
-import { BarnApiResponse, isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
+import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
-import { TemporaryStorage, TemporaryStorageVersion as CurrentTemporaryStorageVersion } from '../types/TemporaryStorage';
-import SøknadTempStorage from './SøknadTempStorage';
-import { barnApiResponseToPerson, søkerApiResponseToPerson } from '../utils/typeUtils';
-import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
-import { WillRedirect } from '../types/types';
 import { isSøknadFormData } from '../types/SøknadFormDataTypeGuards';
+import { TemporaryStorage, TemporaryStorageVersion as CurrentTemporaryStorageVersion } from '../types/TemporaryStorage';
+import { WillRedirect } from '../types/types';
 import appSentryLogger from '../utils/appSentryLogger';
+import { søkerApiResponseToPerson } from '../utils/typeUtils';
+import SøknadTempStorage from './SøknadTempStorage';
 
 interface Props {
     contentLoadedRenderer: (
@@ -34,17 +34,6 @@ const initialState: State = {
     formData: initialValues,
 };
 
-const ugyldigBarnRemoteData = (barn: any): boolean => {
-    return !barn.aktørId || !barn.fornavn || !barn.fornavn || !barn.fødselsdato;
-};
-const validateBarnResponse = (remoteData: BarnApiResponse) => {
-    if (!remoteData || !remoteData.barnOppslag) {
-        return false;
-    }
-    const hasInvalidBarnData = remoteData.barnOppslag.find(ugyldigBarnRemoteData) !== undefined;
-    return hasInvalidBarnData === false;
-};
-
 const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => {
     const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
     const [apiCallError, setApiCallError] = useState<boolean>(false);
@@ -54,7 +43,7 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
 
     const handleSøknadEssentialsFetchSuccess = (
         søkerResponse: AxiosResponse<SøkerApiResponse>,
-        barnResponse: AxiosResponse<BarnApiResponse>,
+
         tempStorageResponse?: AxiosResponse<TemporaryStorage>
     ) => {
         const tempStorage: TemporaryStorage | undefined = tempStorageResponse?.data;
@@ -65,11 +54,6 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
             ? tempStorage?.metadata?.lastStepID
             : undefined;
 
-        const barnResponseIsValid = validateBarnResponse(barnResponse.data);
-        if (barnResponseIsValid === false) {
-            throw new Error('Invalid barn response data');
-        }
-
         const søkerApiResponseIsValid = isSøkerApiResponse(søkerResponse.data);
         if (søkerApiResponseIsValid === false) {
             throw new Error('Invalid søker response data');
@@ -77,7 +61,6 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
 
         const updatedSokerData = {
             person: søkerApiResponseToPerson(søkerResponse.data),
-            barn: barnApiResponseToPerson(barnResponse.data),
         };
 
         setState({
@@ -96,10 +79,10 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
     useEffect(() => {
         async function loadAppEssentials(): Promise<void> {
             try {
-                const [søkerApiResponse, barnApiResponse, tempStorage]: Array<
-                    AxiosResponse<SøkerApiResponse> | AxiosResponse<BarnApiResponse> | AxiosResponse<TemporaryStorage>
-                > = await Promise.all([getSøker(), getBarn(), SøknadTempStorage.rehydrate()]);
-                handleSøknadEssentialsFetchSuccess(søkerApiResponse, barnApiResponse, tempStorage);
+                const [søkerApiResponse, tempStorage]: Array<
+                    AxiosResponse<SøkerApiResponse> | AxiosResponse<TemporaryStorage>
+                > = await Promise.all([getSøker(), SøknadTempStorage.rehydrate()]);
+                handleSøknadEssentialsFetchSuccess(søkerApiResponse, tempStorage);
             } catch (error) {
                 const willRedirect = redirectIfForbiddenOrUnauthorized(error);
                 if (willRedirect === WillRedirect.No) {

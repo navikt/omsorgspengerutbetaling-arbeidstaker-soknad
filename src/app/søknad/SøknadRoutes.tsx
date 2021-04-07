@@ -75,7 +75,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
     const doStartSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
         await SøknadTempStorage.create();
-        navigateToStep(StepID.BARN);
+        navigateToStep(StepID.SITUASJON);
     };
 
     const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
@@ -164,10 +164,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps) 
                     return ifAvailable(
                         StepID.BARN,
                         values,
-                        <BarnStep
-                            registrerteBarn={søkerdata.barn}
-                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.BARN)}
-                        />
+                        <BarnStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.BARN)} />
                     );
                 }}
             />

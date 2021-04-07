@@ -61,7 +61,6 @@ export const listeAvBådeUgyldigeOgGyldigeArbeidsgivere: any[] = [
 
 export const gyldigSøkerdata1: Søkerdata = {
     person: gyldigPerson,
-    barn: [],
 };
 export const ugyldigSøkerdata1: any = null;
 export const ugyldigSøkerdata2: any = undefined;
@@ -79,7 +78,6 @@ export const gyldigSøkerdata2: Søkerdata = {
         fødselsnummer: '12345123456',
         myndig: true,
     },
-    barn: [],
 };
 
 export const gyldigSøknadFormData: SøknadFormData = initialValues;

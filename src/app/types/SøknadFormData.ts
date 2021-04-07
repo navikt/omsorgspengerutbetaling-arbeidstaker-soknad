@@ -1,19 +1,18 @@
+import { Fosterbarn } from '@navikt/sif-common-forms/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
+import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AndreUtbetalinger } from './AndreUtbetalinger';
 import { ArbeidsforholdFormData, initialArbeidsforholdFormData } from './ArbeidsforholdTypes';
-import { Attachment } from 'common/types/Attachment';
 import { SelvstendigOgEllerFrilans } from './SelvstendigOgEllerFrilansTypes';
-import { AnnetBarn } from '@navikt/sif-common-forms/lib/annet-barn/types';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
     // Barn
-    andreBarn = 'andreBarn',
-    harAleneomsorg = 'harAleneomsorg',
-    harAleneomsorgFor = 'harAleneomsorgFor',
+    harFosterbarn = 'harFosterbarn',
+    fosterbarn = 'fosterbarn',
 
     // Arbeidsforhold
     arbeidsforhold = 'arbeidsforhold',
@@ -46,9 +45,8 @@ export interface SøknadFormData {
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
     // Barn
-    [SøknadFormField.andreBarn]: AnnetBarn[];
-    [SøknadFormField.harAleneomsorg]: YesOrNo;
-    [SøknadFormField.harAleneomsorgFor]: Array<string>;
+    [SøknadFormField.harFosterbarn]: YesOrNo;
+    [SøknadFormField.fosterbarn]: Fosterbarn[];
 
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
@@ -81,9 +79,8 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
     // Barn
-    [SøknadFormField.andreBarn]: [],
-    [SøknadFormField.harAleneomsorg]: YesOrNo.UNANSWERED,
-    [SøknadFormField.harAleneomsorgFor]: [],
+    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
+    [SøknadFormField.fosterbarn]: [],
 
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: [],
