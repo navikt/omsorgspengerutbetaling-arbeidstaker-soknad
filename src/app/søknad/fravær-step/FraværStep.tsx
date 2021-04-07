@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import * as React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
@@ -17,6 +17,10 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './fraværStep.less';
+import { getTidsromFromÅrstall, getÅrstallFromFravær } from '../../utils/fraværUtils';
+import { getAlleFraværDager, getAlleFraværPerioder } from '../../utils/arbeidsforholdUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import { date1YearAgo, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -51,6 +55,33 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
     const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
 
+    const fraværDager = getAlleFraværDager(values);
+    const fraværPerioder = getAlleFraværPerioder(values);
+
+    const [årstall, setÅrstall] = useState<number | undefined>();
+    const [gyldigTidsrom, setGyldigTidsrom] = useState<DateRange>(
+        getTidsromFromÅrstall(getÅrstallFromFravær(fraværDager, fraværPerioder))
+    );
+
+    const updateÅrstall = useCallback(
+        (årstall: number | undefined) => {
+            setÅrstall(årstall);
+            setGyldigTidsrom(getTidsromFromÅrstall(årstall));
+        },
+        [setÅrstall]
+    );
+
+    useEffect(() => {
+        const nyttÅrstall = getÅrstallFromFravær(fraværDager, fraværPerioder);
+        if (nyttÅrstall !== årstall) {
+            updateÅrstall(nyttÅrstall);
+        }
+    }, [årstall, fraværDager, fraværPerioder, updateÅrstall]);
+
+    const harRegistrertMerEnnEttFravær = fraværDager.length + fraværPerioder.length > 1;
+    const minDateForFravær = harRegistrertMerEnnEttFravær ? gyldigTidsrom.from : date1YearAgo;
+    const maxDateForFravær = harRegistrertMerEnnEttFravær ? gyldigTidsrom.to : dateToday;
+
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
@@ -60,7 +91,13 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                         title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
                         titleIcon={<BuildingIcon />}>
                         <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
-                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
+                        <FormikArbeidsforholdDelTrePeriodeView
+                            arbeidsforholdFormData={arbeidsforhold}
+                            index={index}
+                            minDateForFravær={minDateForFravær}
+                            maxDateForFravær={maxDateForFravær}
+                            årstall={årstall}
+                        />
                     </FormSection>
                 </FormBlock>
             ) : null;
@@ -97,6 +134,9 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                 <FormikAnnetArbeidsforholdStegTo
                     annetArbeidsforhold={annetArbeidsforhold}
                     annetArbeidsforholdName={annetArbeidsforholdName}
+                    minDateForFravær={minDateForFravær}
+                    maxDateForFravær={maxDateForFravær}
+                    årstall={årstall}
                 />
             )}
         </SøknadStep>

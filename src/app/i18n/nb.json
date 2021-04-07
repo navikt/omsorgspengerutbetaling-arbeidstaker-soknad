@@ -449,6 +449,8 @@
     "steg.dokumenter.smittevernVedlegg": "Last opp bekreftelse fra lege",
     "step.fravær.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalinger fra NAV for samme periode?",
     "step.fravær.hvilke_utbetalinger.spm": "Hvilke andre utbetalinger fra NAV har du søkt om?",
+    "step.fravaer.info.ikkeHelg.tittel": "Hvorfor kan jeg ikke velge lørdag eller søndag?",
+    "step.fravaer.info.ikkeHelg.tekst": "Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller søndag. Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i perioden du legger inn.",
     "andre_utbetalinger.dagpenger": "Dagpenger",
     "andre_utbetalinger.sykepenger": "Sykepenger",
 

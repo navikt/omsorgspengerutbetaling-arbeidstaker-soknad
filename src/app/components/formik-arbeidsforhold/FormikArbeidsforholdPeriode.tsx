@@ -1,22 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { DateRange, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import {
-    FraværDag,
-    fraværDagToFraværDateRange,
-    FraværPeriode,
-    fraværPeriodeToDateRange,
-} from '@navikt/sif-common-forms/lib/fravær';
+import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { fraværDagToFraværDateRange, fraværPeriodeToDateRange } from '@navikt/sif-common-forms/lib/fravær';
 import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
 import { validateAll, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
-import dayjs from 'dayjs';
-import MinMax from 'dayjs/plugin/minMax';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 import {
     createFieldValidationError,
@@ -27,8 +19,6 @@ import { FieldValidationResult } from 'common/validation/types';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { validateFraværDagHarÅrstall, validateFraværPeriodeHarÅrstall } from '../../validation/fieldValidations';
 
-dayjs.extend(MinMax);
-
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
     harDelerAvDag: YesOrNo
@@ -38,41 +28,15 @@ export const minimumHarPeriodeEllerDelerAvDagYes = (
     }
     return undefined;
 };
-
-const getÅrstallFromFravær = (
-    dagerMedDelvisFravær: FraværDag[],
-    perioderMedFravær: FraværPeriode[]
-): number | undefined => {
-    const førsteDag = dagerMedDelvisFravær.length > 0 ? dagerMedDelvisFravær[0].dato : undefined;
-    const førsteDagIPeriode = perioderMedFravær.length > 0 ? perioderMedFravær[0].fraOgMed : undefined;
-    const dager: Date[] = [...(førsteDag ? [førsteDag] : []), ...(førsteDagIPeriode ? [førsteDagIPeriode] : [])];
-    switch (dager.length) {
-        case 0:
-            return undefined;
-        case 1:
-            return dayjs(dager[0]).get('year');
-        default:
-            return dayjs.min(dager.map((d) => dayjs(d))).get('year');
-    }
-};
-const getTidsromFromÅrstall = (årstall?: number): DateRange => {
-    if (årstall === undefined) {
-        return { from: date1YearAgo, to: dayjs().endOf('day').toDate() };
-    }
-    const førsteDagIÅret = dayjs(`${årstall}-01-01`).toDate();
-    const sisteDagIÅret = dayjs(`${årstall}-12-31`).toDate();
-    return {
-        from: førsteDagIÅret,
-        to: dayjs.min([dayjs(sisteDagIÅret), dayjs(dateToday)]).toDate(),
-    };
-};
-
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
     nameHarPerioderMedFravær: string;
     namePerioderMedFravær: string;
     nameHarDagerMedDelvisFravær: string;
     nameDagerMedDelvisFravær: string;
+    minDateForFravær: Date;
+    maxDateForFravær: Date;
+    årstall?: number;
 }
 
 const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
@@ -81,6 +45,9 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     namePerioderMedFravær,
     nameHarDagerMedDelvisFravær,
     nameDagerMedDelvisFravær,
+    maxDateForFravær,
+    minDateForFravær,
+    årstall,
 }: Props) => {
     const intl = useIntl();
 
@@ -90,30 +57,11 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
 
     const { fraværDager, fraværPerioder } = arbeidsforholdFormData;
 
-    const [årstall, setÅrstall] = useState<number | undefined>();
-    const [gyldigTidsrom, setGyldigTidsrom] = useState<DateRange>(
-        getTidsromFromÅrstall(getÅrstallFromFravær(fraværDager, fraværPerioder))
+    const tidsromBegrensningInfo = (
+        <ExpandableInfo title={intlHelper(intl, 'step.fravaer.info.ikkeHelg.tittel')}>
+            <FormattedMessage id="step.fravaer.info.ikkeHelg.tekst" />
+        </ExpandableInfo>
     );
-
-    const updateÅrstall = useCallback(
-        (årstall: number | undefined) => {
-            setÅrstall(årstall);
-            setGyldigTidsrom(getTidsromFromÅrstall(årstall));
-        },
-        [setÅrstall]
-    );
-
-    useEffect(() => {
-        const nyttÅrstall = getÅrstallFromFravær(fraværDager, fraværPerioder);
-        if (nyttÅrstall !== årstall) {
-            updateÅrstall(nyttÅrstall);
-        }
-    }, [årstall, fraværDager, fraværPerioder, updateÅrstall]);
-
-    const harRegistrertFravær = fraværDager.length + fraværPerioder.length > 0;
-    const minDateForFravær = harRegistrertFravær ? gyldigTidsrom.from : date1YearAgo;
-    const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : dateToday;
-
     return (
         <>
             <FormBlock>
@@ -137,6 +85,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     <FormBlock paddingBottom={'l'} margin={'l'}>
                         <FraværPerioderListAndDialog
                             name={namePerioderMedFravær}
+                            periodeDescription={tidsromBegrensningInfo}
                             minDate={minDateForFravær}
                             maxDate={maxDateForFravær}
                             validate={validateAll([
@@ -154,13 +103,6 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             ]}
                             helgedagerIkkeTillat={true}
                         />
-                        <FormBlock margin={'l'}>
-                            <ExpandableInfo title="Hvorfor kan jeg ikke velge lørdag eller søndag?">
-                                Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller
-                                søndag. Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i
-                                perioden du legger inn.
-                            </ExpandableInfo>
-                        </FormBlock>
                     </FormBlock>
                 </>
             )}
@@ -185,6 +127,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     <FormBlock margin={'l'} paddingBottom={'l'}>
                         <FraværDagerListAndDialog
                             name={nameDagerMedDelvisFravær}
+                            dagDescription={tidsromBegrensningInfo}
                             minDate={minDateForFravær}
                             maxDate={maxDateForFravær}
                             validate={validateAll([
@@ -203,12 +146,6 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             helgedagerIkkeTillatt={true}
                             maksArbeidstidPerDag={24}
                         />
-                        <FormBlock margin={'l'}>
-                            <ExpandableInfo title="Hvorfor kan jeg ikke velge lørdag eller søndag?">
-                                Du kan kun få utbetalt omsorgspenger for hverdager, selv om du jobber lørdag eller
-                                søndag. Derfor kan du ikke legge inn delvis fravær på lørdager eller søndager.
-                            </ExpandableInfo>
-                        </FormBlock>
                     </FormBlock>
                 </>
             )}

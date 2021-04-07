@@ -87,6 +87,24 @@ export const getAlleUtbetalingsperioder = (values: SøknadFormData): Utbetalings
         [...arbeidsforholdPerioder, ...annetPeriode],
         [...arbeidsforholdDager, ...annetDag]
     );
+};
 
-    console.log('who');
+export const getAlleFraværDager = (values: SøknadFormData): FraværDag[] => {
+    const arbeidsforholdDager: FraværDag[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværDager;
+        })
+        .flat();
+    const annetDag: FraværDag[] = values.annetArbeidsforhold.fraværDager;
+    return [...arbeidsforholdDager, ...annetDag];
+};
+
+export const getAlleFraværPerioder = (values: SøknadFormData): FraværPeriode[] => {
+    const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværPerioder;
+        })
+        .flat();
+    const annetPeriode: FraværPeriode[] = values.annetArbeidsforhold.fraværPerioder;
+    return [...arbeidsforholdPerioder, ...annetPeriode];
 };
