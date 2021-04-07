@@ -108,10 +108,22 @@
     "step.har_utbetalt_de_første_ti_dagene.frivillig_forsikring.spm": "Jeg har frivillig forsikring for tilleggssykepenger som gjelder fra 1. dag",
     "step.har_utbetalt_de_første_ti_dagene.nettop_startet_selvstendig_frilanser.spm": "Jeg har jobbet som selvstendig næringsdrivende/frilanser i mindre enn 4 uker",
 
-    "step.periode.pageTitle": "Hvilke dager søker du utbetaling for?",
-    "step.periode.stepTitle": "Hvilke dager søker du utbetaling for?",
-    "step.periode.stepIndicatorLabel": "Hvilke dager søker du utbetaling for?",
-    "step.periode.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm": "Har du vært i utlandet noen av dagene du søker omsorgspenger for?",
+    "step.barn.pageTitle": "Om barn",
+    "step.barn.stepTitle": "Om barn",
+    "step.barn.stepIndicatorLabel": "Om barn",
+
+    "step.fravær.pageTitle": "Hvilke dager søker du utbetaling for?",
+    "step.fravær.stepTitle": "Hvilke dager søker du utbetaling for?",
+    "step.fravær.stepIndicatorLabel": "Hvilke dager søker du utbetaling for?",
+    "step.fravær.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm": "Har du vært i utlandet noen av dagene du søker omsorgspenger for?",
+
+    "step.vedlegg_smittevernhensyn.stepTitle": "Last opp bekreftelse fra lege",
+    "step.vedlegg_smittevernhensyn.pageTitle": "Last opp dokumenter",
+    "step.vedlegg_smittevernhensyn.stepIndicatorLabel": "Last opp dokumenter",
+
+    "step.vedlegg_stengtSkoleBhg.stepTitle": "Last opp bekreftelse fra barnehagen eller skolen",
+    "step.vedlegg_stengtSkoleBhg.pageTitle": "Last opp dokumenter",
+    "step.vedlegg_stengtSkoleBhg.stepIndicatorLabel": "Last opp dokumenter",
 
     "step.hvis-utenlandsopphold.pageTitle": "Opphold i utlandet",
     "step.hvis-utenlandsopphold.stepTitle": "Spesifiser hvilke perioder du har oppholdt deg i utlandet",
@@ -162,7 +174,7 @@
     "introPage.info.skalViseSmittevernSpørsmål.title": "Hva menes med særlige smittevernhensyn?",
     "introPage.info.smittevern.1.html": "I søknaden må du laste opp en bekreftelse fra lege. Legen må bekrefte at barnet ikke kan gå i barnehage eller skole fordi det er <strong>særlige smittevernhensyn</strong> i forbindelse med koronaviruset som må ivaretas for enten barnet eller et familiemedlem som barnet bor sammen med. Legen skal ikke oppgi diagnose eller hvilket familiemedlem det gjelder.",
     "introPage.info.smittevern.2": "Hvis du ikke har bekreftelse tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
-    "steg.intro.form.spm.hjemmePgaStengt": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært lokalt stengt på grunn av koronaviruset?",
+    "steg.intro.form.spm.hjemmePgaStengt": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært stengt på grunn av koronaviruset?",
     "steg.intro.stengtBhgSkole.1": "I søknaden må du laste opp en bekreftelse fra barnehagen eller skolen på at de har stengt.",
     "steg.intro.stengtBhgSkole.2": "Hvis du ikke har bekreftelsen tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
 
@@ -210,16 +222,12 @@
     "modal.minePlikter.part2a": "Jeg har lest og forstått det som står på",
     "modal.minePlikter.part2b": "nav.no/rettogplikt",
 
-    "steg.omBarnet.hvilketBarn.spm": "Hvilket barn gjelder søknaden for?",
-    "steg.omBarnet.hvilketBarn.info": "Hvis du skal søke for flere barn, må du sende én søknad for hvert barn.",
-    "steg.omBarnet.hvilketBarn.født": "Født {dato}",
-    "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjelder et annet barn",
-    "steg.omBarnet.fnr.spm": "Barnets fødselsnummer/D-nummer",
-    "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikke fått fødselsnummer/D-nummer ennå",
-    "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
-    "steg.omBarnet.navn": "Barnets navn",
-    "steg.omBarnet.relasjon": "Min relasjon til barnet",
-    "steg.omBarnet.veileder.samværsavtale": "Senere i søknaden laster du opp avtale om delt bosted for barnet.",
+    "steg.barn.pageTitle": "Fosterbarn",
+    "steg.barn.stepTitle": "Fosterbarn",
+    "steg.barn.intro": "Vi henter inn barn som er registrert på deg fra folkeregisteret, men dette får vi ikke gjort med fosterbarn. Hvis du har fosterbarn kan du selv legge dem til.",
+    "steg.barn.fosterbarn.spm": "Har du fosterbarn?",
+    "steg.barn.nextButtonLabel": "Fortsett",
+    "steg.barn.dineBarn": "Dine fosterbarn",
 
     "steg.annet.hjemmePgaStengt.spm": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært lokalt stengt på grunn av koronaviruset?",
     "steg.annet.stengtBhgSkole.vedlegg": "Last opp bekreftelse fra barnehagen eller skolen",
@@ -244,14 +252,8 @@
     "steg.oppsummering.søker.omDeg": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
 
-    "steg.oppsummering.barnet.header": "Om barnet",
-    "steg.oppsummering.barnet.navn": "Navn: {navn}",
-    "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
-    "steg.oppsummering.barnet.forelopigFnr": "Foreløpig fødselsnummer / D-nummer: {fnr}",
-    "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
-    "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
-    "steg.oppsummering.barnet.sammeAdresse.header": "Er du folkeregistrert på samme adresse som barnet?",
-    "steg.oppsummering.barnet.deltOmsorg.header": "Deler du omsorgen med den andre forelderen?",
+    "steg.oppsummering.barn.header": "Fosterbarn",
+    "steg.oppsummering.barn.alleBarn": "Fosterbarn du har lagt til",
 
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
 
@@ -291,6 +293,8 @@
     "steg.oppsummering.utbetaling.delvisFravær.item": "{dato}: Skulle jobbet {timerSkulleJobbet}. Borte fra jobb {timerBorte}.",
     "steg.oppsummering.utbetaling.fravær.heleDager.header": "Hele dager med fravær",
     "steg.oppsummering.utbetaling.fravær.heleDager.item": "Fra og med {fom}, til og med {tom}",
+    "steg.oppsummering.utbetaling.fravær.årsak.SMITTEVERNHENSYN": " (særlige smittevernhensyn)",
+    "steg.oppsummering.utbetaling.fravær.årsak.STENGT_SKOLE_ELLER_BARNEHAGE": " (stengt skole/barnehage)",
 
     "steg.oppsummering.smittevernhensyn.titel": "Særlige smittevernhensyn",
 
@@ -435,7 +439,6 @@
     "hvorLengeJobbet.fordi.ingen.label": "Ingen av situasjonene over gjelder for meg.",
 
     "dinSituasjon.arbeidsforhold.tittel": "Om arbeidsforhold",
-    "dinSituasjon.fosterbarn.tittel": "Om fosterbarn",
 
     "arbeidsforhold.harUtbetalingLønn.alertstripe": "NAV utbetaler ikke for omsorgsdager som arbeidsgiver allerede har utbetalt for. ",
     "dinSituasjon.ingress": "Om arbeidssituasjonen din",
@@ -444,8 +447,8 @@
     "step.vedlegg.pageTitle": "Last opp dokumenter",
     "steg.dokumenter.vedlegg": "Last opp forklaring fra arbeidsgiver",
     "steg.dokumenter.smittevernVedlegg": "Last opp bekreftelse fra lege",
-    "step.periode.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalinger fra NAV for samme periode?",
-    "step.periode.hvilke_utbetalinger.spm": "Hvilke andre utbetalinger fra NAV har du søkt om?",
+    "step.fravær.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalinger fra NAV for samme periode?",
+    "step.fravær.hvilke_utbetalinger.spm": "Hvilke andre utbetalinger fra NAV har du søkt om?",
     "andre_utbetalinger.dagpenger": "Dagpenger",
     "andre_utbetalinger.sykepenger": "Sykepenger",
 

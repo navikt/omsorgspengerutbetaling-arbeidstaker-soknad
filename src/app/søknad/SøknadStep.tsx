@@ -8,11 +8,11 @@ import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer'
 import Step, { StepProps } from '../components/step/Step';
 import { getStepConfig } from '../config/stepConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateToNAVno, navigateToWelcomePage } from '../utils/navigationUtils';
 import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
 import SøknadTempStorage from './SøknadTempStorage';
+import { useFormikContext } from 'formik';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -27,11 +27,13 @@ export interface FormikStepProps {
 type Props = FormikStepProps & StepProps;
 
 const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
-    const intl = useIntl();
-    const { logHendelse } = useAmplitudeInstance();
-
     const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, cleanupStep } = props;
-    const stepConfig = getStepConfig();
+
+    const intl = useIntl();
+    const { values } = useFormikContext<SøknadFormData>();
+    const { logHendelse } = useAmplitudeInstance();
+    const stepConfig = getStepConfig(values);
+
     const texts = getStepTexts(intl, id, stepConfig);
 
     useLogSidevisning(props.id);
@@ -69,12 +71,10 @@ const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
                     </FormBlock>
                 )}
             </SøknadFormComponents.Form>
-            {isFeatureEnabled(Feature.MELLOMLAGRING) && (
-                <StepFooter
-                    onAvbrytOgFortsettSenere={handleAvsluttOgFortsettSenere}
-                    onAvbrytOgSlett={handleAvbrytOgSlettSøknad}
-                />
-            )}
+            <StepFooter
+                onAvbrytOgFortsettSenere={handleAvsluttOgFortsettSenere}
+                onAvbrytOgSlett={handleAvbrytOgSlettSøknad}
+            />
         </Step>
     );
 };

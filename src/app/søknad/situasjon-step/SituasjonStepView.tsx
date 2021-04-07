@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/FosterbarnListAndDialog';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -212,37 +211,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                 )}
                             />
                         </>
-                    )}
-                </FormBlock>
-
-                {/* FOSTERBARN */}
-
-                <FormBlock margin="xxl">
-                    <Undertittel>
-                        <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
-                    </Undertittel>
-                </FormBlock>
-
-                <Box margin="l">
-                    <CounsellorPanel>
-                        <FormattedMessage id="fosterbarn.legend" />
-                    </CounsellorPanel>
-                </Box>
-
-                <FormBlock>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.harFosterbarn}
-                        legend="Har du fosterbarn?"
-                        validate={validateYesOrNoIsAnswered}
-                    />
-
-                    {values[SøknadFormField.harFosterbarn] === YesOrNo.YES && (
-                        <FormBlock margin="l">
-                            <FosterbarnListAndDialog
-                                name={SøknadFormField.fosterbarn}
-                                validate={validateRequiredList}
-                            />
-                        </FormBlock>
                     )}
                 </FormBlock>
             </>

@@ -27,7 +27,7 @@ const server = express();
 
 server.use(express.json());
 server.use((req, res, next) => {
-    const allowedOrigins = ['http://localhost:8080'];
+    const allowedOrigins = ['http://localhost:8080', 'http://localhost:8090'];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
         res.set('Access-Control-Allow-Origin', requestOrigin);
@@ -56,16 +56,16 @@ const søkerMock1 = {
 };
 
 const barnMock = {
-    barn: [
+    barnOppslag: [
         { fødselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '1' },
-        { fodselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
+        { fødselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
     ],
 };
 
 const arbeidsgivereMock = {
     organisasjoner: [
         { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
+        // { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
     ],
 };
 
@@ -92,7 +92,7 @@ const readFileSync = (path) => {
 const existsSync = (path) => fs.existsSync(path);
 
 const startServer = () => {
-    const port = 8083;
+    const port = 8093;
 
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
     server.get('/health/isReady', (req, res) => res.sendStatus(200));

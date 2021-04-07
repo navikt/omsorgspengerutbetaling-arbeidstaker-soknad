@@ -1,10 +1,17 @@
-import * as React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { fraværDagToFraværDateRange, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær';
+import { DateRange, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import {
+    FraværDag,
+    fraværDagToFraværDateRange,
+    FraværPeriode,
+    fraværPeriodeToDateRange,
+} from '@navikt/sif-common-forms/lib/fravær';
 import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
-import { validateAll } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
+import { validateAll, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
+import dayjs from 'dayjs';
+import MinMax from 'dayjs/plugin/minMax';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -18,7 +25,9 @@ import {
 } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import { GYLDIG_TIDSROM } from '../../validation/constants';
+import { validateFraværDagHarÅrstall, validateFraværPeriodeHarÅrstall } from '../../validation/fieldValidations';
+
+dayjs.extend(MinMax);
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
@@ -28,6 +37,34 @@ export const minimumHarPeriodeEllerDelerAvDagYes = (
         return { key: 'fieldvalidation.periode.ingen' };
     }
     return undefined;
+};
+
+const getÅrstallFromFravær = (
+    dagerMedDelvisFravær: FraværDag[],
+    perioderMedFravær: FraværPeriode[]
+): number | undefined => {
+    const førsteDag = dagerMedDelvisFravær.length > 0 ? dagerMedDelvisFravær[0].dato : undefined;
+    const førsteDagIPeriode = perioderMedFravær.length > 0 ? perioderMedFravær[0].fraOgMed : undefined;
+    const dager: Date[] = [...(førsteDag ? [førsteDag] : []), ...(førsteDagIPeriode ? [førsteDagIPeriode] : [])];
+    switch (dager.length) {
+        case 0:
+            return undefined;
+        case 1:
+            return dayjs(dager[0]).get('year');
+        default:
+            return dayjs.min(dager.map((d) => dayjs(d))).get('year');
+    }
+};
+const getTidsromFromÅrstall = (årstall?: number): DateRange => {
+    if (årstall === undefined) {
+        return { from: date1YearAgo, to: dayjs().endOf('day').toDate() };
+    }
+    const førsteDagIÅret = dayjs(`${årstall}-01-01`).toDate();
+    const sisteDagIÅret = dayjs(`${årstall}-12-31`).toDate();
+    return {
+        from: førsteDagIÅret,
+        to: dayjs.min([dayjs(sisteDagIÅret), dayjs(dateToday)]).toDate(),
+    };
 };
 
 interface Props {
@@ -50,6 +87,32 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
     const kanIkkeFortsette =
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO &&
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.NO;
+
+    const { fraværDager, fraværPerioder } = arbeidsforholdFormData;
+
+    const [årstall, setÅrstall] = useState<number | undefined>();
+    const [gyldigTidsrom, setGyldigTidsrom] = useState<DateRange>(
+        getTidsromFromÅrstall(getÅrstallFromFravær(fraværDager, fraværPerioder))
+    );
+
+    const updateÅrstall = useCallback(
+        (årstall: number | undefined) => {
+            setÅrstall(årstall);
+            setGyldigTidsrom(getTidsromFromÅrstall(årstall));
+        },
+        [setÅrstall]
+    );
+
+    useEffect(() => {
+        const nyttÅrstall = getÅrstallFromFravær(fraværDager, fraværPerioder);
+        if (nyttÅrstall !== årstall) {
+            updateÅrstall(nyttÅrstall);
+        }
+    }, [årstall, fraværDager, fraværPerioder, updateÅrstall]);
+
+    const harRegistrertFravær = fraværDager.length + fraværPerioder.length > 0;
+    const minDateForFravær = harRegistrertFravær ? gyldigTidsrom.from : date1YearAgo;
+    const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : dateToday;
 
     return (
         <>
@@ -74,22 +137,20 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     <FormBlock paddingBottom={'l'} margin={'l'}>
                         <FraværPerioderListAndDialog
                             name={namePerioderMedFravær}
-                            minDate={GYLDIG_TIDSROM.from || date1YearAgo}
-                            maxDate={GYLDIG_TIDSROM.to || dateToday}
+                            minDate={minDateForFravær}
+                            maxDate={maxDateForFravær}
                             validate={validateAll([
                                 validateRequiredList,
-                                validateNoCollisions(
-                                    arbeidsforholdFormData.fraværDager,
-                                    arbeidsforholdFormData.fraværPerioder
-                                ),
+                                validateFraværPeriodeHarÅrstall(fraværPerioder, årstall),
+                                validateNoCollisions(fraværDager, fraværPerioder),
                             ])}
                             labels={{
                                 addLabel: 'Legg til ny periode med fullt fravær',
                                 modalTitle: 'Fravær hele dager',
                             }}
                             dateRangesToDisable={[
-                                ...arbeidsforholdFormData.fraværPerioder,
-                                ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
+                                ...fraværPerioder.map(fraværPeriodeToDateRange),
+                                ...fraværDager.map(fraværDagToFraværDateRange),
                             ]}
                             helgedagerIkkeTillat={true}
                         />
@@ -124,14 +185,12 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                     <FormBlock margin={'l'} paddingBottom={'l'}>
                         <FraværDagerListAndDialog
                             name={nameDagerMedDelvisFravær}
-                            minDate={GYLDIG_TIDSROM.from || date1YearAgo}
-                            maxDate={GYLDIG_TIDSROM.to || dateToday}
+                            minDate={minDateForFravær}
+                            maxDate={maxDateForFravær}
                             validate={validateAll([
                                 validateRequiredList,
-                                validateNoCollisions(
-                                    arbeidsforholdFormData.fraværDager,
-                                    arbeidsforholdFormData.fraværPerioder
-                                ),
+                                validateFraværDagHarÅrstall(fraværDager, årstall),
+                                validateNoCollisions(fraværDager, fraværPerioder),
                             ])}
                             labels={{
                                 addLabel: 'Legg til ny dag med delvis fravær',
@@ -139,7 +198,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             }}
                             dateRangesToDisable={[
                                 ...arbeidsforholdFormData.fraværDager.map(fraværDagToFraværDateRange),
-                                ...arbeidsforholdFormData.fraværPerioder,
+                                ...fraværPerioder.map(fraværPeriodeToDateRange),
                             ]}
                             helgedagerIkkeTillatt={true}
                             maksArbeidstidPerDag={24}

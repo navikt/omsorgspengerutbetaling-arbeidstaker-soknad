@@ -1,22 +1,22 @@
+import { Fosterbarn } from '@navikt/sif-common-forms/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
+import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 import { AndreUtbetalinger } from './AndreUtbetalinger';
 import { ArbeidsforholdFormData, initialArbeidsforholdFormData } from './ArbeidsforholdTypes';
-import { Attachment } from 'common/types/Attachment';
 import { SelvstendigOgEllerFrilans } from './SelvstendigOgEllerFrilansTypes';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
 
+    // Barn
+    harFosterbarn = 'harFosterbarn',
+    fosterbarn = 'fosterbarn',
+
     // Arbeidsforhold
     arbeidsforhold = 'arbeidsforhold',
     annetArbeidsforhold = 'annetArbeidsforhold',
-
-    // Fosterbarn
-    harFosterbarn = 'harFosterbarn',
-    fosterbarn = 'fosterbarn',
 
     // Opphold Utland
     perioderHarVærtIUtlandet = 'perioderHarVærtIUtlandet',
@@ -36,11 +36,7 @@ export enum SøknadFormField {
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     utenlandsoppholdNeste12Mnd = 'utenlandsoppholdNeste12Mnd',
 
-    hjemmePgaSmittevernhensynYesOrNo = 'hjemmePgaSmittevernhensynYesOrNo',
-    smittevernDokumenter = 'smittevernDokumenter',
-
-    // Felter knyttet til stengt bhg eller skole
-    hjemmePgaStengtBhgSkole = 'hjemmePgaStengtBhgSkole',
+    dokumenterSmittevernhensyn = 'dokumenterSmittevernhensyn',
     dokumenterStengtBkgSkole = 'dokumenterStengtBkgSkole',
 }
 
@@ -48,13 +44,13 @@ export interface SøknadFormData {
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
 
+    // Barn
+    [SøknadFormField.harFosterbarn]: YesOrNo;
+    [SøknadFormField.fosterbarn]: Fosterbarn[];
+
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
     [SøknadFormField.annetArbeidsforhold]: ArbeidsforholdFormData;
-
-    // Fosterbarn
-    [SøknadFormField.harFosterbarn]: YesOrNo;
-    [SøknadFormField.fosterbarn]: Fosterbarn[];
 
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo;
@@ -74,10 +70,7 @@ export interface SøknadFormData {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
 
-    [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo;
-    [SøknadFormField.smittevernDokumenter]: Attachment[];
-
-    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo;
+    [SøknadFormField.dokumenterSmittevernhensyn]: Attachment[];
     [SøknadFormField.dokumenterStengtBkgSkole]: Attachment[];
 }
 
@@ -85,13 +78,13 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,
 
+    // Barn
+    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
+    [SøknadFormField.fosterbarn]: [],
+
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: [],
     [SøknadFormField.annetArbeidsforhold]: initialArbeidsforholdFormData,
-
-    // Fosterbarn
-    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fosterbarn]: [],
 
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
@@ -111,9 +104,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
 
-    [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo.UNANSWERED,
-    [SøknadFormField.smittevernDokumenter]: [],
-
-    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo.UNANSWERED,
+    [SøknadFormField.dokumenterSmittevernhensyn]: [],
     [SøknadFormField.dokumenterStengtBkgSkole]: [],
 };

@@ -1,34 +1,33 @@
-import { SøknadApiData } from '../types/SøknadApiData';
-import { mapToBekreftelser, settInnFosterbarn } from './formToApiMaps/mapFunctions';
-import { SøknadFormData } from '../types/SøknadFormData';
 import { IntlShape } from 'react-intl';
+import { Fosterbarn } from '@navikt/sif-common-forms/lib';
 import { Locale } from 'common/types/Locale';
-import { settInnBosteder } from './formToApiMaps/mapBostedUtlandToApiData';
-import { settInnOpphold } from './formToApiMaps/mapUtenlandsoppholdToApiData';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { ApiFosterbarn, SøknadApiData } from '../types/SøknadApiData';
+import { SøknadFormData } from '../types/SøknadFormData';
+import { getAlleUtbetalingsperioder } from './arbeidsforholdUtils';
+import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
+import { settInnBosteder } from './formToApiMaps/mapBostedUtlandToApiData';
+import { mapToBekreftelser } from './formToApiMaps/mapFunctions';
+import { settInnOpphold } from './formToApiMaps/mapUtenlandsoppholdToApiData';
 import {
     listOfArbeidsforholdFormDataToListOfAttachmentStrings,
     listOfAttachmentsToListOfUrlStrings,
 } from './formToApiMaps/mapVedleggToApiData';
-import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from './periodeUtils';
 import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
-import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
-export const mapFormDataToApiData = (
-    {
+export const mapFosterbarnToApiFosterbarn = ({ fødselsnummer }: Fosterbarn): ApiFosterbarn => ({
+    identitetsnummer: fødselsnummer,
+});
+
+export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): SøknadApiData => {
+    const {
         harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger,
 
-        // STEG 1: Situasjon
         arbeidsforhold,
         annetArbeidsforhold,
 
-        harFosterbarn,
-        fosterbarn,
-
-        // STEG 2: Periode
-
-        // STEG 3: ANNET
         perioderHarVærtIUtlandet,
         perioderUtenlandsopphold,
         harSøktAndreUtbetalinger,
@@ -36,28 +35,30 @@ export const mapFormDataToApiData = (
         erSelvstendigOgEllerFrilans,
         selvstendigOgEllerFrilans,
 
-        // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
         utenlandsoppholdNeste12Mnd,
 
-        hjemmePgaSmittevernhensynYesOrNo,
-        smittevernDokumenter,
-        hjemmePgaStengtBhgSkole,
         dokumenterStengtBkgSkole,
-    }: SøknadFormData,
-    intl: IntlShape
-): SøknadApiData => {
-    const _vedleggSmittevern =
-        hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES
-            ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
-            : [];
+        dokumenterSmittevernhensyn,
+        harFosterbarn,
+        fosterbarn,
+    } = values;
 
-    const _vedleggStengtBhgSkole =
-        isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && hjemmePgaStengtBhgSkole === YesOrNo.YES
-            ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
-            : [];
+    const allePerioder = getAlleUtbetalingsperioder(values);
+    const hjemmePgaSmittevernhensyn = harFraværPgaSmittevernhensyn(allePerioder);
+    const hjemmePgaStengtBhgSkole = harFraværPgaStengBhgSkole(allePerioder);
+
+    const _vedleggSmittevern = hjemmePgaSmittevernhensyn
+        ? listOfAttachmentsToListOfUrlStrings(dokumenterSmittevernhensyn)
+        : [];
+
+    const _vedleggStengtBhgSkole = hjemmePgaStengtBhgSkole
+        ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
+        : [];
+
+    console.log(fosterbarn);
 
     const apiData: SøknadApiData = {
         språk: (intl.locale as any) === 'en' ? 'nn' : (intl.locale as Locale),
@@ -68,6 +69,7 @@ export const mapFormDataToApiData = (
             utenlandsoppholdNeste12Mnd,
             intl.locale
         ),
+        fosterbarn: fosterbarn.map(mapFosterbarnToApiFosterbarn),
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
         arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([
             ...arbeidsforhold,
@@ -77,11 +79,8 @@ export const mapFormDataToApiData = (
         andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
         erSelvstendig: isSelvstendig(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
         erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
-        fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
-        hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
-        hjemmePgaStengtBhgSkole: isFeatureEnabled(Feature.STENGT_BHG_SKOLE)
-            ? hjemmePgaStengtBhgSkole === YesOrNo.YES
-            : undefined,
+        hjemmePgaSmittevernhensyn,
+        hjemmePgaStengtBhgSkole,
         vedlegg: [
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
             ..._vedleggSmittevern,
@@ -89,6 +88,7 @@ export const mapFormDataToApiData = (
         ],
         _vedleggSmittevern,
         _vedleggStengtBhgSkole,
+        _harFosterbarn: harFosterbarn === YesOrNo.YES,
     };
 
     return apiData;

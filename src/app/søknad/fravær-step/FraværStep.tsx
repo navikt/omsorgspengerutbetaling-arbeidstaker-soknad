@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -9,8 +8,6 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormSection from 'common/components/form-section/FormSection';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
-import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
@@ -19,7 +16,7 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../type
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
-import './periodeStep.less';
+import './fraværStep.less';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -48,7 +45,7 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
     };
 };
 
-const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
+const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
 
     const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
@@ -57,31 +54,27 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
-                <FormSection
-                    key={arbeidsforhold.organisasjonsnummer}
-                    titleTag="h2"
-                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                    titleIcon={<BuildingIcon />}>
-                    <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
-                    <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
-                </FormSection>
+                <FormBlock key={arbeidsforhold.organisasjonsnummer}>
+                    <FormSection
+                        titleTag="h2"
+                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                        titleIcon={<BuildingIcon />}>
+                        <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
+                        <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
+                    </FormSection>
+                </FormBlock>
             ) : null;
         }
     );
-    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
-
-    const attachmentsSizeOver24Mb =
-        getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
         <SøknadStep
-            id={StepID.PERIODE}
+            id={StepID.FRAVÆR}
             onValidFormSubmit={() => {
                 onValidSubmit();
             }}
             cleanupStep={cleanupStep}
-            showSubmitButton={true}
-            buttonDisabled={attachmentsSizeOver24Mb}>
+            showSubmitButton={true}>
             <FormBlock>
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
@@ -110,4 +103,4 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     );
 };
 
-export default PeriodeStep;
+export default FraværStep;

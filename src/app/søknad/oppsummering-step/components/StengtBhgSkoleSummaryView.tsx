@@ -1,43 +1,24 @@
 import * as React from 'react';
-import intlHelper from 'common/utils/intlUtils';
-import JaNeiSvar from './JaNeiSvar';
-import SummaryBlock from './SummaryBlock';
-import { SøknadApiData } from '../../../types/SøknadApiData';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { useFormikContext } from 'formik';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import { FormattedMessage, useIntl } from 'react-intl';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
 import { Attachment } from 'common/types/Attachment';
-import SummarySection from './summary-section/SummarySection';
+import intlHelper from 'common/utils/intlUtils';
+import SummaryBlock from './SummaryBlock';
+
 interface Props {
-    apiValues: SøknadApiData;
+    dokumenterStengBhgSkole: Attachment[];
 }
 
-const StengtBhgSkoleSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
+const StengtBhgSkoleSummaryView: React.FC<Props> = ({ dokumenterStengBhgSkole }) => {
     const intl = useIntl();
-    const { values } = useFormikContext<SøknadFormData>();
-
-    const attachments: Attachment[] = values[SøknadFormField.dokumenterStengtBkgSkole];
-
     return (
-        <SummarySection header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.titel')}>
-            <SummaryBlock header={intlHelper(intl, 'steg.annet.hjemmePgaStengt.spm')}>
-                <JaNeiSvar harSvartJa={apiValues.hjemmePgaStengtBhgSkole} />
-
-                {apiValues.hjemmePgaStengtBhgSkole && (
-                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.header')}>
-                        {attachments.length > 0 ? (
-                            <AttachmentList attachments={attachments} />
-                        ) : (
-                            <FormattedMessage
-                                id="steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp"
-                                tagName="em"
-                            />
-                        )}
-                    </SummaryBlock>
-                )}
-            </SummaryBlock>
-        </SummarySection>
+        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.header')}>
+            {dokumenterStengBhgSkole.length > 0 ? (
+                <AttachmentList attachments={dokumenterStengBhgSkole} />
+            ) : (
+                <FormattedMessage id="steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp" tagName="em" />
+            )}
+        </SummaryBlock>
     );
 };
 
