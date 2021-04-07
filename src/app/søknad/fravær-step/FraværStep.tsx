@@ -1,6 +1,8 @@
 /* eslint-disable react/display-name */
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { date1YearAgo, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { isString, useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -14,13 +16,11 @@ import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbei
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { getAlleFraværDager, getAlleFraværPerioder } from '../../utils/arbeidsforholdUtils';
+import { getTidsromFromÅrstall, getÅrstallFromFravær } from '../../utils/fraværUtils';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './fraværStep.less';
-import { getTidsromFromÅrstall, getÅrstallFromFravær } from '../../utils/fraværUtils';
-import { getAlleFraværDager, getAlleFraværPerioder } from '../../utils/arbeidsforholdUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
-import { date1YearAgo, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -78,9 +78,9 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
         }
     }, [årstall, fraværDager, fraværPerioder, updateÅrstall]);
 
-    const harRegistrertMerEnnEttFravær = fraværDager.length + fraværPerioder.length > 1;
-    const minDateForFravær = harRegistrertMerEnnEttFravær ? gyldigTidsrom.from : date1YearAgo;
-    const maxDateForFravær = harRegistrertMerEnnEttFravær ? gyldigTidsrom.to : dateToday;
+    const harRegistrertFravær = fraværDager.length + fraværPerioder.length > 0;
+    const minDateForFravær = harRegistrertFravær ? gyldigTidsrom.from : date1YearAgo;
+    const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : dateToday;
 
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
