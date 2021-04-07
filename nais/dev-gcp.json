@@ -14,7 +14,7 @@
         "TOGGLE_LANGUAGE": "on",
         "UTILGJENGELIG": "off",
         "STENGT_BHG_SKOLE": "on",
-        "NYNORSK": "on",
+        "NYNORSK": "off",
         "APPSTATUS_PROJECT_ID": "ryujtq87",
         "APPSTATUS_DATASET": "staging"
     }

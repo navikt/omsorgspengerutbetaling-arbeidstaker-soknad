@@ -5,7 +5,7 @@
     "team": "dusseldorf",
     "minReplicas": "1",
     "maxReplicas": "1",
-   "ingresses": [
+    "ingresses": [
         "https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
         "https://www.intern.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker"
     ],
@@ -17,7 +17,7 @@
         "TOGGLE_LANGUAGE": "on",
         "UTILGJENGELIG": "off",
         "STENGT_BHG_SKOLE": "on",
-        "NYNORSK": "on",
+        "NYNORSK": "off",
         "APPSTATUS_PROJECT_ID": "ryujtq87",
         "APPSTATUS_DATASET": "production"
     }
