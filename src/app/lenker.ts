@@ -6,6 +6,7 @@ interface Lenker {
     rettOgPlikt: string;
     saksbehandlingstider: string;
     dittNAV: string;
+    veiledningEttersendelse: string;
 }
 
 const LenkerBokmål: Lenker = {
@@ -18,6 +19,8 @@ const LenkerBokmål: Lenker = {
     rettOgPlikt: 'https://nav.no/rettOgPlikt',
     saksbehandlingstider: 'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV',
     dittNAV: `https://www.nav.no/no/Ditt+NAV`,
+    veiledningEttersendelse:
+        'https://www.dev.nav.no/soknader/nb/person/familie/omsorgspenger/NAV%2009-06.05/ettersendelse',
 };
 
 const LenkerNynorsk: Partial<Lenker> = {

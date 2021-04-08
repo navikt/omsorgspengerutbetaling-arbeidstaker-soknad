@@ -1,26 +1,28 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
+import { useFormikContext } from 'formik';
+import Lenke from 'nav-frontend-lenker';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormBlock from 'common/components/form-block/FormBlock';
+import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from 'common/types/Attachment';
 import intlHelper from 'common/utils/intlUtils';
 import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
 import { FieldValidationResult } from 'common/validation/types';
+import getLenker from '../../lenker';
 import {
     AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
     HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import FormikQuestion from '../formik-question/FormikQuestion';
-import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
-import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from 'common/types/Attachment';
-import { useFormikContext } from 'formik';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
+import FormikQuestion from '../formik-question/FormikQuestion';
+import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
     return value === HvorLengeJobbet.IKKE_BESVART
@@ -202,17 +204,14 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     <FormBlock>
                         <CounsellorPanel>
                             <Box padBottom={'l'}>
-                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.1.1'} />
-                                <strong>
-                                    <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.1.2'} />
-                                </strong>
-                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.1.3'} />
+                                <FormattedMessage id="arbeidslengde.merEnnFireUker.info.1" />
                             </Box>
                             <Box padBottom={'l'}>
-                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.2'} />
-                            </Box>
-                            <Box padBottom={'l'}>
-                                <FormattedMessage id={'arbeidslengde.merEnnFireUker.infopanel.3'} />
+                                <FormattedMessage id="arbeidslengde.merEnnFireUker.info.2" />{' '}
+                                <Lenke href={getLenker(intl.locale).veiledningEttersendelse} target="_blank">
+                                    <FormattedMessage id="arbeidslengde.merEnnFireUker.info.3" />
+                                </Lenke>
+                                <FormattedMessage id="arbeidslengde.merEnnFireUker.info.4" />
                             </Box>
                         </CounsellorPanel>
                     </FormBlock>

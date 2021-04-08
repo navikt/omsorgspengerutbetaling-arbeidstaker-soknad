@@ -212,8 +212,10 @@
 
     "steg.annet.hjemmePgaStengt.spm": "Har du vore heime frå jobb fordi barnehagen eller skulen har vært lokalt stengt på grunn av koronaviruset?",
     "steg.annet.stengtBhgSkole.vedlegg": "Last opp stadfesting frå barnehagen eller skulen",
-    "steg.annet.stengtBhgSkole.info.1": "Du må laste opp ei stadfesting frå barnehagen eller skulen på at dei har vore stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilete av stadfestinga, eller ved å scanne den.",
-    "steg.annet.stengtBhgSkole.info.2": "Dersom du ikkje har stadfestinga tilgjengeleg nå, må du ettersende den til oss så snart du har den. Vi kan ikkje behandle søknaden før vi har motteke stadfestinga.",
+    "steg.annet.stengtBhgSkole.info.1": "Her skal du laste opp bekreftelse fra barnehagen eller skolen på at du har vært stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilde av bekreftelsen, eller ved å skanne den.",
+    "steg.annet.stengtBhgSkole.info.2": "Vi kan ikke behandle søknaden din før vi mottar bekreftelsen. Hvis du ikke har bekreftelsen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten bekreftelsen, men da må du ettersende den så snart som mulig.",
+    "steg.annet.stengtBhgSkole.info.3": "Her får du veiledning til hvordan du ettersender dokumentasjon",
+    "steg.annet.stengtBhgSkole.info.4": ".",
 
     "steg.arbeid.spm": "Kva er arbeidssituasjonen din? Du kan velje fleire.",
 
@@ -469,8 +471,10 @@
     "step.annet.periodeoversikt.tittel": "Du har lagt inn følgjande dagar i søknaden då du har vore heime med barn:",
     "step.annet.periodeoversikt.leggTilLabel": "Legg til nytt utanlandsopphald",
     "step.annet.periodeoversikt.modalTittel": "Utanlandsopphald dei siste 12 månadene",
-    "step.annet.hjemmePgaSmittevern.info.1": "Du må laste opp ei stadfesting frå lege om at det er særlege smittevernomsyn som gjer at barnet ikkje kan gå i barnehage eller skule.",
-    "step.annet.hjemmePgaSmittevern.info.2": "Dersom du ikkje har stadfestinga tilgjengeleg no, må du ettersende henne til oss så snart du har stadfestinga. Vi kan ikkje behandle søknaden før vi har fått stadfestinga.",
+    "step.annet.hjemmePgaSmittevern.info.1": "Her skal du laste opp bekreftelse fra lege på om at det er særlige smittevernhensyn som gjør at barnet ikke kan gå i barnehage eller skole. Det gjør du enten ved å ta bilde av bekreftelsen, eller ved å skanne den.",
+    "step.annet.hjemmePgaSmittevern.info.2": "Vi kan ikke behandle søknaden din før vi mottar bekreftelsen. Hvis du ikke har bekreftelsen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten bekreftelsen, men da må du ettersende den så snart som mulig.",
+    "step.annet.hjemmePgaSmittevern.info.3": "Her får du veiledning til hvordan du ettersender dokumentasjon",
+    "step.annet.hjemmePgaSmittevern.info.4": ".",
 
     "ingen.arbeidsforhold.info.text": "Vi finn ingen registrerte arbeidsforhold.",
     "ingen.gjeldende.arbeidsforhold.info.text": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
@@ -494,9 +498,8 @@
     "selvstendig_og_eller_frilans.frilans.ja.info": "Dersom du skal søkje om omsorgspengar som sjølvstendig næringsdrivande, {lenkeKomponent}, i tillegg til denne.",
     "selvstendig_og_eller_frilans.frilans.ja.info.lenketekst": "må du sende ein eigen søknad om det",
 
-    "arbeidslengde.merEnnFireUker.infopanel.1.1": "Vanlegvis skal arbeidsgjever utbetale omsorgspengar når du har jobba hos dei i meir enn 4 veker. Dersom arbeidsgjever ikkje utbetalar, ",
-    "arbeidslengde.merEnnFireUker.infopanel.1.2": "må du laste opp ei forklaring frå arbeidsgjever ",
-    "arbeidslengde.merEnnFireUker.infopanel.1.3": "på kvifor dei ikkje utbetalar omsorgspengar til deg. Det gjør du enten ved å ta bilete av forklaringa, eller ved å scanne den.",
-    "arbeidslengde.merEnnFireUker.infopanel.2": "Dersom du ikkje har forklaringa tilgjengeleg nå, må du ettersende den til oss så snart du har den. Vi kan ikkje behandle søknaden før vi har motteke forklaringa.",
-    "arbeidslengde.merEnnFireUker.infopanel.3": "Du må også be arbeidsgjeveren din sende inntektsmelding til NAV."
+    "arbeidslengde.merEnnFireUker.info.1": "Her skal du laste opp bekreftelse fra barnehagen eller skolen på at du har vært stengt på grunn av koronaviruset. Det gjør du enten ved å ta bilde av bekreftelsen, eller ved å skanne den.",
+    "arbeidslengde.merEnnFireUker.info.2": "Vi kan ikke behandle søknaden din før vi mottar bekreftelsen. Hvis du ikke har bekreftelsen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten bekreftelsen, men da må du ettersende den så snart som mulig.",
+    "arbeidslengde.merEnnFireUker.info.3": "Her får du veiledning til hvordan du ettersender dokumentasjon",
+    "arbeidslengde.merEnnFireUker.info.4": "."
 }

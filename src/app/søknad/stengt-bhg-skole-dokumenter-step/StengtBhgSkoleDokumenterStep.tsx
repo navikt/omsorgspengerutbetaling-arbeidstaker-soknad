@@ -15,6 +15,8 @@ import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 import SøknadStep from '../SøknadStep';
+import Lenke from 'nav-frontend-lenker';
+import getLenker from '../../lenker';
 
 const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const intl = useIntl();
@@ -36,7 +38,11 @@ const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = (
                     <FormattedMessage id="steg.annet.stengtBhgSkole.info.1" />
                 </Box>
                 <Box padBottom={'l'}>
-                    <FormattedMessage id="steg.annet.stengtBhgSkole.info.2" />
+                    <FormattedMessage id="steg.annet.stengtBhgSkole.info.2" />{' '}
+                    <Lenke href={getLenker(intl.locale).veiledningEttersendelse} target="_blank">
+                        <FormattedMessage id="steg.annet.stengtBhgSkole.info.3" />
+                    </Lenke>
+                    <FormattedMessage id="steg.annet.stengtBhgSkole.info.4" />
                 </Box>
             </CounsellorPanel>
             <Box margin={'l'}>

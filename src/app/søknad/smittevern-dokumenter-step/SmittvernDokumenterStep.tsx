@@ -11,8 +11,10 @@ import {
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
+import Lenke from 'nav-frontend-lenker';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
+import getLenker from '../../lenker';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 import SøknadStep from '../SøknadStep';
@@ -38,7 +40,11 @@ const SmittevernDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ on
                         <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.1" />
                     </Box>
                     <Box padBottom={'l'}>
-                        <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.2" />
+                        <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.2" />{' '}
+                        <Lenke href={getLenker(intl.locale).veiledningEttersendelse} target="_blank">
+                            <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.3" />
+                        </Lenke>
+                        <FormattedMessage id="step.annet.hjemmePgaSmittevern.info.4" />
                     </Box>
                 </CounsellorPanel>
             </FormBlock>
