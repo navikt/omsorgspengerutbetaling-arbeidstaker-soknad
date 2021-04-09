@@ -58,8 +58,6 @@ export const mapFormDataToApiData = (values: SøknadFormData, intl: IntlShape): 
         ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
         : [];
 
-    console.log(fosterbarn);
-
     const apiData: SøknadApiData = {
         språk: (intl.locale as any) === 'en' ? 'nn' : (intl.locale as Locale),
         bosteder: settInnBosteder(
