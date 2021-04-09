@@ -47,7 +47,7 @@ export interface ArbeidsgiverDetaljer {
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;
     ansettelseslengde: Ansettelseslengde;
-    perioder: Utbetalingsperiode[];
+    perioder: UtbetalingsperiodeApi[];
 }
 
 export interface Ansettelseslengde {
@@ -69,7 +69,7 @@ export interface JobbHosNåværendeArbeidsgiver {
     begrunnelse: Begrunnelse | null;
 }
 
-export interface Utbetalingsperiode {
+export interface UtbetalingsperiodeApi {
     fraOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)

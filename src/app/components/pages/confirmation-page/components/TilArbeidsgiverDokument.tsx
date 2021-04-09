@@ -1,13 +1,14 @@
 import * as React from 'react';
+import { useIntl } from 'react-intl';
+import AlertStripe from 'nav-frontend-alertstriper';
 import Panel from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
-import { ArbeidsgiverDetaljer, Utbetalingsperiode } from '../../../../types/SøknadApiData';
-import { Time } from 'common/types/Time';
-import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
-import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
 import Box from 'common/components/box/Box';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { utbetalingsperiodeDagToDagSummaryStringView } from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
+import { Time } from 'common/types/Time';
+import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
+import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
+import { renderUtbetalingsperiodeDag } from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
+import { ArbeidsgiverDetaljer, UtbetalingsperiodeApi } from '../../../../types/SøknadApiData';
 
 interface Props {
     arbeidsgiverDetaljer: ArbeidsgiverDetaljer;
@@ -28,6 +29,7 @@ const isoDurationToMaybeTime = (value: string | null): Time | undefined => {
 };
 
 const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søkersNavn, søknadNavn }: Props) => {
+    const intl = useIntl();
     return (
         <div className={'pagebreak tilArbeidsgiverPanel'}>
             <Panel border={true} className={'luftOver'}>
@@ -47,17 +49,20 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                 </p>
                 {arbeidsgiverDetaljer.perioder.length > 0 && (
                     <ul>
-                        {arbeidsgiverDetaljer.perioder.map((periode: Utbetalingsperiode, i: number) => {
+                        {arbeidsgiverDetaljer.perioder.map((periode: UtbetalingsperiodeApi, i: number) => {
                             const maybePlanlagt: Time | undefined = isoDurationToMaybeTime(periode.antallTimerPlanlagt);
                             const maybeBorte: Time | undefined = isoDurationToMaybeTime(periode.antallTimerBorte);
                             return maybePlanlagt && maybeBorte ? (
                                 <li key={`delvisDag-${i}`}>
-                                    {utbetalingsperiodeDagToDagSummaryStringView({
-                                        dato: periode.fraOgMed,
-                                        antallTimerPlanlagt: maybePlanlagt,
-                                        antallTimerBorte: maybeBorte,
-                                        årsak: periode.årsak,
-                                    })}
+                                    {renderUtbetalingsperiodeDag(
+                                        {
+                                            dato: periode.fraOgMed,
+                                            antallTimerPlanlagt: maybePlanlagt,
+                                            antallTimerBorte: maybeBorte,
+                                            årsak: periode.årsak,
+                                        },
+                                        intl
+                                    )}
                                 </li>
                             ) : (
                                 <li key={`periode-${i}`}>

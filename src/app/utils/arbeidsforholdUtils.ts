@@ -10,7 +10,7 @@ import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/Ansettelseslengd
 import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import appSentryLogger from './appSentryLogger';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
-import { Utbetalingsperiode } from '../types/SøknadApiData';
+import { UtbetalingsperiodeApi } from '../types/SøknadApiData';
 import { mapFraværTilUtbetalingsperiode } from './formToApiMaps/mapPeriodeToApiData';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
@@ -67,7 +67,7 @@ export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: Arbeid
     return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
 };
 
-export const getAlleUtbetalingsperioder = (values: SøknadFormData): Utbetalingsperiode[] => {
+export const getAlleUtbetalingsperioder = (values: SøknadFormData): UtbetalingsperiodeApi[] => {
     const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
         .map((arbeidsforhold: ArbeidsforholdFormData) => {
             return arbeidsforhold.fraværPerioder;

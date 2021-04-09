@@ -1,50 +1,39 @@
 import React from 'react';
-import { IntlShape, useIntl, FormattedMessage } from 'react-intl';
+import { IntlShape, useIntl } from 'react-intl';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
-import { Time } from 'common/types/Time';
-import { apiStringDateToDate, prettifyDate, prettifyDateExtended } from 'common/utils/dateUtils';
-import { iso8601DurationToTime, timeToDecimalTime } from 'common/utils/timeUtils';
-import { Utbetalingsperiode } from '../../../types/SøknadApiData';
-import SummaryBlock from './SummaryBlock';
-import { isString } from 'formik';
-import { FraværÅrsak, timeText } from '@navikt/sif-common-forms/lib/fravær';
+import { Time } from '@navikt/sif-common-core/lib/types/Time';
+import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { iso8601DurationToTime, timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { FraværÅrsak, getFraværÅrsakTekstKort, timeText } from '@navikt/sif-common-forms/lib/fravær';
+import dayjs from 'dayjs';
+import { UtbetalingsperiodeApi } from '../../../types/SøknadApiData';
+import SummaryBlock from './SummaryBlock';
 
 export interface Props {
-    utbetalingsperioder: Utbetalingsperiode[];
+    utbetalingsperioder: UtbetalingsperiodeApi[];
 }
 
-export interface UtbetalingsperiodeDag {
+type UtbetalingsperiodeDag = Omit<
+    UtbetalingsperiodeApi,
+    'fraOgMed' | 'tilOgMed' | 'antallTimerPlanlagt' | 'antallTimerBorte'
+> & {
     dato: string;
     antallTimerPlanlagt: Time;
     antallTimerBorte: Time;
-    årsak: FraværÅrsak;
-}
-
-const isUtbetalingsperiode = (value: any): value is Utbetalingsperiode => {
-    return isString(value.fraOgMed) && isString(value.tilOgMed) && value.antallTimerPlanlagt && value.antallTimerBorte;
 };
 
-export const timeToStringTemporaryFix = (time: Time, intl: IntlShape, hideZeroMinutes?: boolean): string => {
-    if (hideZeroMinutes && time.minutes === 0) {
-        return `${time.hours} timer`;
-    }
-    return `${time.hours} timer og ${time.minutes} minutter`;
-};
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const isTime = (value: any): value is Time => {
     return value && value.hours !== undefined && value.minutes !== undefined;
 };
 
-export const toMaybeUtbetalingsperiodeDag = (p: Utbetalingsperiode): UtbetalingsperiodeDag | null => {
-    if (isUtbetalingsperiode(p)) {
-        const antallTimerPlanlagtTime: Partial<Time> | undefined = p.antallTimerPlanlagt
-            ? iso8601DurationToTime(p.antallTimerPlanlagt)
-            : undefined;
-        const antallTimerBorteTime: Partial<Time> | undefined = p.antallTimerBorte
-            ? iso8601DurationToTime(p.antallTimerBorte)
-            : undefined;
+export const isUtbetalingsperiodeDag = (p: any): p is UtbetalingsperiodeDag =>
+    p && p.fraOgMed && p.antallTimerBorte !== null && p.antallTimerPlanlagt !== null;
+
+export const toMaybeUtbetalingsperiodeDag = (p: UtbetalingsperiodeApi): UtbetalingsperiodeDag | null => {
+    if (isUtbetalingsperiodeDag(p)) {
+        const antallTimerPlanlagtTime: Partial<Time> | undefined = iso8601DurationToTime(p.antallTimerPlanlagt);
+        const antallTimerBorteTime = iso8601DurationToTime(p.antallTimerBorte);
         if (isTime(antallTimerPlanlagtTime) && isTime(antallTimerBorteTime)) {
             return {
                 dato: p.fraOgMed,
@@ -61,7 +50,23 @@ export const outNull = (
     maybeUtbetalingsperiodeDag: UtbetalingsperiodeDag | null
 ): maybeUtbetalingsperiodeDag is UtbetalingsperiodeDag => maybeUtbetalingsperiodeDag !== null;
 
-export const utbetalingsperiodeDagToDagSummaryStringView = (dag: UtbetalingsperiodeDag): JSX.Element => {
+const renderÅrsakElement = (årsak: FraværÅrsak, intl: IntlShape): JSX.Element | null => {
+    return årsak !== FraværÅrsak.ordinært ? (
+        <div>
+            {intlHelper(intl, 'steg.oppsummering.fravær.årsak', {
+                årsak: getFraværÅrsakTekstKort(årsak, intl),
+            })}
+        </div>
+    ) : null;
+};
+
+const renderEnkeltdagElement = (date: Date): JSX.Element => (
+    <div>
+        <span style={{ textTransform: 'capitalize' }}>{dayjs(date).format('dddd')}</span> {prettifyDate(date)}
+    </div>
+);
+
+export const renderUtbetalingsperiodeDag = (dag: UtbetalingsperiodeDag, intl: IntlShape): JSX.Element => {
     const antallTimerSkulleJobbet = `${timeToDecimalTime(dag.antallTimerPlanlagt)} ${timeText(
         `${timeToDecimalTime(dag.antallTimerPlanlagt)}`
     )}`;
@@ -69,58 +74,55 @@ export const utbetalingsperiodeDagToDagSummaryStringView = (dag: Utbetalingsperi
         `${timeToDecimalTime(dag.antallTimerBorte)}`
     )}`;
     return (
-        <>
-            <FormattedMessage
-                tagName="span"
-                id="steg.oppsummering.utbetaling.delvisFravær.item"
-                values={{
-                    dato: prettifyDateExtended(apiStringDateToDate(dag.dato)),
-                    timerSkulleJobbet: antallTimerSkulleJobbet,
-                    timerBorte: antallTimerBorteFraJobb,
-                }}
-            />
-            {dag.årsak !== FraværÅrsak.ordinært && (
-                <FormattedMessage id={`steg.oppsummering.utbetaling.fravær.årsak.${dag.årsak}`} />
-            )}
-        </>
+        <div style={{ marginBottom: '.5rem' }}>
+            {renderEnkeltdagElement(apiStringDateToDate(dag.dato))}
+            Skulle jobbet {antallTimerSkulleJobbet}. Borte fra jobb {antallTimerBorteFraJobb}.
+            {renderÅrsakElement(dag.årsak, intl)}
+        </div>
     );
 };
 
-const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder = [] }: Props): JSX.Element => {
-    const intl = useIntl();
+const renderUtbetalingsperiode = (periode: UtbetalingsperiodeApi, intl: IntlShape): JSX.Element => {
+    const fom = apiStringDateToDate(periode.fraOgMed);
+    const tom = apiStringDateToDate(periode.tilOgMed);
 
-    const perioder = utbetalingsperioder.filter((p) => p.antallTimerBorte === null);
+    return (
+        <div style={{ marginBottom: '.5rem' }}>
+            {periode.fraOgMed === periode.tilOgMed ? (
+                <div>
+                    {renderEnkeltdagElement(fom)}
+                    {renderÅrsakElement(periode.årsak, intl)}
+                </div>
+            ) : (
+                <div>
+                    Fra og med {prettifyDate(fom)}, til og med {prettifyDate(tom)}
+                    {renderÅrsakElement(periode.årsak, intl)}
+                </div>
+            )}
+        </div>
+    );
+};
+
+const UtbetalingsperioderSummaryView: React.FunctionComponent<Props> = ({ utbetalingsperioder = [] }) => {
+    const perioder: UtbetalingsperiodeApi[] = utbetalingsperioder.filter(
+        (p) => p.tilOgMed !== undefined && p.antallTimerBorte === null
+    );
+    const intl = useIntl();
     const dager: UtbetalingsperiodeDag[] = utbetalingsperioder.map(toMaybeUtbetalingsperiodeDag).filter(outNull);
 
     return (
         <>
             {perioder.length > 0 && (
-                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utbetaling.fravær.heleDager.header')}>
-                    <SummaryList
-                        items={perioder}
-                        itemRenderer={(periode: Utbetalingsperiode): JSX.Element => (
-                            <>
-                                <FormattedMessage
-                                    tagName="span"
-                                    id="steg.oppsummering.utbetaling.fravær.heleDager.item"
-                                    values={{
-                                        fom: prettifyDate(apiStringDateToDate(periode.fraOgMed)),
-                                        tom: prettifyDate(apiStringDateToDate(periode.tilOgMed)),
-                                    }}
-                                />
-                                {periode.årsak !== FraværÅrsak.ordinært && (
-                                    <FormattedMessage
-                                        id={`steg.oppsummering.utbetaling.fravær.årsak.${periode.årsak}`}
-                                    />
-                                )}
-                            </>
-                        )}
-                    />
+                <SummaryBlock header={'Hele dager med fravær'}>
+                    <SummaryList items={perioder} itemRenderer={(periode) => renderUtbetalingsperiode(periode, intl)} />
                 </SummaryBlock>
             )}
             {dager.length > 0 && (
-                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utbetaling.delvisFravær.header')}>
-                    <SummaryList items={dager} itemRenderer={utbetalingsperiodeDagToDagSummaryStringView} />
+                <SummaryBlock header={'Dager med delvis fravær'}>
+                    <SummaryList
+                        items={dager}
+                        itemRenderer={(dag: UtbetalingsperiodeDag) => renderUtbetalingsperiodeDag(dag, intl)}
+                    />
                 </SummaryBlock>
             )}
         </>

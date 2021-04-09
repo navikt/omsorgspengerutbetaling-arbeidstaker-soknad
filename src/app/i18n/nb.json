@@ -298,6 +298,8 @@
     "steg.oppsummering.utbetaling.fravær.årsak.SMITTEVERNHENSYN": " (særlige smittevernhensyn)",
     "steg.oppsummering.utbetaling.fravær.årsak.STENGT_SKOLE_ELLER_BARNEHAGE": " (stengt skole/barnehage)",
 
+    "steg.oppsummering.fravær.årsak": "Årsak: {årsak}.",
+
     "steg.oppsummering.smittevernhensyn.titel": "Særlige smittevernhensyn",
 
     "steg.oppsummering.utenlandsopphold.titel": "Utenlandsopphold",

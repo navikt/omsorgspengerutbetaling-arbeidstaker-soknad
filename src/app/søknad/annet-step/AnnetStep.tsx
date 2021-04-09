@@ -12,7 +12,7 @@ import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
-import { Utbetalingsperiode } from '../../types/SøknadApiData';
+import { UtbetalingsperiodeApi } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { getAlleUtbetalingsperioder } from '../../utils/arbeidsforholdUtils';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
@@ -26,7 +26,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
     const { perioderHarVærtIUtlandet } = values;
     const intl = useIntl();
 
-    const utbetalingsperioder: Utbetalingsperiode[] = getAlleUtbetalingsperioder(values);
+    const utbetalingsperioder: UtbetalingsperiodeApi[] = getAlleUtbetalingsperioder(values);
     const førsteOgSisteDagMedFravær = getPeriodeBoundaries(utbetalingsperioder);
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 

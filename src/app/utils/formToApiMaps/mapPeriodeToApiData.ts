@@ -1,4 +1,4 @@
-import { Utbetalingsperiode } from '../../types/SøknadApiData';
+import { UtbetalingsperiodeApi } from '../../types/SøknadApiData';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from 'common/utils/timeUtils';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
@@ -6,9 +6,9 @@ import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær
 export const mapFraværTilUtbetalingsperiode = (
     fraværPerioder: FraværPeriode[],
     fraværDager: FraværDag[]
-): Utbetalingsperiode[] => {
-    const periodeMappedTilUtbetalingsperiode: Utbetalingsperiode[] = fraværPerioder.map(
-        (periode: FraværPeriode): Utbetalingsperiode => {
+): UtbetalingsperiodeApi[] => {
+    const periodeMappedTilUtbetalingsperiode: UtbetalingsperiodeApi[] = fraværPerioder.map(
+        (periode: FraværPeriode): UtbetalingsperiodeApi => {
             return {
                 fraOgMed: formatDateToApiFormat(periode.fraOgMed),
                 tilOgMed: formatDateToApiFormat(periode.tilOgMed),
@@ -19,8 +19,8 @@ export const mapFraværTilUtbetalingsperiode = (
         }
     );
 
-    const fraværDeleravDagMappedTilUtbetalingsperiode: Utbetalingsperiode[] = fraværDager.map(
-        (fravær: FraværDag): Utbetalingsperiode => {
+    const fraværDeleravDagMappedTilUtbetalingsperiode: UtbetalingsperiodeApi[] = fraværDager.map(
+        (fravær: FraværDag): UtbetalingsperiodeApi => {
             const utbetalingsperiode = {
                 fraOgMed: formatDateToApiFormat(fravær.dato),
                 tilOgMed: formatDateToApiFormat(fravær.dato),

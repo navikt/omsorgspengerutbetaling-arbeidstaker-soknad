@@ -57,7 +57,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                 );
 
                 return (
-                    <Box key={index} padBottom={'xl'}>
+                    <Box key={index} padBottom={index + 1 < listeAvArbeidsforhold.length ? 'xl' : undefined}>
                         {/* Title */}
                         <div className={bem.element('org')}>
                             {orgInfo.navn}{' '}
