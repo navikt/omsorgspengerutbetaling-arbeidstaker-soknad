@@ -1,5 +1,6 @@
-import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { ValidateRequiredFieldError } from '@navikt/sif-common-formik/lib/validation';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import dayjs from 'dayjs';
@@ -18,8 +19,6 @@ import {
     dateRangesExceedsRange,
     dateToday,
 } from 'common/utils/dateUtils';
-import { createFieldValidationError, fieldIsRequiredError } from 'common/validation/fieldValidations';
-import { FieldValidationResult } from 'common/validation/types';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
 import { datesCollide } from './dateValidationUtils';
 
@@ -27,7 +26,7 @@ dayjs.extend(isBetween);
 
 export const hasValue = (v: any): boolean => v !== '' && v !== undefined && v !== null;
 
-export type FieldValidationArray = (validations: FormikValidateFunction[]) => (value: any) => FieldValidationResult;
+// export type FieldValidationArray = (validations: FormikValidateFunction[]) => (value: any) => FieldValidationResult;
 
 export enum AppFieldValidationErrors {
     'påkrevd' = 'fieldvalidation.påkrevd',
@@ -66,57 +65,61 @@ export enum AppFieldValidationErrors {
     'fraværPeriodeIkkeSammeÅrstall' = 'fieldvalidation.fraværPeriodeIkkeSammeÅrstall',
 }
 
-export const createAppFieldValidationError = (
-    error: AppFieldValidationErrors | AppFieldValidationErrors,
-    values?: any
-): FieldValidationResult => {
-    return createFieldValidationError<AppFieldValidationErrors | AppFieldValidationErrors>(error, values);
-};
+// export const createAppFieldValidationError = (
+//     error: AppFieldValidationErrors | AppFieldValidationErrors,
+//     values?: any
+// ): ValidationResult<ValidationError> => {
+//     return createFieldValidationError<AppFieldValidationErrors | AppFieldValidationErrors>(error, values);
+// };
 
-export const validateAll: FieldValidationArray = (validations: FormikValidateFunction[]) => (
-    value: any
-): FieldValidationResult => {
-    let result: FieldValidationResult;
-    validations.some((validate) => {
-        const r = validate(value);
-        if (r) {
-            result = r;
-            return true;
-        }
-        return false;
-    });
-    return result;
-};
+// export const validateAll: FieldValidationArray = (validations: FormikValidateFunction[]) => (
+//     value: any
+// ): ValidationResult<ValidationError> => {
+//     let result: ValidationResult<ValidationErroValidationResultr>;
+//     validations.some((validate) => {
+//         const r = validate(value);
+//         if (r) {
+//             result = r;
+//             return true;
+//         }
+//         return false;
+//     });
+//     return result;
+// };
 
 // -------------------------------------------------
 // MedlemsskapStep
 // -------------------------------------------------
 
-export const validateUtenlandsoppholdSiste12Mnd = (utenlandsopphold: Utenlandsopphold[]): FieldValidationResult => {
+export const validateUtenlandsoppholdSiste12Mnd = (
+    utenlandsopphold: Utenlandsopphold[]
+): ValidationResult<ValidationError> => {
     if (utenlandsopphold.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
+        return AppFieldValidationErrors.utenlandsopphold_ikke_registrert;
     }
     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
+        return AppFieldValidationErrors.utenlandsopphold_overlapper;
     }
     if (dateRangesExceedsRange(dateRanges, { from: date1YearAgo, to: new Date() })) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
+        return AppFieldValidationErrors.utenlandsopphold_utenfor_periode;
     }
 
     return undefined;
 };
 
-export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsopphold[]): FieldValidationResult => {
+export const validateUtenlandsoppholdNeste12Mnd = (
+    utenlandsopphold: Utenlandsopphold[]
+): ValidationResult<ValidationError> => {
     if (utenlandsopphold.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
+        return AppFieldValidationErrors.utenlandsopphold_ikke_registrert;
     }
     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
+        return AppFieldValidationErrors.utenlandsopphold_overlapper;
     }
     if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
+        return AppFieldValidationErrors.utenlandsopphold_utenfor_periode;
     }
     return undefined;
 };
@@ -146,16 +149,18 @@ export const harLikeDager = (dager: FraværDelerAvDag[]): boolean => {
     return datesCollide(dager.map((d) => d.dato));
 };
 
-export const validateTomAfterFom = (fom: Date) => (date: Date): FieldValidationResult => {
+export const validateTomAfterFom = (fom: Date) => (date: Date): ValidationResult<ValidationError | undefined> => {
     if (dayjs(date).isBefore(fom)) {
-        return createFieldValidationError(AppFieldValidationErrors.tom_er_før_fom);
+        return AppFieldValidationErrors.tom_er_før_fom;
     }
+    return undefined;
 };
 
-export const validateDateNotInFuture = () => (date: Date): FieldValidationResult => {
+export const validateDateNotInFuture = () => (date: Date): ValidationResult<ValidationError | undefined> => {
     if (dayjs(date).isAfter(dateToday)) {
-        return createFieldValidationError(AppFieldValidationErrors.tom_er_i_fremtiden);
+        return AppFieldValidationErrors.tom_er_i_fremtiden;
     }
+    return undefined;
 };
 
 export const datesCollideWithDateRanges = (dates: Date[], ranges: DateRange[]): boolean => {
@@ -173,14 +178,14 @@ const perioderMedFraværToDateRanges = (perioder: Periode[]): DateRange[] =>
 export const validatePerioderMedFravær = (
     allePerioder: Periode[],
     dagerMedGradvisFravær: FraværDelerAvDag[]
-): FieldValidationResult => {
+): ValidationResult<ValidationError> => {
     if (allePerioder.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.fraværsperioder_mangler);
+        return AppFieldValidationErrors.fraværsperioder_mangler;
     }
     const perioder = allePerioder.filter(isPeriodeMedFomTom);
     const dateRanges: DateRange[] = perioderMedFraværToDateRanges(perioder);
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.fraværsperioder_overlapper);
+        return AppFieldValidationErrors.fraværsperioder_overlapper;
     }
     if (
         datesCollideWithDateRanges(
@@ -188,7 +193,7 @@ export const validatePerioderMedFravær = (
             dateRanges
         )
     ) {
-        return createFieldValidationError(AppFieldValidationErrors.fraværsperioder_overlapper_med_fraværsdager);
+        return AppFieldValidationErrors.fraværsperioder_overlapper_med_fraværsdager;
     }
     return undefined;
 };
@@ -196,16 +201,16 @@ export const validatePerioderMedFravær = (
 export const validateDagerMedFravær = (
     dagerMedGradvisFravær: FraværDelerAvDag[],
     perioderMedFravær: Periode[]
-): FieldValidationResult => {
+): ValidationResult<ValidationError> => {
     if (dagerMedGradvisFravær.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.dager_med_fravær_mangler);
+        return AppFieldValidationErrors.dager_med_fravær_mangler;
     }
     const dager = dagerMedGradvisFravær.filter(
         (d) => d.dato !== undefined && d.timer !== undefined && isNaN(d.timer) === false
     );
 
     if (harLikeDager(dager)) {
-        return createFieldValidationError(AppFieldValidationErrors.dager_med_fravær_like);
+        return AppFieldValidationErrors.dager_med_fravær_like;
     }
     const dateRanges: DateRange[] = perioderMedFraværToDateRanges(perioderMedFravær);
     if (
@@ -214,38 +219,43 @@ export const validateDagerMedFravær = (
             dateRanges
         )
     ) {
-        return createFieldValidationError(AppFieldValidationErrors.dager_med_fravær_overlapper_perioder);
+        return AppFieldValidationErrors.dager_med_fravær_overlapper_perioder;
     }
 
     return undefined;
 };
 
-export const validateDateInRange = (tidsrom: Partial<DateRange>) => (date: any): FieldValidationResult => {
+export const validateDateInRange = (tidsrom: Partial<DateRange>) => (date: any): ValidationResult<ValidationError> => {
     if (!datoErInnenforTidsrom(date, tidsrom)) {
-        return createFieldValidationError(AppFieldValidationErrors.dato_utenfor_gyldig_tidsrom);
+        return AppFieldValidationErrors.dato_utenfor_gyldig_tidsrom;
     }
     return undefined;
 };
 
-export const validateHours = ({ min, max }: { min?: number; max?: number }) => (value: any): FieldValidationResult => {
+export const validateHours = ({ min, max }: { min?: number; max?: number }) => (
+    value: any
+): ValidationResult<ValidationError> => {
     const num = parseFloat(value);
     if (isNaN(num)) {
-        return createFieldValidationError(AppFieldValidationErrors.timer_ikke_tall);
+        return AppFieldValidationErrors.timer_ikke_tall;
     }
     if ((min !== undefined && num < min) || (max !== undefined && value > max)) {
-        return createFieldValidationError(AppFieldValidationErrors.timer_for_mange_timer);
+        return AppFieldValidationErrors.timer_for_mange_timer;
     }
     return undefined;
 };
 
-export const validateReduserteArbeidProsent = (value: number | string, isRequired?: boolean): FieldValidationResult => {
+export const validateReduserteArbeidProsent = (
+    value: number | string,
+    isRequired?: boolean
+): ValidationResult<ValidationError> => {
     if (isRequired && !hasValue(value)) {
-        return fieldIsRequiredError();
+        return ValidateRequiredFieldError.noValue;
     }
     const prosent = typeof value === 'string' ? parseFloat(value) : value;
 
     if (prosent < 1 || prosent > 100) {
-        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_prosentUgyldig);
+        return AppFieldValidationErrors.arbeidsforhold_prosentUgyldig;
     }
     return undefined;
 };
@@ -264,30 +274,32 @@ export const attachmentsAreValid = (attachments: Attachment[]): boolean => {
     return true;
 };
 
-export const alleDokumenterISøknadenToFieldValidationResult = (attachments: Attachment[]): FieldValidationResult => {
+export const alleDokumenterISøknadenToFieldValidationResult = (
+    attachments: Attachment[]
+): ValidationResult<ValidationError> => {
     const uploadedAttachments = attachments.filter((attachment) => {
         return attachment ? attachmentHasBeenUploaded(attachment) : false;
     });
     const totalSizeInBytes: number = getTotalSizeOfAttachments(uploadedAttachments);
     if (totalSizeInBytes > MAX_TOTAL_ATTACHMENT_SIZE_BYTES) {
-        return createAppFieldValidationError(AppFieldValidationErrors.samlet_storrelse_for_hoy);
+        return AppFieldValidationErrors.samlet_storrelse_for_hoy;
     }
     // if (uploadedAttachments.length === 0) {
     //     return createAppFieldValidationError(AppFieldValidationErrors.ingen_dokumenter);
     // }
     if (uploadedAttachments.length > 100) {
-        return createAppFieldValidationError(AppFieldValidationErrors.for_mange_dokumenter);
+        return AppFieldValidationErrors.for_mange_dokumenter;
     }
     return undefined;
 };
 
-export const validateFørsteDagMedFravær = (value: string | undefined): FieldValidationResult => {
+export const validateFørsteDagMedFravær = (value: string | undefined): ValidationResult<ValidationError> => {
     const førsteDag = datepickerUtils.getDateFromDateString(value);
     if (førsteDag === undefined) {
-        return createFieldValidationError(AppFieldValidationErrors.førsteDagMedFravære_påkrevd);
+        return AppFieldValidationErrors.førsteDagMedFravære_påkrevd;
     }
     if (dayjs(førsteDag).isBefore(date1YearAgo, 'day') || dayjs(førsteDag).isAfter(dateToday, 'day')) {
-        return createFieldValidationError(AppFieldValidationErrors.førsteDagMedFravære_ugyldigTidsperiode);
+        return AppFieldValidationErrors.førsteDagMedFravære_ugyldigTidsperiode;
     }
 
     return undefined;
@@ -296,25 +308,28 @@ export const validateFørsteDagMedFravær = (value: string | undefined): FieldVa
 export const validateSisteDagMedFravær = (
     value: string | undefined,
     førsteDagMedFravær: string | undefined
-): FieldValidationResult => {
+): ValidationResult<ValidationError> => {
     const førsteDag = datepickerUtils.getDateFromDateString(førsteDagMedFravær);
     const sisteDag = datepickerUtils.getDateFromDateString(value);
     if (sisteDag === undefined) {
-        return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_påkrevd);
+        return AppFieldValidationErrors.sisteDagMedFravære_påkrevd;
     }
     if (dayjs(sisteDag).isBefore(førsteDag || date1YearAgo, 'day') || dayjs(sisteDag).isAfter(dateToday, 'day')) {
-        return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_ugyldigTidsperiode);
+        return AppFieldValidationErrors.sisteDagMedFravære_ugyldigTidsperiode;
     }
     if (førsteDag && dayjs(sisteDag).get('year') !== dayjs(førsteDag).get('year')) {
-        return createFieldValidationError(AppFieldValidationErrors.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag);
+        return AppFieldValidationErrors.sisteDagMedFravære_ikkeSammeÅrSomFørsteDag;
     }
     return undefined;
 };
 
-export const validateFraværDagHarÅrstall = (dager: FraværDag[], årstall?: number) => (): FieldValidationResult => {
+export const validateFraværDagHarÅrstall = (
+    dager: FraværDag[],
+    årstall?: number
+): ValidationResult<ValidationError> => {
     if (årstall !== undefined) {
         return dager.find((d) => d.dato.getFullYear() !== årstall)
-            ? createFieldValidationError(AppFieldValidationErrors.fraværDagIkkeSammeÅrstall)
+            ? AppFieldValidationErrors.fraværDagIkkeSammeÅrstall
             : undefined;
     }
     return undefined;
@@ -322,10 +337,10 @@ export const validateFraværDagHarÅrstall = (dager: FraværDag[], årstall?: nu
 export const validateFraværPeriodeHarÅrstall = (
     perioder: FraværPeriode[],
     årstall?: number
-) => (): FieldValidationResult => {
+): ValidationResult<ValidationError> => {
     if (årstall !== undefined) {
         return perioder.find((p) => p.fraOgMed.getFullYear() !== årstall || p.tilOgMed.getFullYear() !== årstall)
-            ? createFieldValidationError(AppFieldValidationErrors.fraværPeriodeIkkeSammeÅrstall)
+            ? AppFieldValidationErrors.fraværPeriodeIkkeSammeÅrstall
             : undefined;
     }
     return undefined;

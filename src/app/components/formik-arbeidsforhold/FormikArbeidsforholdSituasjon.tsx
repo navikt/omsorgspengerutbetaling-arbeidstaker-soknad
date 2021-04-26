@@ -1,8 +1,8 @@
 import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import intlHelper from 'common/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -28,7 +28,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}
                     name={nameHarHattFraværHosArbeidsgiver}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </FormBlock>
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
@@ -36,7 +36,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                     <FormikYesOrNoQuestion
                         legend={intlHelper(intl, 'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm')}
                         name={nameArbeidsgiverHarUtbetaltLønn}
-                        validate={validateYesOrNoIsAnswered}
+                        validate={getYesOrNoValidator()}
                     />
                 </FormBlock>
             )}

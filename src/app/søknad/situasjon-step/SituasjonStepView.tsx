@@ -13,7 +13,6 @@ import FormSection from 'common/components/form-section/FormSection';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
@@ -31,6 +30,7 @@ import {
 } from '../../validation/components/arbeidsforholdValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
+import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -179,7 +179,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                         <SøknadFormComponents.YesOrNoQuestion
                             name={SøknadFormField.erSelvstendigOgEllerFrilans}
                             legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
-                            validate={validateYesOrNoIsAnswered}
+                            validate={getYesOrNoValidator()}
                         />
                     </FormBlock>
                     {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
@@ -199,7 +199,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                             label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label'),
                                         },
                                     ]}
-                                    validate={validateRequiredList}
+                                    validate={getListValidator({ required: true })}
                                 />
                             </FormBlock>
                             <InformasjonOmSelvstendigOgFrilans

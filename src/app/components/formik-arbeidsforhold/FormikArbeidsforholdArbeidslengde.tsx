@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FormikRadioPanelGroup, FormikTextarea, LabelWithInfo } from '@navikt/sif-common-formik/lib';
+import {
+    FormikRadioPanelGroup,
+    FormikTextarea,
+    getTypedFormComponents,
+    LabelWithInfo,
+} from '@navikt/sif-common-formik/lib';
+import { getStringValidator, ValidateRequiredFieldError } from '@navikt/sif-common-formik/lib/validation';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import { PopoverOrientering } from 'nav-frontend-popover';
@@ -10,36 +17,30 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import intlHelper from 'common/utils/intlUtils';
-import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
-import { FieldValidationResult } from 'common/validation/types';
 import getLenker from '../../lenker';
 import {
     AnsettelseslengdeFormDataFields,
+    // AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
     HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import FormikQuestion from '../formik-question/FormikQuestion';
 import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 
-export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): FieldValidationResult => {
-    return value === HvorLengeJobbet.IKKE_BESVART
-        ? createFieldValidationError(FieldValidationErrors.påkrevd)
+export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): ValidationResult<ValidationError> => {
+    return value === undefined || value === HvorLengeJobbet.IKKE_BESVART
+        ? ValidateRequiredFieldError.noValue
         : undefined;
 };
 
-const validateHvorLengeJobbetBegrunnelseRadioGroup = (value: HvorLengeJobbetFordi): FieldValidationResult => {
-    return value === HvorLengeJobbetFordi.IKKE_BESVART
-        ? createFieldValidationError(FieldValidationErrors.påkrevd)
+const validateHvorLengeJobbetBegrunnelseRadioGroup = (
+    value: HvorLengeJobbetFordi
+): ValidationResult<ValidationError> => {
+    return value === undefined || value === HvorLengeJobbetFordi.IKKE_BESVART
+        ? ValidateRequiredFieldError.noValue
         : undefined;
-};
-
-const validateIngenAvSituasjoneneTekstField = (value: string): FieldValidationResult => {
-    return value && typeof value === 'string' && value.length > 0 && value.length < 2000
-        ? undefined
-        : createFieldValidationError(FieldValidationErrors.påkrevd);
 };
 
 export const getRadioTextIdHvorLengeJobbetFordi = (
@@ -89,6 +90,8 @@ interface Props {
     putPropsHere?: string;
 }
 
+const FormComponent = getTypedFormComponents<string, string, ValidationError>();
+
 const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
     arbeidsforholdFormData,
     nameHvorLengeJobbet,
@@ -113,15 +116,17 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
     return (
         <>
             <FormBlock margin="none">
-                <FormikQuestion
-                    firstAlternative={{
-                        label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
-                        value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
-                    }}
-                    secondAlternative={{
-                        label: intlHelper(intl, 'hvorLengeJobbet.mer'),
-                        value: HvorLengeJobbet.MER_ENN_FIRE_UKER,
-                    }}
+                <FormComponent.RadioPanelGroup
+                    radios={[
+                        {
+                            label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
+                            value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
+                        },
+                        {
+                            label: intlHelper(intl, 'hvorLengeJobbet.mer'),
+                            value: HvorLengeJobbet.MER_ENN_FIRE_UKER,
+                        },
+                    ]}
                     useTwoColumns={true}
                     name={nameHvorLengeJobbet}
                     legend={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}
@@ -191,11 +196,13 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                 <FormBlock>
                     <FormattedMessage id={'arbeidsforhold.hvorLengeJobbet.ingen.helpertext'} />
                     {/* TODO: Dette skaper latency issues :/ */}
-                    <FormikTextarea
-                        name={nameForklaring}
-                        validate={validateIngenAvSituasjoneneTekstField}
-                        maxLength={2000}
-                    />
+                    <Box margin="l">
+                        <FormikTextarea
+                            name={nameForklaring}
+                            validate={getStringValidator({ minLength: 0, maxLength: 2000, required: true })}
+                            maxLength={2000}
+                        />
+                    </Box>
                 </FormBlock>
             )}
 

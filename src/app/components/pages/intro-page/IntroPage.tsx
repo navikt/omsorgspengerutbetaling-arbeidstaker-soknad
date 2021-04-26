@@ -9,6 +9,8 @@ import {
     UnansweredQuestionsInfo,
     YesOrNo,
 } from '@navikt/sif-common-formik/lib';
+import getFieldErrorHandler from '@navikt/sif-common-formik/lib/validation/fieldErrorHandler';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { AlertStripeFeil, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { RadioPanelProps } from 'nav-frontend-skjema';
@@ -20,12 +22,10 @@ import Knappelenke from 'common/components/knappelenke/Knappelenke';
 import Page from 'common/components/page/Page';
 import StepBanner from 'common/components/step-banner/StepBanner';
 import bemUtils from 'common/utils/bemUtils';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
 import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../../../types/AnsettelseslengdeTypes';
 import { getRadioTextIdHvorLengeJobbetFordi } from '../../formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
-import FormikQuestion from '../../formik-question/FormikQuestion';
 import SmittevernInfo from '../../information/SmittevernInfo';
 import './introPage.less';
 
@@ -51,7 +51,7 @@ const initialValues: PageFormValues = {
     [PageFormField.begrunnelse]: HvorLengeJobbetFordi.IKKE_BESVART,
     [PageFormField.smittevernHensyn]: YesOrNo.UNANSWERED,
 };
-const PageForm = getTypedFormComponents<PageFormField, PageFormValues>();
+const PageForm = getTypedFormComponents<PageFormField, PageFormValues, ValidationError>();
 
 const getHvorLengeRadios = (intl: IntlShape): RadioPanelProps[] => [
     {
@@ -129,14 +129,15 @@ const IntroPage: React.FC = (): JSX.Element => {
                             skalViseSmittevernInfo !== true && hjemmePgaStengt === YesOrNo.YES;
 
                         const skalViseGåTilSøknadLink =
-                            skalViseSmittevernSpørsmål && smittevernHensyn !== YesOrNo.UNANSWERED;
+                            skalViseSmittevernSpørsmål &&
+                            (smittevernHensyn === YesOrNo.YES || hjemmePgaStengt !== YesOrNo.UNANSWERED);
 
                         const showNotAllQuestionsAnsweredMessage =
                             !skalViseGåTilSøknadLink && !skalViseIngenAvSituasjonenePanel;
 
                         return (
                             <PageForm.Form
-                                fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}
+                                fieldErrorHandler={getFieldErrorHandler(intl, 'introForm')}
                                 includeButtons={false}
                                 noButtonsContentRenderer={
                                     showNotAllQuestionsAnsweredMessage
@@ -148,15 +149,17 @@ const IntroPage: React.FC = (): JSX.Element => {
                                         : undefined
                                 }>
                                 <FormBlock margin={'xxl'}>
-                                    <FormikQuestion
-                                        firstAlternative={{
-                                            label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
-                                            value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
-                                        }}
-                                        secondAlternative={{
-                                            label: intlHelper(intl, 'hvorLengeJobbet.mer'),
-                                            value: HvorLengeJobbet.MER_ENN_FIRE_UKER,
-                                        }}
+                                    <PageForm.RadioPanelGroup
+                                        radios={[
+                                            {
+                                                label: intlHelper(intl, 'hvorLengeJobbet.mindre'),
+                                                value: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
+                                            },
+                                            {
+                                                label: intlHelper(intl, 'hvorLengeJobbet.mer'),
+                                                value: HvorLengeJobbet.MER_ENN_FIRE_UKER,
+                                            },
+                                        ]}
                                         useTwoColumns={true}
                                         name={PageFormField.hvorLengeJobbet}
                                         legend={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}

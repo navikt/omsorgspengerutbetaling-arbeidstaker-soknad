@@ -1,28 +1,29 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import {
+    getListValidator,
+    getRequiredFieldValidator,
+    getYesOrNoValidator,
+} from '@navikt/sif-common-formik/lib/validation';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
+import { validateAll } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import { fraværDagToFraværDateRange, fraværPeriodeToDateRange } from '@navikt/sif-common-forms/lib/fravær';
 import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
-import { validateAll, validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
+import { validateNoCollisions } from '@navikt/sif-common-forms/lib/fravær/fraværValidationUtils';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import {
-    createFieldValidationError,
-    FieldValidationErrors,
-    validateRequiredList,
-} from 'common/validation/fieldValidations';
-import { FieldValidationResult } from 'common/validation/types';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { validateFraværDagHarÅrstall, validateFraværPeriodeHarÅrstall } from '../../validation/fieldValidations';
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
     harDelerAvDag: YesOrNo
-): FieldValidationResult => {
+): ValidationResult<ValidationError> => {
     if (harPerioder === YesOrNo.NO && harDelerAvDag === YesOrNo.NO) {
         return { key: 'fieldvalidation.periode.ingen' };
     }
@@ -68,15 +69,16 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     name={nameHarPerioderMedFravær}
                     legend={intlHelper(intl, 'periode.heledager.spm')}
-                    validate={(value: YesOrNo): FieldValidationResult => {
-                        if (value === YesOrNo.UNANSWERED) {
-                            return createFieldValidationError(FieldValidationErrors.påkrevd);
-                        }
-                        return minimumHarPeriodeEllerDelerAvDagYes(
-                            arbeidsforholdFormData.harPerioderMedFravær,
-                            arbeidsforholdFormData.harDagerMedDelvisFravær
-                        );
-                    }}
+                    validate={(value) =>
+                        validateAll([
+                            () => getYesOrNoValidator()(value),
+                            () =>
+                                minimumHarPeriodeEllerDelerAvDagYes(
+                                    arbeidsforholdFormData.harPerioderMedFravær,
+                                    arbeidsforholdFormData.harDagerMedDelvisFravær
+                                ),
+                        ])
+                    }
                 />
             </FormBlock>
             {/* DAGER MED FULLT FRAVÆR*/}
@@ -88,11 +90,13 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             periodeDescription={tidsromBegrensningInfo}
                             minDate={minDateForFravær}
                             maxDate={maxDateForFravær}
-                            validate={validateAll([
-                                validateRequiredList,
-                                validateFraværPeriodeHarÅrstall(fraværPerioder, årstall),
-                                validateNoCollisions(fraværDager, fraværPerioder),
-                            ])}
+                            validate={(value) =>
+                                validateAll([
+                                    () => getListValidator({ required: true })(value),
+                                    () => validateFraværPeriodeHarÅrstall(fraværPerioder, årstall),
+                                    () => validateNoCollisions(fraværDager, fraværPerioder),
+                                ])
+                            }
                             labels={{
                                 addLabel: 'Legg til ny periode med fullt fravær',
                                 modalTitle: 'Fravær hele dager',
@@ -110,15 +114,18 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                 <FormikYesOrNoQuestion
                     name={nameHarDagerMedDelvisFravær}
                     legend={intlHelper(intl, 'periode.delvisdag.spm')}
-                    validate={(value: YesOrNo): FieldValidationResult => {
-                        if (value === YesOrNo.UNANSWERED) {
-                            return createFieldValidationError(FieldValidationErrors.påkrevd);
-                        }
-                        return minimumHarPeriodeEllerDelerAvDagYes(
-                            arbeidsforholdFormData.harPerioderMedFravær,
-                            arbeidsforholdFormData.harDagerMedDelvisFravær
-                        );
-                    }}
+                    validate={(value) =>
+                        validateAll([
+                            () => {
+                                return getYesOrNoValidator()(value);
+                            },
+                            () =>
+                                minimumHarPeriodeEllerDelerAvDagYes(
+                                    arbeidsforholdFormData.harPerioderMedFravær,
+                                    arbeidsforholdFormData.harDagerMedDelvisFravær
+                                ),
+                        ])
+                    }
                 />
             </FormBlock>
             {/* DAGER MED DELVIS FRAVÆR*/}
@@ -130,11 +137,13 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             dagDescription={tidsromBegrensningInfo}
                             minDate={minDateForFravær}
                             maxDate={maxDateForFravær}
-                            validate={validateAll([
-                                validateRequiredList,
-                                validateFraværDagHarÅrstall(fraværDager, årstall),
-                                validateNoCollisions(fraværDager, fraværPerioder),
-                            ])}
+                            validate={(value) =>
+                                validateAll([
+                                    () => getRequiredFieldValidator()(value),
+                                    () => validateFraværDagHarÅrstall(fraværDager, årstall),
+                                    () => validateNoCollisions(fraværDager, fraværPerioder),
+                                ])
+                            }
                             labels={{
                                 addLabel: 'Legg til ny dag med delvis fravær',
                                 modalTitle: 'Fravær deler av dag',

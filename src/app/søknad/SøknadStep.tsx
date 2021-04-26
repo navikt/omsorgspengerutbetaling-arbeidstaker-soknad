@@ -4,7 +4,6 @@ import { ApplikasjonHendelse, useAmplitudeInstance, useLogSidevisning } from '@n
 import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
 import { Knapp } from 'nav-frontend-knapper';
 import FormBlock from 'common/components/form-block/FormBlock';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import Step, { StepProps } from '../components/step/Step';
 import { getStepConfig } from '../config/stepConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
@@ -13,7 +12,8 @@ import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
 import SøknadTempStorage from './SøknadTempStorage';
 import { useFormikContext } from 'formik';
-
+import getFieldErrorHandler from '@navikt/sif-common-formik/lib/validation/fieldErrorHandler';
+import { isIntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
 export interface FormikStepProps {
     children: React.ReactNode;
     showSubmitButton?: boolean;
@@ -56,7 +56,8 @@ const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
                 includeButtons={false}
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
-                fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}>
+                fieldErrorHandler={getFieldErrorHandler(intl, 'validation')}
+                isHandledErrorTypeFunc={isIntlErrorObject}>
                 {children}
                 {props.showSubmitButton !== false && (
                     <FormBlock>

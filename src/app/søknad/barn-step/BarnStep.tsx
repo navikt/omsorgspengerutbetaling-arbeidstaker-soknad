@@ -3,10 +3,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import {
-    validateRequiredList,
-    validateYesOrNoIsAnswered,
-} from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/FosterbarnListAndDialog';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
@@ -14,6 +10,7 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 
 const BarnStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const intl = useIntl();
@@ -39,12 +36,15 @@ const BarnStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) =
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.harFosterbarn}
                     legend={intlHelper(intl, 'steg.barn.fosterbarn.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </FormBlock>
             {values.harFosterbarn === YesOrNo.YES && (
                 <FormBlock margin="l">
-                    <FosterbarnListAndDialog name={SøknadFormField.fosterbarn} validate={validateRequiredList} />
+                    <FosterbarnListAndDialog
+                        name={SøknadFormField.fosterbarn}
+                        validate={getListValidator({ required: true })}
+                    />
                 </FormBlock>
             )}
         </SøknadStep>
