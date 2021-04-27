@@ -2,7 +2,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { ValidateRequiredFieldError } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
+// import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { Attachment } from 'common/types/Attachment';
@@ -13,10 +13,10 @@ import {
 } from 'common/utils/attachmentUtils';
 import {
     date1YearAgo,
-    date1YearFromNow,
+    // date1YearFromNow,
     DateRange,
     dateRangesCollide,
-    dateRangesExceedsRange,
+    // dateRangesExceedsRange,
     dateToday,
 } from 'common/utils/dateUtils';
 import { FraværDelerAvDag, Periode } from '../types/PeriodeTypes';
@@ -25,8 +25,6 @@ import { datesCollide } from './dateValidationUtils';
 dayjs.extend(isBetween);
 
 export const hasValue = (v: any): boolean => v !== '' && v !== undefined && v !== null;
-
-// export type FieldValidationArray = (validations: FormikValidateFunction[]) => (value: any) => FieldValidationResult;
 
 export enum AppFieldValidationErrors {
     'påkrevd' = 'fieldvalidation.påkrevd',
@@ -91,38 +89,38 @@ export enum AppFieldValidationErrors {
 // MedlemsskapStep
 // -------------------------------------------------
 
-export const validateUtenlandsoppholdSiste12Mnd = (
-    utenlandsopphold: Utenlandsopphold[]
-): ValidationResult<ValidationError> => {
-    if (utenlandsopphold.length === 0) {
-        return AppFieldValidationErrors.utenlandsopphold_ikke_registrert;
-    }
-    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
-    if (dateRangesCollide(dateRanges)) {
-        return AppFieldValidationErrors.utenlandsopphold_overlapper;
-    }
-    if (dateRangesExceedsRange(dateRanges, { from: date1YearAgo, to: new Date() })) {
-        return AppFieldValidationErrors.utenlandsopphold_utenfor_periode;
-    }
+// export const validateUtenlandsoppholdSiste12Mnd = (
+//     utenlandsopphold: Utenlandsopphold[]
+// ): ValidationResult<ValidationError> => {
+//     if (utenlandsopphold.length === 0) {
+//         return AppFieldValidationErrors.utenlandsopphold_ikke_registrert;
+//     }
+//     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
+//     if (dateRangesCollide(dateRanges)) {
+//         return AppFieldValidationErrors.utenlandsopphold_overlapper;
+//     }
+//     if (dateRangesExceedsRange(dateRanges, { from: date1YearAgo, to: new Date() })) {
+//         return AppFieldValidationErrors.utenlandsopphold_utenfor_periode;
+//     }
 
-    return undefined;
-};
+//     return undefined;
+// };
 
-export const validateUtenlandsoppholdNeste12Mnd = (
-    utenlandsopphold: Utenlandsopphold[]
-): ValidationResult<ValidationError> => {
-    if (utenlandsopphold.length === 0) {
-        return AppFieldValidationErrors.utenlandsopphold_ikke_registrert;
-    }
-    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
-    if (dateRangesCollide(dateRanges)) {
-        return AppFieldValidationErrors.utenlandsopphold_overlapper;
-    }
-    if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
-        return AppFieldValidationErrors.utenlandsopphold_utenfor_periode;
-    }
-    return undefined;
-};
+// export const validateUtenlandsoppholdNeste12Mnd = (
+//     utenlandsopphold: Utenlandsopphold[]
+// ): ValidationResult<ValidationError> => {
+//     if (utenlandsopphold.length === 0) {
+//         return AppFieldValidationErrors.utenlandsopphold_ikke_registrert;
+//     }
+//     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
+//     if (dateRangesCollide(dateRanges)) {
+//         return AppFieldValidationErrors.utenlandsopphold_overlapper;
+//     }
+//     if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
+//         return AppFieldValidationErrors.utenlandsopphold_utenfor_periode;
+//     }
+//     return undefined;
+// };
 
 // -------------------------------------------------
 // PeriodeStep

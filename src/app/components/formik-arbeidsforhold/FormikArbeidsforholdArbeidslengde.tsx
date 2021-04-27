@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { FormikRadioPanelGroup, FormikTextarea, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import {
-    FormikRadioPanelGroup,
-    FormikTextarea,
-    getTypedFormComponents,
-    LabelWithInfo,
-} from '@navikt/sif-common-formik/lib';
-import { getStringValidator, ValidateRequiredFieldError } from '@navikt/sif-common-formik/lib/validation';
+    getStringValidator,
+    ValidateRequiredFieldError,
+    ValidateStringError,
+} from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
-import { PopoverOrientering } from 'nav-frontend-popover';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormBlock from 'common/components/form-block/FormBlock';
@@ -20,7 +18,6 @@ import intlHelper from 'common/utils/intlUtils';
 import getLenker from '../../lenker';
 import {
     AnsettelseslengdeFormDataFields,
-    // AnsettelseslengdeFormDataFields,
     HvorLengeJobbet,
     HvorLengeJobbetFordi,
 } from '../../types/AnsettelseslengdeTypes';
@@ -112,6 +109,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
 
     const { values } = useFormikContext<SøknadFormData>();
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
+    const arbeidsgivernavn = arbeidsforholdFormData.navn || arbeidsforholdFormData.organisasjonsnummer;
 
     return (
         <>
@@ -130,7 +128,11 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     useTwoColumns={true}
                     name={nameHvorLengeJobbet}
                     legend={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}
-                    validate={validateHvorLengeJobbetQuestion}
+                    validate={(value) =>
+                        validateHvorLengeJobbetQuestion(value)
+                            ? { key: 'validation.arbeidsforhold.hvorLengeJobbet.noValue', values: { arbeidsgivernavn } }
+                            : undefined
+                    }
                 />
             </FormBlock>
 
@@ -175,11 +177,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         ]}
                         legend={
                             <div>
-                                <p>
-                                    <LabelWithInfo infoPlassering={PopoverOrientering.Over}>
-                                        {intlHelper(intl, 'hvorLengeJobbet.fordi.legend-header')}
-                                    </LabelWithInfo>
-                                </p>
+                                <p>{intlHelper(intl, 'hvorLengeJobbet.fordi.legend-header')}</p>
                                 <div className={'normal-tekst'}>
                                     <FormattedMessage id="hvorLengeJobbet.fordi.legend-text" />
                                 </div>
@@ -187,7 +185,14 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         }
                         name={nameBegrunnelse}
                         useTwoColumns={false}
-                        validate={validateHvorLengeJobbetBegrunnelseRadioGroup}
+                        validate={(value) =>
+                            validateHvorLengeJobbetBegrunnelseRadioGroup(value)
+                                ? {
+                                      key: 'validation.arbeidsforhold.ansettelseslengde.begrunnelse.noValue',
+                                      values: { arbeidsgivernavn },
+                                  }
+                                : undefined
+                        }
                     />
                 </FormBlock>
             )}
@@ -199,7 +204,31 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     <Box margin="l">
                         <FormikTextarea
                             name={nameForklaring}
-                            validate={getStringValidator({ minLength: 0, maxLength: 2000, required: true })}
+                            validate={(value) => {
+                                const error = getStringValidator({ minLength: 5, maxLength: 2000, required: true })(
+                                    value
+                                );
+                                switch (error) {
+                                    case ValidateRequiredFieldError.noValue:
+                                        return {
+                                            key:
+                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.noValue',
+                                        };
+                                    case ValidateStringError.stringIsTooShort:
+                                        return {
+                                            key:
+                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooShort',
+                                            values: { lengde: 5 },
+                                        };
+                                    case ValidateStringError.stringIsTooLong:
+                                        return {
+                                            key:
+                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooLong',
+                                            values: { lengde: 2000 },
+                                        };
+                                }
+                                return error;
+                            }}
                             maxLength={2000}
                         />
                     </Box>

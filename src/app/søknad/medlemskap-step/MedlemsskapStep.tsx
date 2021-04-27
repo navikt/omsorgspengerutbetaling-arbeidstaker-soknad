@@ -10,15 +10,12 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
-import {
-    validateUtenlandsoppholdNeste12Mnd,
-    validateUtenlandsoppholdSiste12Mnd,
-} from 'app/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import getLenker from '../../lenker';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
+import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
 
 const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();

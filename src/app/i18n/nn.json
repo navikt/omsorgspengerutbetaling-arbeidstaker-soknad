@@ -253,7 +253,7 @@
 
     "steg.oppsummering.søkt_om_andre_utbetalinger": "Andre utbetalingar du har søkt om frå NAV",
 
-    "steg.oppsummering.hvorLengeJobbet.spørsmål": "Kor lenge har du vore i jobb hos denne arbeidsgivaren?",
+    "steg.oppsummering.hvorLengeJobbet.spørsmål": "Kor lenge har du vore i jobb hos {arbeidsgivernavn}?",
     "steg.oppsummering.hvorLengeJobbet.fordi.legend-text": "Du har jobba mindre enn 4 veker, men direkte før det:",
     "steg.oppsummering.hvorLengeJobbet.fordi.andreYtelser.label": "fekk du dagpengar, sjukepengar, pleiepengar, omsorgspengar, opplæringspengar, foreldrepengar, svangerskapspengar eller kompensasjonsordning for sjølvstendig næringsdrivande og frilansarar",
     "steg.oppsummering.hvorLengeJobbet.fordi.annetArbeidsforhold.label": "jobba du hos ein annan arbeidsgivar",
@@ -372,8 +372,8 @@
 
     "informasjon.nar_kan_man_fa_utbetalt": "I dei aller fleste tilfella skal arbeidsgivaren betale ut omsorgspengane til deg. I nokre tilfelle har ikkje arbeidsgivaren plikt til å betale ut trass i at du har rett på omsorgspengar. I desse tilfella kan du søkje om utbetaling frå NAV.",
 
-    "arbeidsforhold.harHattFravær.spm": "Har du hatt fråvær hos denne arbeidsgivaren fordi du har brukt omsorgsdagar?",
-    "arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm": "Har arbeidsgivaren betalt ut løn til deg for dei dagane du har brukt omsorgspengar?",
+    "arbeidsforhold.harHattFravær.spm": "Har du hatt fråvær hos {arbeidsgivernavn} fordi du har brukt omsorgsdagar?",
+    "arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm": "Har {arbeidsgivernavn} betalt ut løn til deg for dei dagane du har brukt omsorgspengar?",
 
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her medan du har pleiepengar?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, eg skal jobbe som vanleg",
@@ -482,7 +482,7 @@
     "ingen.gjeldende.arbeidsforhold.info.text.nei": "Du må ha hatt fråvær frå minst éin arbeidsgivar for å gå vidare i søknaden. Dersom arbeidsgivaren din ikkje er registrert i lista, så kan du sjølv leggje til informasjon over.",
     "ingen.gjeldende.arbeidsforhold.info.text.blanding": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
     "steg.en.smittevern.sporsmal": "Har du vore heime med barn på grunn av særlege smittevernomsyn?",
-    "validation.minimum_en_periode_per_arbeidsforhold_required": "Dersom du ikkje har hatt fråvær frå denne arbeidsgivaren, må du gå tilbake og endre svaret ditt på det same spørsmålet på det førre steget.",
+    "validation.minimum_en_periode_per_arbeidsforhold_required": "Dersom du ikkje har hatt fråvær frå {arbeidsgivernavn}, må du gå tilbake og endre svaret ditt på det same spørsmålet på det førre steget.",
 
     "info.smittevern.tittel": "Kva meiner vi med særlege smittevernomsyn?",
     "info.smittevern.info.html": "Når barnehagen eller skulen er open, men du må vere heime med barnet ditt på grunn av <strong>særlege smittevernomsyn</strong>, kan du bruke omsorgsdagar. Det er ein lege som avgjer om det ligg føre særlege smittevernomsyn. Det kan vere smittevernomsyn til barnet eller andre familiemedlemmer som bur med barnet.",
@@ -491,6 +491,7 @@
 
     "selvstendig_og_eller_frilans.ja_nei.undertittel": "Sjølvstendig næringsdrivande og frilansar",
     "selvstendig_og_eller_frilans.ja_nei.spm": "Er du sjølvstendig næringsdrivande og/eller frilansar i tillegg til at du er arbeidstakar?",
+    "selvstendig_og_eller_frilans.ja_nei_hva.spm": "Velg sjølvstendig næringsdrivande og/eller frilansar",
     "selvstendig_og_eller_frilans.selvstendig.label": "Ja, eg er også sjølvstendig næringsdrivande",
     "selvstendig_og_eller_frilans.frilans.label": "Ja, eg er også frilansar",
     "selvstendig_og_eller_frilans.selvstendig.ja.info": "Dersom du skal søkje om omsorgspengar som frilansar, {lenkeKomponent}, i tillegg til denne.",

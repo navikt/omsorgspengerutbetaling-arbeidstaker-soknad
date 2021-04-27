@@ -184,9 +184,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     </FormBlock>
                     {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
                         <>
-                            <FormBlock margin={'m'}>
+                            <FormBlock>
                                 <SøknadFormComponents.CheckboxPanelGroup
                                     name={SøknadFormField.selvstendigOgEllerFrilans}
+                                    legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei_hva.spm')}
                                     checkboxes={[
                                         {
                                             id: SelvstendigOgEllerFrilans.selvstendig,

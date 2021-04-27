@@ -63,6 +63,8 @@ export const getArbeidsgivere = async (
     }
 };
 
+export const getArbeidsgivernavn = (formData: ArbeidsforholdFormData) => formData.navn || formData.organisasjonsnummer;
+
 export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
     return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
 };
