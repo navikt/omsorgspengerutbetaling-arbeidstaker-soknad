@@ -10,6 +10,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { getArbeidsgivernavn } from '../../utils/arbeidsforholdUtils';
+import { AppFieldValidationErrors } from '../../validation/fieldValidations';
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
@@ -33,7 +34,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                     validate={(value) => {
                         return getYesOrNoValidator()(value)
                             ? {
-                                  key: 'validation.harHattFraværHosArbeidsgiver.yesOrNoIsUnanswered',
+                                  key: AppFieldValidationErrors.harHattFraværHosArbeidsgiver_yesOrNoIsUnanswered,
                                   values: { arbeidsgivernavn },
                               }
                             : undefined;
@@ -50,7 +51,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
                                 ? {
-                                      key: 'validation.arbeidsgiverHarUtbetaltLønn.yesOrNoIsUnanswered',
+                                      key: AppFieldValidationErrors.arbeidsgiverHarUtbetaltLønn_yesOrNoIsUnanswered,
                                       values: { arbeidsgivernavn },
                                   }
                                 : undefined;

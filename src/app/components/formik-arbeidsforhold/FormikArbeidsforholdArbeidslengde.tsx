@@ -25,6 +25,7 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../type
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
+import { AppFieldValidationErrors } from '../../validation/fieldValidations';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): ValidationResult<ValidationError> => {
     return value === undefined || value === HvorLengeJobbet.IKKE_BESVART
@@ -130,7 +131,10 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     legend={intlHelper(intl, 'hvorLengeJobbet.spørsmål')}
                     validate={(value) =>
                         validateHvorLengeJobbetQuestion(value)
-                            ? { key: 'validation.arbeidsforhold.hvorLengeJobbet.noValue', values: { arbeidsgivernavn } }
+                            ? {
+                                  key: AppFieldValidationErrors.arbeidsforhold_hvorLengeJobbet_noValue,
+                                  values: { arbeidsgivernavn },
+                              }
                             : undefined
                     }
                 />
@@ -188,7 +192,8 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         validate={(value) =>
                             validateHvorLengeJobbetBegrunnelseRadioGroup(value)
                                 ? {
-                                      key: 'validation.arbeidsforhold.ansettelseslengde.begrunnelse.noValue',
+                                      key:
+                                          AppFieldValidationErrors.arbeidsforhold_ansettelseslengde_begrunnelse_noValue,
                                       values: { arbeidsgivernavn },
                                   }
                                 : undefined
