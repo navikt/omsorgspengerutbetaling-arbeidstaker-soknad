@@ -489,8 +489,6 @@
     "validation.fraværDagIkkeSammeÅrstall": "Du har lagt til fravær som er i flere år. En søknad kan kun inneholde fravær i ett år.",
     "validation.fraværPeriodeIkkeSammeÅrstall": "Du har lagt til fravær som er i flere år. En søknad kan kun inneholde fravær i ett år.",
     "validation.perioderEllerDagerOverlapper": "En eller flere av fraværsdagene/periodene overlapper",
-
-    "validation.yesOrNoIsUnanswered": "Feltet er påkrevd",
     "validation.harHattFraværHosArbeidsgiver.yesOrNoIsUnanswered": "Du må svare på om du har hatt fravær hos {arbeidsgivernavn} fordi du har brukt omsorgsdager",
     "validation.arbeidsgiverHarUtbetaltLønn.yesOrNoIsUnanswered": "Du må svare på om {arbeidsgivernavn} har utbetalt deg lønn for de dagene du har brukt omsorgsdager",
     "validation.annetArbeidsforhold.harHattFraværHosArbeidsgiver.yesOrNoIsUnanswered": "Du må svare på om du har hatt fravær fra arbeidsforhold som ikke er registrert her",

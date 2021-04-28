@@ -9,7 +9,7 @@ import {
     UnansweredQuestionsInfo,
     YesOrNo,
 } from '@navikt/sif-common-formik/lib';
-import getFieldErrorHandler from '@navikt/sif-common-formik/lib/validation/fieldErrorHandler';
+import intlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { AlertStripeFeil, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { PopoverOrientering } from 'nav-frontend-popover';
@@ -137,7 +137,7 @@ const IntroPage: React.FC = (): JSX.Element => {
 
                         return (
                             <PageForm.Form
-                                fieldErrorHandler={getFieldErrorHandler(intl, 'introForm')}
+                                formErrorHandler={intlFormErrorHandler(intl, 'introForm')}
                                 includeButtons={false}
                                 noButtonsContentRenderer={
                                     showNotAllQuestionsAnsweredMessage

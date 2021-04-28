@@ -12,8 +12,7 @@ import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
 import SøknadTempStorage from './SøknadTempStorage';
 import { useFormikContext } from 'formik';
-import getFieldErrorHandler from '@navikt/sif-common-formik/lib/validation/fieldErrorHandler';
-import { isIntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
+import intlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 export interface FormikStepProps {
     children: React.ReactNode;
     showSubmitButton?: boolean;
@@ -56,8 +55,7 @@ const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
                 includeButtons={false}
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
-                fieldErrorHandler={getFieldErrorHandler(intl, 'validation')}
-                isHandledErrorTypeFunc={isIntlErrorObject}>
+                formErrorHandler={intlFormErrorHandler(intl, 'validation')}>
                 {children}
                 {props.showSubmitButton !== false && (
                     <FormBlock>
