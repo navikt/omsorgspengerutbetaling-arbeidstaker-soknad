@@ -386,8 +386,8 @@
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "fosterbarn.legend": "Vi henter vanligvis informasjon om barn fra folkeregisteret, men vi har ikke tilgang til informasjon om fosterbarn der. Derfor må du selv legge inn opplysninger om eventuelle fosterbarn.",
 
-    "steg2.arbeidslengdeOgPerioder.infopanel.del1": "Her legger du inn dager du har hatt fravær fra jobb, fordi du har vært hjemme med omsorgsdager.",
-    "steg2.arbeidslengdeOgPerioder.infopanel.del2": "Du skal <strong>kun legge inn dager du ikke har fått utbetalt lønn</strong> fra arbeidsgiveren din. Du vil også få noen spørsmål om hvorfor arbeidsgiver ikke har utbetalt deg lønn.",
+    "steg2.arbeidslengdeOgPerioder.infopanel.del1": "Her legger du inn dager du har hatt fravær fra jobb, fordi du har vært hjemme med omsorgsdager. Du kan kun søke om utbetaling fra ett og samme år. Det betyr at hvis du skal søke om utbetaling for 2020 i tillegg til 2021 må du sende to søknader.",
+    "steg2.arbeidslengdeOgPerioder.infopanel.del2": "Du skal <strong>kun legge inn dager du ikke har fått utbetalt lønn fra arbeidsgiveren din</strong>. Du vil også få noen spørsmål om hvorfor arbeidsgiver ikke har utbetalt deg lønn.",
 
     "hvorLengeJobbet.spørsmål": "Hvor lenge har du vært i jobb hos arbeidsgiveren din?",
     "hvorLengeJobbet.mindre": "Mindre enn 4 uker",
