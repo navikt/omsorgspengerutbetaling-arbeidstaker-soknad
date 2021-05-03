@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FormikRadioPanelGroup, FormikTextarea, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import {
     getStringValidator,
     ValidateRequiredFieldError,
@@ -24,8 +24,8 @@ import {
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 import { AppFieldValidationErrors } from '../../validation/fieldValidations';
+import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
 
 export const validateHvorLengeJobbetQuestion = (value: HvorLengeJobbet): ValidationResult<ValidationError> => {
     return value === undefined || value === HvorLengeJobbet.IKKE_BESVART
@@ -134,6 +134,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                             ? {
                                   key: AppFieldValidationErrors.arbeidsforhold_hvorLengeJobbet_noValue,
                                   values: { arbeidsgivernavn },
+                                  keepKeyUnaltered: true,
                               }
                             : undefined
                     }
@@ -142,7 +143,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
 
             {hvorLengeJobbet === HvorLengeJobbet.MINDRE_ENN_FIRE_UKER && (
                 <FormBlock>
-                    <FormikRadioPanelGroup
+                    <FormComponent.RadioPanelGroup
                         radios={[
                             {
                                 label: intlHelper(
@@ -189,15 +190,17 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         }
                         name={nameBegrunnelse}
                         useTwoColumns={false}
-                        validate={(value) =>
-                            validateHvorLengeJobbetBegrunnelseRadioGroup(value)
+                        validate={(value) => {
+                            const error = validateHvorLengeJobbetBegrunnelseRadioGroup(value);
+                            return error
                                 ? {
                                       key:
                                           AppFieldValidationErrors.arbeidsforhold_ansettelseslengde_begrunnelse_noValue,
                                       values: { arbeidsgivernavn },
+                                      keepKeyUnaltered: true,
                                   }
-                                : undefined
-                        }
+                                : undefined;
+                        }}
                     />
                 </FormBlock>
             )}
@@ -207,29 +210,33 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     <FormattedMessage id={'arbeidsforhold.hvorLengeJobbet.ingen.helpertext'} />
                     {/* TODO: Dette skaper latency issues :/ */}
                     <Box margin="l">
-                        <FormikTextarea
+                        <FormComponent.Textarea
                             name={nameForklaring}
                             validate={(value) => {
                                 const error = getStringValidator({ minLength: 5, maxLength: 2000, required: true })(
                                     value
                                 );
                                 switch (error) {
-                                    case ValidateRequiredFieldError.noValue:
+                                    case ValidateStringError.stringHasNoValue:
                                         return {
                                             key:
-                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.noValue',
+                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringHasNoValue',
+                                            keepKeyUnaltered: true,
+                                            values: { min: 5, maks: 2000 },
                                         };
                                     case ValidateStringError.stringIsTooShort:
                                         return {
                                             key:
                                                 'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooShort',
-                                            values: { lengde: 5 },
+                                            values: { min: 5, maks: 2000 },
+                                            keepKeyUnaltered: true,
                                         };
                                     case ValidateStringError.stringIsTooLong:
                                         return {
                                             key:
                                                 'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooLong',
-                                            values: { lengde: 2000 },
+                                            values: { min: 5, maks: 2000 },
+                                            keepKeyUnaltered: true,
                                         };
                                 }
                                 return error;

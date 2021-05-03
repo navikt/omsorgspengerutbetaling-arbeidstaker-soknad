@@ -70,6 +70,7 @@ export const getFraværPerioderValidator = ({
             getListValidator({ required: true })(fraværPerioder)
                 ? {
                       key: AppFieldValidationErrors.arbeidsforhold_fraværPerioder_listIsEmpty,
+                      keepKeyUnaltered: true,
                   }
                 : undefined,
         () =>
@@ -95,6 +96,7 @@ export const getFraværDagerValidator = ({
             getListValidator({ required: true })(fraværDager)
                 ? {
                       key: AppFieldValidationErrors.arbeidsforhold_fraværDager_listIsEmpty,
+                      keepKeyUnaltered: true,
                   }
                 : undefined,
 

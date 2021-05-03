@@ -25,7 +25,7 @@ export const minimumHarPeriodeEllerDelerAvDagYes = (
     harDelerAvDag: YesOrNo
 ): ValidationResult<ValidationError> => {
     if (harPerioder === YesOrNo.NO && harDelerAvDag === YesOrNo.NO) {
-        return { key: AppFieldValidationErrors.periode_ingenDagerEllerPerioder };
+        return { key: AppFieldValidationErrors.periode_ingenDagerEllerPerioder, keepKeyUnaltered: true };
     }
     return undefined;
 };
@@ -84,6 +84,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                         if (error === ValidateYesOrNoError.yesOrNoIsUnanswered) {
                             return {
                                 key: AppFieldValidationErrors.arbeidsforhold_harPerioderMedFravær_yesOrNoIsUnanswered,
+                                keepKeyUnaltered: true,
                             };
                         }
                         return error;
@@ -132,6 +133,7 @@ const FormikArbeidsforholdPeriodeView: React.FC<Props> = ({
                             return {
                                 key:
                                     AppFieldValidationErrors.arbeidsforhold_harDagerMedDelvisFravær_yesOrNoIsUnanswered,
+                                keepKeyUnaltered: true,
                             };
                         }
                         return error;

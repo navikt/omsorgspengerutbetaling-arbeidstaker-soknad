@@ -36,6 +36,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                             ? {
                                   key: AppFieldValidationErrors.harHattFraværHosArbeidsgiver_yesOrNoIsUnanswered,
                                   values: { arbeidsgivernavn },
+                                  keepKeyUnaltered: true,
                               }
                             : undefined;
                     }}
@@ -53,6 +54,7 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
                                 ? {
                                       key: AppFieldValidationErrors.arbeidsgiverHarUtbetaltLønn_yesOrNoIsUnanswered,
                                       values: { arbeidsgivernavn },
+                                      keepKeyUnaltered: true,
                                   }
                                 : undefined;
                         }}

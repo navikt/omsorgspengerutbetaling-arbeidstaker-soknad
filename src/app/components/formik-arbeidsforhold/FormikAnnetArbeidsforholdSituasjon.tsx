@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormikInput, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { getStringValidator, getYesOrNoValidator, ValidateStringError } from '@navikt/sif-common-formik/lib/validation';
+import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -61,13 +61,18 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                             maxLength={100}
                             name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.navn)}
                             validate={(value) => {
-                                const error = getStringValidator({ required: true, maxLength: 100 })(value);
-                                if (error === ValidateStringError.stringIsTooLong) {
-                                    return {
-                                        options: { lengde: 100 },
-                                    };
-                                }
-                                return error;
+                                const error = getStringValidator({ required: true, minLength: 2, maxLength: 100 })(
+                                    value
+                                );
+                                return error
+                                    ? {
+                                          key: error,
+                                          values: {
+                                              min: 2,
+                                              maks: 100,
+                                          },
+                                      }
+                                    : undefined;
                             }}
                         />
                     </FormBlock>
