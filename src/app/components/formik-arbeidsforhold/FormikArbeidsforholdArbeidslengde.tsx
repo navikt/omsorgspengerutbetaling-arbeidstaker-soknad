@@ -194,8 +194,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                             const error = validateHvorLengeJobbetBegrunnelseRadioGroup(value);
                             return error
                                 ? {
-                                      key:
-                                          AppFieldValidationErrors.arbeidsforhold_ansettelseslengde_begrunnelse_noValue,
+                                      key: AppFieldValidationErrors.arbeidsforhold_ansettelseslengde_begrunnelse_noValue,
                                       values: { arbeidsgivernavn },
                                       keepKeyUnaltered: true,
                                   }
@@ -219,22 +218,19 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                                 switch (error) {
                                     case ValidateStringError.stringHasNoValue:
                                         return {
-                                            key:
-                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringHasNoValue',
+                                            key: 'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringHasNoValue',
                                             keepKeyUnaltered: true,
                                             values: { min: 5, maks: 2000 },
                                         };
                                     case ValidateStringError.stringIsTooShort:
                                         return {
-                                            key:
-                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooShort',
+                                            key: 'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooShort',
                                             values: { min: 5, maks: 2000 },
                                             keepKeyUnaltered: true,
                                         };
                                     case ValidateStringError.stringIsTooLong:
                                         return {
-                                            key:
-                                                'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooLong',
+                                            key: 'validation.arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring.stringIsTooLong',
                                             values: { min: 5, maks: 2000 },
                                             keepKeyUnaltered: true,
                                         };

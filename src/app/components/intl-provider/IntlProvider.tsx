@@ -4,12 +4,12 @@ import '@formatjs/intl-pluralrules/locale-data/nb';
 import '@formatjs/intl-pluralrules/locale-data/nn';
 import '@formatjs/intl-pluralrules/polyfill';
 import bostedUtlandMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
-import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
-import { fallbackValidationMessages } from '@navikt/sif-common-formik/lib/validation/fallbackValidationMessages';
 import fosterbarnMessages from '@navikt/sif-common-forms/lib/fosterbarn/fosterbarnMessages';
+import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
+import dayjs from 'dayjs';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
-import dayjs from 'dayjs';
+
 require('dayjs/locale/nb');
 require('dayjs/locale/nn');
 
@@ -22,7 +22,6 @@ const bokmålstekster = {
     ...fosterbarnMessages.nb,
     ...bostedUtlandMessages.nb,
     ...fraværMessages.nb,
-    ...fallbackValidationMessages.nb,
 };
 
 const nynorsktekster = {
@@ -31,7 +30,6 @@ const nynorsktekster = {
     ...fosterbarnMessages.nn,
     ...bostedUtlandMessages.nn,
     ...fraværMessages.nn,
-    ...fallbackValidationMessages.nn,
 };
 
 export interface IntlProviderProps {
