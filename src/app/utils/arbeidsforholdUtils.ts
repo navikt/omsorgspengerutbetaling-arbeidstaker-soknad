@@ -7,8 +7,11 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { AxiosResponse } from 'axios';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../types/ArbeidsforholdTypes';
 import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
-import { SøknadFormField } from '../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import appSentryLogger from './appSentryLogger';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
+import { UtbetalingsperiodeApi } from '../types/SøknadApiData';
+import { mapFraværTilUtbetalingsperiode } from './formToApiMaps/mapPeriodeToApiData';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -60,6 +63,50 @@ export const getArbeidsgivere = async (
     }
 };
 
+export const getArbeidsgivernavn = (formData: ArbeidsforholdFormData) => formData.navn || formData.organisasjonsnummer;
+
 export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
     return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
+};
+
+export const getAlleUtbetalingsperioder = (values: SøknadFormData): UtbetalingsperiodeApi[] => {
+    const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværPerioder;
+        })
+        .flat();
+
+    const arbeidsforholdDager: FraværDag[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværDager;
+        })
+        .flat();
+
+    const annetPeriode: FraværPeriode[] = values.annetArbeidsforhold.fraværPerioder;
+    const annetDag: FraværDag[] = values.annetArbeidsforhold.fraværDager;
+
+    return mapFraværTilUtbetalingsperiode(
+        [...arbeidsforholdPerioder, ...annetPeriode],
+        [...arbeidsforholdDager, ...annetDag]
+    );
+};
+
+export const getAlleFraværDager = (values: SøknadFormData): FraværDag[] => {
+    const arbeidsforholdDager: FraværDag[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværDager;
+        })
+        .flat();
+    const annetDag: FraværDag[] = values.annetArbeidsforhold.fraværDager;
+    return [...arbeidsforholdDager, ...annetDag];
+};
+
+export const getAlleFraværPerioder = (values: SøknadFormData): FraværPeriode[] => {
+    const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværPerioder;
+        })
+        .flat();
+    const annetPeriode: FraværPeriode[] = values.annetArbeidsforhold.fraværPerioder;
+    return [...arbeidsforholdPerioder, ...annetPeriode];
 };

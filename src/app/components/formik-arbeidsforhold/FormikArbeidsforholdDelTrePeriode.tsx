@@ -7,9 +7,18 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../type
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
     index: number;
+    minDateForFravær: Date;
+    maxDateForFravær: Date;
+    årstall?: number;
 }
 
-const FormikArbeidsforholdDelTrePeriodeView = ({ arbeidsforholdFormData, index }: Props) => {
+const FormikArbeidsforholdDelTrePeriodeView = ({
+    arbeidsforholdFormData,
+    index,
+    minDateForFravær,
+    maxDateForFravær,
+    årstall,
+}: Props) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }): JSX.Element => {
@@ -36,6 +45,9 @@ const FormikArbeidsforholdDelTrePeriodeView = ({ arbeidsforholdFormData, index }
                         namePerioderMedFravær={namePerioderMedFravær}
                         nameHarDagerMedDelvisFravær={nameHarDagerMedDelvisFravær}
                         nameDagerMedDelvisFravær={nameDagerMedDelvisFravær}
+                        minDateForFravær={minDateForFravær}
+                        maxDateForFravær={maxDateForFravær}
+                        årstall={årstall}
                     />
                 );
             }}

@@ -3,6 +3,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { ansettelsesLengdeIsValid } from './ansettelsesLengdeValidations';
 import { delvisFraværIsValid, perioderIsValid } from './periodeStepValidations';
 import { evaluatePrevAndCurrent } from '../validationUtils';
+import { uniq } from 'lodash';
 
 export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: ArbeidsforholdFormData): boolean =>
     !!(
@@ -109,4 +110,22 @@ export const checkHarKlikketNeiElleJajaBlanding = (listeAvArbeidsforhold: Arbeid
         !checkAlleArbeidsforhold(listeAvArbeidsforhold, erJaJaCombo) &&
         !checkAlleArbeidsforhold(listeAvArbeidsforhold, erNeiCombo)
     );
+};
+
+export const checkAllePerioderErInnenforSammeKalenderår = (
+    listeAvArbeidsforhold: ArbeidsforholdFormData[],
+    errorMsg: string
+): string | undefined => {
+    const årstall = listeAvArbeidsforhold.map((a) => {
+        const { fraværDager = [], fraværPerioder = [] } = a;
+        return [
+            ...fraværDager.map((fd) => fd.dato),
+            ...fraværPerioder.map((p) => p.fraOgMed),
+            ...fraværPerioder.map((p) => p.tilOgMed),
+        ]
+            .filter((d) => d !== undefined)
+            .map((d) => d.getFullYear());
+    });
+    const unikeÅrstall = uniq(årstall)[0];
+    return unikeÅrstall !== undefined && uniq(unikeÅrstall).length > 1 ? errorMsg : undefined;
 };

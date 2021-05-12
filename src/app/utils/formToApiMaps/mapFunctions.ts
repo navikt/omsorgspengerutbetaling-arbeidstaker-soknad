@@ -1,6 +1,5 @@
-import { Bekreftelser, FosterbarnApi } from '../../types/SøknadApiData';
+import { Bekreftelser } from '../../types/SøknadApiData';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
 
 export const mapToBekreftelser = (
     harForståttRettigheterOgPlikter: boolean,
@@ -10,17 +9,6 @@ export const mapToBekreftelser = (
     harForståttRettigheterOgPlikter,
 });
 
-export const settInnFosterbarn = (harFosterbarn: YesOrNo, listeAvFosterbarn: Fosterbarn[]): FosterbarnApi[] | null => {
-    return harFosterbarn === YesOrNo.YES
-        ? listeAvFosterbarn.map((fosterbarn: Fosterbarn) => {
-              return {
-                  fødselsnummer: fosterbarn.fødselsnummer,
-                  fornavn: fosterbarn.fornavn || null,
-                  etternavn: fosterbarn.etternavn || null,
-              };
-          })
-        : null;
-};
 export const yesOrNoToBoolean = (yesOrNo: YesOrNo): boolean => {
     switch (yesOrNo) {
         case YesOrNo.YES:

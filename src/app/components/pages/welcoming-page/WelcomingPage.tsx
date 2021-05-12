@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude/lib';
+import InfoDialog from '@navikt/sif-common-core/lib/components/dialogs/info-dialog/InfoDialog';
 import { Sidetittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
@@ -8,19 +9,24 @@ import Page from 'common/components/page/Page';
 import bemHelper from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
-import BehandlingAvPersonopplysningerModal from '../../information/behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
-import DinePlikterModal from '../../information/dine-plikter-modal/DinePlikterModal';
+import BehandlingAvPersonopplysningerContent from '../../information/behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
+import DinePlikterContent from '../../information/dine-plikter-content/DinePlikterContent';
 import SamtykkeForm from './SamtykkeForm';
 import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
 
+interface DialogState {
+    dinePlikterModalOpen?: boolean;
+    behandlingAvPersonopplysningerModalOpen?: boolean;
+}
+
 type Props = Omit<StepConfigProps, 'formValues'>;
 
 const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
+    const [dialogState, setDialogState] = useState<DialogState>({});
+    const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = dialogState;
     const intl = useIntl();
-    const [visDinePlikterModal, setVisDinePlikterModal] = React.useState(false);
-    const [visBehandlingAvPersonopplysningerModal, setVisBehandlingAvPersonopplysningerModal] = React.useState(false);
 
     useLogSidevisning(SIFCommonPageKey.velkommen);
 
@@ -46,22 +52,27 @@ const WelcomingPage: React.FC<Props> = (props: Props): JSX.Element => {
                     </Sidetittel>
                 </Box>
                 <SamtykkeForm
-                    onOpenDinePlikterModal={() => setVisDinePlikterModal(true)}
-                    openBehandlingAvPersonopplysningerModal={() => setVisBehandlingAvPersonopplysningerModal(true)}
+                    onOpenDinePlikterModal={() => setDialogState({ dinePlikterModalOpen: true })}
+                    openBehandlingAvPersonopplysningerModal={() =>
+                        setDialogState({ behandlingAvPersonopplysningerModalOpen: true })
+                    }
                     onConfirm={onValidSubmit}
                 />
             </Page>
 
-            <DinePlikterModal
-                isOpen={visDinePlikterModal}
-                onRequestClose={() => setVisDinePlikterModal(false)}
+            <InfoDialog
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
-            />
-            <BehandlingAvPersonopplysningerModal
-                isOpen={visBehandlingAvPersonopplysningerModal}
-                onRequestClose={() => setVisBehandlingAvPersonopplysningerModal(false)}
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
-            />
+                isOpen={dinePlikterModalOpen === true}
+                onRequestClose={(): void => setDialogState({ dinePlikterModalOpen: false })}>
+                <DinePlikterContent />
+            </InfoDialog>
+
+            <InfoDialog
+                isOpen={behandlingAvPersonopplysningerModalOpen === true}
+                onRequestClose={(): void => setDialogState({ behandlingAvPersonopplysningerModalOpen: false })}
+                contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}>
+                <BehandlingAvPersonopplysningerContent />
+            </InfoDialog>
         </>
     );
 };

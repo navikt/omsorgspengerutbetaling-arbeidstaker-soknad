@@ -86,26 +86,13 @@ export const ugyldigSøknadFormData2: any = undefined;
 export const ugyldigSøknadFormData3: any = {};
 export const ugyldigSøknadFormData4: any = 'ugyldig SøknadFormData';
 export const ugyldigSøknadFormData5: any = {
-    // [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,
-
-    // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
     [SøknadFormField.annetArbeidsforhold]: null,
-
-    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fosterbarn]: [],
-
-    // STEG 2:
-
-    // STEG 3
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioderUtenlandsopphold]: [],
-
     [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo.UNANSWERED,
     [SøknadFormField.andreUtbetalinger]: [],
-
-    // STEG 4:
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,

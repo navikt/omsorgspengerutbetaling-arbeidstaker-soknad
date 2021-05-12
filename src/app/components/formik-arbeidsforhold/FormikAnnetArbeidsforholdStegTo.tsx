@@ -11,9 +11,18 @@ import FormikArbeidsforholdPeriodeView from './FormikArbeidsforholdPeriode';
 interface Props {
     annetArbeidsforhold: ArbeidsforholdFormData;
     annetArbeidsforholdName: string;
+    minDateForFravær: Date;
+    maxDateForFravær: Date;
+    årstall?: number;
 }
 
-const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({ annetArbeidsforhold, annetArbeidsforholdName }) => {
+const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({
+    annetArbeidsforhold,
+    annetArbeidsforholdName,
+    minDateForFravær,
+    maxDateForFravær,
+    årstall,
+}) => {
     const getFieldNameAnnetArbeidsforhold = (arbeidsforholdFieldName: ArbeidsforholdFormDataFields): string =>
         `${SøknadFormField.annetArbeidsforhold}.${arbeidsforholdFieldName}`;
 
@@ -51,6 +60,9 @@ const FormikAnnetArbeidsforholdStegTo: React.FC<Props> = ({ annetArbeidsforhold,
                         namePerioderMedFravær={namePerioderMedFravær}
                         nameHarDagerMedDelvisFravær={nameHarDagerMedDelvisFravær}
                         nameDagerMedDelvisFravær={nameDagerMedDelvisFravær}
+                        minDateForFravær={minDateForFravær}
+                        maxDateForFravær={maxDateForFravær}
+                        årstall={årstall}
                     />
                 </FormSection>
             </FormBlock>

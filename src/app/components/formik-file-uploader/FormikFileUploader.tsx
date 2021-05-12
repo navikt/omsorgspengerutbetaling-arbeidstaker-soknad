@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { FormikFileInput, FormikValidateFunction } from '@navikt/sif-common-formik/lib';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik/lib';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArrayHelpers } from 'formik';
 import { Attachment, PersistedFile } from 'common/types/Attachment';
 import {
@@ -12,17 +14,16 @@ import {
     VALID_EXTENSIONS,
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
+import { SøknadFormField } from '../../types/SøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';
-import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
 export type FieldArrayRemoveFn = (index: number) => undefined;
 
-interface FormikFileUploader {
+interface FormikFileUploader extends TypedFormInputValidationProps<SøknadFormField, ValidationError> {
     name: string;
     label: string;
-    validate?: FormikValidateFunction;
     onFileInputClick?: () => void;
     onErrorUploadingAttachments: (files: File[]) => void;
     onUnauthorizedOrForbiddenUpload: () => void;

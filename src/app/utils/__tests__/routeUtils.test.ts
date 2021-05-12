@@ -1,8 +1,15 @@
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { SøknadFormField } from '../../types/SøknadFormData';
+import { getEnvironmentVariable } from '../envUtils';
 import { getMaybeSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
+
+jest.mock('../envUtils', () => {
+    return {
+        getEnvironmentVariable: () => '',
+    };
+});
 
 jest.mock('../featureToggleUtils', () => {
     return {

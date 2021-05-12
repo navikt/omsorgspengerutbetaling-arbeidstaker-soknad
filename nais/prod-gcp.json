@@ -5,7 +5,7 @@
     "team": "dusseldorf",
     "minReplicas": "1",
     "maxReplicas": "1",
-   "ingresses": [
+    "ingresses": [
         "https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
         "https://www.intern.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker"
     ],
@@ -14,11 +14,10 @@
         "API_URL": "https://omsorgspengerutbetalingsoknad-arbeidstaker-api.nav.no",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
         "LOGIN_URL": "https://loginservice.nav.no/login?redirect=https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/soknad",
-        "TOGGLE_LANGUAGE": "on",
+        "TOGGLE_LANGUAGE": "off",
         "UTILGJENGELIG": "off",
         "STENGT_BHG_SKOLE": "on",
-        "NYNORSK": "on",
-        "MELLOMLAGRING": "on",
+        "NYNORSK": "off",
         "APPSTATUS_PROJECT_ID": "ryujtq87",
         "APPSTATUS_DATASET": "production"
     }

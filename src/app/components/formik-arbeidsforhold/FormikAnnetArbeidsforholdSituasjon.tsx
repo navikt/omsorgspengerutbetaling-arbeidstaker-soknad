@@ -1,31 +1,17 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useFormikContext } from 'formik';
-import intlHelper from 'common/utils/intlUtils';
-import { SøknadFormData } from '../../types/SøknadFormData';
 import { FormikInput, FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { YesOrNo } from 'common/types/YesOrNo';
-import FormBlock from 'common/components/form-block/FormBlock';
-import {
-    createFieldValidationError,
-    FieldValidationErrors,
-    validateYesOrNoIsAnswered,
-} from 'common/validation/fieldValidations';
-import Box from 'common/components/box/Box';
-import { Undertittel } from 'nav-frontend-typografi';
+import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
+import { Undertittel } from 'nav-frontend-typografi';
+import Box from 'common/components/box/Box';
+import FormBlock from 'common/components/form-block/FormBlock';
+import { YesOrNo } from 'common/types/YesOrNo';
+import intlHelper from 'common/utils/intlUtils';
 import { ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import { FieldValidationResult } from 'common/validation/types';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { getAnnetArbeidsforholdField } from '../../utils/arbeidsforholdUtils';
-
-const validateInputField = (value: string): FieldValidationResult => {
-    // TODO: Valideringsfeil dukker ikke opp i boksen neders med link til feil
-    if (value && value.length > 0) {
-        return undefined;
-    } else {
-        return createFieldValidationError(FieldValidationErrors.påkrevd);
-    }
-};
 
 const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
     const intl = useIntl();
@@ -51,7 +37,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                 <FormikYesOrNoQuestion
                     name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver)}
                     legend={intlHelper(intl, 'annetArbeidsforhold.harHattFravaer.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </FormBlock>
             {skalViseArbeidsgiverHarUtbetaltLønnSpørsmål && (
@@ -59,7 +45,7 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                     <FormikYesOrNoQuestion
                         name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn)}
                         legend={intlHelper(intl, 'annetArbeidsforhold.ikkeUtbetaltLonn.spm')}
-                        validate={validateYesOrNoIsAnswered}
+                        validate={getYesOrNoValidator()}
                     />
                 </FormBlock>
             )}
@@ -72,8 +58,22 @@ const FormikAnnetArbeidsforholdSituasjon: React.FunctionComponent = () => {
                                 'annetArbeidsforhold.arbeidsgiverHarIkkeUtbetaltLonn.navnArbeidsgiver.spm'
                             )}
                             bredde={'XXL'}
+                            maxLength={100}
                             name={getAnnetArbeidsforholdField(ArbeidsforholdFormDataFields.navn)}
-                            validate={validateInputField}
+                            validate={(value) => {
+                                const error = getStringValidator({ required: true, minLength: 2, maxLength: 100 })(
+                                    value
+                                );
+                                return error
+                                    ? {
+                                          key: error,
+                                          values: {
+                                              min: 2,
+                                              maks: 100,
+                                          },
+                                      }
+                                    : undefined;
+                            }}
                         />
                     </FormBlock>
                     <Box margin="l">

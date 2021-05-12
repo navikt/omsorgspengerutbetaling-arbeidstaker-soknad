@@ -15,6 +15,8 @@ jest.mock('./../envUtils.ts', () => {
     return { getEnvironmentVariable: () => mockedApiUrl };
 });
 
+jest.mock('axios');
+
 describe('apiUtils', () => {
     beforeEach(() => {
         axiosErrorMock = {

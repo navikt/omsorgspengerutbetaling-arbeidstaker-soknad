@@ -1,3 +1,4 @@
+import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
 
@@ -28,13 +29,6 @@ export interface YesNoSpørsmålOgSvar {
     spørsmål: Spørsmål;
     svar: YesNoSvar;
 }
-
-export interface FosterbarnApi {
-    fødselsnummer: string;
-    fornavn: string | null;
-    etternavn: string | null;
-}
-
 export interface Bekreftelser {
     harBekreftetOpplysninger: boolean;
     harForståttRettigheterOgPlikter: boolean;
@@ -53,7 +47,7 @@ export interface ArbeidsgiverDetaljer {
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;
     ansettelseslengde: Ansettelseslengde;
-    perioder: Utbetalingsperiode[];
+    perioder: UtbetalingsperiodeApi[];
 }
 
 export interface Ansettelseslengde {
@@ -75,11 +69,16 @@ export interface JobbHosNåværendeArbeidsgiver {
     begrunnelse: Begrunnelse | null;
 }
 
-export interface Utbetalingsperiode {
+export interface UtbetalingsperiodeApi {
     fraOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)
     antallTimerPlanlagt: string | null; // f eks PT5H30M | "null" (type Duration)
+    årsak: FraværÅrsak;
+}
+
+export interface ApiFosterbarn {
+    identitetsnummer?: string;
 }
 
 export interface SøknadApiData {
@@ -87,14 +86,15 @@ export interface SøknadApiData {
     bosteder: Bosted[]; // medlemskap-siden
     opphold: Opphold[]; // hvis ja på har oppholdt seg i utlandet
     arbeidsgivere: ArbeidsgiverDetaljer[];
+    fosterbarn: ApiFosterbarn[];
     bekreftelser: Bekreftelser;
     andreUtbetalinger: string[];
     erSelvstendig: boolean;
     erFrilanser: boolean;
-    fosterbarn: FosterbarnApi[] | null;
     hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
     hjemmePgaStengtBhgSkole?: boolean;
     _vedleggSmittevern: string[]; // Used in summary view
     _vedleggStengtBhgSkole: string[]; // Used in summary view
+    _harFosterbarn: boolean; // Used in summary view
 }

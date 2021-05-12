@@ -1,13 +1,16 @@
 import * as React from 'react';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import intlHelper from 'common/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { getArbeidsgivernavn } from '../../utils/arbeidsforholdUtils';
+import { AppFieldValidationErrors } from '../../validation/fieldValidations';
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
@@ -21,22 +24,40 @@ const FormikArbeidsforholdSituasjonView: React.FC<Props> = ({
     nameArbeidsgiverHarUtbetaltLønn,
 }: Props) => {
     const intl = useIntl();
-
+    const arbeidsgivernavn = getArbeidsgivernavn(arbeidsforholdFormData);
     return (
         <>
             <FormBlock margin="none">
-                <FormikYesOrNoQuestion
-                    legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}
+                <FormikYesOrNoQuestion<string, ValidationError>
+                    legend={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm', { arbeidsgivernavn })}
                     name={nameHarHattFraværHosArbeidsgiver}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={(value) => {
+                        return getYesOrNoValidator()(value)
+                            ? {
+                                  key: AppFieldValidationErrors.harHattFraværHosArbeidsgiver_yesOrNoIsUnanswered,
+                                  values: { arbeidsgivernavn },
+                                  keepKeyUnaltered: true,
+                              }
+                            : undefined;
+                    }}
                 />
             </FormBlock>
             {arbeidsforholdFormData[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver] === YesOrNo.YES && (
                 <FormBlock>
                     <FormikYesOrNoQuestion
-                        legend={intlHelper(intl, 'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm')}
+                        legend={intlHelper(intl, 'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm', {
+                            arbeidsgivernavn,
+                        })}
                         name={nameArbeidsgiverHarUtbetaltLønn}
-                        validate={validateYesOrNoIsAnswered}
+                        validate={(value) => {
+                            return getYesOrNoValidator()(value)
+                                ? {
+                                      key: AppFieldValidationErrors.arbeidsgiverHarUtbetaltLønn_yesOrNoIsUnanswered,
+                                      values: { arbeidsgivernavn },
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
                     />
                 </FormBlock>
             )}
