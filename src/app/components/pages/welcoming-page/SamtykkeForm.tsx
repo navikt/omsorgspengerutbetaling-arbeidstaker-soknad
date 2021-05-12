@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
 import FormBlock from 'common/components/form-block/FormBlock';
 import bemHelper from 'common/utils/bemUtils';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import intlHelper from 'common/utils/intlUtils';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 
@@ -15,7 +15,7 @@ interface Props {
     openBehandlingAvPersonopplysningerModal: () => void;
 }
 
-const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormData>();
+const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormData, ValidationError>();
 
 const bem = bemHelper('welcomingPage');
 
@@ -26,10 +26,7 @@ const SamtykkeForm: React.FC<Props> = ({
 }: Props): JSX.Element => {
     const intl = useIntl();
     return (
-        <AppForm.Form
-            onValidSubmit={onConfirm}
-            includeButtons={false}
-            fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}>
+        <AppForm.Form onValidSubmit={onConfirm} includeButtons={false}>
             <FormBlock>
                 <AppForm.ConfirmationCheckbox
                     label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}

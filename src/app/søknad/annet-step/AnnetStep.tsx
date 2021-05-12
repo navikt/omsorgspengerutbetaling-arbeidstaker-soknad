@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { date1YearAgo, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { useFormikContext } from 'formik';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
@@ -9,7 +10,6 @@ import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { UtbetalingsperiodeApi } from '../../types/SøknadApiData';
@@ -50,7 +50,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.perioderHarVærtIUtlandet}
                     legend={intlHelper(intl, 'step.fravær.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </FormBlock>
             {perioderHarVærtIUtlandet === YesOrNo.YES && (
@@ -63,7 +63,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                             addLabel: intlHelper(intl, 'step.annet.periodeoversikt.leggTilLabel'),
                             modalTitle: intlHelper(intl, 'step.annet.periodeoversikt.modalTittel'),
                         }}
-                        validate={validateRequiredList}
+                        validate={getListValidator({ required: true })}
                     />
                 </FormBlock>
             )}
@@ -72,7 +72,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.harSøktAndreUtbetalinger}
                     legend={intlHelper(intl, 'step.fravær.har_søkt_andre_utbetalinger.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
                 {values.harSøktAndreUtbetalinger === YesOrNo.YES && (
                     <FormBlock>
@@ -91,7 +91,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                                     label: intlHelper(intl, 'andre_utbetalinger.sykepenger'),
                                 },
                             ]}
-                            validate={validateRequiredList}
+                            validate={getListValidator({ required: true })}
                         />
                     </FormBlock>
                 )}

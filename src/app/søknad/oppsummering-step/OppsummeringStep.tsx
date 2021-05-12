@@ -30,6 +30,7 @@ import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
 import SummarySection from './components/summary-section/SummarySection';
 import SummaryBlock from './components/SummaryBlock';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
+import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
     søkerdata: Søkerdata;
@@ -157,11 +158,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                 <SøknadFormComponents.ConfirmationCheckbox
                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                     name={SøknadFormField.harBekreftetOpplysninger}
-                    validate={(value): string | undefined =>
-                        value !== true
-                            ? intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet')
-                            : undefined
-                    }
+                    validate={getCheckedValidator()}
                 />
             </Box>
         </SøknadStep>

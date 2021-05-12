@@ -56,6 +56,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                     )
                 );
 
+                const arbeidsgivernavn = arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer;
+
                 return (
                     <Box key={index} padBottom={index + 1 < listeAvArbeidsforhold.length ? 'xl' : undefined}>
                         {/* Title */}
@@ -66,7 +68,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                         {/* Content */}
                         <div className={'arbeidsforholdSummaryContent'}>
                             <Box margin={'s'}>
-                                <SummaryBlock header={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}>
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm', { arbeidsgivernavn })}>
                                     <JaNeiSvar harSvartJa={arbeidsforhold.harHattFraværHosArbeidsgiver} />
                                 </SummaryBlock>
                             </Box>
@@ -75,7 +78,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                     <SummaryBlock
                                         header={intlHelper(
                                             intl,
-                                            'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
+                                            'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm',
+                                            { arbeidsgivernavn }
                                         )}>
                                         <JaNeiSvar harSvartJa={arbeidsforhold.arbeidsgiverHarUtbetaltLønn} />
                                     </SummaryBlock>
@@ -84,7 +88,10 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                             {/* ansettelsesLengde */}
 
                             <Box margin={'s'}>
-                                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.hvorLengeJobbet.spørsmål')}>
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'steg.oppsummering.hvorLengeJobbet.spørsmål', {
+                                        arbeidsgivernavn,
+                                    })}>
                                     {arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
                                         <FormattedMessage id={'hvorLengeJobbet.mer'} />
                                     )}
