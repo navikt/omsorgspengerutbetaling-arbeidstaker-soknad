@@ -88,13 +88,8 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold, annetArbeidsforhold]);
     const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold, annetArbeidsforhold]);
 
-    const disableFortsettButton = harKlikketJaJaPåAlle || harKlikketNeiPåAlle || harKlikketNeiElleJajaBlanding;
-
     return (
-        <SøknadStep
-            id={StepID.SITUASJON}
-            onValidFormSubmit={onValidSubmit}
-            buttonDisabled={isLoading || disableFortsettButton}>
+        <SøknadStep id={StepID.SITUASJON} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
             <>
                 <Undertittel>
                     <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
@@ -128,7 +123,13 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                         titleTag="h3"
                                         title={forhold.navn || forhold.organisasjonsnummer}
                                         titleIcon={<BuildingIcon />}>
-                                        <FormikArbeidsforholdDelEn arbeidsforholdFormData={forhold} index={index} />
+                                        <FormikArbeidsforholdDelEn
+                                            arbeidsforholdFormData={forhold}
+                                            harKlikketJaJaPåAlle={harKlikketJaJaPåAlle}
+                                            harKlikketNeiPåAlle={harKlikketNeiPåAlle}
+                                            harKlikketNeiElleJajaBlanding={harKlikketNeiElleJajaBlanding}
+                                            index={index}
+                                        />
                                     </FormSection>
                                 </Box>
                             ))}
@@ -145,7 +146,11 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 )}
 
                 {/* ANNET ARBEIDSFORHOLD*/}
-                <FormikAnnetArbeidsforholdSituasjon />
+                <FormikAnnetArbeidsforholdSituasjon
+                    harKlikketJaJaPåAlle={harKlikketJaJaPåAlle}
+                    harKlikketNeiPåAlle={harKlikketNeiPåAlle}
+                    harKlikketNeiElleJajaBlanding={harKlikketNeiElleJajaBlanding}
+                />
 
                 {harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'xl'}>

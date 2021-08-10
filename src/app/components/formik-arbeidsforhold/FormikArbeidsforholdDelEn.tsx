@@ -6,10 +6,19 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../type
 
 interface Props {
     arbeidsforholdFormData: ArbeidsforholdFormData;
+    harKlikketJaJaPåAlle: boolean;
+    harKlikketNeiPåAlle: boolean;
+    harKlikketNeiElleJajaBlanding: boolean;
     index: number;
 }
 
-const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforholdFormData, index }: Props) => {
+const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({
+    arbeidsforholdFormData,
+    harKlikketJaJaPåAlle,
+    harKlikketNeiPåAlle,
+    harKlikketNeiElleJajaBlanding,
+    index,
+}: Props) => {
     return (
         <FieldArray name={SøknadFormField.arbeidsforhold}>
             {({ name }): JSX.Element => {
@@ -27,6 +36,9 @@ const FormikArbeidsforholdDelEn: React.FunctionComponent<Props> = ({ arbeidsforh
                         arbeidsforholdFormData={arbeidsforholdFormData}
                         nameHarHattFraværHosArbeidsgiver={nameHarHattFraværHosArbeidsgiver}
                         nameArbeidsgiverHarUtbetaltLønn={nameArbeidsgiverHarUtbetaltLønn}
+                        harKlikketJaJaPåAlle={harKlikketJaJaPåAlle}
+                        harKlikketNeiPåAlle={harKlikketNeiPåAlle}
+                        harKlikketNeiElleJajaBlanding={harKlikketNeiElleJajaBlanding}
                     />
                 );
             }}
