@@ -91,9 +91,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const harIkkeMottatLønnHosEnEllerFlere =
         harKlikketJaJaPåAlle === false && harKlikketNeiPåAlle == false && harKlikketNeiElleJajaBlanding === false;
 
-    // const harIkkeFraværEllerHarMottattLønnFraAlle =
-    //     harKlikketJaJaPåAlle === true && harKlikketNeiPåAlle == true && harKlikketNeiElleJajaBlanding === true;
-
     return (
         <SøknadStep
             id={StepID.SITUASJON}
