@@ -88,13 +88,14 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold, annetArbeidsforhold]);
     const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold, annetArbeidsforhold]);
 
-    const disableFortsettButton = harKlikketJaJaPåAlle || harKlikketNeiPåAlle || harKlikketNeiElleJajaBlanding;
+    const harIkkeMottatLønnHosEnEllerFlere =
+        harKlikketJaJaPåAlle === false && harKlikketNeiPåAlle == false && harKlikketNeiElleJajaBlanding === false;
 
     return (
         <SøknadStep
             id={StepID.SITUASJON}
             onValidFormSubmit={onValidSubmit}
-            buttonDisabled={isLoading || disableFortsettButton}>
+            showSubmitButton={!isLoading && harIkkeMottatLønnHosEnEllerFlere}>
             <>
                 <Undertittel>
                     <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
@@ -169,82 +170,95 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     </FormBlock>
                 )}
 
+                {harKlikketJaJaPåAlle === false &&
+                    harKlikketNeiPåAlle == false &&
+                    harKlikketNeiElleJajaBlanding === false}
+
                 {/* SELVSTENDIG OG ELLER FRILANS */}
+                {harIkkeMottatLønnHosEnEllerFlere && (
+                    <>
+                        <FormBlock margin="xxl">
+                            <Undertittel>
+                                <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
+                            </Undertittel>
 
-                <FormBlock margin="xxl">
-                    <Undertittel>
-                        <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
-                    </Undertittel>
-
-                    <FormBlock margin="l">
-                        <SøknadFormComponents.YesOrNoQuestion
-                            name={SøknadFormField.erSelvstendigOgEllerFrilans}
-                            legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
-                            validate={validateYesOrNoIsAnswered}
-                        />
-                    </FormBlock>
-                    {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
-                        <>
-                            <FormBlock margin={'m'}>
-                                <SøknadFormComponents.CheckboxPanelGroup
-                                    name={SøknadFormField.selvstendigOgEllerFrilans}
-                                    checkboxes={[
-                                        {
-                                            id: SelvstendigOgEllerFrilans.selvstendig,
-                                            value: SelvstendigOgEllerFrilans.selvstendig,
-                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.selvstendig.label'),
-                                        },
-                                        {
-                                            id: SelvstendigOgEllerFrilans.frilans,
-                                            value: SelvstendigOgEllerFrilans.frilans,
-                                            label: intlHelper(intl, 'selvstendig_og_eller_frilans.frilans.label'),
-                                        },
-                                    ]}
-                                    validate={validateRequiredList}
+                            <FormBlock margin="l">
+                                <SøknadFormComponents.YesOrNoQuestion
+                                    name={SøknadFormField.erSelvstendigOgEllerFrilans}
+                                    legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
+                                    validate={validateYesOrNoIsAnswered}
                                 />
                             </FormBlock>
-                            <InformasjonOmSelvstendigOgFrilans
-                                erSelvstendig={values.selvstendigOgEllerFrilans.includes(
-                                    SelvstendigOgEllerFrilans.selvstendig
-                                )}
-                                erFrilanser={values.selvstendigOgEllerFrilans.includes(
-                                    SelvstendigOgEllerFrilans.frilans
-                                )}
-                            />
-                        </>
-                    )}
-                </FormBlock>
-
-                {/* FOSTERBARN */}
-
-                <FormBlock margin="xxl">
-                    <Undertittel>
-                        <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
-                    </Undertittel>
-                </FormBlock>
-
-                <Box margin="l">
-                    <CounsellorPanel>
-                        <FormattedMessage id="fosterbarn.legend" />
-                    </CounsellorPanel>
-                </Box>
-
-                <FormBlock>
-                    <SøknadFormComponents.YesOrNoQuestion
-                        name={SøknadFormField.harFosterbarn}
-                        legend="Har du fosterbarn?"
-                        validate={validateYesOrNoIsAnswered}
-                    />
-
-                    {values[SøknadFormField.harFosterbarn] === YesOrNo.YES && (
-                        <FormBlock margin="l">
-                            <FosterbarnListAndDialog
-                                name={SøknadFormField.fosterbarn}
-                                validate={validateRequiredList}
-                            />
+                            {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
+                                <>
+                                    <FormBlock margin={'m'}>
+                                        <SøknadFormComponents.CheckboxPanelGroup
+                                            name={SøknadFormField.selvstendigOgEllerFrilans}
+                                            checkboxes={[
+                                                {
+                                                    id: SelvstendigOgEllerFrilans.selvstendig,
+                                                    value: SelvstendigOgEllerFrilans.selvstendig,
+                                                    label: intlHelper(
+                                                        intl,
+                                                        'selvstendig_og_eller_frilans.selvstendig.label'
+                                                    ),
+                                                },
+                                                {
+                                                    id: SelvstendigOgEllerFrilans.frilans,
+                                                    value: SelvstendigOgEllerFrilans.frilans,
+                                                    label: intlHelper(
+                                                        intl,
+                                                        'selvstendig_og_eller_frilans.frilans.label'
+                                                    ),
+                                                },
+                                            ]}
+                                            validate={validateRequiredList}
+                                        />
+                                    </FormBlock>
+                                    <InformasjonOmSelvstendigOgFrilans
+                                        erSelvstendig={values.selvstendigOgEllerFrilans.includes(
+                                            SelvstendigOgEllerFrilans.selvstendig
+                                        )}
+                                        erFrilanser={values.selvstendigOgEllerFrilans.includes(
+                                            SelvstendigOgEllerFrilans.frilans
+                                        )}
+                                    />
+                                </>
+                            )}
                         </FormBlock>
-                    )}
-                </FormBlock>
+
+                        {/* FOSTERBARN */}
+
+                        <FormBlock margin="xxl">
+                            <Undertittel>
+                                <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
+                            </Undertittel>
+                        </FormBlock>
+
+                        <Box margin="l">
+                            <CounsellorPanel>
+                                <FormattedMessage id="fosterbarn.legend" />
+                            </CounsellorPanel>
+                        </Box>
+
+                        <FormBlock>
+                            <SøknadFormComponents.YesOrNoQuestion
+                                name={SøknadFormField.harFosterbarn}
+                                legend="Har du fosterbarn?"
+                                validate={validateYesOrNoIsAnswered}
+                            />
+
+                            {values[SøknadFormField.harFosterbarn] === YesOrNo.YES && (
+                                <FormBlock margin="l">
+                                    <FosterbarnListAndDialog
+                                        name={SøknadFormField.fosterbarn}
+                                        validate={validateRequiredList}
+                                    />
+                                </FormBlock>
+                            )}
+                        </FormBlock>
+                    </>
+                )}
             </>
         </SøknadStep>
     );

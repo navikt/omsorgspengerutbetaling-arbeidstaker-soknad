@@ -339,6 +339,8 @@
     "fieldvalidation.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene har datoer som overlapper",
     "fieldvalidation.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene er utenfor tillatt tidsrom",
     "fieldvalidation.periode.ingen": "Minimum én periode for arbeidsforholdet må spesifiseres.",
+    "fieldvalidation.situasjon.alleArbeidsgivereUtbetalt": "NAV utbetaler ikke for omsorgsdager som arbeidsgiver allerede har utbetalt for.",
+    "fieldvalidation.situasjon.ingenFravær": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden.",
 
     "fieldvalidation.fraværsperioder_mangler": "Du har ikke lagt til dager med fullt fravær",
     "fieldvalidation.fraværsperioder_overlapper": "Ett eller flere av periodene har datoer som overlapper",
