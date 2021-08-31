@@ -17,9 +17,7 @@ import SøknadStep from '../SøknadStep';
 import MedlemskapSummaryView from './components/MedlemskapSummaryView';
 import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSummaryView';
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
-import FosterbarnSummaryView from './components/FosterbarnSummaryView';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
-import AndreUtbetalingerSummaryView from './components/AndreUtbetalingerSummaryView';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SmittevernSummaryView from './components/SmittevernSummaryView';
 import appSentryLogger from '../../utils/appSentryLogger';
@@ -42,8 +40,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
-    const fosterbarn = apiValues.fosterbarn || [];
-
+    console.log(apiValues);
     async function sendApplication(data: SøknadApiData): Promise<void> {
         setSendingInProgress(true);
         try {
@@ -90,7 +87,6 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                             mellomnavn={mellomnavn || undefined}
                             fødselsnummer={fødselsnummer}
                         />
-                        <FosterbarnSummaryView fosterbarn={fosterbarn} />
                     </SummarySection>
 
                     {/* Fravær fra arbeid */}
@@ -110,13 +106,12 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
 
                     {/* Andre inntekter */}
-                    {(apiValues.erSelvstendig || apiValues.erFrilanser || apiValues.andreUtbetalinger.length > 0) && (
+                    {(apiValues.erSelvstendig || apiValues.erFrilanser) && (
                         <SummarySection header={intlHelper(intl, 'steg.oppsummering.andreInntekter.titel')}>
                             <SelvstendigOgEllerFrilansSummaryView
                                 erSelvstendig={apiValues.erSelvstendig}
                                 erFrilanser={apiValues.erFrilanser}
                             />
-                            <AndreUtbetalingerSummaryView andreUtbetalinger={apiValues.andreUtbetalinger} />
                         </SummarySection>
                     )}
 

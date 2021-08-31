@@ -1,5 +1,6 @@
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
+import { Utbetalingsårsak } from './ArbeidsforholdTypes';
 
 export type ISO8601Duration = string;
 
@@ -29,50 +30,19 @@ export interface YesNoSpørsmålOgSvar {
     svar: YesNoSvar;
 }
 
-export interface FosterbarnApi {
-    fødselsnummer: string;
-    fornavn: string | null;
-    etternavn: string | null;
-}
-
 export interface Bekreftelser {
     harBekreftetOpplysninger: boolean;
     harForståttRettigheterOgPlikter: boolean;
 }
 
-export interface OrganisasjonDetaljer {
-    navn: string;
-    organisasjonsnummer: string;
-    harHattFraværHosArbeidsgiver: boolean;
-    arbeidsgiverHarUtbetaltLønn: boolean;
-}
-
 export interface ArbeidsgiverDetaljer {
     navn: string | null;
     organisasjonsnummer: string | null;
+    utbetalingsårsak: Utbetalingsårsak;
+    konfliktFolklaring?: string;
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;
-    ansettelseslengde: Ansettelseslengde;
     perioder: Utbetalingsperiode[];
-}
-
-export interface Ansettelseslengde {
-    merEnn4Uker: boolean;
-    begrunnelse: Begrunnelse | null;
-    ingenAvSituasjoneneForklaring: string | null;
-}
-
-export enum Begrunnelse {
-    ANNET_ARBEIDSFORHOLD = 'ANNET_ARBEIDSFORHOLD',
-    ANDRE_YTELSER = 'ANDRE_YTELSER',
-    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = 'LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON',
-    MILITÆRTJENESTE = 'MILITÆRTJENESTE',
-    INGEN_AV_SITUASJONENE = 'INGEN_AV_SITUASJONENE',
-}
-
-export interface JobbHosNåværendeArbeidsgiver {
-    merEnn4Uker: boolean;
-    begrunnelse: Begrunnelse | null;
 }
 
 export interface Utbetalingsperiode {
@@ -88,10 +58,8 @@ export interface SøknadApiData {
     opphold: Opphold[]; // hvis ja på har oppholdt seg i utlandet
     arbeidsgivere: ArbeidsgiverDetaljer[];
     bekreftelser: Bekreftelser;
-    andreUtbetalinger: string[];
     erSelvstendig: boolean;
     erFrilanser: boolean;
-    fosterbarn: FosterbarnApi[] | null;
     hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
     hjemmePgaStengtBhgSkole?: boolean;

@@ -22,19 +22,15 @@ const VedleggSummaryView = (): React.ReactElement | null => {
     const { values } = useFormikContext<SøknadFormData>();
 
     const listeAvAlleVedlegg: string[] = [
-        ...listAlleVedleggFraArbeidsforhold([
-            ...values[SøknadFormField.arbeidsforhold],
-            values[SøknadFormField.annetArbeidsforhold],
-        ]),
+        ...listAlleVedleggFraArbeidsforhold(values[SøknadFormField.arbeidsforhold]),
         ...(values[SøknadFormField.hjemmePgaSmittevernhensynYesOrNo] === YesOrNo.YES
             ? listOfAttachmentsToListOfDocumentName(values[SøknadFormField.smittevernDokumenter])
             : []),
     ];
 
-    const listeAvAlleAttachmentsFraArbeidsforhold: Attachment[] = filterArbeidsforholdMedVedlegg([
-        ...values[SøknadFormField.arbeidsforhold],
-        values[SøknadFormField.annetArbeidsforhold],
-    ])
+    const listeAvAlleAttachmentsFraArbeidsforhold: Attachment[] = filterArbeidsforholdMedVedlegg(
+        values[SøknadFormField.arbeidsforhold]
+    )
         .map((arbeidsforhold: ArbeidsforholdFormData) => arbeidsforhold[ArbeidsforholdFormDataFields.dokumenter])
         .flat();
 

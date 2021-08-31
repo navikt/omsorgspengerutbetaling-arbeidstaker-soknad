@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { isString, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -11,7 +11,6 @@ import FormSection from 'common/components/form-section/FormSection';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
-import FormikAnnetArbeidsforholdStegTo from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdStegTo';
 import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
 import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
@@ -37,23 +36,18 @@ const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData):
 
 const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
     const listeAvArbeidsforhold = søknadFormData[SøknadFormField.arbeidsforhold];
-    const annetArbeidsforhold = søknadFormData[SøknadFormField.annetArbeidsforhold];
 
     return {
         ...søknadFormData,
         arbeidsforhold: listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) =>
             cleanPerioderForArbeidsforhold(arbeidsforhold)
         ),
-        annetArbeidsforhold: cleanPerioderForArbeidsforhold(annetArbeidsforhold),
     };
 };
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
-
-    const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
-    const annetArbeidsforholdName: string | null = annetArbeidsforhold[ArbeidsforholdFormDataFields.navn];
-
+    console.log(values);
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
@@ -99,12 +93,6 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                 <FormBlock paddingBottom="l">
                     <div className="arbeidsforhold-liste">{arbeidsforholdElementListe}</div>
                 </FormBlock>
-            )}
-            {skalInkludereArbeidsforhold(annetArbeidsforhold) && isString(annetArbeidsforholdName) && (
-                <FormikAnnetArbeidsforholdStegTo
-                    annetArbeidsforhold={annetArbeidsforhold}
-                    annetArbeidsforholdName={annetArbeidsforholdName}
-                />
             )}
         </SøknadStep>
     );

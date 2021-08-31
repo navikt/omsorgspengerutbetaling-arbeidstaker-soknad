@@ -1,7 +1,6 @@
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
+import { ArbeidsforholdFormData, Utbetalingsårsak } from '../../types/ArbeidsforholdTypes';
 import { ArbeidsgiverDetaljer } from '../../types/SøknadApiData';
 import { yesOrNoToBoolean } from './mapFunctions';
-import { mapAnsettelseslengde } from './mapAnsettelseslengdeToApiData';
 import { mapFraværTilUtbetalingsperiode } from './mapPeriodeToApiData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 
@@ -18,7 +17,13 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
                 organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
                 harHattFraværHosArbeidsgiver: yesOrNoToBoolean(arbeidsforhold.harHattFraværHosArbeidsgiver),
                 arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(arbeidsforhold.arbeidsgiverHarUtbetaltLønn),
-                ansettelseslengde: mapAnsettelseslengde(arbeidsforhold.ansettelseslengde),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                utbetalingsårsak: arbeidsforhold.utbetalingsårsak!,
+                konfliktFolklaring:
+                    arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver &&
+                    arbeidsforhold.konfliktFolklaring
+                        ? arbeidsforhold.konfliktFolklaring
+                        : undefined,
                 perioder: mapFraværTilUtbetalingsperiode(arbeidsforhold.fraværPerioder, arbeidsforhold.fraværDager),
             };
         });

@@ -416,7 +416,6 @@
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.del1": "Her er arbeidsforholda vi har funne registrerte på deg.",
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.del2": "Dersom det manglar ein arbeidsgivar her, må du be arbeidsgivaren sende ei ny A-melding. Dette kan gjerast anten via eige lønns- og personalsystem eller via Altinn.",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikkje nokon opplysningar om arbeidsgivar.",
-    "fosterbarn.legend": "Vi hentar vanlegvis informasjon om barn frå folkeregisteret, men vi har ikkje tilgang til informasjon om fosterbarn der. Derfor må du sjølv leggje inn opplysningar om eventuelle fosterbarn. ",
 
     "steg2.arbeidslengdeOgPerioder.infopanel.del1": "Her legg du inn dagar du har hatt fråvær frå jobb fordi du har vore heime med omsorgsdagar.",
     "steg2.arbeidslengdeOgPerioder.infopanel.del2": "Du skal <strong>berre leggje inn dagar du ikkje har fått betalt ut lønn</strong> frå arbeidsgivaren din. Du vil også få nokre spørsmål om kvifor arbeidsgivaren ikkje har betalt ut lønn til deg.",
@@ -444,10 +443,6 @@
     "step.vedlegg.pageTitle": "Last opp dokument",
     "steg.dokumenter.vedlegg": "Last opp forklaringa frå arbeidsgivaren",
     "steg.dokumenter.smittevernVedlegg": "Last opp stadfestinga frå legen",
-    "step.periode.har_søkt_andre_utbetalinger.spm": "Har du søkt om andre utbetalingar frå NAV for same perioden?",
-    "step.periode.hvilke_utbetalinger.spm": "Kva andre utbetalingar frå NAV har du søkt om?",
-    "andre_utbetalinger.dagpenger": "Dagpengar",
-    "andre_utbetalinger.sykepenger": "Sjukepengar",
 
     "psg-temp.innholdstittel": "Ta bilete av dokumentet og last opp",
     "psg-temp.section1.tittel": "Slik tek du eit godt bilete:",

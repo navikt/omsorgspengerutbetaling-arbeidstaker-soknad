@@ -1,7 +1,6 @@
 import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforholdValidations';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { AnsettelseslengdeFormData, HvorLengeJobbet, HvorLengeJobbetFordi } from '../../types/AnsettelseslengdeTypes';
 import { Attachment } from 'common/types/Attachment';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
 
@@ -33,24 +32,11 @@ const validFraværDelerAvDag: FraværDag = {
 
 const validListeAvFraværDelerAvDag: FraværDag[] = [validFraværDelerAvDag];
 
-const validAnsettelseslengde1: AnsettelseslengdeFormData = {
-    hvorLengeJobbet: HvorLengeJobbet.MER_ENN_FIRE_UKER,
-    begrunnelse: HvorLengeJobbetFordi.IKKE_BESVART,
-    ingenAvSituasjoneneForklaring: '',
-};
-
-const validAnsettelseslengde2: AnsettelseslengdeFormData = {
-    hvorLengeJobbet: HvorLengeJobbet.MINDRE_ENN_FIRE_UKER,
-    begrunnelse: HvorLengeJobbetFordi.LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON,
-    ingenAvSituasjoneneForklaring: '',
-};
-
 const validArbeidsforhold1: ArbeidsforholdFormData = {
     navn: 'Pengepingen',
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.NO,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,
-    ansettelseslengde: validAnsettelseslengde1,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
@@ -63,7 +49,6 @@ const validArbeidsforhold2: ArbeidsforholdFormData = {
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.NO,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,
-    ansettelseslengde: validAnsettelseslengde2,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
@@ -76,7 +61,6 @@ const validArbeidsforhold3: ArbeidsforholdFormData = {
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.YES,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.NO,
-    ansettelseslengde: validAnsettelseslengde2,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
@@ -91,7 +75,6 @@ const invalidArbeidsforhold1: ArbeidsforholdFormData = {
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.YES,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,
-    ansettelseslengde: validAnsettelseslengde2,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,

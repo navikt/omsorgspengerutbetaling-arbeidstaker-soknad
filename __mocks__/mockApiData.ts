@@ -1,5 +1,6 @@
-import { Begrunnelse, SøknadApiData } from '../src/app/types/SøknadApiData';
+import { SøknadApiData } from '../src/app/types/SøknadApiData';
 import { SøkerApiResponse } from '../src/app/types/Søkerdata';
+import { Utbetalingsårsak } from '../src/app/types/ArbeidsforholdTypes';
 
 export const mock1: SøknadApiData = {
     språk: 'nb',
@@ -39,13 +40,9 @@ export const mock1: SøknadApiData = {
         {
             navn: 'Starcraft',
             organisasjonsnummer: '999999999',
+            utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
             harHattFraværHosArbeidsgiver: true,
             arbeidsgiverHarUtbetaltLønn: false,
-            ansettelseslengde: {
-                merEnn4Uker: false,
-                begrunnelse: Begrunnelse.INGEN_AV_SITUASJONENE,
-                ingenAvSituasjoneneForklaring: 'En spesiell annen begrunnelse',
-            },
             perioder: [
                 {
                     fraOgMed: '2002-01-21',
@@ -60,16 +57,8 @@ export const mock1: SøknadApiData = {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
     },
-    andreUtbetalinger: [],
     erSelvstendig: false,
     erFrilanser: false,
-    fosterbarn: [
-        {
-            fødselsnummer: '12345678903',
-            fornavn: 'Doffen',
-            etternavn: 'Duck',
-        },
-    ],
     hjemmePgaSmittevernhensyn: false,
     vedlegg: ['location/1', 'location/3', 'location/1'],
     _vedleggSmittevern: [],

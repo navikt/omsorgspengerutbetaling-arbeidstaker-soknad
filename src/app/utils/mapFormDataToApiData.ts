@@ -1,5 +1,5 @@
 import { SøknadApiData } from '../types/SøknadApiData';
-import { mapToBekreftelser, settInnFosterbarn } from './formToApiMaps/mapFunctions';
+import { mapToBekreftelser } from './formToApiMaps/mapFunctions';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { IntlShape } from 'react-intl';
 import { Locale } from 'common/types/Locale';
@@ -21,18 +21,12 @@ export const mapFormDataToApiData = (
 
         // STEG 1: Situasjon
         arbeidsforhold,
-        annetArbeidsforhold,
-
-        harFosterbarn,
-        fosterbarn,
 
         // STEG 2: Periode
 
         // STEG 3: ANNET
         perioderHarVærtIUtlandet,
         perioderUtenlandsopphold,
-        harSøktAndreUtbetalinger,
-        andreUtbetalinger,
         erSelvstendigOgEllerFrilans,
         selvstendigOgEllerFrilans,
 
@@ -69,21 +63,16 @@ export const mapFormDataToApiData = (
             intl.locale
         ),
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([
-            ...arbeidsforhold,
-            annetArbeidsforhold,
-        ]),
+        arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([...arbeidsforhold]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
-        andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
         erSelvstendig: isSelvstendig(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
         erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
-        fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         hjemmePgaStengtBhgSkole: isFeatureEnabled(Feature.STENGT_BHG_SKOLE)
             ? hjemmePgaStengtBhgSkole === YesOrNo.YES
             : undefined,
         vedlegg: [
-            ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
+            ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold]),
             ..._vedleggSmittevern,
             ..._vedleggStengtBhgSkole,
         ],

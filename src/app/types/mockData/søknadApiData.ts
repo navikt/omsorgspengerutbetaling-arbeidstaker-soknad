@@ -1,4 +1,5 @@
-import { Begrunnelse, SøknadApiData } from '../SøknadApiData';
+import { Utbetalingsårsak } from '../ArbeidsforholdTypes';
+import { SøknadApiData } from '../SøknadApiData';
 
 export const gyldigSøknadApiData1: SøknadApiData = {
     språk: 'nb',
@@ -10,11 +11,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
             organisasjonsnummer: '123451234',
             harHattFraværHosArbeidsgiver: true,
             arbeidsgiverHarUtbetaltLønn: false,
-            ansettelseslengde: {
-                merEnn4Uker: false,
-                begrunnelse: Begrunnelse.ANNET_ARBEIDSFORHOLD,
-                ingenAvSituasjoneneForklaring: null,
-            },
+            utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
             perioder: [
                 {
                     fraOgMed: '2020-05-01',
@@ -47,11 +44,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
             organisasjonsnummer: '123451235',
             harHattFraværHosArbeidsgiver: true,
             arbeidsgiverHarUtbetaltLønn: false,
-            ansettelseslengde: {
-                merEnn4Uker: false,
-                begrunnelse: Begrunnelse.ANNET_ARBEIDSFORHOLD,
-                ingenAvSituasjoneneForklaring: null,
-            },
+            utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
             perioder: [
                 {
                     fraOgMed: '2020-04-01',
@@ -84,11 +77,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
             organisasjonsnummer: '',
             harHattFraværHosArbeidsgiver: true,
             arbeidsgiverHarUtbetaltLønn: false,
-            ansettelseslengde: {
-                merEnn4Uker: false,
-                begrunnelse: Begrunnelse.ANNET_ARBEIDSFORHOLD,
-                ingenAvSituasjoneneForklaring: null,
-            },
+            utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
             perioder: [
                 {
                     fraOgMed: '2020-03-02',
@@ -121,10 +110,8 @@ export const gyldigSøknadApiData1: SøknadApiData = {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
     },
-    andreUtbetalinger: [],
     erSelvstendig: false,
     erFrilanser: false,
-    fosterbarn: null,
     hjemmePgaSmittevernhensyn: false,
     hjemmePgaStengtBhgSkole: false,
     vedlegg: [],

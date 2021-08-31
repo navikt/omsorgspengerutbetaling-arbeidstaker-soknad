@@ -1,12 +1,15 @@
+import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import { Attachment } from 'common/types/Attachment';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
-import { AnsettelseslengdeFormDataFields, HvorLengeJobbet } from '../../types/AnsettelseslengdeTypes';
+import {
+    ArbeidsforholdFormData,
+    ArbeidsforholdFormDataFields,
+    Utbetalingsårsak,
+} from '../../types/ArbeidsforholdTypes';
 
 const skalInkludereVedleggFraArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     if (
-        arbeidsforhold[ArbeidsforholdFormDataFields.ansettelseslengde][
-            AnsettelseslengdeFormDataFields.hvorLengeJobbet
-        ] === HvorLengeJobbet.MER_ENN_FIRE_UKER
+        skalInkludereArbeidsforhold(arbeidsforhold) &&
+        arbeidsforhold[ArbeidsforholdFormDataFields.utbetalingsårsak] === Utbetalingsårsak.konfliktMedArbeidsgiver
     ) {
         return true;
     } else {

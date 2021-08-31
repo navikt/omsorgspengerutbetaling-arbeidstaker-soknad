@@ -17,7 +17,6 @@ import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validati
 import SmittevernInfo from '../../components/information/SmittevernInfo';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
-import { AndreUtbetalinger } from '../../types/AndreUtbetalinger';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { Utbetalingsperiode } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -46,12 +45,9 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
         })
         .flat();
 
-    const annetPeriode: FraværPeriode[] = values.annetArbeidsforhold.fraværPerioder;
-    const annetDag: FraværDag[] = values.annetArbeidsforhold.fraværDager;
-
     const utbetalingsperioder: Utbetalingsperiode[] = mapFraværTilUtbetalingsperiode(
-        [...arbeidsforholdPerioder, ...annetPeriode],
-        [...arbeidsforholdDager, ...annetDag]
+        arbeidsforholdPerioder,
+        arbeidsforholdDager
     );
 
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
@@ -159,35 +155,6 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                     )}
                 </>
             )}
-
-            <FormBlock>
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.harSøktAndreUtbetalinger}
-                    legend={intlHelper(intl, 'step.periode.har_søkt_andre_utbetalinger.spm')}
-                    validate={validateYesOrNoIsAnswered}
-                />
-                {values.harSøktAndreUtbetalinger === YesOrNo.YES && (
-                    <FormBlock>
-                        <SøknadFormComponents.CheckboxPanelGroup
-                            name={SøknadFormField.andreUtbetalinger}
-                            legend={intlHelper(intl, 'step.periode.hvilke_utbetalinger.spm')}
-                            checkboxes={[
-                                {
-                                    id: AndreUtbetalinger.dagpenger,
-                                    value: AndreUtbetalinger.dagpenger,
-                                    label: intlHelper(intl, 'andre_utbetalinger.dagpenger'),
-                                },
-                                {
-                                    id: AndreUtbetalinger.sykepenger,
-                                    value: AndreUtbetalinger.sykepenger,
-                                    label: intlHelper(intl, 'andre_utbetalinger.sykepenger'),
-                                },
-                            ]}
-                            validate={validateRequiredList}
-                        />
-                    </FormBlock>
-                )}
-            </FormBlock>
         </SøknadStep>
     );
 };

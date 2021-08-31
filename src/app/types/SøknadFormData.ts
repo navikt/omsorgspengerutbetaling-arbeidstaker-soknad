@@ -1,8 +1,6 @@
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { Fosterbarn } from '@navikt/sif-common-forms/lib/fosterbarn';
-import { AndreUtbetalinger } from './AndreUtbetalinger';
-import { ArbeidsforholdFormData, initialArbeidsforholdFormData } from './ArbeidsforholdTypes';
+import { ArbeidsforholdFormData } from './ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
 import { SelvstendigOgEllerFrilans } from './SelvstendigOgEllerFrilansTypes';
 
@@ -12,19 +10,10 @@ export enum SøknadFormField {
 
     // Arbeidsforhold
     arbeidsforhold = 'arbeidsforhold',
-    annetArbeidsforhold = 'annetArbeidsforhold',
-
-    // Fosterbarn
-    harFosterbarn = 'harFosterbarn',
-    fosterbarn = 'fosterbarn',
 
     // Opphold Utland
     perioderHarVærtIUtlandet = 'perioderHarVærtIUtlandet',
     perioderUtenlandsopphold = 'perioderUtenlandsopphold',
-
-    // Andre Utbeatlinger
-    harSøktAndreUtbetalinger = 'harSøktAndreUtbetalinger',
-    andreUtbetalinger = 'andreUtbetalinger',
 
     // Er SN&F i tillegg
     erSelvstendigOgEllerFrilans = 'erSelvstendigOgEllerFrilans',
@@ -50,19 +39,10 @@ export interface SøknadFormData {
 
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: ArbeidsforholdFormData[];
-    [SøknadFormField.annetArbeidsforhold]: ArbeidsforholdFormData;
-
-    // Fosterbarn
-    [SøknadFormField.harFosterbarn]: YesOrNo;
-    [SøknadFormField.fosterbarn]: Fosterbarn[];
 
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo;
     [SøknadFormField.perioderUtenlandsopphold]: Utenlandsopphold[];
-
-    // Andre Utbeatlinger
-    [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo;
-    [SøknadFormField.andreUtbetalinger]: AndreUtbetalinger[];
 
     // Selvstendig og eller frilans
     [SøknadFormField.erSelvstendigOgEllerFrilans]: YesOrNo;
@@ -87,19 +67,10 @@ export const initialValues: SøknadFormData = {
 
     // Arbeidsforhold
     [SøknadFormField.arbeidsforhold]: [],
-    [SøknadFormField.annetArbeidsforhold]: initialArbeidsforholdFormData,
-
-    // Fosterbarn
-    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fosterbarn]: [],
 
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioderUtenlandsopphold]: [],
-
-    // Andre Utbeatlinger
-    [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo.UNANSWERED,
-    [SøknadFormField.andreUtbetalinger]: [],
 
     // Er selvstendig og eller frilans
     [SøknadFormField.erSelvstendigOgEllerFrilans]: YesOrNo.UNANSWERED,

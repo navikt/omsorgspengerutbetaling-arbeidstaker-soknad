@@ -5,9 +5,7 @@ import { navigateToLoginPage } from './navigationUtils';
 import { apiUtils } from './apiUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AxiosResponse } from 'axios';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../types/ArbeidsforholdTypes';
-import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
-import { SøknadFormField } from '../types/SøknadFormData';
+import { ArbeidsforholdFormData } from '../types/ArbeidsforholdTypes';
 import appSentryLogger from './appSentryLogger';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
@@ -23,13 +21,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             ...arbeidsgiver,
             arbeidsgiverHarUtbetaltLønn: a ? a.arbeidsgiverHarUtbetaltLønn : YesOrNo.UNANSWERED,
             harHattFraværHosArbeidsgiver: a ? a.harHattFraværHosArbeidsgiver : YesOrNo.UNANSWERED,
-            ansettelseslengde: a
-                ? a.ansettelseslengde
-                : {
-                      hvorLengeJobbet: HvorLengeJobbet.IKKE_BESVART,
-                      begrunnelse: HvorLengeJobbetFordi.IKKE_BESVART,
-                      ingenAvSituasjoneneForklaring: '',
-                  },
+            utbetalingsårsak: a ? a.utbetalingsårsak : undefined,
             harPerioderMedFravær: a ? a.harPerioderMedFravær : YesOrNo.UNANSWERED,
             fraværPerioder: a ? a.fraværPerioder : [],
             harDagerMedDelvisFravær: a ? a.harDagerMedDelvisFravær : YesOrNo.UNANSWERED,
@@ -58,8 +50,4 @@ export const getArbeidsgivere = async (
         }
         return null;
     }
-};
-
-export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
-    return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
 };

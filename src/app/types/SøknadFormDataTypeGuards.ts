@@ -6,13 +6,8 @@ export const isSøknadFormData = (søknadFormData: any): søknadFormData is Søk
         søknadFormData.harForståttRettigheterOgPlikter !== undefined &&
         søknadFormData.harBekreftetOpplysninger !== undefined &&
         søknadFormData.arbeidsforhold &&
-        søknadFormData.annetArbeidsforhold &&
-        søknadFormData.harFosterbarn &&
-        søknadFormData.fosterbarn &&
         søknadFormData.perioderHarVærtIUtlandet &&
         søknadFormData.perioderUtenlandsopphold &&
-        søknadFormData.harSøktAndreUtbetalinger &&
-        søknadFormData.andreUtbetalinger &&
         søknadFormData.erSelvstendigOgEllerFrilans &&
         søknadFormData.selvstendigOgEllerFrilans &&
         søknadFormData.harBoddUtenforNorgeSiste12Mnd &&

@@ -1,6 +1,5 @@
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { ansettelsesLengdeIsValid } from './ansettelsesLengdeValidations';
 import { delvisFraværIsValid, perioderIsValid } from './periodeStepValidations';
 import { evaluatePrevAndCurrent } from '../validationUtils';
 
@@ -34,12 +33,8 @@ export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: Arbeid
         .reduceRight(evaluatePrevAndCurrent, true);
 };
 
-export const stegEnAnnetArbeidsforholdIsValid = (annetArbeidsforhold: ArbeidsforholdFormData): boolean =>
-    arbeidsforholdFormDataPartOneIsValid(annetArbeidsforhold);
-
 export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
-    const ansettelsesLengde = arbeidsforhold.ansettelseslengde;
-    const dokumenter = arbeidsforhold.dokumenter;
+    // const dokumenter = arbeidsforhold.dokumenter;
     const harPerioderMedFravær = arbeidsforhold.harPerioderMedFravær;
     const fraværPerioder = arbeidsforhold.fraværPerioder;
     const harDagerMedDelvisFravær = arbeidsforhold.harDagerMedDelvisFravær;
@@ -47,7 +42,7 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
 
     if (
         arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) &&
-        ansettelsesLengdeIsValid(ansettelsesLengde, dokumenter) &&
+        // ansettelsesLengdeIsValid(ansettelsesLengde, dokumenter) &&
         perioderIsValid(harPerioderMedFravær, fraværPerioder) &&
         delvisFraværIsValid(harDagerMedDelvisFravær, fraværDager)
     ) {

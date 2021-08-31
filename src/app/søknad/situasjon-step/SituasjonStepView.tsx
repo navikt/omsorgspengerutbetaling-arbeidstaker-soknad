@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import FosterbarnListAndDialog from '@navikt/sif-common-forms/lib/fosterbarn/FosterbarnListAndDialog';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -16,7 +15,6 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
-import FormikAnnetArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/FormikAnnetArbeidsforholdSituasjon';
 import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
@@ -82,11 +80,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     }, [doApiCalls, formikProps]);
 
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
-    const annetArbeidsforhold: ArbeidsforholdFormData = values[SøknadFormField.annetArbeidsforhold];
 
-    const harKlikketJaJaPåAlle = checkHarKlikketJaJaPåAlle([...arbeidsforhold, annetArbeidsforhold]);
-    const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold, annetArbeidsforhold]);
-    const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold, annetArbeidsforhold]);
+    const harKlikketJaJaPåAlle = checkHarKlikketJaJaPåAlle([...arbeidsforhold]);
+    const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold]);
+    const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold]);
 
     const harIkkeMottatLønnHosEnEllerFlere =
         harKlikketJaJaPåAlle === false && harKlikketNeiPåAlle == false && harKlikketNeiElleJajaBlanding === false;
@@ -144,9 +141,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                         </AlertStripe>
                     </FormBlock>
                 )}
-
-                {/* ANNET ARBEIDSFORHOLD*/}
-                <FormikAnnetArbeidsforholdSituasjon />
 
                 {harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'xl'}>
@@ -224,37 +218,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                         )}
                                     />
                                 </>
-                            )}
-                        </FormBlock>
-
-                        {/* FOSTERBARN */}
-
-                        <FormBlock margin="xxl">
-                            <Undertittel>
-                                <FormattedMessage id={'dinSituasjon.fosterbarn.tittel'} />
-                            </Undertittel>
-                        </FormBlock>
-
-                        <Box margin="l">
-                            <CounsellorPanel>
-                                <FormattedMessage id="fosterbarn.legend" />
-                            </CounsellorPanel>
-                        </Box>
-
-                        <FormBlock>
-                            <SøknadFormComponents.YesOrNoQuestion
-                                name={SøknadFormField.harFosterbarn}
-                                legend="Har du fosterbarn?"
-                                validate={validateYesOrNoIsAnswered}
-                            />
-
-                            {values[SøknadFormField.harFosterbarn] === YesOrNo.YES && (
-                                <FormBlock margin="l">
-                                    <FosterbarnListAndDialog
-                                        name={SøknadFormField.fosterbarn}
-                                        validate={validateRequiredList}
-                                    />
-                                </FormBlock>
                             )}
                         </FormBlock>
                     </>
