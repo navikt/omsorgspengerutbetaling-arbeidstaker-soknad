@@ -27,7 +27,7 @@ interface Props {
     nameDokumenter: string;
     putPropsHere?: string;
     nameUtbetalingsårsak: string;
-    nameKonfliktFolklaring: string;
+    nameKonfliktForklaring: string;
 }
 
 // TODO
@@ -41,7 +41,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
     arbeidsforholdFormData,
     nameDokumenter,
     nameUtbetalingsårsak,
-    nameKonfliktFolklaring,
+    nameKonfliktForklaring,
 }: Props) => {
     const intl = useIntl();
 
@@ -79,7 +79,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                 <>
                     <FormBlock>
                         <FormikTextarea
-                            name={nameKonfliktFolklaring}
+                            name={nameKonfliktForklaring}
                             validate={validateTekstField}
                             maxLength={2000}
                             label={intlHelper(intl, 'step.periode.grunn.konfliktMedArbeidsgiver.folklaring')}

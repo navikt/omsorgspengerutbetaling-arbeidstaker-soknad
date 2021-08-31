@@ -92,7 +92,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                                 intl,
                                                 'steg.oppsummering.arbeidsforhold.konflikt.folklaringTittel'
                                             )}>
-                                            <p>{arbeidsforhold.konfliktFolklaring}</p>
+                                            <p>{arbeidsforhold.konfliktForklaring}</p>
                                         </SummaryBlock>
                                     </Box>
                                     <SummaryBlock

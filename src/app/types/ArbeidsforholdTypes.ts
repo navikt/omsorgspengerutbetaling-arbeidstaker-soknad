@@ -14,7 +14,7 @@ export enum ArbeidsforholdFormDataFields {
     harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
     arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn',
     utbetalingsårsak = 'utbetalingsårsak',
-    konfliktFolklaring = 'konfliktFolklaring',
+    konfliktForklaring = 'konfliktForklaring',
     harPerioderMedFravær = 'harPerioderMedFravær',
     fraværPerioder = 'fraværPerioder',
     harDagerMedDelvisFravær = 'harDagerMedDelvisFravær',
@@ -28,7 +28,7 @@ export interface ArbeidsforholdFormData {
     [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo;
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
     [ArbeidsforholdFormDataFields.utbetalingsårsak]?: Utbetalingsårsak;
-    [ArbeidsforholdFormDataFields.konfliktFolklaring]?: string;
+    [ArbeidsforholdFormDataFields.konfliktForklaring]?: string;
     [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo;
     [ArbeidsforholdFormDataFields.fraværPerioder]: FraværPeriode[];
     [ArbeidsforholdFormDataFields.harDagerMedDelvisFravær]: YesOrNo;

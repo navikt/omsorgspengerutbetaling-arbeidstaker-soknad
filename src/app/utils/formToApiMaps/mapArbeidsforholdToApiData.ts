@@ -19,10 +19,10 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
                 arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(arbeidsforhold.arbeidsgiverHarUtbetaltLønn),
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 utbetalingsårsak: arbeidsforhold.utbetalingsårsak!,
-                konfliktFolklaring:
+                konfliktForklaring:
                     arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver &&
-                    arbeidsforhold.konfliktFolklaring
-                        ? arbeidsforhold.konfliktFolklaring
+                    arbeidsforhold.konfliktForklaring
+                        ? arbeidsforhold.konfliktForklaring
                         : undefined,
                 perioder: mapFraværTilUtbetalingsperiode(arbeidsforhold.fraværPerioder, arbeidsforhold.fraværDager),
             };

@@ -22,8 +22,8 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                 const nameUtbetalingsårsak = getArbeidsforholdFormDataFieldName(
                     ArbeidsforholdFormDataFields.utbetalingsårsak
                 );
-                const nameKonfliktFolklaring = getArbeidsforholdFormDataFieldName(
-                    ArbeidsforholdFormDataFields.konfliktFolklaring
+                const nameKonfliktForklaring = getArbeidsforholdFormDataFieldName(
+                    ArbeidsforholdFormDataFields.konfliktForklaring
                 );
                 const nameDokumenter = getArbeidsforholdFormDataFieldName(ArbeidsforholdFormDataFields.dokumenter);
 
@@ -32,7 +32,7 @@ const FormikArbeidsforholdDelToArbeidslengde: React.FunctionComponent<Props> = (
                         arbeidsforholdFormData={arbeidsforholdFormData}
                         nameDokumenter={nameDokumenter}
                         nameUtbetalingsårsak={nameUtbetalingsårsak}
-                        nameKonfliktFolklaring={nameKonfliktFolklaring}
+                        nameKonfliktForklaring={nameKonfliktForklaring}
                     />
                 );
             }}
