@@ -11,14 +11,14 @@ import FormSection from 'common/components/form-section/FormSection';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
-import FormikArbeidsforholdDelToArbeidslengde from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelToArbeidslengde';
-import FormikArbeidsforholdDelTrePeriodeView from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelTrePeriode';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
+import ArbeidsforholdUtbetalingsårsak from '../../components/formik-arbeidsforhold/ArbeidsforholdUtbetalingsårsak';
+import ArbeidsforholdPeriode from '../../components/formik-arbeidsforhold/ArbeidsforholdPeriode';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     return {
@@ -56,8 +56,14 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     titleTag="h2"
                     title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
                     titleIcon={<BuildingIcon />}>
-                    <FormikArbeidsforholdDelToArbeidslengde arbeidsforholdFormData={arbeidsforhold} index={index} />
-                    <FormikArbeidsforholdDelTrePeriodeView arbeidsforholdFormData={arbeidsforhold} index={index} />
+                    <ArbeidsforholdUtbetalingsårsak
+                        arbeidsforhold={arbeidsforhold}
+                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                    />
+                    <ArbeidsforholdPeriode
+                        arbeidsforhold={arbeidsforhold}
+                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                    />
                 </FormSection>
             ) : null;
         }

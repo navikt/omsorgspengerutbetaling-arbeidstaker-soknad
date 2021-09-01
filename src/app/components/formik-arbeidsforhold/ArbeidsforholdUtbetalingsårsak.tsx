@@ -1,33 +1,30 @@
-import * as React from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
+import { useFormikContext } from 'formik';
+import PictureScanningGuide from '@navikt/sif-common-core/lib/components/picture-scanning-guide/PictureScanningGuide';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
 import { FormikRadioPanelGroup, FormikTextarea } from '@navikt/sif-common-formik/lib';
-import {
-    createFieldValidationError,
-    FieldValidationErrors,
-    validateRequiredField,
-} from 'common/validation/fieldValidations';
-import Box from 'common/components/box/Box';
-import FormBlock from 'common/components/form-block/FormBlock';
-import intlHelper from 'common/utils/intlUtils';
-
+import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
+import { SøknadFormData } from '../../types/SøknadFormData';
+import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 import {
     ArbeidsforholdFormData,
     ArbeidsforholdFormDataFields,
     Utbetalingsårsak,
 } from '../../types/ArbeidsforholdTypes';
-import FormikVedleggsKomponent from '../VedleggComponent/FormikVedleggsKomponent';
-import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from 'common/types/Attachment';
-import { useFormikContext } from 'formik';
-import { SøknadFormData } from '../../types/SøknadFormData';
-import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
+import {
+    createFieldValidationError,
+    FieldValidationErrors,
+    validateRequiredField,
+} from 'common/validation/fieldValidations';
+
 interface Props {
-    arbeidsforholdFormData: ArbeidsforholdFormData;
-    nameDokumenter: string;
-    putPropsHere?: string;
-    nameUtbetalingsårsak: string;
-    nameKonfliktForklaring: string;
+    arbeidsforhold: ArbeidsforholdFormData;
+    parentFieldName: string;
 }
 
 // TODO
@@ -37,20 +34,15 @@ const validateTekstField = (value: string): FieldValidationResult => {
         : createFieldValidationError(FieldValidationErrors.påkrevd);
 };
 
-const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
-    arbeidsforholdFormData,
-    nameDokumenter,
-    nameUtbetalingsårsak,
-    nameKonfliktForklaring,
-}: Props) => {
+const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Props) => {
     const intl = useIntl();
 
-    const utbetalingsårsak: Utbetalingsårsak | undefined =
-        arbeidsforholdFormData[ArbeidsforholdFormDataFields.utbetalingsårsak];
+    const getFieldName = (field: ArbeidsforholdFormDataFields) =>
+        `${parentFieldName}.${field}` as ArbeidsforholdFormDataFields;
 
+    const utbetalingsårsak: Utbetalingsårsak | undefined = arbeidsforhold.utbetalingsårsak;
     const { values } = useFormikContext<SøknadFormData>();
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
-
     return (
         <>
             <FormBlock margin="l">
@@ -70,7 +62,7 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                         },
                     ]}
                     legend={intlHelper(intl, 'step.periode.grunn.spm')}
-                    name={nameUtbetalingsårsak}
+                    name={getFieldName(ArbeidsforholdFormDataFields.utbetalingsårsak)}
                     useTwoColumns={false}
                     validate={validateRequiredField}
                 />
@@ -79,10 +71,10 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                 <>
                     <FormBlock>
                         <FormikTextarea
-                            name={nameKonfliktForklaring}
+                            name={getFieldName(ArbeidsforholdFormDataFields.konfliktForklaring)}
                             validate={validateTekstField}
                             maxLength={2000}
-                            label={intlHelper(intl, 'step.periode.grunn.konfliktMedArbeidsgiver.folklaring')}
+                            label={intlHelper(intl, 'step.periode.grunn.konfliktMedArbeidsgiver.forklaring')}
                         />
                     </FormBlock>
                     <Box margin={'l'}>
@@ -90,8 +82,8 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
                     </Box>
                     <FormikVedleggsKomponent
                         uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.vedlegg')}
-                        formikName={nameDokumenter}
-                        dokumenter={arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter]}
+                        formikName={getFieldName(ArbeidsforholdFormDataFields.dokumenter)}
+                        dokumenter={arbeidsforhold.dokumenter}
                         alleDokumenterISøknaden={alleDokumenterISøknaden}
                     />
                 </>
@@ -100,4 +92,4 @@ const FormikArbeidsforholdArbeidslengde: React.FC<Props> = ({
     );
 };
 
-export default FormikArbeidsforholdArbeidslengde;
+export default ArbeidsforholdUtbetalingsårsak;

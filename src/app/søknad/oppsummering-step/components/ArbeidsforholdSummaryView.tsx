@@ -90,7 +90,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                         <SummaryBlock
                                             header={intlHelper(
                                                 intl,
-                                                'steg.oppsummering.arbeidsforhold.konflikt.folklaringTittel'
+                                                'steg.oppsummering.arbeidsforhold.konflikt.forklaringTittel'
                                             )}>
                                             <p>{arbeidsforhold.konfliktForklaring}</p>
                                         </SummaryBlock>

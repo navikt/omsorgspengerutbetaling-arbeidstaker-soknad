@@ -15,7 +15,6 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
-import FormikArbeidsforholdDelEn from '../../components/formik-arbeidsforhold/FormikArbeidsforholdDelEn';
 import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
@@ -30,6 +29,7 @@ import {
 } from '../../validation/components/arbeidsforholdValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
+import ArbeidsforholdSituasjon from 'app/components/formik-arbeidsforhold/ArbeidsforholdSituasjon';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -126,7 +126,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                         titleTag="h3"
                                         title={forhold.navn || forhold.organisasjonsnummer}
                                         titleIcon={<BuildingIcon />}>
-                                        <FormikArbeidsforholdDelEn arbeidsforholdFormData={forhold} index={index} />
+                                        <ArbeidsforholdSituasjon
+                                            arbeidsforhold={forhold}
+                                            parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                                        />
                                     </FormSection>
                                 </Box>
                             ))}

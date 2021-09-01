@@ -463,8 +463,8 @@
     "step.annet.stepTitle": "Dagar du har opplyst at du har vore heime med barn",
     "step.annet.pageTitle": "Dagar du har opplyst at du har vore heime med barn",
 
-    "periode.heledager.spm": "Har du hatt heile dagar med fråvær frå jobb?",
-    "periode.delvisdag.spm": "Har du hatt dagar med delvis fråvær frå jobb?",
+    "step.periode.heledager.spm": "Har du hatt heile dagar med fråvær frå jobb?",
+    "step.periode.delvisdag.spm": "Har du hatt dagar med delvis fråvær frå jobb?",
 
     "annetArbeidsforhold.undertittel": "Andre arbeidsforhold",
     "annetArbeidsforhold.harHattFravaer.spm": "Har du hatt fråvær frå arbeidsforhold som ikkje er registrerte her?",
