@@ -49,19 +49,19 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                 <FormikRadioPanelGroup
                     radios={[
                         {
-                            label: intlHelper(intl, 'step.periode.grunn.nyoppstartetHosArbeidsgiver'),
+                            label: intlHelper(intl, 'step.periode.utbetalingsårsak.nyoppstartetHosArbeidsgiver'),
                             value: Utbetalingsårsak.nyoppstartetHosArbeidsgiver,
                         },
                         {
-                            label: intlHelper(intl, 'step.periode.grunn.arbeidsgiverKonkurs'),
+                            label: intlHelper(intl, 'step.periode.utbetalingsårsak.arbeidsgiverKonkurs'),
                             value: Utbetalingsårsak.arbeidsgiverKonkurs,
                         },
                         {
-                            label: intlHelper(intl, 'step.periode.grunn.konfliktMedArbeidsgiver'),
+                            label: intlHelper(intl, 'step.periode.utbetalingsårsak.konfliktMedArbeidsgiver'),
                             value: Utbetalingsårsak.konfliktMedArbeidsgiver,
                         },
                     ]}
-                    legend={intlHelper(intl, 'step.periode.grunn.spm')}
+                    legend={intlHelper(intl, 'step.periode.utbetalingsårsak.spm')}
                     name={getFieldName(ArbeidsforholdFormDataFields.utbetalingsårsak)}
                     useTwoColumns={false}
                     validate={validateRequiredField}
@@ -74,14 +74,14 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                             name={getFieldName(ArbeidsforholdFormDataFields.konfliktForklaring)}
                             validate={validateTekstField}
                             maxLength={2000}
-                            label={intlHelper(intl, 'step.periode.grunn.konfliktMedArbeidsgiver.forklaring')}
+                            label={intlHelper(intl, 'step.periode.utbetalingsårsak.konfliktMedArbeidsgiver.forklaring')}
                         />
                     </FormBlock>
                     <Box margin={'l'}>
                         <PictureScanningGuide />
                     </Box>
                     <FormikVedleggsKomponent
-                        uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.vedlegg')}
+                        uploadButtonLabel={intlHelper(intl, 'step.periode.utbetalingsårsak.vedlegg')}
                         formikName={getFieldName(ArbeidsforholdFormDataFields.dokumenter)}
                         dokumenter={arbeidsforhold.dokumenter}
                         alleDokumenterISøknaden={alleDokumenterISøknaden}

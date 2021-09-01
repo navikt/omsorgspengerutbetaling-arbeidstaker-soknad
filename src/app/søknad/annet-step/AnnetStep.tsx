@@ -14,7 +14,6 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
-import SmittevernInfo from '../../components/information/SmittevernInfo';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
@@ -27,6 +26,7 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
@@ -71,7 +71,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
             <FormBlock margin={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.perioderHarVærtIUtlandet}
-                    legend={intlHelper(intl, 'step.periode.har_du_oppholdt_deg_i_utlandet_for_dager_du_soker_ok.spm')}
+                    legend={intlHelper(intl, 'step.annet.værtIUtlandet.spm')}
                     validate={validateYesOrNoIsAnswered}
                 />
             </FormBlock>
@@ -82,8 +82,8 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                         minDate={date1YearAgo}
                         maxDate={dateToday}
                         labels={{
-                            addLabel: intlHelper(intl, 'step.annet.periodeoversikt.leggTilLabel'),
-                            modalTitle: intlHelper(intl, 'step.annet.periodeoversikt.modalTittel'),
+                            addLabel: intlHelper(intl, 'step.annet.værtIUtlandet.leggTilLabel'),
+                            modalTitle: intlHelper(intl, 'step.annet.værtIUtlandet.modalTittel'),
                         }}
                         validate={validateRequiredList}
                     />
@@ -92,11 +92,11 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
             <FormBlock paddingBottom={'l'}>
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.hjemmePgaSmittevernhensynYesOrNo}
-                    legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
+                    legend={intlHelper(intl, 'step.annet.smittevern.spm')}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title={intlHelper(intl, 'info.smittevern.tittel')}>
-                            <SmittevernInfo />
+                        <ExpandableInfo title={intlHelper(intl, 'steg.annet.smittevern.info.tittel')}>
+                            <FormattedHtmlMessage id="steg.annet.smittevern.info.html" />
                         </ExpandableInfo>
                     }
                 />
@@ -115,7 +115,7 @@ const AnnetStepView: React.FC<StepConfigProps> = ({ onValidSubmit }: StepConfigP
                         <PictureScanningGuide />
                     </Box>
                     <FormikVedleggsKomponent
-                        uploadButtonLabel={intlHelper(intl, 'steg.dokumenter.smittevernVedlegg')}
+                        uploadButtonLabel={intlHelper(intl, 'steg.annet.smittevern.vedlegg')}
                         formikName={SøknadFormField.smittevernDokumenter}
                         dokumenter={values.smittevernDokumenter}
                         alleDokumenterISøknaden={alleDokumenterISøknaden}

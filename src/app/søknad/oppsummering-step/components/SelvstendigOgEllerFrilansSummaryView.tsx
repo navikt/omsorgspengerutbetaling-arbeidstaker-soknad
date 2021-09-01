@@ -26,11 +26,11 @@ const SelvstendigOgEllerFrilansSummaryView: React.FC<Props> = ({
     const selvstendigOgEllerFrilansList = [...insertIfSelvstendig(erSelvstendig), ...insertIfFrilanser(erFrilanser)];
 
     return erSelvstendigOgEllerFrilans ? (
-        <SummaryBlock header={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}>
+        <SummaryBlock header={intlHelper(intl, 'step.oppsummering.snF.spm')}>
             <SummaryList
                 items={selvstendigOgEllerFrilansList}
                 itemRenderer={(value): JSX.Element => (
-                    <span>{intlHelper(intl, `selvstendig_og_eller_frilans.${value}.label`)}</span>
+                    <span>{intlHelper(intl, `step.oppsummering.snF.${value}.label`)}</span>
                 )}
             />
         </SummaryBlock>

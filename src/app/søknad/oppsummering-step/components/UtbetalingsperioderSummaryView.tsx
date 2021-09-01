@@ -69,7 +69,7 @@ export const utbetalingsperiodeDagToDagSummaryStringView = (dag: Utbetalingsperi
     return (
         <FormattedMessage
             tagName="span"
-            id="steg.oppsummering.utbetaling.delvisFravær.item"
+            id="step.oppsummering.arbeidsforhold.delvisFravær.item"
             values={{
                 dato: prettifyDateExtended(apiStringDateToDate(dag.dato)),
                 timerSkulleJobbet: antallTimerSkulleJobbet,
@@ -88,13 +88,13 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
     return (
         <>
             {perioder.length > 0 && (
-                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utbetaling.fravær.heleDager.header')}>
+                <SummaryBlock header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.fravær.heleDager.header')}>
                     <SummaryList
                         items={perioder}
                         itemRenderer={(periode: Utbetalingsperiode): JSX.Element => (
                             <FormattedMessage
                                 tagName="span"
-                                id="steg.oppsummering.utbetaling.fravær.heleDager.item"
+                                id="step.oppsummering.arbeidsforhold.fravær.heleDager.item"
                                 values={{
                                     fom: prettifyDate(apiStringDateToDate(periode.fraOgMed)),
                                     tom: prettifyDate(apiStringDateToDate(periode.tilOgMed)),
@@ -105,7 +105,7 @@ const UtbetalingsperioderSummaryView: React.FC<Props> = ({ utbetalingsperioder =
                 </SummaryBlock>
             )}
             {dager.length > 0 && (
-                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utbetaling.delvisFravær.header')}>
+                <SummaryBlock header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.delvisFravær.header')}>
                     <SummaryList items={dager} itemRenderer={utbetalingsperiodeDagToDagSummaryStringView} />
                 </SummaryBlock>
             )}

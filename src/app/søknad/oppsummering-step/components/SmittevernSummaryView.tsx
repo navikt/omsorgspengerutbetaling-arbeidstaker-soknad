@@ -20,15 +20,15 @@ const SmittevernSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
     const attachments: Attachment[] = values[SøknadFormField.smittevernDokumenter];
 
     return (
-        <SummaryBlock header={intlHelper(intl, 'steg.en.smittevern.sporsmal')}>
+        <SummaryBlock header={intlHelper(intl, 'step.oppsummering.smittevern.spm')}>
             <JaNeiSvar harSvartJa={apiValues.hjemmePgaSmittevernhensyn} />
 
             {apiValues.hjemmePgaSmittevernhensyn && (
-                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.smittevern.bekreftelse.header')}>
+                <SummaryBlock header={intlHelper(intl, 'step.oppsummering.smittevern.bekreftelse.header')}>
                     {attachments.length > 0 ? (
                         <AttachmentList attachments={attachments} />
                     ) : (
-                        <FormattedMessage id="steg.oppsummering.smittevern.bekreftelse.ikkeLastetOpp" tagName="em" />
+                        <FormattedMessage id="step.oppsummering.smittevern.bekreftelse.ikkeLastetOpp" tagName="em" />
                     )}
                 </SummaryBlock>
             )}

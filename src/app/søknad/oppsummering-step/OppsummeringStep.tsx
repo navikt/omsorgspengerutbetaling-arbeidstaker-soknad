@@ -75,12 +75,12 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
             buttonDisabled={sendingInProgress}
             showButtonSpinner={sendingInProgress}>
             <CounsellorPanel>
-                <FormattedMessage id="steg.oppsummering.info" />
+                <FormattedMessage id="step.oppsummering.info" />
             </CounsellorPanel>
             <Box margin="xl">
                 <Panel border={true}>
                     {/* Om deg */}
-                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.omDeg')}>
+                    <SummarySection header={intlHelper(intl, 'step.oppsummering.søker.omDeg')}>
                         <NavnOgFodselsnummerSummaryView
                             fornavn={fornavn || undefined}
                             etternavn={etternavn || undefined}
@@ -90,12 +90,12 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                     </SummarySection>
 
                     {/* Fravær fra arbeid */}
-                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.utbetaling.titel')}>
+                    <SummarySection header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.titel')}>
                         <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
                     </SummarySection>
 
                     {/* Særlige smittevernhensyn */}
-                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.smittevernhensyn.titel')}>
+                    <SummarySection header={intlHelper(intl, 'step.oppsummering.smittevernhensyn.titel')}>
                         <SmittevernSummaryView apiValues={apiValues} />
                     </SummarySection>
 
@@ -107,7 +107,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
 
                     {/* Andre inntekter */}
                     {(apiValues.erSelvstendig || apiValues.erFrilanser) && (
-                        <SummarySection header={intlHelper(intl, 'steg.oppsummering.andreInntekter.titel')}>
+                        <SummarySection header={intlHelper(intl, 'step.oppsummering.andreInntekter.titel')}>
                             <SelvstendigOgEllerFrilansSummaryView
                                 erSelvstendig={apiValues.erSelvstendig}
                                 erFrilanser={apiValues.erFrilanser}
@@ -116,21 +116,19 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                     )}
 
                     {/* Medlemskap i folketrygden */}
-                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.medlemskap.header')}>
+                    <SummarySection header={intlHelper(intl, 'step.oppsummering.medlemskap.header')}>
                         <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                     </SummarySection>
-
-                    {/*<VedleggSummaryView apiValues={apiValues} />*/}
                 </Panel>
             </Box>
 
             <Box margin="l">
                 <SøknadFormComponents.ConfirmationCheckbox
-                    label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
+                    label={intlHelper(intl, 'step.oppsummering.bekrefterOpplysninger')}
                     name={SøknadFormField.harBekreftetOpplysninger}
                     validate={(value): string | undefined =>
                         value !== true
-                            ? intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet')
+                            ? intlHelper(intl, 'step.oppsummering.bekrefterOpplysninger.ikkeBekreftet')
                             : undefined
                     }
                 />

@@ -95,16 +95,16 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
             showSubmitButton={!isLoading && harIkkeMottatLønnHosEnEllerFlere}>
             <>
                 <Undertittel>
-                    <FormattedMessage id={'dinSituasjon.arbeidsforhold.tittel'} />
+                    <FormattedMessage id={'step.situasjon.arbeidsforhold.tittel'} />
                 </Undertittel>
 
                 <Box margin="l">
                     <CounsellorPanel>
                         <p>
-                            <FormattedMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.del1" />
+                            <FormattedMessage id="step.situasjon.arbeidsforhold.aktivtArbeidsforhold.info.del1" />
                         </p>
                         <p>
-                            <FormattedMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.del2" />
+                            <FormattedMessage id="step.situasjon.arbeidsforhold.aktivtArbeidsforhold.info.del2" />
                         </p>
                     </CounsellorPanel>
                 </Box>
@@ -140,7 +140,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {!isLoading && arbeidsforhold.length === 0 && (
                     <FormBlock>
                         <AlertStripe type={'info'}>
-                            <FormattedMessage id={'ingen.arbeidsforhold.info.text'} />
+                            <FormattedMessage id={'step.situasjon.arbeidsforhold.ingen.info.text'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
@@ -148,21 +148,21 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.jaja'} />
+                            <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
                 {harKlikketNeiPåAlle && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.nei'} />
+                            <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
                 {harKlikketNeiElleJajaBlanding && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'ingen.gjeldende.arbeidsforhold.info.text.blanding'} />
+                            <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
@@ -176,13 +176,13 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     <>
                         <FormBlock margin="xxl">
                             <Undertittel>
-                                <FormattedMessage id={'selvstendig_og_eller_frilans.ja_nei.undertittel'} />
+                                <FormattedMessage id={'step.situasjon.snF.ja_nei.undertittel'} />
                             </Undertittel>
 
                             <FormBlock margin="l">
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={SøknadFormField.erSelvstendigOgEllerFrilans}
-                                    legend={intlHelper(intl, 'selvstendig_og_eller_frilans.ja_nei.spm')}
+                                    legend={intlHelper(intl, 'step.situasjon.snF.ja_nei.spm')}
                                     validate={validateYesOrNoIsAnswered}
                                 />
                             </FormBlock>
@@ -195,18 +195,12 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                                 {
                                                     id: SelvstendigOgEllerFrilans.selvstendig,
                                                     value: SelvstendigOgEllerFrilans.selvstendig,
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'selvstendig_og_eller_frilans.selvstendig.label'
-                                                    ),
+                                                    label: intlHelper(intl, 'step.situasjon.snF.selvstendig.label'),
                                                 },
                                                 {
                                                     id: SelvstendigOgEllerFrilans.frilans,
                                                     value: SelvstendigOgEllerFrilans.frilans,
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'selvstendig_og_eller_frilans.frilans.label'
-                                                    ),
+                                                    label: intlHelper(intl, 'step.situasjon.snF.frilans.label'),
                                                 },
                                             ]}
                                             validate={validateRequiredList}

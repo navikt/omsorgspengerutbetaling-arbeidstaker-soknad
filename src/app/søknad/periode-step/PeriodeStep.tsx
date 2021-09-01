@@ -84,12 +84,10 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             buttonDisabled={attachmentsSizeOver24Mb}>
             <FormBlock>
                 <CounsellorPanel>
-                    <Box padBottom={'l'}>
-                        <FormattedMessage id={'steg2.arbeidslengdeOgPerioder.infopanel.del1'} />
-                    </Box>
-                    <Box>
+                    <FormattedMessage id={'step.periode.info.1'} />
+                    <Box margin={'m'}>
                         <FormattedMessage
-                            id={'steg2.arbeidslengdeOgPerioder.infopanel.del2'}
+                            id={'step.periode.info.2'}
                             values={{ strong: (msg: string): React.ReactNode => <strong>{msg}</strong> }}
                         />
                     </Box>

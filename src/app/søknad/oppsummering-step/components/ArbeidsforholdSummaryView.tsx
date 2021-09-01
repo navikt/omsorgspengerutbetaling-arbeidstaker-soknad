@@ -61,7 +61,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                         {/* Content */}
                         <div className={'arbeidsforholdSummaryContent'}>
                             <Box margin={'s'}>
-                                <SummaryBlock header={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}>
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.harHattFravær.spm')}>
                                     <JaNeiSvar harSvartJa={arbeidsforhold.harHattFraværHosArbeidsgiver} />
                                 </SummaryBlock>
                             </Box>
@@ -70,7 +71,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                     <SummaryBlock
                                         header={intlHelper(
                                             intl,
-                                            'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
+                                            'step.oppsummering.arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
                                         )}>
                                         <JaNeiSvar harSvartJa={arbeidsforhold.arbeidsgiverHarUtbetaltLønn} />
                                     </SummaryBlock>
@@ -78,9 +79,9 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                             )}
                             <Box margin={'s'}>
                                 <SummaryBlock
-                                    header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.utbetalingsårsak.spm')}>
+                                    header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.utbetalingsårsak.spm')}>
                                     <FormattedMessage
-                                        id={`steg.oppsummering.arbeidsforhold.utbetalingsårsak.${arbeidsforhold.utbetalingsårsak}`}
+                                        id={`step.oppsummering.arbeidsforhold.utbetalingsårsak.${arbeidsforhold.utbetalingsårsak}`}
                                     />
                                 </SummaryBlock>
                             </Box>
@@ -90,17 +91,26 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                         <SummaryBlock
                                             header={intlHelper(
                                                 intl,
-                                                'steg.oppsummering.arbeidsforhold.konflikt.forklaringTittel'
+                                                'step.oppsummering.arbeidsforhold.konflikt.forklaringTittel'
                                             )}>
                                             <p>{arbeidsforhold.konfliktForklaring}</p>
                                         </SummaryBlock>
                                     </Box>
                                     <SummaryBlock
-                                        header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.dokumenter.header')}>
+                                        header={intlHelper(
+                                            intl,
+                                            'step.oppsummering.arbeidsforhold.konflikt.dokumenter.header'
+                                        )}>
                                         {maybeListOfAttachments && maybeListOfAttachments.length > 0 ? (
                                             <AttachmentList attachments={maybeListOfAttachments} />
                                         ) : (
-                                            <i> {intlHelper(intl, 'steg.oppsummering.dokumenter.ikkelastetopp')}</i>
+                                            <i>
+                                                {' '}
+                                                {intlHelper(
+                                                    intl,
+                                                    'step.oppsummering.arbeidsforhold.konflikt.dokumenter.ikkelastetopp'
+                                                )}
+                                            </i>
                                         )}
                                     </SummaryBlock>
                                 </Box>

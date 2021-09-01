@@ -17,7 +17,7 @@ const InformasjonOmSelvstendigOgFrilans: React.FC<Props> = ({ erSelvstendig, erF
                     {erSelvstendig && (
                         <Box padBottom={erFrilanser ? 'l' : undefined}>
                             <FormattedMessage
-                                id={'selvstendig_og_eller_frilans.frilans.ja.info'}
+                                id={'step.situasjon.snF.selvstendig.ja.info'}
                                 values={{
                                     lenkeKomponent: (
                                         <a
@@ -38,7 +38,7 @@ const InformasjonOmSelvstendigOgFrilans: React.FC<Props> = ({ erSelvstendig, erF
                     {erFrilanser && (
                         <Box>
                             <FormattedMessage
-                                id={'selvstendig_og_eller_frilans.selvstendig.ja.info'}
+                                id={'step.situasjon.snF.frilans.ja.info'}
                                 values={{
                                     lenkeKomponent: (
                                         <a
@@ -46,9 +46,7 @@ const InformasjonOmSelvstendigOgFrilans: React.FC<Props> = ({ erSelvstendig, erF
                                             className="lenke"
                                             target="_blank"
                                             rel="noopener noreferrer">
-                                            <FormattedMessage
-                                                id={'selvstendig_og_eller_frilans.selvstendig.ja.info.lenketekst'}
-                                            />
+                                            <FormattedMessage id={'step.situasjon.snF.frilans.ja.info.lenketekst'} />
                                         </a>
                                     ),
                                 }}

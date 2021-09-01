@@ -14,8 +14,8 @@ export interface Props {
 const UtenlandsoppholdISøkeperiodeSummaryView: React.FC<Props> = ({ utenlandsopphold }: Props): JSX.Element | null => {
     const intl = useIntl();
     return utenlandsopphold && utenlandsopphold.length > 0 ? (
-        <SummarySection header={intlHelper(intl, 'steg.oppsummering.utenlandsopphold.titel')}>
-            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utenlandsoppholdIPerioden.listetittel')}>
+        <SummarySection header={intlHelper(intl, 'step.oppsummering.utenlandsopphold.titel')}>
+            <SummaryBlock header={intlHelper(intl, 'step.oppsummering.utenlandsoppholdIPerioden.listetittel')}>
                 <SummaryList items={utenlandsopphold} itemRenderer={renderUtenlandsoppholdIPeriodenSummary} />
             </SummaryBlock>
         </SummarySection>

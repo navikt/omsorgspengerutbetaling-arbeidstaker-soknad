@@ -20,17 +20,17 @@ const StengtBhgSkoleSummaryView: React.FC<Props> = ({ apiValues }: Props) => {
     const attachments: Attachment[] = values[SøknadFormField.dokumenterStengtBkgSkole];
 
     return (
-        <SummarySection header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.titel')}>
-            <SummaryBlock header={intlHelper(intl, 'steg.annet.hjemmePgaStengt.spm')}>
+        <SummarySection header={intlHelper(intl, 'step.oppsummering.stengtBhgSkole.titel')}>
+            <SummaryBlock header={intlHelper(intl, 'step.oppsummering.stengtBhgSkole.spm')}>
                 <JaNeiSvar harSvartJa={apiValues.hjemmePgaStengtBhgSkole} />
 
                 {apiValues.hjemmePgaStengtBhgSkole && (
-                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.stengtBhgSkole.bekreftelse.header')}>
+                    <SummaryBlock header={intlHelper(intl, 'step.oppsummering.stengtBhgSkole.bekreftelse.header')}>
                         {attachments.length > 0 ? (
                             <AttachmentList attachments={attachments} />
                         ) : (
                             <FormattedMessage
-                                id="steg.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp"
+                                id="step.oppsummering.stengtBhgSkole.bekreftelse.ikkeLastetOpp"
                                 tagName="em"
                             />
                         )}

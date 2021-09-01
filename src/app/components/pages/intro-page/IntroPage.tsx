@@ -15,7 +15,6 @@ import bemUtils from 'common/utils/bemUtils';
 import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
-import SmittevernInfo from '../../information/SmittevernInfo';
 import './introPage.less';
 
 const bem = bemUtils('introPage');
@@ -108,14 +107,14 @@ const IntroPage: React.FC = (): JSX.Element => {
                                 <FormBlock>
                                     <PageForm.YesOrNoQuestion
                                         name={PageFormField.smittevernHensyn}
-                                        legend={intlHelper(intl, 'steg.en.smittevern.sporsmal')}
+                                        legend={intlHelper(intl, 'introPage.smittevern.spm')}
                                         description={
                                             <ExpandableInfo
                                                 title={intlHelper(
                                                     intl,
                                                     'introPage.info.skalViseSmittevernSpørsmål.title'
                                                 )}>
-                                                <SmittevernInfo />
+                                                <FormattedHtmlMessage id="introPage.info.smittevern.html" />
                                             </ExpandableInfo>
                                         }
                                     />
@@ -125,7 +124,7 @@ const IntroPage: React.FC = (): JSX.Element => {
                                     <FormBlock>
                                         <PageForm.YesOrNoQuestion
                                             name={PageFormField.hjemmePgaStengt}
-                                            legend={intlHelper(intl, 'steg.intro.form.spm.hjemmePgaStengt')}
+                                            legend={intlHelper(intl, 'introPage.form.spm.hjemmePgaStengt')}
                                         />
                                     </FormBlock>
                                 )}
@@ -147,10 +146,10 @@ const IntroPage: React.FC = (): JSX.Element => {
                                     <Box margin="xl">
                                         <AlertStripeInfo>
                                             <p style={{ marginTop: 0, marginBottom: 0 }}>
-                                                <FormattedHtmlMessage id="steg.intro.stengtBhgSkole.1" />
+                                                <FormattedHtmlMessage id="introPage.stengtBhgSkole.1" />
                                             </p>
                                             <p>
-                                                <FormattedHtmlMessage id="steg.intro.stengtBhgSkole.2" />
+                                                <FormattedHtmlMessage id="introPage.stengtBhgSkole.2" />
                                             </p>
                                         </AlertStripeInfo>
                                     </Box>
