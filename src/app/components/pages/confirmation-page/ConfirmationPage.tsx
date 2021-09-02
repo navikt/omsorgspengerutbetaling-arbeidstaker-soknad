@@ -14,6 +14,7 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import TilArbeidsgiverDokumentListe from './components/TilArbeidsgiverDokumentListe';
 import './confirmationPage.less';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 const bem = bemUtils('confirmationPage');
 
@@ -46,10 +47,11 @@ const ConfirmationPage: React.FC<OwnProps> = (props: OwnProps): JSX.Element => {
                     <Panel border={true} className={'luftOver'}>
                         <AlertStripe type="advarsel" form="inline">
                             <Box padBottom={'l'}>
-                                Obs! Denne informasjonen forsvinner når du lukker den. Det er derfor viktig at du leser
-                                gjennom før du går videre.
+                                <FormattedMessage id="page.conformation.alert.infoForsvinner" />
                             </Box>
-                            <Box>Siden kan printes ut, slik at du kan gi utskrift til arbeidsgiveren din.</Box>
+                            <Box>
+                                <FormattedMessage id="page.conformation.alert.infoPrint" />
+                            </Box>
                         </AlertStripe>
                     </Panel>
                 </div>
@@ -57,22 +59,17 @@ const ConfirmationPage: React.FC<OwnProps> = (props: OwnProps): JSX.Element => {
                 <ul className="checklist">
                     <li>
                         <AlertStripe type="info" form="inline">
-                            <b>Dette er en bekreftelse på at vi har mottatt søknaden din. </b> På grunn av stor pågang
-                            er det vanskelig å si når søknaden vil bli synlig for deg på Ditt NAV.
-                            <p>Når søknaden din er ferdigbehandlet, får du et svar fra oss.</p>
+                            <FormattedHtmlMessage id="page.conformation.alert.info.1.html" />
                         </AlertStripe>
                     </li>
                     <li>
                         <AlertStripe type="info" form="inline">
-                            Du må be arbeidsgiver om å sende inntektsmelding til oss. Det er viktig at arbeidsgiver
-                            krysser av for at inntektsmeldingen gjelder omsorgspenger.
-                            <p>Vi kontakter deg hvis vi trenger flere opplysninger i saken din.</p>
+                            <FormattedHtmlMessage id="page.conformation.alert.info.2.html" />
                         </AlertStripe>
                     </li>
                     <li>
                         <AlertStripe type="info" form="inline">
-                            Du kan skrive ut denne informasjonssiden og gi utskriften til arbeidsgiveren din. Hvis du er
-                            registrert med flere arbeidsgivere, får du en utskrift til hver av dem.
+                            <FormattedMessage id="page.conformation.alert.info.3" />
                         </AlertStripe>
                     </li>
                 </ul>
@@ -86,14 +83,13 @@ const ConfirmationPage: React.FC<OwnProps> = (props: OwnProps): JSX.Element => {
                             window.print();
                             return false;
                         }}>
-                        Skriv ut denne siden nå
+                        <FormattedMessage id="page.conformation.skrivUtKnapp" />
                     </Knapp>
                 </div>
             </Box>
             <Box padBottom={'xl'}>
                 <div className={'kviteringsBlokk'}>
-                    Hvis du ikke kan skrive ut denne informasjonssiden, kan du ta bilde av den. Husk også å ta bilde av
-                    informasjonen som kommer under, som du kan gi til arbeidsgiver.
+                    <FormattedMessage id="page.conformation.skrivUt.info" />
                 </div>
             </Box>
 

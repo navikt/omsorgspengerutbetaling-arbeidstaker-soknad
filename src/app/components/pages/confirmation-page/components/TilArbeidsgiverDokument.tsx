@@ -8,6 +8,7 @@ import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtil
 import Box from 'common/components/box/Box';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { utbetalingsperiodeDagToDagSummaryStringView } from '../../../../søknad/oppsummering-step/components/UtbetalingsperioderSummaryView';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
     arbeidsgiverDetaljer: ArbeidsgiverDetaljer;
@@ -33,16 +34,30 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
             <Panel border={true} className={'luftOver'}>
                 <Undertittel>Til {arbeidsgiverDetaljer.navn}</Undertittel>
 
-                <p>NAV har mottatt følgende opplysninger:</p>
+                <p>
+                    <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.tittel" />
+                </p>
 
                 <p>
                     <b>
-                        {søkersNavn} er ansatt hos {arbeidsgiverDetaljer.navn}
+                        <FormattedMessage
+                            id="page.conformation.tilArbeidsgiverDokument.1"
+                            values={{
+                                søkersNavn: søkersNavn,
+                                arbeidsgiversNavn: arbeidsgiverDetaljer.navn,
+                            }}
+                        />
                     </b>
                 </p>
                 <p>
                     <b>
-                        {søkersNavn} søker om {søknadNavn} for periodene:
+                        <FormattedMessage
+                            id="page.conformation.tilArbeidsgiverDokument.2"
+                            values={{
+                                søkersNavn: søkersNavn,
+                                søknadNavn: søknadNavn,
+                            }}
+                        />
                     </b>
                 </p>
                 {arbeidsgiverDetaljer.perioder.length > 0 && (
@@ -71,31 +86,37 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                 <Panel border={true} className={'luftOver'}>
                     <AlertStripe type="advarsel" form="inline">
                         <Box padBottom={'l'}>
-                            For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen blir
-                            sendt til oss så snart som mulig.
+                            <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.alert.1" />
                         </Box>
                         <Box padBottom={'l'}>
-                            <b>Det er viktig at du krysser av for at inntektsmeldingen gjelder {søknadNavn}.</b>
+                            <b>
+                                <FormattedMessage
+                                    id="page.conformation.tilArbeidsgiverDokument.alert.2"
+                                    values={{
+                                        søknadNavn: søknadNavn,
+                                    }}
+                                />
+                            </b>
                         </Box>
-                        <Box>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</Box>
+                        <Box>
+                            <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.alert.3" />
+                        </Box>
                     </AlertStripe>
                 </Panel>
 
                 <div>
-                    <h4>Slik sender du inntektsmeldingen</h4>
+                    <h4>
+                        <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.tittel" />
+                    </h4>
 
                     <p>
-                        Inntektsmeldingen sendes fra arbeidsgivers eget lønns- og personalsystem eller fra altinn.no.
-                        Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden
-                        arbeidstaker har sendt. Husk å velge riktig inntektsmelding.
+                        <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.1" />
                     </p>
                     <p>
-                        Fyll inn alle dager og/eller perioder som samsvarer med arbeidstakers søknad. Hvis søknaden ikke
-                        stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
-                        inntektsmeldingen.
+                        <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.2" />
                     </p>
                     <p>
-                        Du får mer informasjon om inntektsmeldingen på{' '}
+                        <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.3" />{' '}
                         <a
                             className="lenke"
                             target="_blank"
@@ -103,7 +124,7 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                             href={
                                 'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding'
                             }>
-                            nav.no/inntektsmeldingen
+                            <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.4.lenkeTekst" />
                         </a>
                     </p>
                 </div>
