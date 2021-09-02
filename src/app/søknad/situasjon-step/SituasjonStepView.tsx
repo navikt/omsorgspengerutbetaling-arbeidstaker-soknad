@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormikContext } from 'formik';
@@ -11,14 +11,9 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormSection from 'common/components/form-section/FormSection';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
-import { YesOrNo } from 'common/types/YesOrNo';
-import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
-import InformasjonOmSelvstendigOgFrilans from '../../components/informasjonSelvstendigOgFrilans/InformasjonOmSelvstendigOgFrilans';
 import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import { SelvstendigOgEllerFrilans } from '../../types/SelvstendigOgEllerFrilansTypes';
 import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
@@ -27,7 +22,6 @@ import {
     checkHarKlikketNeiElleJajaBlanding,
     checkHarKlikketNeiPåAlle,
 } from '../../validation/components/arbeidsforholdValidations';
-import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import ArbeidsforholdSituasjon from 'app/components/formik-arbeidsforhold/ArbeidsforholdSituasjon';
 
@@ -43,7 +37,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const { values } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
     const [doApiCalls, setDoApiCalls] = useState(true);
-    const intl = useIntl();
 
     useEffect(() => {
         const today: Date = dateToday;
@@ -170,55 +163,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 {harKlikketJaJaPåAlle === false &&
                     harKlikketNeiPåAlle == false &&
                     harKlikketNeiElleJajaBlanding === false}
-
-                {/* SELVSTENDIG OG ELLER FRILANS */}
-                {harIkkeMottatLønnHosEnEllerFlere && (
-                    <>
-                        <FormBlock margin="xxl">
-                            <Undertittel>
-                                <FormattedMessage id={'step.situasjon.snF.ja_nei.undertittel'} />
-                            </Undertittel>
-
-                            <FormBlock margin="l">
-                                <SøknadFormComponents.YesOrNoQuestion
-                                    name={SøknadFormField.erSelvstendigOgEllerFrilans}
-                                    legend={intlHelper(intl, 'step.situasjon.snF.ja_nei.spm')}
-                                    validate={validateYesOrNoIsAnswered}
-                                />
-                            </FormBlock>
-                            {values[SøknadFormField.erSelvstendigOgEllerFrilans] === YesOrNo.YES && (
-                                <>
-                                    <FormBlock margin={'m'}>
-                                        <SøknadFormComponents.CheckboxPanelGroup
-                                            name={SøknadFormField.selvstendigOgEllerFrilans}
-                                            checkboxes={[
-                                                {
-                                                    id: SelvstendigOgEllerFrilans.selvstendig,
-                                                    value: SelvstendigOgEllerFrilans.selvstendig,
-                                                    label: intlHelper(intl, 'step.situasjon.snF.selvstendig.label'),
-                                                },
-                                                {
-                                                    id: SelvstendigOgEllerFrilans.frilans,
-                                                    value: SelvstendigOgEllerFrilans.frilans,
-                                                    label: intlHelper(intl, 'step.situasjon.snF.frilans.label'),
-                                                },
-                                            ]}
-                                            validate={validateRequiredList}
-                                        />
-                                    </FormBlock>
-                                    <InformasjonOmSelvstendigOgFrilans
-                                        erSelvstendig={values.selvstendigOgEllerFrilans.includes(
-                                            SelvstendigOgEllerFrilans.selvstendig
-                                        )}
-                                        erFrilanser={values.selvstendigOgEllerFrilans.includes(
-                                            SelvstendigOgEllerFrilans.frilans
-                                        )}
-                                    />
-                                </>
-                            )}
-                        </FormBlock>
-                    </>
-                )}
             </>
         </SøknadStep>
     );

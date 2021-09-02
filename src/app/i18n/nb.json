@@ -74,7 +74,7 @@
     "introPage.stegTittel": "Kan jeg søke om utbetaling av omsorgspenger?",
     "introPage.info.1": "Hvis du ikke får utbetalt omsorgspenger fra arbeidsgiveren din kan du ha rett til utbetaling fra NAV.",
     "introPage.info.2": "Dette kan være i situasjoner hvor",
-    "introPage.info.2.item.1": "du ikke har jobbet hos denne arbeidsgiveren i minst 4 uker. Men, rett før du startet hos denne arbeidsgiveren har du for eksempel vært i annet arbeidsforhold, vært i ulønnet permisjon, vært selvstendig næringsdrivende eller frilanser.",
+    "introPage.info.2.item.1": "du ikke har jobbet hos denne arbeidsgiveren i minst 4 uker. Men, rett før du startet hos denne arbeidsgiveren har du for eksempel vært i annet arbeidsforhold, vært i ulønnet permisjon.",
     "introPage.info.2.item.2": "arbeidsgiver ikke har midler til å utbetale deg omsorgspenger på grunn av konkurs.",
     "introPage.info.2.item.3": "det er uenighet mellom deg og arbeidsgiver som gjør at arbeidsgiver ikke vil utbetale omsorgspenger.",
     "introPage.info.3": "Hvis én av disse situasjonene gjelder deg kan du søke NAV om utbetaling av omsorgspenger. I tillegg til å søke må du be arbeidsgiver om å sende inntektsmelding til oss så snart som mulig. Vi må ha den for å kunne behandle søknaden din.",
@@ -153,14 +153,6 @@
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden. Hvis din arbeidsgiver ikke er registrert i listen, så kan du selv legge til informasjon over. ",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
-    "step.situasjon.snF.ja_nei.undertittel": "Selvstendig næringsdrivende og frilanser",
-    "step.situasjon.snF.ja_nei.spm": "Er du selvstendig næringsdrivende og/eller frilanser i tillegg til at du er arbeidstaker?",
-    "step.situasjon.snF.selvstendig.label": "Ja, jeg er også selvstendig næringsdrivende",
-    "step.situasjon.snF.frilans.label": "Ja, jeg er også frilanser",
-    "step.situasjon.snF.selvstendig.ja.info": "Hvis du skal søke om omsorgspenger som frilanser, {lenkeKomponent}, i tillegg til denne.",
-    "step.situasjon.snF.selvstendig.ja.info.lenketekst": "må du sende en egen søknad om det",
-    "step.situasjon.snF.frilans.ja.info": "Hvis du skal søke om omsorgspenger som selvstendig næringsdrivende, {lenkeKomponent}, i tillegg til denne.",
-    "step.situasjon.snF.frilans.ja.info.lenketekst": "må du sende en egen søknad om det",
 
     "step.periode.pageTitle": "Hvilke dager søker du utbetaling for?",
     "step.periode.stepTitle": "Hvilke dager søker du utbetaling for?",
@@ -252,11 +244,6 @@
 
     "step.oppsummering.utenlandsopphold.titel": "Utenlandsopphold",
     "step.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden du har brukt omsorgsdager",
-
-    "step.oppsummering.andreInntekter.titel": "Andre inntekter",
-    "step.oppsummering.snF.spm": "Er du selvstendig næringsdrivende og/eller frilanser i tillegg til at du er arbeidstaker?",
-    "step.oppsummering.snF.selvstendig.label": "Ja, jeg er også selvstendig næringsdrivende",
-    "step.oppsummering.snF.frilans.label": "Ja, jeg er også frilanser",
 
     "step.oppsummering.medlemskap.header": "Medlemskap i folketrygden",
     "step.oppsummering.utlandetSiste12.header": "Har du bodd i utlandet de siste 12 månedene?",

@@ -1,7 +1,7 @@
 {
     "name": "omsorgspengerutbetaling-arbeidstaker-soknad",
     "version": "0.0.1",
-    "description": "Søknad om utbetaling av omsorgsdager for selvstendige og frilansere",
+    "description": "Søknad om utbetaling av omsorgsdager for arbeidstakere",
     "repository": "https://github.com/navikt/omsorgspengerutbetaling-arbeidstaker-soknad",
     "license": "MIT",
     "author": "NAV",

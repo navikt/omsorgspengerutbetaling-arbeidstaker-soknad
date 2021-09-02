@@ -58,8 +58,6 @@ export interface SøknadApiData {
     opphold: Opphold[]; // hvis ja på har oppholdt seg i utlandet
     arbeidsgivere: ArbeidsgiverDetaljer[];
     bekreftelser: Bekreftelser;
-    erSelvstendig: boolean;
-    erFrilanser: boolean;
     hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
     hjemmePgaStengtBhgSkole?: boolean;

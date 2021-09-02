@@ -2,7 +2,6 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib//utenlandsopphold
 import { YesOrNo } from 'common/types/YesOrNo';
 import { ArbeidsforholdFormData } from './ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
-import { SelvstendigOgEllerFrilans } from './SelvstendigOgEllerFrilansTypes';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -14,10 +13,6 @@ export enum SøknadFormField {
     // Opphold Utland
     perioderHarVærtIUtlandet = 'perioderHarVærtIUtlandet',
     perioderUtenlandsopphold = 'perioderUtenlandsopphold',
-
-    // Er SN&F i tillegg
-    erSelvstendigOgEllerFrilans = 'erSelvstendigOgEllerFrilans',
-    selvstendigOgEllerFrilans = 'selvstendigOgEllerFrilans',
 
     // Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -44,10 +39,6 @@ export interface SøknadFormData {
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo;
     [SøknadFormField.perioderUtenlandsopphold]: Utenlandsopphold[];
 
-    // Selvstendig og eller frilans
-    [SøknadFormField.erSelvstendigOgEllerFrilans]: YesOrNo;
-    [SøknadFormField.selvstendigOgEllerFrilans]: SelvstendigOgEllerFrilans[];
-
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
@@ -71,10 +62,6 @@ export const initialValues: SøknadFormData = {
     // Opphold Utland
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioderUtenlandsopphold]: [],
-
-    // Er selvstendig og eller frilans
-    [SøknadFormField.erSelvstendigOgEllerFrilans]: YesOrNo.UNANSWERED,
-    [SøknadFormField.selvstendigOgEllerFrilans]: [],
 
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,

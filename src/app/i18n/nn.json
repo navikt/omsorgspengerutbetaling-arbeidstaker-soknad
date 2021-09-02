@@ -147,14 +147,6 @@
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei": "Du må ha hatt fråvær frå minst éin arbeidsgivar for å gå vidare i søknaden. Dersom arbeidsgivaren din ikkje er registrert i lista, så kan du sjølv leggje til informasjon over.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
-    "step.situasjon.snF.ja_nei.undertittel": "Sjølvstendig næringsdrivande og frilansar",
-    "step.situasjon.snF.ja_nei.spm": "Er du sjølvstendig næringsdrivande og/eller frilansar i tillegg til at du er arbeidstakar?",
-    "step.situasjon.snF.selvstendig.label": "Ja, eg er også sjølvstendig næringsdrivande",
-    "step.situasjon.snF.frilans.label": "Ja, eg er også frilansar",
-    "step.situasjon.snF.selvstendig.ja.info": "Dersom du skal søkje om omsorgspengar som frilansar, {lenkeKomponent}, i tillegg til denne.",
-    "step.situasjon.snF.selvstendig.ja.info.lenketekst": "må du sende ein eigen søknad om det",
-    "step.situasjon.snF.frilans.ja.info": "Dersom du skal søkje om omsorgspengar som sjølvstendig næringsdrivande, {lenkeKomponent}, i tillegg til denne.",
-    "step.situasjon.snF.frilans.ja.info.lenketekst": "må du sende ein eigen søknad om det",
 
     "step.periode.pageTitle": "Kva dagar søkjer du utbetaling for?",
     "step.periode.stepTitle": "Kva dagar søkjer du utbetaling for?",
@@ -230,11 +222,6 @@
 
     "step.oppsummering.utenlandsopphold.titel": "Utanlandsopphald",
     "step.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utanlandsopphald i perioden du har brukt omsorgsdagar",
-
-    "step.oppsummering.andreInntekter.titel": "Andre inntekter",
-    "step.oppsummering.snF.spm": "Er du sjølvstendig næringsdrivande og/eller frilansar i tillegg til at du er arbeidstakar?",
-    "step.oppsummering.snF.selvstendig.label": "Ja, eg er også sjølvstendig næringsdrivande",
-    "step.oppsummering.snF.frilans.label": "Ja, eg er også frilansar",
 
     "step.oppsummering.medlemskap.header": "Medlemskap i folketrygda",
     "step.oppsummering.utlandetSiste12.header": "Har du budd i utlandet dei siste 12 månadene?",

@@ -21,7 +21,6 @@ import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SmittevernSummaryView from './components/SmittevernSummaryView';
 import appSentryLogger from '../../utils/appSentryLogger';
-import SelvstendigOgEllerFrilansSummaryView from './components/SelvstendigOgEllerFrilansSummaryView';
 import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import SummarySection from './components/summary-section/SummarySection';
@@ -104,16 +103,6 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
 
                     {/* Utenlandsopphold */}
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
-
-                    {/* Andre inntekter */}
-                    {(apiValues.erSelvstendig || apiValues.erFrilanser) && (
-                        <SummarySection header={intlHelper(intl, 'step.oppsummering.andreInntekter.titel')}>
-                            <SelvstendigOgEllerFrilansSummaryView
-                                erSelvstendig={apiValues.erSelvstendig}
-                                erFrilanser={apiValues.erFrilanser}
-                            />
-                        </SummarySection>
-                    )}
 
                     {/* Medlemskap i folketrygden */}
                     <SummarySection header={intlHelper(intl, 'step.oppsummering.medlemskap.header')}>

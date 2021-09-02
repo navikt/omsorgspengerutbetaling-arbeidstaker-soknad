@@ -11,7 +11,6 @@ import {
     listOfAttachmentsToListOfUrlStrings,
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
-import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
 export const mapFormDataToApiData = (
@@ -20,15 +19,12 @@ export const mapFormDataToApiData = (
         harBekreftetOpplysninger,
 
         // STEG 1: Situasjon
-        arbeidsforhold,
-
         // STEG 2: Periode
+        arbeidsforhold,
 
         // STEG 3: ANNET
         perioderHarVærtIUtlandet,
         perioderUtenlandsopphold,
-        erSelvstendigOgEllerFrilans,
-        selvstendigOgEllerFrilans,
 
         // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
@@ -65,8 +61,6 @@ export const mapFormDataToApiData = (
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
         arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([...arbeidsforhold]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
-        erSelvstendig: isSelvstendig(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
-        erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
         hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
         hjemmePgaStengtBhgSkole: isFeatureEnabled(Feature.STENGT_BHG_SKOLE)
             ? hjemmePgaStengtBhgSkole === YesOrNo.YES

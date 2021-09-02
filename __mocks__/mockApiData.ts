@@ -57,8 +57,6 @@ export const mock1: SøknadApiData = {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
     },
-    erSelvstendig: false,
-    erFrilanser: false,
     hjemmePgaSmittevernhensyn: false,
     vedlegg: ['location/1', 'location/3', 'location/1'],
     _vedleggSmittevern: [],

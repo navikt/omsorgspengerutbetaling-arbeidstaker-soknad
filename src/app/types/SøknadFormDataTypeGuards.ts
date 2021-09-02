@@ -8,8 +8,6 @@ export const isSøknadFormData = (søknadFormData: any): søknadFormData is Søk
         søknadFormData.arbeidsforhold &&
         søknadFormData.perioderHarVærtIUtlandet &&
         søknadFormData.perioderUtenlandsopphold &&
-        søknadFormData.erSelvstendigOgEllerFrilans &&
-        søknadFormData.selvstendigOgEllerFrilans &&
         søknadFormData.harBoddUtenforNorgeSiste12Mnd &&
         søknadFormData.utenlandsoppholdSiste12Mnd &&
         søknadFormData.skalBoUtenforNorgeNeste12Mnd &&
