@@ -45,7 +45,7 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
     return (
         <>
-            <FormBlock margin="l">
+            <FormBlock>
                 <FormikRadioPanelGroup
                     radios={[
                         {

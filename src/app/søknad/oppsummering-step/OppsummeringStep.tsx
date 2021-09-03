@@ -39,7 +39,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
-    console.log(apiValues);
+
     async function sendApplication(data: SøknadApiData): Promise<void> {
         setSendingInProgress(true);
         try {

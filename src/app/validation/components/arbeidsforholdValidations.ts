@@ -1,4 +1,8 @@
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../types/ArbeidsforholdTypes';
+import {
+    ArbeidsforholdFormData,
+    ArbeidsforholdFormDataFields,
+    Utbetalingsårsak,
+} from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { delvisFraværIsValid, perioderIsValid } from './periodeStepValidations';
 import { evaluatePrevAndCurrent } from '../validationUtils';
@@ -25,6 +29,26 @@ export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforhold: Arbeidsforh
     }
 };
 
+const validatekonfliktForklaring = (konfliktForklaring?: string): boolean => {
+    return konfliktForklaring &&
+        typeof konfliktForklaring === 'string' &&
+        konfliktForklaring.length > 0 &&
+        konfliktForklaring.length < 2000
+        ? true
+        : false;
+};
+
+export const utbetalingsårsakIsValid = (konfliktForklaring?: string, utbetalingsårsak?: Utbetalingsårsak): boolean => {
+    if (utbetalingsårsak) {
+        return utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver ||
+            utbetalingsårsak === Utbetalingsårsak.arbeidsgiverKonkurs
+            ? true
+            : utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver &&
+              validatekonfliktForklaring(konfliktForklaring)
+            ? true
+            : false;
+    } else return false;
+};
 export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     return listeAvArbeidsforhold
         .map((arbeidsforholdFormData: ArbeidsforholdFormData) =>
@@ -34,7 +58,8 @@ export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: Arbeid
 };
 
 export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
-    // const dokumenter = arbeidsforhold.dokumenter;
+    const utbetalingsårsak = arbeidsforhold.utbetalingsårsak;
+    const konfliktForklaring = arbeidsforhold.konfliktForklaring;
     const harPerioderMedFravær = arbeidsforhold.harPerioderMedFravær;
     const fraværPerioder = arbeidsforhold.fraværPerioder;
     const harDagerMedDelvisFravær = arbeidsforhold.harDagerMedDelvisFravær;
@@ -42,7 +67,7 @@ export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): b
 
     if (
         arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) &&
-        // ansettelsesLengdeIsValid(ansettelsesLengde, dokumenter) &&
+        utbetalingsårsakIsValid(konfliktForklaring, utbetalingsårsak) &&
         perioderIsValid(harPerioderMedFravær, fraværPerioder) &&
         delvisFraværIsValid(harDagerMedDelvisFravær, fraværDager)
     ) {

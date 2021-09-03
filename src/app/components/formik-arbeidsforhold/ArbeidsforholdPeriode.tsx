@@ -66,7 +66,7 @@ const ArbeidsforholdPeriode: React.FC<Props> = ({ arbeidsforhold, parentFieldNam
             {/* DAGER MED FULLT FRAVÆR*/}
             {arbeidsforhold[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.YES && (
                 <>
-                    <FormBlock paddingBottom={'l'} margin={'l'}>
+                    <FormBlock>
                         <FraværPerioderListAndDialog
                             name={getFieldName(ArbeidsforholdFormDataFields.fraværPerioder)}
                             minDate={GYLDIG_TIDSROM.from || date1YearAgo}
@@ -112,7 +112,7 @@ const ArbeidsforholdPeriode: React.FC<Props> = ({ arbeidsforhold, parentFieldNam
             {/* DAGER MED DELVIS FRAVÆR*/}
             {arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.YES && (
                 <>
-                    <FormBlock margin={'l'} paddingBottom={'l'}>
+                    <FormBlock>
                         <FraværDagerListAndDialog
                             name={getFieldName(ArbeidsforholdFormDataFields.fraværDager)}
                             minDate={GYLDIG_TIDSROM.from || date1YearAgo}

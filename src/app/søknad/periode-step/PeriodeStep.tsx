@@ -47,24 +47,25 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
-    console.log(values);
     const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
         (arbeidsforhold: ArbeidsforholdFormData, index) => {
             return skalInkludereArbeidsforhold(arbeidsforhold) ? (
-                <FormSection
-                    key={arbeidsforhold.organisasjonsnummer}
-                    titleTag="h2"
-                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                    titleIcon={<BuildingIcon />}>
-                    <ArbeidsforholdUtbetalingsårsak
-                        arbeidsforhold={arbeidsforhold}
-                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
-                    />
-                    <ArbeidsforholdPeriode
-                        arbeidsforhold={arbeidsforhold}
-                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
-                    />
-                </FormSection>
+                <FormBlock margin="xxl">
+                    <FormSection
+                        key={arbeidsforhold.organisasjonsnummer}
+                        titleTag="h2"
+                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                        titleIcon={<BuildingIcon />}>
+                        <ArbeidsforholdUtbetalingsårsak
+                            arbeidsforhold={arbeidsforhold}
+                            parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                        />
+                        <ArbeidsforholdPeriode
+                            arbeidsforhold={arbeidsforhold}
+                            parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                        />
+                    </FormSection>
+                </FormBlock>
             ) : null;
         }
     );
