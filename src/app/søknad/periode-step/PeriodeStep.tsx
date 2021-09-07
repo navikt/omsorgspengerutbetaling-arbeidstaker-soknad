@@ -47,28 +47,11 @@ const cleanupStep = (søknadFormData: SøknadFormData): SøknadFormData => {
 
 const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
-    const arbeidsforholdElementListe = values[SøknadFormField.arbeidsforhold].map(
-        (arbeidsforhold: ArbeidsforholdFormData, index) => {
-            return skalInkludereArbeidsforhold(arbeidsforhold) ? (
-                <FormBlock margin="xxl">
-                    <FormSection
-                        key={arbeidsforhold.organisasjonsnummer}
-                        titleTag="h2"
-                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                        titleIcon={<BuildingIcon />}>
-                        <ArbeidsforholdUtbetalingsårsak
-                            arbeidsforhold={arbeidsforhold}
-                            parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
-                        />
-                        <ArbeidsforholdPeriode
-                            arbeidsforhold={arbeidsforhold}
-                            parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
-                        />
-                    </FormSection>
-                </FormBlock>
-            ) : null;
-        }
+
+    const arbeidsforholdliste = values[SøknadFormField.arbeidsforhold].filter((arbeidsforhold) =>
+        skalInkludereArbeidsforhold(arbeidsforhold)
     );
+
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 
     const attachmentsSizeOver24Mb =
@@ -94,9 +77,28 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     </Box>
                 </CounsellorPanel>
             </FormBlock>
-            {arbeidsforholdElementListe.length > 0 && (
+            {arbeidsforholdliste && arbeidsforholdliste.length > 0 && (
                 <FormBlock paddingBottom="l">
-                    <div className="arbeidsforhold-liste">{arbeidsforholdElementListe}</div>
+                    {arbeidsforholdliste.map((arbeidsforhold: ArbeidsforholdFormData, index) => {
+                        return (
+                            <FormBlock margin="xxl" key={arbeidsforhold.organisasjonsnummer}>
+                                <FormSection
+                                    key={arbeidsforhold.organisasjonsnummer}
+                                    titleTag="h2"
+                                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                                    titleIcon={<BuildingIcon />}>
+                                    <ArbeidsforholdUtbetalingsårsak
+                                        arbeidsforhold={arbeidsforhold}
+                                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                                    />
+                                    <ArbeidsforholdPeriode
+                                        arbeidsforhold={arbeidsforhold}
+                                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                                    />
+                                </FormSection>
+                            </FormBlock>
+                        );
+                    })}
                 </FormBlock>
             )}
         </SøknadStep>

@@ -12,10 +12,6 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields, Utbetalingsårsak
 import { SøknadFormData, SøknadFormField } from 'app/types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from 'app/validation/components/arbeidsforholdValidations';
 import { useFormikContext } from 'formik';
-// import { useFormikContext } from 'formik';
-// import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
-// import { skalInkludereArbeidsforhold } from '../../../validation/components/arbeidsforholdValidations';
-// import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
 
