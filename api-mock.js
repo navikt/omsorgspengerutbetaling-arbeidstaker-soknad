@@ -69,6 +69,14 @@ const arbeidsgivereMock = {
     ],
 };
 
+/*const arbeidsgiverMock = {
+    organisasjoner: [{ navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' }],
+};*/
+
+/*const ingenArbeidsgivererMock = {
+    organisasjoner: [],
+};*/
+
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
 const isJSON = (str) => {
@@ -103,6 +111,8 @@ const startServer = () => {
         //     res.send(arbeidsgivereMock);
         // }, 5000)
         res.send(arbeidsgivereMock);
+        // res.send(arbeidsgiverMock);
+        //res.send(ingenArbeidsgivererMock);
     });
 
     server.get('/soker', (req, res) => {

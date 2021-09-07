@@ -98,7 +98,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                         <SmittevernSummaryView apiValues={apiValues} />
                     </SummarySection>
 
-                    {/* Lokalt stengt barnehage eller skole */}
+                    {/* Stengt barnehage eller skole */}
                     {isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && <StengtBhgSkoleSummaryView apiValues={apiValues} />}
 
                     {/* Utenlandsopphold */}

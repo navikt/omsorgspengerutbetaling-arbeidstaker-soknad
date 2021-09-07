@@ -4,7 +4,6 @@ import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { AxiosResponse } from 'axios';
 import { FormikProps, useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { Undertittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -73,7 +72,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     }, [doApiCalls, formikProps]);
 
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
-
     const harKlikketJaJaPåAlle = checkHarKlikketJaJaPåAlle([...arbeidsforhold]);
     const harKlikketNeiPåAlle = checkHarKlikketNeiPåAlle([...arbeidsforhold]);
     const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold]);
@@ -87,10 +85,6 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
             onValidFormSubmit={onValidSubmit}
             showSubmitButton={!isLoading && harIkkeMottatLønnHosEnEllerFlere}>
             <>
-                <Undertittel>
-                    <FormattedMessage id={'step.situasjon.arbeidsforhold.tittel'} />
-                </Undertittel>
-
                 <Box margin="l">
                     <CounsellorPanel>
                         <p>
@@ -138,31 +132,27 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     </FormBlock>
                 )}
 
-                {harKlikketJaJaPåAlle && (
+                {arbeidsforhold.length > 0 && harKlikketJaJaPåAlle && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
-                {harKlikketNeiPåAlle && (
+                {arbeidsforhold.length > 0 && harKlikketNeiPåAlle && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
-                {harKlikketNeiElleJajaBlanding && (
+                {arbeidsforhold.length > 0 && harKlikketNeiElleJajaBlanding && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding'} />
                         </AlertStripe>
                     </FormBlock>
                 )}
-
-                {harKlikketJaJaPåAlle === false &&
-                    harKlikketNeiPåAlle == false &&
-                    harKlikketNeiElleJajaBlanding === false}
             </>
         </SøknadStep>
     );
