@@ -14,6 +14,7 @@ import { skalInkludereArbeidsforhold } from 'app/validation/components/arbeidsfo
 import { useFormikContext } from 'formik';
 import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 const bem = bemUtils('arbeidsforholdSummary');
 
@@ -32,7 +33,12 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
     const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold].filter(
         skalInkludereArbeidsforhold
     );
-
+    const arbeidsgivereUtenFravær = values.arbeidsforhold.filter(
+        (arbeidsgiver) =>
+            arbeidsgiver.harHattFraværHosArbeidsgiver === YesOrNo.NO ||
+            (arbeidsgiver.harHattFraværHosArbeidsgiver === YesOrNo.YES &&
+                arbeidsgiver.arbeidsgiverHarUtbetaltLønn === YesOrNo.YES)
+    );
     return (
         <Box margin={'l'}>
             {listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsgiverDetaljer, index: number) => {
@@ -118,6 +124,50 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                     </Box>
                 );
             })}
+            {arbeidsgivereUtenFravær.length > 0 &&
+                arbeidsgivereUtenFravær.map(
+                    (
+                        {
+                            navn,
+                            organisasjonsnummer,
+                            harHattFraværHosArbeidsgiver,
+                            arbeidsgiverHarUtbetaltLønn,
+                        }: ArbeidsforholdFormData,
+                        index: number
+                    ) => {
+                        return (
+                            <Box key={index} padBottom={'xl'}>
+                                {/* Title */}
+                                <div className={bem.element('org')}>
+                                    {navn} {organisasjonsnummer && <>(organisasjonsnummer: {organisasjonsnummer})</>}
+                                </div>
+                                {/* Content */}
+                                <div className={'arbeidsforholdSummaryContent'}>
+                                    <Box margin={'s'}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'step.oppsummering.arbeidsforhold.harHattFravær.spm'
+                                            )}>
+                                            <JaNeiSvar harSvartJa={harHattFraværHosArbeidsgiver === YesOrNo.YES} />
+                                        </SummaryBlock>
+                                    </Box>
+                                    {harHattFraværHosArbeidsgiver === YesOrNo.YES && (
+                                        <Box margin={'s'}>
+                                            <SummaryBlock
+                                                header={intlHelper(
+                                                    intl,
+                                                    'step.oppsummering.arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
+                                                )}>
+                                                <JaNeiSvar harSvartJa={arbeidsgiverHarUtbetaltLønn === YesOrNo.YES} />
+                                            </SummaryBlock>
+                                        </Box>
+                                    )}
+                                </div>
+                            </Box>
+                        );
+                    }
+                )}
         </Box>
     );
 };
