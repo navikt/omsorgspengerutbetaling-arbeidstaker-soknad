@@ -36,8 +36,8 @@ export interface Bekreftelser {
 }
 
 export interface ArbeidsgiverDetaljer {
-    navn: string | null;
-    organisasjonsnummer: string | null;
+    navn: string;
+    organisasjonsnummer: string;
     utbetalingsårsak: Utbetalingsårsak;
     konfliktForklaring?: string;
     harHattFraværHosArbeidsgiver: boolean;

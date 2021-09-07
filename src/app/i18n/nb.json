@@ -150,7 +150,7 @@
     "step.situasjon.arbeidsforhold.ingen.info.text": "Vi finner ingen registrerte arbeidsgivere.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden. Hvis din arbeidsgiver ikke er registrert i listen, så kan du selv legge til informasjon over. ",
+    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
 
     "step.periode.pageTitle": "Hvilke dager søker du utbetaling for?",
@@ -216,7 +216,7 @@
 
     "step.oppsummering.arbeidsforhold.titel": "Fravær fra arbeid",
     "step.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
-    "step.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
+    "step.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsgiver er valgt",
     "step.oppsummering.arbeidsforhold.harHattFravær.spm": "Har du hatt fravær hos denne arbeidsgiveren fordi du har brukt omsorgsdager?",
     "step.oppsummering.arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm": "Har arbeidsgiveren utbetalt deg lønn for de dagene du har brukt omsorgsdager?",
     "step.oppsummering.arbeidsforhold.utbetalingsårsak.spm": "Hva er grunnen til at du søker om utbetaling av omsorgspenger fra NAV?",

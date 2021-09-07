@@ -46,7 +46,7 @@ export interface ArbeidsgiverResponse {
 }
 
 export interface Arbeidsgiver {
-    navn: string | null;
+    navn: string;
     organisasjonsnummer: string;
 }
 

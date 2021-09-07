@@ -71,7 +71,7 @@ const validArbeidsforhold3: ArbeidsforholdFormData = {
 const validListeAvArbeidsforhold: ArbeidsforholdFormData[] = [validArbeidsforhold1, validArbeidsforhold2];
 
 const invalidArbeidsforhold1: ArbeidsforholdFormData = {
-    navn: null,
+    navn: '',
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.YES,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,

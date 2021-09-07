@@ -23,7 +23,7 @@ export enum ArbeidsforholdFormDataFields {
 }
 
 export interface ArbeidsforholdFormData {
-    [ArbeidsforholdFormDataFields.navn]: string | null;
+    [ArbeidsforholdFormDataFields.navn]: string;
     [ArbeidsforholdFormDataFields.organisasjonsnummer]: string;
     [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo;
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
