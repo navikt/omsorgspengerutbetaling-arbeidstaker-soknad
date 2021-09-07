@@ -17,7 +17,6 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
 import './periodeStep.less';
-import ArbeidsforholdUtbetalingsårsak from '../../components/formik-arbeidsforhold/ArbeidsforholdUtbetalingsårsak';
 import ArbeidsforholdPeriode from '../../components/formik-arbeidsforhold/ArbeidsforholdPeriode';
 
 const cleanPerioderForArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
@@ -87,10 +86,6 @@ const PeriodeStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                                     titleTag="h2"
                                     title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
                                     titleIcon={<BuildingIcon />}>
-                                    <ArbeidsforholdUtbetalingsårsak
-                                        arbeidsforhold={arbeidsforhold}
-                                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
-                                    />
                                     <ArbeidsforholdPeriode
                                         arbeidsforhold={arbeidsforhold}
                                         parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}

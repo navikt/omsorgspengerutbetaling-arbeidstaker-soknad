@@ -22,7 +22,9 @@ import {
     checkHarKlikketNeiPåAlle,
 } from '../../validation/components/arbeidsforholdValidations';
 import SøknadStep from '../SøknadStep';
-import ArbeidsforholdSituasjon from 'app/components/formik-arbeidsforhold/ArbeidsforholdSituasjon';
+import ArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/ArbeidsforholdSituasjon';
+import ArbeidsforholdUtbetalingsårsak from '../../components/formik-arbeidsforhold/ArbeidsforholdUtbetalingsårsak';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -117,6 +119,13 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                                             arbeidsforhold={forhold}
                                             parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
                                         />
+                                        {forhold.harHattFraværHosArbeidsgiver === YesOrNo.YES &&
+                                            forhold.arbeidsgiverHarUtbetaltLønn === YesOrNo.NO && (
+                                                <ArbeidsforholdUtbetalingsårsak
+                                                    arbeidsforhold={forhold}
+                                                    parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                                                />
+                                            )}
                                     </FormSection>
                                 </Box>
                             ))}
