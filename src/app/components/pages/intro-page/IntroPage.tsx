@@ -12,10 +12,10 @@ import Knappelenke from 'common/components/knappelenke/Knappelenke';
 import Page from 'common/components/page/Page';
 import StepBanner from 'common/components/step-banner/StepBanner';
 import bemUtils from 'common/utils/bemUtils';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import intlHelper from 'common/utils/intlUtils';
 import RouteConfig, { getRouteUrl } from '../../../config/routeConfig';
 import './introPage.less';
+import intlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 
 const bem = bemUtils('introPage');
 
@@ -93,7 +93,7 @@ const IntroPage: React.FC = (): JSX.Element => {
 
                         return (
                             <PageForm.Form
-                                fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}
+                                formErrorHandler={intlFormErrorHandler(intl, 'validation')}
                                 includeButtons={false}
                                 noButtonsContentRenderer={
                                     showNotAllQuestionsAnsweredMessage

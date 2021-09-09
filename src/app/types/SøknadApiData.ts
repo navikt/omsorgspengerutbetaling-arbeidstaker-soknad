@@ -1,6 +1,7 @@
+import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
-import { Utbetalingsårsak } from './ArbeidsforholdTypes';
+import { Utbetalingsårsak, ÅrsakMindre4Uker } from './ArbeidsforholdTypes';
 
 export type ISO8601Duration = string;
 
@@ -39,6 +40,7 @@ export interface ArbeidsgiverDetaljer {
     navn: string;
     organisasjonsnummer: string;
     utbetalingsårsak: Utbetalingsårsak;
+    årsakMinde4Uker?: ÅrsakMindre4Uker;
     konfliktForklaring?: string;
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;
@@ -50,6 +52,7 @@ export interface Utbetalingsperiode {
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)
     antallTimerPlanlagt: string | null; // f eks PT5H30M | "null" (type Duration)
+    årsak: FraværÅrsak;
 }
 
 export interface SøknadApiData {

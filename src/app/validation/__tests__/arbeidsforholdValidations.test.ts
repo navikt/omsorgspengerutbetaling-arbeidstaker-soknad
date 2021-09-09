@@ -2,7 +2,7 @@ import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforhold
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
-import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib/fravær';
+import { FraværDag, FraværPeriode, FraværÅrsak } from '@navikt/sif-common-forms/lib/fravær';
 
 const validAttachment: Attachment = {
     file: {
@@ -18,8 +18,9 @@ const validAttachment: Attachment = {
 };
 
 const gylidgPeriodeMedFravær1: FraværPeriode = {
-    from: new Date('2020-01-01'),
-    to: new Date('2020-01-02'),
+    fraOgMed: new Date('2020-01-01'),
+    tilOgMed: new Date('2020-01-02'),
+    årsak: FraværÅrsak.ordinært,
 };
 
 const validPerioderMedFravær: FraværPeriode[] = [gylidgPeriodeMedFravær1];
@@ -28,6 +29,7 @@ const validFraværDelerAvDag: FraværDag = {
     dato: new Date('2020-02-01'),
     timerArbeidsdag: '6',
     timerFravær: '3',
+    årsak: FraværÅrsak.ordinært,
 };
 
 const validListeAvFraværDelerAvDag: FraværDag[] = [validFraværDelerAvDag];

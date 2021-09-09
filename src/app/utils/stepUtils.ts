@@ -22,11 +22,11 @@ export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepCo
 
 export const situasjonStepIsAvailable = (formData: SøknadFormData): boolean => welcomingPageIsValid(formData);
 
-export const periodeStepIsAvailable = (formData: SøknadFormData): boolean =>
+export const fraværStepIsAvailable = (formData: SøknadFormData): boolean =>
     situasjonStepIsAvailable(formData) && situasjonStepIsValid(formData);
 
 export const annetStepIsAvailable = (formData: SøknadFormData): boolean =>
-    periodeStepIsAvailable(formData) && periodeStepIsValid(formData);
+    fraværStepIsAvailable(formData) && periodeStepIsValid(formData);
 
 export const medlemskapStepIsAvailable = (formData: SøknadFormData): boolean =>
     annetStepIsAvailable(formData) && annetStepIsValid(formData);

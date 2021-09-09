@@ -19,13 +19,15 @@ import NavnOgFodselsnummerSummaryView from './components/NavnOgFodselsnummerSumm
 import UtenlandsoppholdISøkeperiodeSummaryView from './components/UtenlandsoppholdISøkeperiodeSummaryView';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
-import SmittevernSummaryView from './components/SmittevernSummaryView';
+import SmittevernDokumenterSummaryView from './components/SmittevernDokumenterSummaryView';
 import appSentryLogger from '../../utils/appSentryLogger';
-import StengtBhgSkoleSummaryView from './components/StengtBhgSkoleSummaryView';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
+import StengtBhgSkoleDokumenterSummaryView from './components/StengtBhgSkoleDokumenterSummaryView';
 import SummarySection from './components/summary-section/SummarySection';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { SKJEMANAVN } from '../../App';
+import { getAlleUtbetalingsperioder } from 'app/utils/arbeidsforholdUtils';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from 'app/utils/periodeUtils';
+import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 interface Props {
     søkerdata: Søkerdata;
     onApplicationSent: (sentSuccessfully: boolean, apiValues?: SøknadApiData) => void;
@@ -39,6 +41,10 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
     const [sendingInProgress, setSendingInProgress] = useState(false);
 
     const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
+
+    const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
+    const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
+    const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
 
     async function sendApplication(data: SøknadApiData): Promise<void> {
         setSendingInProgress(true);
@@ -93,14 +99,6 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                         <ArbeidsforholdSummaryView listeAvArbeidsforhold={apiValues.arbeidsgivere} />
                     </SummarySection>
 
-                    {/* Særlige smittevernhensyn */}
-                    <SummarySection header={intlHelper(intl, 'step.oppsummering.smittevernhensyn.titel')}>
-                        <SmittevernSummaryView apiValues={apiValues} />
-                    </SummarySection>
-
-                    {/* Stengt barnehage eller skole */}
-                    {isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && <StengtBhgSkoleSummaryView apiValues={apiValues} />}
-
                     {/* Utenlandsopphold */}
                     <UtenlandsoppholdISøkeperiodeSummaryView utenlandsopphold={apiValues.opphold} />
 
@@ -108,6 +106,14 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                     <SummarySection header={intlHelper(intl, 'step.oppsummering.medlemskap.header')}>
                         <MedlemskapSummaryView bosteder={apiValues.bosteder} />
                     </SummarySection>
+
+                    {/* Vedlegg */}
+                    {(visDokumenterSmittevern || visDokumenterStengtBhgSkole) && (
+                        <SummarySection header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
+                            {visDokumenterSmittevern && <SmittevernDokumenterSummaryView />}
+                            {visDokumenterStengtBhgSkole && <StengtBhgSkoleDokumenterSummaryView />}
+                        </SummarySection>
+                    )}
                 </Panel>
             </Box>
 
@@ -115,11 +121,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
                 <SøknadFormComponents.ConfirmationCheckbox
                     label={intlHelper(intl, 'step.oppsummering.bekrefterOpplysninger')}
                     name={SøknadFormField.harBekreftetOpplysninger}
-                    validate={(value): string | undefined =>
-                        value !== true
-                            ? intlHelper(intl, 'step.oppsummering.bekrefterOpplysninger.ikkeBekreftet')
-                            : undefined
-                    }
+                    validate={getCheckedValidator()}
                 />
             </Box>
         </SøknadStep>

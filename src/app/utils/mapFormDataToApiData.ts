@@ -12,6 +12,8 @@ import {
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
+import { getAlleUtbetalingsperioder } from './arbeidsforholdUtils';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from './periodeUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -21,8 +23,6 @@ export const mapFormDataToApiData = (
         // STEG 1: Situasjon
         // STEG 2: Periode
         arbeidsforhold,
-
-        // STEG 3: ANNET
         perioderHarVærtIUtlandet,
         perioderUtenlandsopphold,
 
@@ -39,13 +39,14 @@ export const mapFormDataToApiData = (
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
-    const _vedleggSmittevern =
-        hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES
-            ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
-            : [];
+    const alleUtbetalingsperioder = getAlleUtbetalingsperioder(arbeidsforhold);
+
+    const _vedleggSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder)
+        ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
+        : [];
 
     const _vedleggStengtBhgSkole =
-        isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && hjemmePgaStengtBhgSkole === YesOrNo.YES
+        isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && harFraværPgaStengBhgSkole(alleUtbetalingsperioder)
             ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
             : [];
 

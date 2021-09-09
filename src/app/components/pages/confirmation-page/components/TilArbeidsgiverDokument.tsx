@@ -71,6 +71,7 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                                         dato: periode.fraOgMed,
                                         antallTimerPlanlagt: maybePlanlagt,
                                         antallTimerBorte: maybeBorte,
+                                        årsak: periode.årsak,
                                     })}
                                 </li>
                             ) : (

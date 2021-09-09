@@ -4,7 +4,6 @@ import { ApplikasjonHendelse, useAmplitudeInstance, useLogSidevisning } from '@n
 import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
 import { Knapp } from 'nav-frontend-knapper';
 import FormBlock from 'common/components/form-block/FormBlock';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import Step, { StepProps } from '../components/step/Step';
 import { getStepConfig } from '../config/stepConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
@@ -13,6 +12,8 @@ import { navigateToNAVno, navigateToWelcomePage } from '../utils/navigationUtils
 import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
 import SøknadTempStorage from './SøknadTempStorage';
+import intlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
+import { useFormikContext } from 'formik';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -31,7 +32,8 @@ const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
     const { logHendelse } = useAmplitudeInstance();
 
     const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, cleanupStep } = props;
-    const stepConfig = getStepConfig();
+    const { values } = useFormikContext<SøknadFormData>();
+    const stepConfig = getStepConfig(values);
     const texts = getStepTexts(intl, id, stepConfig);
 
     useLogSidevisning(props.id);
@@ -54,7 +56,7 @@ const SøknadStep: React.FunctionComponent<Props> = (props: Props) => {
                 includeButtons={false}
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
-                fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}>
+                formErrorHandler={intlFormErrorHandler(intl, 'validation')}>
                 {children}
                 {props.showSubmitButton !== false && (
                     <FormBlock>

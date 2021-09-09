@@ -25,6 +25,12 @@ import SøknadStep from '../SøknadStep';
 import ArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/ArbeidsforholdSituasjon';
 import ArbeidsforholdUtbetalingsårsak from '../../components/formik-arbeidsforhold/ArbeidsforholdUtbetalingsårsak';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import {
+    getTotalSizeOfAttachments,
+    MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
+} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
+import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 
 interface OwnProps {
     søkerdata: Søkerdata;
@@ -81,11 +87,17 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const harIkkeMottatLønnHosEnEllerFlere =
         harKlikketJaJaPåAlle === false && harKlikketNeiPåAlle == false && harKlikketNeiElleJajaBlanding === false;
 
+    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
+
+    const attachmentsSizeOver24Mb =
+        getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
+
     return (
         <SøknadStep
             id={StepID.SITUASJON}
             onValidFormSubmit={onValidSubmit}
-            showSubmitButton={!isLoading && harIkkeMottatLønnHosEnEllerFlere}>
+            showSubmitButton={!isLoading && harIkkeMottatLønnHosEnEllerFlere}
+            buttonDisabled={attachmentsSizeOver24Mb}>
             <>
                 <Box margin="l">
                     <CounsellorPanel>

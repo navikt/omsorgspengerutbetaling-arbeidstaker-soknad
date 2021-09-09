@@ -5,9 +5,10 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
 import FormBlock from 'common/components/form-block/FormBlock';
 import bemHelper from 'common/utils/bemUtils';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
 import intlHelper from 'common/utils/intlUtils';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import intlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
+import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
     onConfirm: () => void;
@@ -29,14 +30,12 @@ const SamtykkeForm: React.FC<Props> = ({
         <AppForm.Form
             onValidSubmit={onConfirm}
             includeButtons={false}
-            fieldErrorRenderer={(error): React.ReactNode => commonFieldErrorRenderer(intl, error)}>
+            formErrorHandler={intlFormErrorHandler(intl, 'validation')}>
             <FormBlock>
                 <AppForm.ConfirmationCheckbox
                     label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
                     name={SøknadFormField.harForståttRettigheterOgPlikter}
-                    validate={(value): string | undefined =>
-                        value !== true ? intlHelper(intl, 'welcomingPage.samtykke.harIkkeGodkjentVilkår') : undefined
-                    }>
+                    validate={getCheckedValidator()}>
                     <FormattedMessage
                         id="welcomingPage.samtykke.harForståttLabel"
                         values={{

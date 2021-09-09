@@ -14,7 +14,6 @@ import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils
 import { getMaybeSøknadRoute, getNextStepId, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
-import PeriodeStep from './periode-step/PeriodeStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
@@ -22,10 +21,12 @@ import FortsettSøknadModalView from '../components/fortsett-søknad-modal/Forts
 import { redirectIfForbiddenOrUnauthorized } from '../api/api';
 import { WillRedirect } from '../types/types';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
-import AnnetStepView from './annet-step/AnnetStep';
 import appSentryLogger from '../utils/appSentryLogger';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { SKJEMANAVN } from '../App';
+import FraværStep from './fravær-step/FraværStep';
+import StengtBhgSkoleDokumenterStep from './stengt-bhg-skole-dokumenter-step/StengtBhgSkoleDokumenterStep';
+import SmittevernDokumenterStep from './smittevern-dokumenter-step/SmittvernDokumenterStep';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -79,7 +80,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     };
 
     const navigateToNextStepIfExistsFrom = (stepID: StepID) => {
-        const nextStepID: StepID | undefined = getNextStepId(stepID);
+        const nextStepID: StepID | undefined = getNextStepId(stepID, values);
         if (nextStepID) {
             navigateToStep(nextStepID);
         }
@@ -176,25 +177,39 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
             />
 
             <Route
-                path={getMaybeSøknadRoute(StepID.PERIODE)}
+                path={getMaybeSøknadRoute(StepID.FRAVÆR)}
                 exact={true}
                 render={(): JSX.Element => {
                     return ifAvailable(
-                        StepID.PERIODE,
+                        StepID.FRAVÆR,
                         values,
-                        <PeriodeStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.PERIODE)} />
+                        <FraværStep onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.FRAVÆR)} />
                     );
                 }}
             />
-
             <Route
-                path={getMaybeSøknadRoute(StepID.ANNET)}
+                path={getMaybeSøknadRoute(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
                 exact={true}
                 render={(): JSX.Element => {
                     return ifAvailable(
-                        StepID.ANNET,
+                        StepID.DOKUMENTER_STENGT_SKOLE_BHG,
                         values,
-                        <AnnetStepView onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.ANNET)} />
+                        <StengtBhgSkoleDokumenterStep
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
+                        />
+                    );
+                }}
+            />
+            <Route
+                path={getMaybeSøknadRoute(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
+                exact={true}
+                render={(): JSX.Element => {
+                    return ifAvailable(
+                        StepID.DOKUMENTER_SMITTEVERNHENSYN,
+                        values,
+                        <SmittevernDokumenterStep
+                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
+                        />
                     );
                 }}
             />

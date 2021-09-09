@@ -87,6 +87,21 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                     />
                                 </SummaryBlock>
                             </Box>
+                            {arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver &&
+                                arbeidsforhold.årsakMinde4Uker && (
+                                    <Box margin={'s'}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'step.oppsummering.arbeidsforhold.årsakMinde4Uker.spm'
+                                            )}>
+                                            <FormattedMessage
+                                                id={`step.oppsummering.arbeidsforhold.årsakMinde4Uker.${arbeidsforhold.årsakMinde4Uker}`}
+                                            />
+                                        </SummaryBlock>
+                                    </Box>
+                                )}
+
                             {arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver && (
                                 <Box margin={'s'}>
                                     <Box margin={'s'}>
