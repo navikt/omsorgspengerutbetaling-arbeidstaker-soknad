@@ -13,69 +13,52 @@ export const skalInkludereArbeidsforhold = (arbeidsforholdFormData: Arbeidsforho
         arbeidsforholdFormData[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn] === YesOrNo.NO
     );
 
-export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
-    const harHattFraværHosArbeidsgiver: YesOrNo =
-        arbeidsforhold[ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver];
-    const arbeidsgiverHarUtbetaltLønn: YesOrNo =
-        arbeidsforhold[ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn];
-    if (
-        harHattFraværHosArbeidsgiver === YesOrNo.NO ||
-        (harHattFraværHosArbeidsgiver === YesOrNo.YES && arbeidsgiverHarUtbetaltLønn === YesOrNo.YES) ||
-        (harHattFraværHosArbeidsgiver === YesOrNo.YES && arbeidsgiverHarUtbetaltLønn === YesOrNo.NO)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
 const validatekonfliktForklaring = (konfliktForklaring?: string): boolean => {
     return konfliktForklaring &&
         typeof konfliktForklaring === 'string' &&
-        konfliktForklaring.length > 0 &&
-        konfliktForklaring.length < 2000
+        konfliktForklaring.length >= 5 &&
+        konfliktForklaring.length <= 2000
         ? true
         : false;
 };
 
-export const utbetalingsårsakIsValid = (konfliktForklaring?: string, utbetalingsårsak?: Utbetalingsårsak): boolean => {
+export const utbetalingsårsakIsValid = ({
+    utbetalingsårsak,
+    konfliktForklaring,
+    årsakMinde4Uker,
+}: ArbeidsforholdFormData): boolean => {
     if (utbetalingsårsak) {
-        return utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver ||
-            utbetalingsårsak === Utbetalingsårsak.arbeidsgiverKonkurs
+        return utbetalingsårsak === Utbetalingsårsak.arbeidsgiverKonkurs
             ? true
             : utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver &&
               validatekonfliktForklaring(konfliktForklaring)
             ? true
+            : utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver && årsakMinde4Uker
+            ? true
             : false;
     } else return false;
 };
-export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
-    return listeAvArbeidsforhold
+
+export const arbeidsforholdFormDataPartOneIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    arbeidsforhold.harHattFraværHosArbeidsgiver === YesOrNo.NO ||
+    (arbeidsforhold.harHattFraværHosArbeidsgiver === YesOrNo.YES &&
+        arbeidsforhold.arbeidsgiverHarUtbetaltLønn === YesOrNo.YES) ||
+    (arbeidsforhold.harHattFraværHosArbeidsgiver === YesOrNo.YES &&
+        arbeidsforhold.arbeidsgiverHarUtbetaltLønn === YesOrNo.NO &&
+        utbetalingsårsakIsValid(arbeidsforhold));
+
+export const stegEnListeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean =>
+    listeAvArbeidsforhold
         .map((arbeidsforholdFormData: ArbeidsforholdFormData) =>
             arbeidsforholdFormDataPartOneIsValid(arbeidsforholdFormData)
         )
         .reduceRight(evaluatePrevAndCurrent, true);
-};
 
-export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
-    const utbetalingsårsak = arbeidsforhold.utbetalingsårsak;
-    const konfliktForklaring = arbeidsforhold.konfliktForklaring;
-    const harPerioderMedFravær = arbeidsforhold.harPerioderMedFravær;
-    const fraværPerioder = arbeidsforhold.fraværPerioder;
-    const harDagerMedDelvisFravær = arbeidsforhold.harDagerMedDelvisFravær;
-    const fraværDager = arbeidsforhold.fraværDager;
-
-    if (
-        arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) &&
-        utbetalingsårsakIsValid(konfliktForklaring, utbetalingsårsak) &&
-        perioderIsValid(harPerioderMedFravær, fraværPerioder) &&
-        delvisFraværIsValid(harDagerMedDelvisFravær, fraværDager)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
+export const arbeidsforholdIsValid = (arbeidsforhold: ArbeidsforholdFormData): boolean =>
+    arbeidsforholdFormDataPartOneIsValid(arbeidsforhold) &&
+    utbetalingsårsakIsValid(arbeidsforhold) &&
+    perioderIsValid(arbeidsforhold) &&
+    delvisFraværIsValid(arbeidsforhold);
 
 export const listeAvArbeidsforholdIsValid = (listeAvArbeidsforhold: ArbeidsforholdFormData[]): boolean => {
     const mapped = listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsforholdFormData) =>

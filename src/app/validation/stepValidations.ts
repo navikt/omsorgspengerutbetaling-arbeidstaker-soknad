@@ -7,42 +7,22 @@ import {
     stegEnListeAvArbeidsforholdIsValid,
 } from './components/arbeidsforholdValidations';
 import { utenlandsoppholdFormIsValid } from './components/utenlandsoppholdValidations';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { ArbeidsforholdFormData } from '../types/ArbeidsforholdTypes';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData): boolean =>
     harForståttRettigheterOgPlikter === true;
 
-export const situasjonStepIsValid = (formData: SøknadFormData): boolean => {
-    const listeAvArbeidsforhold = formData[SøknadFormField.arbeidsforhold];
+export const situasjonStepIsValid = ({ arbeidsforhold }: SøknadFormData): boolean =>
+    harMinimumEtGjeldendeArbeidsforhold([...arbeidsforhold]) && stegEnListeAvArbeidsforholdIsValid(arbeidsforhold);
 
-    if (
-        harMinimumEtGjeldendeArbeidsforhold([...listeAvArbeidsforhold]) &&
-        stegEnListeAvArbeidsforholdIsValid(listeAvArbeidsforhold)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
+export const fraværStepIsValid = (formData: SøknadFormData): boolean => {
+    const listeAvGjeldende = [...formData[SøknadFormField.arbeidsforhold]].filter(
+        (arbeidsforhold: ArbeidsforholdFormData) => {
+            return skalInkludereArbeidsforhold(arbeidsforhold);
+        }
+    );
 
-export const periodeStepIsValid = (formData: SøknadFormData): boolean => {
-    const listeAvArbeidsforhold = formData[SøknadFormField.arbeidsforhold];
-    const listeAvGjeldende = [...listeAvArbeidsforhold].filter((arbeidsforhold: ArbeidsforholdFormData) => {
-        return skalInkludereArbeidsforhold(arbeidsforhold);
-    });
-    return listeAvArbeidsforholdIsValid(listeAvGjeldende);
-};
-
-export const annetStepIsValid = (formData: SøknadFormData): boolean => {
-    const perioderHarVærtIUtlandet: YesOrNo = formData[SøknadFormField.perioderHarVærtIUtlandet];
-    const perioderUtenlandsopphold: Utenlandsopphold[] = formData[SøknadFormField.perioderUtenlandsopphold];
-
-    if (utenlandsoppholdFormIsValid(perioderHarVærtIUtlandet, perioderUtenlandsopphold)) {
-        return true;
-    } else {
-        return false;
-    }
+    return listeAvArbeidsforholdIsValid(listeAvGjeldende) && utenlandsoppholdFormIsValid(formData);
 };
 
 export const medlemskapStepIsValid = ({

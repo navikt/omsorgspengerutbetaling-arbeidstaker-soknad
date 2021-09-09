@@ -5,7 +5,6 @@ import { IntlShape } from 'react-intl';
 import { Locale } from 'common/types/Locale';
 import { settInnBosteder } from './formToApiMaps/mapBostedUtlandToApiData';
 import { settInnOpphold } from './formToApiMaps/mapUtenlandsoppholdToApiData';
-import { YesOrNo } from 'common/types/YesOrNo';
 import {
     listOfArbeidsforholdFormDataToListOfAttachmentStrings,
     listOfAttachmentsToListOfUrlStrings,
@@ -26,16 +25,15 @@ export const mapFormDataToApiData = (
         perioderHarVærtIUtlandet,
         perioderUtenlandsopphold,
 
+        // Dokumenter
+        smittevernDokumenter,
+        dokumenterStengtBkgSkole,
+
         // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
         utenlandsoppholdNeste12Mnd,
-
-        hjemmePgaSmittevernhensynYesOrNo,
-        smittevernDokumenter,
-        hjemmePgaStengtBhgSkole,
-        dokumenterStengtBkgSkole,
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
@@ -62,10 +60,6 @@ export const mapFormDataToApiData = (
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
         arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([...arbeidsforhold]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
-        hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
-        hjemmePgaStengtBhgSkole: isFeatureEnabled(Feature.STENGT_BHG_SKOLE)
-            ? hjemmePgaStengtBhgSkole === YesOrNo.YES
-            : undefined,
         vedlegg: [
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold]),
             ..._vedleggSmittevern,

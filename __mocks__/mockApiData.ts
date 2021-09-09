@@ -59,11 +59,9 @@ export const mock1: SøknadApiData = {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
     },
-    hjemmePgaSmittevernhensyn: false,
     vedlegg: ['location/1', 'location/3', 'location/1'],
     _vedleggSmittevern: [],
     _vedleggStengtBhgSkole: [],
-    hjemmePgaStengtBhgSkole: false,
 };
 
 export const sokerApiData: SøkerApiResponse = {

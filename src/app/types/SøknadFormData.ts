@@ -14,18 +14,14 @@ export enum SøknadFormField {
     perioderHarVærtIUtlandet = 'perioderHarVærtIUtlandet',
     perioderUtenlandsopphold = 'perioderUtenlandsopphold',
 
+    smittevernDokumenter = 'smittevernDokumenter',
+    dokumenterStengtBkgSkole = 'dokumenterStengtBkgSkole',
+
     // Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     utenlandsoppholdNeste12Mnd = 'utenlandsoppholdNeste12Mnd',
-
-    hjemmePgaSmittevernhensynYesOrNo = 'hjemmePgaSmittevernhensynYesOrNo',
-    smittevernDokumenter = 'smittevernDokumenter',
-
-    // Felter knyttet til stengt bhg eller skole
-    hjemmePgaStengtBhgSkole = 'hjemmePgaStengtBhgSkole',
-    dokumenterStengtBkgSkole = 'dokumenterStengtBkgSkole',
 }
 
 export interface SøknadFormData {
@@ -39,17 +35,15 @@ export interface SøknadFormData {
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo;
     [SøknadFormField.perioderUtenlandsopphold]: Utenlandsopphold[];
 
+    // Dokumenter
+    [SøknadFormField.smittevernDokumenter]: Attachment[];
+    [SøknadFormField.dokumenterStengtBkgSkole]: Attachment[];
+
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
-
-    [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo;
-    [SøknadFormField.smittevernDokumenter]: Attachment[];
-
-    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo;
-    [SøknadFormField.dokumenterStengtBkgSkole]: Attachment[];
 }
 
 export const initialValues: SøknadFormData = {
@@ -63,15 +57,13 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioderUtenlandsopphold]: [],
 
+    // Dokumenter
+    [SøknadFormField.smittevernDokumenter]: [],
+    [SøknadFormField.dokumenterStengtBkgSkole]: [],
+
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
-
-    [SøknadFormField.hjemmePgaSmittevernhensynYesOrNo]: YesOrNo.UNANSWERED,
-    [SøknadFormField.smittevernDokumenter]: [],
-
-    [SøknadFormField.hjemmePgaStengtBhgSkole]: YesOrNo.UNANSWERED,
-    [SøknadFormField.dokumenterStengtBkgSkole]: [],
 };

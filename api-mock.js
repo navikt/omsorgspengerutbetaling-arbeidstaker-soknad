@@ -133,6 +133,7 @@ const startServer = () => {
     server.get('/barn', (req, res) => res.send(barnMock));
 
     server.post('/soknad', (req, res) => {
+        console.log(req.body);
         res.sendStatus(200);
     });
 

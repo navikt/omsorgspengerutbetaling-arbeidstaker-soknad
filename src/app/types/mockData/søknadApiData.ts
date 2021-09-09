@@ -123,8 +123,6 @@ export const gyldigSøknadApiData1: SøknadApiData = {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
     },
-    hjemmePgaSmittevernhensyn: false,
-    hjemmePgaStengtBhgSkole: false,
     vedlegg: [],
     _vedleggSmittevern: [],
     _vedleggStengtBhgSkole: [],
