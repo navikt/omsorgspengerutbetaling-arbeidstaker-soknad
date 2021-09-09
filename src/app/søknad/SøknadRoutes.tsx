@@ -27,6 +27,8 @@ import { SKJEMANAVN } from '../App';
 import FraværStep from './fravær-step/FraværStep';
 import StengtBhgSkoleDokumenterStep from './stengt-bhg-skole-dokumenter-step/StengtBhgSkoleDokumenterStep';
 import SmittevernDokumenterStep from './smittevern-dokumenter-step/SmittvernDokumenterStep';
+import { getAlleUtbetalingsperioder } from '../utils/arbeidsforholdUtils';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from '../utils/periodeUtils';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -133,6 +135,10 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
         setIsLoading(false);
     };
 
+    const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
+    const visStegDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
+    const visStegDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
+
     if (isLoading) {
         return <LoadingPage />;
     }
@@ -187,32 +193,37 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                     );
                 }}
             />
-            <Route
-                path={getMaybeSøknadRoute(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
-                exact={true}
-                render={(): JSX.Element => {
-                    return ifAvailable(
-                        StepID.DOKUMENTER_STENGT_SKOLE_BHG,
-                        values,
-                        <StengtBhgSkoleDokumenterStep
-                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
-                        />
-                    );
-                }}
-            />
-            <Route
-                path={getMaybeSøknadRoute(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
-                exact={true}
-                render={(): JSX.Element => {
-                    return ifAvailable(
-                        StepID.DOKUMENTER_SMITTEVERNHENSYN,
-                        values,
-                        <SmittevernDokumenterStep
-                            onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
-                        />
-                    );
-                }}
-            />
+            {visStegDokumenterStengtBhgSkole && (
+                <Route
+                    path={getMaybeSøknadRoute(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
+                    exact={true}
+                    render={(): JSX.Element => {
+                        return ifAvailable(
+                            StepID.DOKUMENTER_STENGT_SKOLE_BHG,
+                            values,
+                            <StengtBhgSkoleDokumenterStep
+                                onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_STENGT_SKOLE_BHG)}
+                            />
+                        );
+                    }}
+                />
+            )}
+
+            {visStegDokumenterSmittevern && (
+                <Route
+                    path={getMaybeSøknadRoute(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
+                    exact={true}
+                    render={(): JSX.Element => {
+                        return ifAvailable(
+                            StepID.DOKUMENTER_SMITTEVERNHENSYN,
+                            values,
+                            <SmittevernDokumenterStep
+                                onValidSubmit={() => navigateToNextStepIfExistsFrom(StepID.DOKUMENTER_SMITTEVERNHENSYN)}
+                            />
+                        );
+                    }}
+                />
+            )}
 
             <Route
                 path={getMaybeSøknadRoute(StepID.MEDLEMSKAP)}

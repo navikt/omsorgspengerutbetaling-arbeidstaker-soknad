@@ -17,8 +17,7 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
                 organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
                 harHattFraværHosArbeidsgiver: yesOrNoToBoolean(arbeidsforhold.harHattFraværHosArbeidsgiver),
                 arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(arbeidsforhold.arbeidsgiverHarUtbetaltLønn),
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                utbetalingsårsak: arbeidsforhold.utbetalingsårsak!,
+                utbetalingsårsak: arbeidsforhold.utbetalingsårsak,
                 årsakMinde4Uker:
                     arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver &&
                     arbeidsforhold.årsakMinde4Uker

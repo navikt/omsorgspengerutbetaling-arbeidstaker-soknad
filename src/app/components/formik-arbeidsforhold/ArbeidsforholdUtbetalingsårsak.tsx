@@ -69,7 +69,7 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                     name={getFieldName(ArbeidsforholdFormDataFields.utbetalingsårsak)}
                     useTwoColumns={false}
                     validate={(value) => {
-                        return getRequiredFieldValidator()(value)
+                        return getRequiredFieldValidator()(value === Utbetalingsårsak.ikkeBesvart ? undefined : value)
                             ? {
                                   key: AppFieldValidationErrors.arbeidsforhold_utbetalings_årsak_no_Value,
                                   values: { arbeidsgivernavn },

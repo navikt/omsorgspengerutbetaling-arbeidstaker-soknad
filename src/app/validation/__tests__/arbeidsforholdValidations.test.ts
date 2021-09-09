@@ -1,5 +1,5 @@
 import { stegEnListeAvArbeidsforholdIsValid } from '../components/arbeidsforholdValidations';
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
+import { ArbeidsforholdFormData, Utbetalingsårsak } from '../../types/ArbeidsforholdTypes';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
 import { FraværDag, FraværPeriode, FraværÅrsak } from '@navikt/sif-common-forms/lib/fravær';
@@ -38,6 +38,7 @@ const validArbeidsforhold1: ArbeidsforholdFormData = {
     navn: 'Pengepingen',
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.NO,
+    utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
@@ -50,6 +51,7 @@ const validArbeidsforhold2: ArbeidsforholdFormData = {
     navn: 'Pengepingen',
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.NO,
+    utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
@@ -63,6 +65,7 @@ const validArbeidsforhold3: ArbeidsforholdFormData = {
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.YES,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.NO,
+    utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,
@@ -77,6 +80,7 @@ const invalidArbeidsforhold1: ArbeidsforholdFormData = {
     organisasjonsnummer: '1234',
     harHattFraværHosArbeidsgiver: YesOrNo.YES,
     arbeidsgiverHarUtbetaltLønn: YesOrNo.UNANSWERED,
+    utbetalingsårsak: Utbetalingsårsak.ikkeBesvart,
     harPerioderMedFravær: YesOrNo.YES,
     fraværPerioder: validPerioderMedFravær,
     harDagerMedDelvisFravær: YesOrNo.YES,

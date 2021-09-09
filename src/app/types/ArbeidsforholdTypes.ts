@@ -6,6 +6,7 @@ export enum Utbetalingsårsak {
     nyoppstartetHosArbeidsgiver = 'NYOPPSTARTET_HOS_ARBEIDSGIVER',
     arbeidsgiverKonkurs = 'ARBEIDSGIVER_KONKURS',
     konfliktMedArbeidsgiver = 'KONFLIKT_MED_ARBEIDSGIVER',
+    ikkeBesvart = 'IKKE_BESVART',
 }
 
 export enum ÅrsakMindre4Uker {
@@ -38,7 +39,7 @@ export interface ArbeidsforholdFormData {
     [ArbeidsforholdFormDataFields.organisasjonsnummer]: string;
     [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo;
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
-    [ArbeidsforholdFormDataFields.utbetalingsårsak]?: Utbetalingsårsak;
+    [ArbeidsforholdFormDataFields.utbetalingsårsak]: Utbetalingsårsak;
     [ArbeidsforholdFormDataFields.årsakMinde4Uker]?: ÅrsakMindre4Uker;
     [ArbeidsforholdFormDataFields.konfliktForklaring]?: string;
     [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo;

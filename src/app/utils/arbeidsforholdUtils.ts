@@ -5,7 +5,7 @@ import { navigateToLoginPage } from './navigationUtils';
 import { apiUtils } from './apiUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AxiosResponse } from 'axios';
-import { ArbeidsforholdFormData } from '../types/ArbeidsforholdTypes';
+import { ArbeidsforholdFormData, Utbetalingsårsak } from '../types/ArbeidsforholdTypes';
 import appSentryLogger from './appSentryLogger';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
@@ -25,7 +25,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             ...arbeidsgiver,
             arbeidsgiverHarUtbetaltLønn: a ? a.arbeidsgiverHarUtbetaltLønn : YesOrNo.UNANSWERED,
             harHattFraværHosArbeidsgiver: a ? a.harHattFraværHosArbeidsgiver : YesOrNo.UNANSWERED,
-            utbetalingsårsak: a ? a.utbetalingsårsak : undefined,
+            utbetalingsårsak: a ? a.utbetalingsårsak : Utbetalingsårsak.ikkeBesvart,
             årsakMinde4Uker: a ? a.årsakMinde4Uker : undefined,
             konfliktForklaring: a ? a.konfliktForklaring : undefined,
             harPerioderMedFravær: a ? a.harPerioderMedFravær : YesOrNo.UNANSWERED,
