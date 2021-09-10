@@ -26,7 +26,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             arbeidsgiverHarUtbetaltLønn: a ? a.arbeidsgiverHarUtbetaltLønn : YesOrNo.UNANSWERED,
             harHattFraværHosArbeidsgiver: a ? a.harHattFraværHosArbeidsgiver : YesOrNo.UNANSWERED,
             utbetalingsårsak: a ? a.utbetalingsårsak : Utbetalingsårsak.ikkeBesvart,
-            årsakMinde4Uker: a ? a.årsakNyoppstartet : undefined,
+            årsakNyoppstartet: a ? a.årsakNyoppstartet : undefined,
             konfliktForklaring: a ? a.konfliktForklaring : undefined,
             harPerioderMedFravær: a ? a.harPerioderMedFravær : YesOrNo.UNANSWERED,
             fraværPerioder: a ? a.fraværPerioder : [],

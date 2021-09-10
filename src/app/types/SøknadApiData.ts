@@ -40,7 +40,7 @@ export interface ArbeidsgiverDetaljer {
     navn: string;
     organisasjonsnummer: string;
     utbetalingsårsak: Utbetalingsårsak;
-    årsakMinde4Uker?: ÅrsakNyoppstartet;
+    årsakNyoppstartet?: ÅrsakNyoppstartet;
     konfliktForklaring?: string;
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;

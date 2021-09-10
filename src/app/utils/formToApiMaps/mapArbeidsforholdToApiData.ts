@@ -18,7 +18,7 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
                 harHattFraværHosArbeidsgiver: yesOrNoToBoolean(arbeidsforhold.harHattFraværHosArbeidsgiver),
                 arbeidsgiverHarUtbetaltLønn: yesOrNoToBoolean(arbeidsforhold.arbeidsgiverHarUtbetaltLønn),
                 utbetalingsårsak: arbeidsforhold.utbetalingsårsak,
-                årsakMinde4Uker:
+                årsakNyoppstartet:
                     arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver &&
                     arbeidsforhold.årsakNyoppstartet
                         ? arbeidsforhold.årsakNyoppstartet
