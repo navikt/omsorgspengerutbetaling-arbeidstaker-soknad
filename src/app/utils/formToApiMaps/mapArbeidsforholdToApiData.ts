@@ -20,8 +20,8 @@ export const mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer = (
                 utbetalingsårsak: arbeidsforhold.utbetalingsårsak,
                 årsakMinde4Uker:
                     arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver &&
-                    arbeidsforhold.årsakMinde4Uker
-                        ? arbeidsforhold.årsakMinde4Uker
+                    arbeidsforhold.årsakNyoppstartet
+                        ? arbeidsforhold.årsakNyoppstartet
                         : undefined,
                 konfliktForklaring:
                     arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver &&

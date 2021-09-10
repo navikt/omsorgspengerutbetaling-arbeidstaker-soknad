@@ -25,7 +25,7 @@ const validatekonfliktForklaring = (konfliktForklaring?: string): boolean => {
 export const utbetalingsårsakIsValid = ({
     utbetalingsårsak,
     konfliktForklaring,
-    årsakMinde4Uker,
+    årsakNyoppstartet,
 }: ArbeidsforholdFormData): boolean => {
     if (utbetalingsårsak) {
         return utbetalingsårsak === Utbetalingsårsak.arbeidsgiverKonkurs
@@ -33,7 +33,7 @@ export const utbetalingsårsakIsValid = ({
             : utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver &&
               validatekonfliktForklaring(konfliktForklaring)
             ? true
-            : utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver && årsakMinde4Uker
+            : utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver && årsakNyoppstartet
             ? true
             : false;
     } else return false;

@@ -1,7 +1,7 @@
 import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
-import { Utbetalingsårsak, ÅrsakMindre4Uker } from './ArbeidsforholdTypes';
+import { Utbetalingsårsak, ÅrsakNyoppstartet } from './ArbeidsforholdTypes';
 
 export type ISO8601Duration = string;
 
@@ -40,7 +40,7 @@ export interface ArbeidsgiverDetaljer {
     navn: string;
     organisasjonsnummer: string;
     utbetalingsårsak: Utbetalingsårsak;
-    årsakMinde4Uker?: ÅrsakMindre4Uker;
+    årsakMinde4Uker?: ÅrsakNyoppstartet;
     konfliktForklaring?: string;
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;

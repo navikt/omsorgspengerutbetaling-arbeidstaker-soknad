@@ -14,7 +14,7 @@ import {
     ArbeidsforholdFormData,
     ArbeidsforholdFormDataFields,
     Utbetalingsårsak,
-    ÅrsakMindre4Uker,
+    ÅrsakNyoppstartet,
 } from '../../types/ArbeidsforholdTypes';
 import {
     getStringValidator,
@@ -141,50 +141,50 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                                         intl,
                                         'step.situasjon.arbeidsforhold.årsakMinde4Uker.jobbetHosAnnenArbeidsgiver'
                                     ),
-                                    value: ÅrsakMindre4Uker.jobbetHosAnnenArbeidsgiver,
+                                    value: ÅrsakNyoppstartet.jobbetHosAnnenArbeidsgiver,
                                 },
                                 {
                                     label: intlHelper(
                                         intl,
                                         'step.situasjon.arbeidsforhold.årsakMinde4Uker.varFrilanser'
                                     ),
-                                    value: ÅrsakMindre4Uker.varFrilanser,
+                                    value: ÅrsakNyoppstartet.varFrilanser,
                                 },
                                 {
                                     label: intlHelper(
                                         intl,
                                         'step.situasjon.arbeidsforhold.årsakMinde4Uker.varSelvstendige'
                                     ),
-                                    value: ÅrsakMindre4Uker.varSelvstendige,
+                                    value: ÅrsakNyoppstartet.varSelvstendige,
                                 },
                                 {
                                     label: intlHelper(
                                         intl,
                                         'step.situasjon.arbeidsforhold.årsakMinde4Uker.søkteAndreUtbetalinger'
                                     ),
-                                    value: ÅrsakMindre4Uker.søkteAndreUtbetalinger,
+                                    value: ÅrsakNyoppstartet.søkteAndreUtbetalinger,
                                 },
                                 {
                                     label: intlHelper(
                                         intl,
                                         'step.situasjon.arbeidsforhold.årsakMinde4Uker.arbeidIUtlandet'
                                     ),
-                                    value: ÅrsakMindre4Uker.arbeidIUtlandet,
+                                    value: ÅrsakNyoppstartet.arbeidIUtlandet,
                                 },
                                 {
                                     label: intlHelper(
                                         intl,
                                         'step.situasjon.arbeidsforhold.årsakMinde4Uker.utøvdeMilitær'
                                     ),
-                                    value: ÅrsakMindre4Uker.utøvdeMilitær,
+                                    value: ÅrsakNyoppstartet.utøvdeMilitær,
                                 },
                                 {
                                     label: intlHelper(intl, 'step.situasjon.arbeidsforhold.årsakMinde4Uker.annet'),
-                                    value: ÅrsakMindre4Uker.annet,
+                                    value: ÅrsakNyoppstartet.annet,
                                 },
                             ]}
                             legend={intlHelper(intl, 'step.situasjon.arbeidsforhold.årsakMinde4Uker.spm')}
-                            name={getFieldName(ArbeidsforholdFormDataFields.årsakMinde4Uker)}
+                            name={getFieldName(ArbeidsforholdFormDataFields.årsakNyoppstartet)}
                             useTwoColumns={false}
                             validate={(value) => {
                                 return getRequiredFieldValidator()(value)

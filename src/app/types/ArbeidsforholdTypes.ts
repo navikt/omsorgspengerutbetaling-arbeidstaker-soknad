@@ -9,7 +9,7 @@ export enum Utbetalingsårsak {
     ikkeBesvart = 'IKKE_BESVART',
 }
 
-export enum ÅrsakMindre4Uker {
+export enum ÅrsakNyoppstartet {
     jobbetHosAnnenArbeidsgiver = 'JOBBET_HOS_ANNEN_ARBEIDSGIVER',
     varFrilanser = 'VAR_FRILANSER',
     varSelvstendige = 'VAR_SELVSTENDIGE',
@@ -25,7 +25,7 @@ export enum ArbeidsforholdFormDataFields {
     harHattFraværHosArbeidsgiver = 'harHattFraværHosArbeidsgiver',
     arbeidsgiverHarUtbetaltLønn = 'arbeidsgiverHarUtbetaltLønn',
     utbetalingsårsak = 'utbetalingsårsak',
-    årsakMinde4Uker = 'årsakMinde4Uker',
+    årsakNyoppstartet = 'årsakNyoppstartet',
     konfliktForklaring = 'konfliktForklaring',
     harPerioderMedFravær = 'harPerioderMedFravær',
     fraværPerioder = 'fraværPerioder',
@@ -40,7 +40,7 @@ export interface ArbeidsforholdFormData {
     [ArbeidsforholdFormDataFields.harHattFraværHosArbeidsgiver]: YesOrNo;
     [ArbeidsforholdFormDataFields.arbeidsgiverHarUtbetaltLønn]: YesOrNo;
     [ArbeidsforholdFormDataFields.utbetalingsårsak]: Utbetalingsårsak;
-    [ArbeidsforholdFormDataFields.årsakMinde4Uker]?: ÅrsakMindre4Uker;
+    [ArbeidsforholdFormDataFields.årsakNyoppstartet]?: ÅrsakNyoppstartet;
     [ArbeidsforholdFormDataFields.konfliktForklaring]?: string;
     [ArbeidsforholdFormDataFields.harPerioderMedFravær]: YesOrNo;
     [ArbeidsforholdFormDataFields.fraværPerioder]: FraværPeriode[];
