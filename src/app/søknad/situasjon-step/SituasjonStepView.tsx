@@ -85,7 +85,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
     const harKlikketNeiElleJajaBlanding = checkHarKlikketNeiElleJajaBlanding([...arbeidsforhold]);
 
     const harIkkeMottatLønnHosEnEllerFlere =
-        harKlikketJaJaPåAlle === false && harKlikketNeiPåAlle == false && harKlikketNeiElleJajaBlanding === false;
+        harKlikketJaJaPåAlle === false && harKlikketNeiPåAlle === false && harKlikketNeiElleJajaBlanding === false;
 
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
 
@@ -153,24 +153,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     </FormBlock>
                 )}
 
-                {arbeidsforhold.length > 0 && harKlikketJaJaPåAlle && (
-                    <FormBlock paddingBottom={'xl'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
                 {arbeidsforhold.length > 0 && harKlikketNeiPåAlle && (
                     <FormBlock paddingBottom={'xl'}>
                         <AlertStripe type={'advarsel'}>
                             <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei'} />
-                        </AlertStripe>
-                    </FormBlock>
-                )}
-                {arbeidsforhold.length > 0 && harKlikketNeiElleJajaBlanding && (
-                    <FormBlock paddingBottom={'xl'}>
-                        <AlertStripe type={'advarsel'}>
-                            <FormattedMessage id={'step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding'} />
                         </AlertStripe>
                     </FormBlock>
                 )}

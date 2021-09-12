@@ -142,10 +142,7 @@
     "step.situasjon.arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm": "Har arbeidsgivaren betalt ut løn til deg for dei dagane du har brukt omsorgspengar?",
     "step.situasjon.arbeidsforhold.harUtbetalingLønn.alertstripe": "NAV betaler ikkje ut for omsorgspengar som arbeidsgivaren allereie har betalt ut for.",
     "step.situasjon.arbeidsforhold.ingen.info.text": "Vi finn ingen registrerte arbeidsgivarar.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei": "Du må ha hatt fråvær frå minst éin arbeidsgivar for å gå vidare i søknaden.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding": "Dersom du har fått lønn for dei dagane du har brukt omsorgsdagar, kan du ikkje søkje om utbetaling av omsorgspengar frå NAV.",
 
     "step.fravær.pageTitle": "Kva dagar søkjer du utbetaling for?",
     "step.fravær.stepTitle": "Kva dagar søkjer du utbetaling for?",

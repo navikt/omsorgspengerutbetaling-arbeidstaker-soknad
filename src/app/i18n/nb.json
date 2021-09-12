@@ -151,6 +151,7 @@
     "step.situasjon.arbeidsforhold.utbetalingsårsak.arbeidsgiverKonkurs": "Arbeidsgiver er konkurs",
     "step.situasjon.arbeidsforhold.utbetalingsårsak.konfliktMedArbeidsgiver": "Det er uenighet mellom meg og arbeidsgiver",
     "step.situasjon.arbeidsforhold.utbetalingsårsak.konfliktMedArbeidsgiver.forklaring": "Forklar situasjonen med arbeidsgiveren din. Få med hvorfor du mener at du har rett til å få omsorgspenger fra arbeidsgiver.",
+    "step.situasjon.arbeidsforhold.utbetalingsårsak.vedlegg.title": "Du må laste opp en forklaring fra din arbeidsgiver på hvorfor de ikke har utbetalt deg omsorgspenger.",
     "step.situasjon.arbeidsforhold.utbetalingsårsak.vedlegg": "Last opp forklaring fra arbeidsgiver",
     "step.situasjon.arbeidsforhold.årsakMinde4Uker.spm": "Hva var situasjonen din rett før du startet hos denne arbeidsgiveren?",
     "step.situasjon.arbeidsforhold.årsakMinde4Uker.jobbetHosAnnenArbeidsgiver": "Jeg jobbet for en annen arbeidsgiveren",
@@ -162,10 +163,7 @@
     "step.situasjon.arbeidsforhold.årsakMinde4Uker.annet": "Annet",
     "step.situasjon.arbeidsforhold.harUtbetalingLønn.alertstripe": "NAV utbetaler ikke for omsorgsdager som arbeidsgiver allerede har utbetalt for.",
     "step.situasjon.arbeidsforhold.ingen.info.text": "Vi finner ingen registrerte arbeidsgivere.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.jaja": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
     "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.nei": "Du må ha hatt fravær fra minst én arbeidsgiver for å gå videre i søknaden.",
-    "step.situasjon.arbeidsforhold.ingenGjeldende.info.text.blanding": "Hvis du har fått lønn for de dagene du har brukt omsorgsdager kan du ikke søke om utbetaling av omsorgspenger fra NAV.",
 
     "step.fravær.pageTitle": "Hvilke dager søker du utbetaling for?",
     "step.fravær.stepTitle": "Hvilke dager søker du utbetaling for?",

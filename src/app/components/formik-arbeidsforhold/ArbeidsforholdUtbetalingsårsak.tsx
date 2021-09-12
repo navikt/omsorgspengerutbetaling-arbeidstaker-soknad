@@ -22,6 +22,7 @@ import {
     ValidateStringError,
 } from '@navikt/sif-common-formik/lib/validation';
 import { AppFieldValidationErrors } from 'app/validation/fieldValidations';
+// import { Element } from 'nav-frontend-typografi';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdFormData;
@@ -120,15 +121,17 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                             )}
                         />
                     </FormBlock>
-                    <Box margin={'l'}>
-                        <PictureScanningGuide />
-                    </Box>
+
                     <FormikVedleggsKomponent
                         uploadButtonLabel={intlHelper(intl, 'step.situasjon.arbeidsforhold.utbetalingsårsak.vedlegg')}
                         formikName={getFieldName(ArbeidsforholdFormDataFields.dokumenter)}
                         dokumenter={arbeidsforhold.dokumenter}
                         alleDokumenterISøknaden={alleDokumenterISøknaden}
+                        title={intlHelper(intl, 'step.situasjon.arbeidsforhold.utbetalingsårsak.vedlegg.title')}
                     />
+                    <Box margin={'l'}>
+                        <PictureScanningGuide />
+                    </Box>
                 </>
             )}
             {utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver && (

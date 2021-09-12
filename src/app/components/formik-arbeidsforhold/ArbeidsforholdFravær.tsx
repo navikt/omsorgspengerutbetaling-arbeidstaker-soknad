@@ -4,7 +4,6 @@ import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { fraværDagToFraværDateRange, fraværPeriodeToDateRange } from '@navikt/sif-common-forms/lib/fravær';
 import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -49,9 +48,6 @@ const ArbeidsforholdFravær: React.FC<Props> = ({
     const getFieldName = (field: ArbeidsforholdFormDataFields) =>
         `${parentFieldName}.${field}` as ArbeidsforholdFormDataFields;
 
-    const kanIkkeFortsette =
-        arbeidsforhold[ArbeidsforholdFormDataFields.harPerioderMedFravær] === YesOrNo.NO &&
-        arbeidsforhold[ArbeidsforholdFormDataFields.harDagerMedDelvisFravær] === YesOrNo.NO;
     const { fraværDager, fraværPerioder } = arbeidsforhold;
 
     const tidsromBegrensningInfo = (
@@ -159,14 +155,6 @@ const ArbeidsforholdFravær: React.FC<Props> = ({
                         />
                     </FormBlock>
                 </>
-            )}
-
-            {kanIkkeFortsette && (
-                <FormBlock margin="xxl">
-                    <AlertStripeAdvarsel>
-                        <FormattedMessage id={'validation.minimum_en_periode_per_arbeidsforhold_required'} />
-                    </AlertStripeAdvarsel>
-                </FormBlock>
             )}
         </>
     );

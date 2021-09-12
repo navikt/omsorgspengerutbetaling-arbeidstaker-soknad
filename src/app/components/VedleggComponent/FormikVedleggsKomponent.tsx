@@ -11,12 +11,14 @@ import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'comm
 import { FormattedMessage } from 'react-intl';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
+import { Element } from 'nav-frontend-typografi';
 
 interface Props {
     uploadButtonLabel: string;
     formikName: string;
     dokumenter: Attachment[];
     alleDokumenterISøknaden: Attachment[];
+    title?: string;
 }
 
 const FormikVedleggsKomponent: React.FC<Props> = ({
@@ -24,6 +26,7 @@ const FormikVedleggsKomponent: React.FC<Props> = ({
     dokumenter,
     alleDokumenterISøknaden,
     uploadButtonLabel,
+    title = undefined,
 }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const totalSize = getTotalSizeOfAttachments(alleDokumenterISøknaden);
@@ -32,17 +35,20 @@ const FormikVedleggsKomponent: React.FC<Props> = ({
         <div>
             {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <FormBlock>
-                    <FormikFileUploader
-                        name={formikName}
-                        label={uploadButtonLabel}
-                        onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                        onFileInputClick={() => {
-                            setFilesThatDidntGetUploaded([]);
-                        }}
-                        onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
-                        validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
-                        listOfAttachments={dokumenter}
-                    />
+                    {title && <Element>{title}</Element>}
+                    <Box margin={title ? 'm' : undefined}>
+                        <FormikFileUploader
+                            name={formikName}
+                            label={uploadButtonLabel}
+                            onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                            onFileInputClick={() => {
+                                setFilesThatDidntGetUploaded([]);
+                            }}
+                            onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
+                            validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
+                            listOfAttachments={dokumenter}
+                        />
+                    </Box>
                 </FormBlock>
             )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
