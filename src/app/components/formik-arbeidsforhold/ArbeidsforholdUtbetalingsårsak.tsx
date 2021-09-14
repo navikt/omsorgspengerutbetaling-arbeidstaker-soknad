@@ -177,9 +177,9 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                                 {
                                     label: intlHelper(
                                         intl,
-                                        'step.situasjon.arbeidsforhold.årsakMinde4Uker.utøvdeMilitær'
+                                        'step.situasjon.arbeidsforhold.årsakMinde4Uker.utøvdeVerneplikt'
                                     ),
-                                    value: ÅrsakNyoppstartet.utøvdeMilitær,
+                                    value: ÅrsakNyoppstartet.utøvdeVerneplikt,
                                 },
                                 {
                                     label: intlHelper(intl, 'step.situasjon.arbeidsforhold.årsakMinde4Uker.annet'),

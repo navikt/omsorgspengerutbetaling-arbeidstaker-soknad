@@ -15,7 +15,7 @@ export enum ÅrsakNyoppstartet {
     varSelvstendige = 'VAR_SELVSTENDIGE',
     søkteAndreUtbetalinger = 'SØKTE_ANDRE_UTBETALINGER',
     arbeidIUtlandet = 'ARBEID_I_UTLANDET',
-    utøvdeMilitær = 'UTØVDE_MILITÆR',
+    utøvdeVerneplikt = 'UTØVDE_VERNEPLIKT',
     annet = 'ANNET',
 }
 
