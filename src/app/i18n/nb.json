@@ -173,6 +173,7 @@
     "step.fravær.heledager.spm": "Har du hatt hele dager med fravær fra jobb?",
     "step.fravær.heledager.perioderModal.label": "Legg til ny periode med fullt fravær",
     "step.fravær.heledager.perioderModal.title": "Fravær hele dager",
+    "step.fravær.heledager.perioderModal.begrensTilSammeÅrAlertStripeTekst": "Du kan søke kun innenfor ett kalenderår om gangen. Hvis du skal søke for flere år, må du sende en søknad for hvert av årene.",
     "step.fravær.delvisdag.spm": "Har du hatt dager med delvis fravær fra jobb?",
     "step.fravær.delvisdag.dagModal.label": "Legg til ny dag med delvis fravær",
     "step.fravær.delvisdag.dagModal.title": "Fravær deler av dag",

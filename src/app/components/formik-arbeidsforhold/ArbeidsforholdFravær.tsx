@@ -100,6 +100,10 @@ const ArbeidsforholdFravær: React.FC<Props> = ({
                                 ...fraværPerioder.map(fraværPeriodeToDateRange),
                                 ...fraværDager.map(fraværDagToFraværDateRange),
                             ]}
+                            begrensTilSammeÅrAlertStripeTekst={intlHelper(
+                                intl,
+                                'step.fravær.heledager.perioderModal.begrensTilSammeÅrAlertStripeTekst'
+                            )}
                             helgedagerIkkeTillat={true}
                         />
                     </FormBlock>
