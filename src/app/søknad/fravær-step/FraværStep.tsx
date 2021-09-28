@@ -32,6 +32,7 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const arbeidsforholdliste = values[SøknadFormField.arbeidsforhold].filter((arbeidsforhold) =>
         skalInkludereArbeidsforhold(arbeidsforhold)
     );
+
     const fraværDager = getAlleFraværDager(values);
     const fraværPerioder = getAlleFraværPerioder(values);
 
@@ -80,24 +81,27 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             </FormBlock>
             {arbeidsforholdliste && arbeidsforholdliste.length > 0 && (
                 <FormBlock paddingBottom="l">
-                    {arbeidsforholdliste.map((arbeidsforhold: ArbeidsforholdFormData, index) => {
-                        return (
-                            <FormBlock margin="xxl" key={arbeidsforhold.organisasjonsnummer}>
-                                <FormSection
-                                    key={arbeidsforhold.organisasjonsnummer}
-                                    titleTag="h2"
-                                    title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
-                                    titleIcon={<BuildingIcon />}>
-                                    <ArbeidsforholdFravær
-                                        arbeidsforhold={arbeidsforhold}
-                                        parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
-                                        minDateForFravær={minDateForFravær}
-                                        maxDateForFravær={maxDateForFravær}
-                                        årstall={årstall}
-                                    />
-                                </FormSection>
-                            </FormBlock>
-                        );
+                    {values[SøknadFormField.arbeidsforhold].map((arbeidsforhold: ArbeidsforholdFormData, index) => {
+                        if (skalInkludereArbeidsforhold(arbeidsforhold)) {
+                            return (
+                                <FormBlock margin="xxl" key={arbeidsforhold.organisasjonsnummer}>
+                                    <FormSection
+                                        key={arbeidsforhold.organisasjonsnummer}
+                                        titleTag="h2"
+                                        title={arbeidsforhold.navn || arbeidsforhold.organisasjonsnummer}
+                                        titleIcon={<BuildingIcon />}>
+                                        <ArbeidsforholdFravær
+                                            arbeidsforhold={arbeidsforhold}
+                                            parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                                            minDateForFravær={minDateForFravær}
+                                            maxDateForFravær={maxDateForFravær}
+                                            årstall={årstall}
+                                        />
+                                    </FormSection>
+                                </FormBlock>
+                            );
+                        }
+                        return null;
                     })}
                 </FormBlock>
             )}
