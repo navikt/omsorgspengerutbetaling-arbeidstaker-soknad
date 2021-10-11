@@ -126,8 +126,7 @@ const ArbeidsforholdFravær: React.FC<Props> = ({
                         ]);
                         if (error === ValidateYesOrNoError.yesOrNoIsUnanswered) {
                             return {
-                                key:
-                                    AppFieldValidationErrors.arbeidsforhold_harDagerMedDelvisFravær_yesOrNoIsUnanswered,
+                                key: AppFieldValidationErrors.arbeidsforhold_harDagerMedDelvisFravær_yesOrNoIsUnanswered,
                                 keepKeyUnaltered: true,
                             };
                         }

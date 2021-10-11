@@ -30,9 +30,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold].filter(
-        skalInkludereArbeidsforhold
-    );
+    const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] =
+        values[SøknadFormField.arbeidsforhold].filter(skalInkludereArbeidsforhold);
     const arbeidsgivereUtenFravær = values.arbeidsforhold.filter(
         (arbeidsgiver) =>
             arbeidsgiver.harHattFraværHosArbeidsgiver === YesOrNo.NO ||
