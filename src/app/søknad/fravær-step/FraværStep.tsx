@@ -69,7 +69,7 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             cleanupStep={cleanupStep}
             showSubmitButton={true}>
             <FormBlock>
-                <CounsellorPanel>
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage id={'step.fravær.info.1'} />
                     <Box margin={'m'}>
                         <FormattedMessage

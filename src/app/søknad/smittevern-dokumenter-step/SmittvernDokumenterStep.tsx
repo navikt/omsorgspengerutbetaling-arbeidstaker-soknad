@@ -28,7 +28,7 @@ const SmittevernDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ on
             useValidationErrorSummary={true}
             buttonDisabled={attachmentsSizeOver24Mb}>
             <>
-                <CounsellorPanel>
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <Box padBottom={'l'}>
                         <FormattedMessage id="step.vedlegg_smittevernhensyn.info.1" />
                     </Box>

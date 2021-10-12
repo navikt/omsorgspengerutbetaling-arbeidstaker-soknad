@@ -79,7 +79,7 @@ const OppsummeringStep: React.FC<Props> = ({ onApplicationSent, søkerdata }: Pr
             useValidationErrorSummary={false}
             buttonDisabled={sendingInProgress}
             showButtonSpinner={sendingInProgress}>
-            <CounsellorPanel>
+            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                 <FormattedMessage id="step.oppsummering.info" />
             </CounsellorPanel>
             <Box margin="xl">

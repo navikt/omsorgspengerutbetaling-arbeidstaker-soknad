@@ -22,7 +22,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
     const { values } = useFormikContext<SøknadFormData>();
     return (
         <SøknadStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
-            <CounsellorPanel>
+            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                 <FormattedMessage id="step.medlemsskap.info" />
                 <Lenke href={getLenker().medlemskap} target="_blank">
                     <FormattedMessage id="step.medlemsskap.info.lenkeTekst" />

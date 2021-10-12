@@ -100,7 +100,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
             buttonDisabled={attachmentsSizeOver24Mb}>
             <>
                 <Box margin="l">
-                    <CounsellorPanel>
+                    <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                         <p>
                             <FormattedMessage id="step.situasjon.arbeidsforhold.aktivtArbeidsforhold.info.del1" />
                         </p>

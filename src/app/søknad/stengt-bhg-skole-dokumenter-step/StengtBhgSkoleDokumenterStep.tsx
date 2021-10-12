@@ -29,7 +29,7 @@ const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = (
             useValidationErrorSummary={true}
             buttonDisabled={attachmentsSizeOver24Mb}>
             <FormBlock>
-                <CounsellorPanel>
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <Box padBottom={'l'}>
                         <FormattedMessage id="steg.vedlegg_stengtSkoleBhg.info.1" />
                     </Box>
