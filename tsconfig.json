@@ -24,8 +24,5 @@
 
         "typeRoots": ["./node_modules/@types", "./src/@types"]
     },
-    "awesomeTypescriptLoaderOptions": {
-        "useCache": false
-    },
     "exclude": ["node_modules", "src/build", "**.js", "dist"]
 }
