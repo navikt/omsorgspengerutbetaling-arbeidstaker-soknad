@@ -60,19 +60,6 @@ const validArbeidsforhold2: ArbeidsforholdFormData = {
     dokumenter: [],
 };
 
-const validArbeidsforhold3: ArbeidsforholdFormData = {
-    navn: 'Pengepingen',
-    organisasjonsnummer: '1234',
-    harHattFraværHosArbeidsgiver: YesOrNo.YES,
-    arbeidsgiverHarUtbetaltLønn: YesOrNo.NO,
-    utbetalingsårsak: Utbetalingsårsak.arbeidsgiverKonkurs,
-    harPerioderMedFravær: YesOrNo.YES,
-    fraværPerioder: validPerioderMedFravær,
-    harDagerMedDelvisFravær: YesOrNo.YES,
-    fraværDager: validListeAvFraværDelerAvDag,
-    dokumenter: [],
-};
-
 const validListeAvArbeidsforhold: ArbeidsforholdFormData[] = [validArbeidsforhold1, validArbeidsforhold2];
 
 const invalidArbeidsforhold1: ArbeidsforholdFormData = {
