@@ -121,6 +121,7 @@
         "pretty-quick": "^3.1.0",
         "react-responsive": "^8.2.0",
         "regenerator-runtime": "^0.13.7",
+        "request": "^2.88.2",
         "source-map-loader": "^3.0.0",
         "style-loader": "^2.0.0",
         "svg-sprite-loader": "5.2.1",
