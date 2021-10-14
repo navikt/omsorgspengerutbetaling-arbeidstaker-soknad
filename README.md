@@ -1,7 +1,7 @@
 # Søknad om utbetaling av omsorgsdager for arbeidstakere
 
-Kildekoden til frontend-appen for ny selvbetjeningsløsning for
-søknad om utbetaling av omsorgsdager for selvstendige og frilansere.
+Kildekoden til frontend-appen for selvbetjeningsløsning for
+søknad om utbetaling av omsorgsdager for arbeidstakere.
 
 ## Komme i gang
 

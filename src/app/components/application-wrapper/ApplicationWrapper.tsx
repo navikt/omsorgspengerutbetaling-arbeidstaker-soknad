@@ -32,7 +32,7 @@ const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({
                             nb: appBokmålstekster,
                             nn: appNynorsktekster,
                         }}
-                        title="Søknad pleiepenger"
+                        title="Søknad om utbetaling av omsorgsdager for arbeidstakere"
                     />
                 </Router>
             </Normaltekst>

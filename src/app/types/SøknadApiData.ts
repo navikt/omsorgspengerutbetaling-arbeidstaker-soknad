@@ -1,5 +1,7 @@
+import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
+import { Utbetalingsårsak, ÅrsakNyoppstartet } from './ArbeidsforholdTypes';
 
 export type ISO8601Duration = string;
 
@@ -29,50 +31,20 @@ export interface YesNoSpørsmålOgSvar {
     svar: YesNoSvar;
 }
 
-export interface FosterbarnApi {
-    fødselsnummer: string;
-    fornavn: string | null;
-    etternavn: string | null;
-}
-
 export interface Bekreftelser {
     harBekreftetOpplysninger: boolean;
     harForståttRettigheterOgPlikter: boolean;
 }
 
-export interface OrganisasjonDetaljer {
+export interface ArbeidsgiverDetaljer {
     navn: string;
     organisasjonsnummer: string;
+    utbetalingsårsak: Utbetalingsårsak;
+    årsakNyoppstartet?: ÅrsakNyoppstartet;
+    konfliktForklaring?: string;
     harHattFraværHosArbeidsgiver: boolean;
     arbeidsgiverHarUtbetaltLønn: boolean;
-}
-
-export interface ArbeidsgiverDetaljer {
-    navn: string | null;
-    organisasjonsnummer: string | null;
-    harHattFraværHosArbeidsgiver: boolean;
-    arbeidsgiverHarUtbetaltLønn: boolean;
-    ansettelseslengde: Ansettelseslengde;
     perioder: Utbetalingsperiode[];
-}
-
-export interface Ansettelseslengde {
-    merEnn4Uker: boolean;
-    begrunnelse: Begrunnelse | null;
-    ingenAvSituasjoneneForklaring: string | null;
-}
-
-export enum Begrunnelse {
-    ANNET_ARBEIDSFORHOLD = 'ANNET_ARBEIDSFORHOLD',
-    ANDRE_YTELSER = 'ANDRE_YTELSER',
-    LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON = 'LOVBESTEMT_FERIE_ELLER_ULØNNET_PERMISJON',
-    MILITÆRTJENESTE = 'MILITÆRTJENESTE',
-    INGEN_AV_SITUASJONENE = 'INGEN_AV_SITUASJONENE',
-}
-
-export interface JobbHosNåværendeArbeidsgiver {
-    merEnn4Uker: boolean;
-    begrunnelse: Begrunnelse | null;
 }
 
 export interface Utbetalingsperiode {
@@ -80,6 +52,7 @@ export interface Utbetalingsperiode {
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)
     antallTimerPlanlagt: string | null; // f eks PT5H30M | "null" (type Duration)
+    årsak: FraværÅrsak;
 }
 
 export interface SøknadApiData {
@@ -88,13 +61,7 @@ export interface SøknadApiData {
     opphold: Opphold[]; // hvis ja på har oppholdt seg i utlandet
     arbeidsgivere: ArbeidsgiverDetaljer[];
     bekreftelser: Bekreftelser;
-    andreUtbetalinger: string[];
-    erSelvstendig: boolean;
-    erFrilanser: boolean;
-    fosterbarn: FosterbarnApi[] | null;
-    hjemmePgaSmittevernhensyn: boolean;
     vedlegg: string[];
-    hjemmePgaStengtBhgSkole?: boolean;
     _vedleggSmittevern: string[]; // Used in summary view
     _vedleggStengtBhgSkole: string[]; // Used in summary view
 }

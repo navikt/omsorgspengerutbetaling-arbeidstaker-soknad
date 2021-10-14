@@ -1,14 +1,16 @@
-import { Arbeidsgiver, ArbeidsgiverResponse } from 'app/types/Søkerdata';
-import { getArbeidsgiver } from 'app/api/api';
+import { Arbeidsgiver, ArbeidsgiverResponse } from '../types/Søkerdata';
+import { getArbeidsgiver } from '../api/api';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { navigateToLoginPage } from './navigationUtils';
 import { apiUtils } from './apiUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AxiosResponse } from 'axios';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../types/ArbeidsforholdTypes';
-import { HvorLengeJobbet, HvorLengeJobbetFordi } from '../types/AnsettelseslengdeTypes';
-import { SøknadFormField } from '../types/SøknadFormData';
+import { ArbeidsforholdFormData, Utbetalingsårsak } from '../types/ArbeidsforholdTypes';
 import appSentryLogger from './appSentryLogger';
+import { SøknadFormData } from '../types/SøknadFormData';
+import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
+import { Utbetalingsperiode } from '../types/SøknadApiData';
+import { mapFraværTilUtbetalingsperiode } from './formToApiMaps/mapPeriodeToApiData';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -23,13 +25,9 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             ...arbeidsgiver,
             arbeidsgiverHarUtbetaltLønn: a ? a.arbeidsgiverHarUtbetaltLønn : YesOrNo.UNANSWERED,
             harHattFraværHosArbeidsgiver: a ? a.harHattFraværHosArbeidsgiver : YesOrNo.UNANSWERED,
-            ansettelseslengde: a
-                ? a.ansettelseslengde
-                : {
-                      hvorLengeJobbet: HvorLengeJobbet.IKKE_BESVART,
-                      begrunnelse: HvorLengeJobbetFordi.IKKE_BESVART,
-                      ingenAvSituasjoneneForklaring: '',
-                  },
+            utbetalingsårsak: a ? a.utbetalingsårsak : Utbetalingsårsak.ikkeBesvart,
+            årsakNyoppstartet: a ? a.årsakNyoppstartet : undefined,
+            konfliktForklaring: a ? a.konfliktForklaring : undefined,
             harPerioderMedFravær: a ? a.harPerioderMedFravær : YesOrNo.UNANSWERED,
             fraværPerioder: a ? a.fraværPerioder : [],
             harDagerMedDelvisFravær: a ? a.harDagerMedDelvisFravær : YesOrNo.UNANSWERED,
@@ -60,6 +58,37 @@ export const getArbeidsgivere = async (
     }
 };
 
-export const getAnnetArbeidsforholdField = (annetArbeidsforholdFieldName: ArbeidsforholdFormDataFields): string => {
-    return `${SøknadFormField.annetArbeidsforhold}.${annetArbeidsforholdFieldName}`;
+export const getAlleUtbetalingsperioder = (arbeidsforholder: ArbeidsforholdFormData[]): Utbetalingsperiode[] => {
+    const arbeidsforholdPerioder: FraværPeriode[] = arbeidsforholder
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværPerioder;
+        })
+        .flat();
+
+    const arbeidsforholdDager: FraværDag[] = arbeidsforholder
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværDager;
+        })
+        .flat();
+
+    return mapFraværTilUtbetalingsperiode(arbeidsforholdPerioder, arbeidsforholdDager);
+};
+
+export const getAlleFraværDager = (values: SøknadFormData): FraværDag[] => {
+    const arbeidsforholdDager: FraværDag[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværDager;
+        })
+        .flat();
+    return arbeidsforholdDager;
+};
+
+export const getAlleFraværPerioder = (values: SøknadFormData): FraværPeriode[] => {
+    const arbeidsforholdPerioder: FraværPeriode[] = values.arbeidsforhold
+        .map((arbeidsforhold: ArbeidsforholdFormData) => {
+            return arbeidsforhold.fraværPerioder;
+        })
+        .flat();
+
+    return arbeidsforholdPerioder;
 };

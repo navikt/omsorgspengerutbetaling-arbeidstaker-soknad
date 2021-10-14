@@ -27,7 +27,7 @@ const MedlemskapSummaryView = (props: Props): JSX.Element | null => {
 
     return (
         <>
-            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
+            <SummaryBlock header={intlHelper(intl, 'step.oppsummering.utlandetSiste12.header')}>
                 <JaNeiSvar harSvartJa={bostederSiste12.length > 0} />
             </SummaryBlock>
 
@@ -37,7 +37,7 @@ const MedlemskapSummaryView = (props: Props): JSX.Element | null => {
                 </Box>
             )}
 
-            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
+            <SummaryBlock header={intlHelper(intl, 'step.oppsummering.utlandetNeste12.header')}>
                 <JaNeiSvar harSvartJa={bostederNeste12.length > 0} />
             </SummaryBlock>
 

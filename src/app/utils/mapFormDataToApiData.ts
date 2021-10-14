@@ -1,18 +1,18 @@
 import { SøknadApiData } from '../types/SøknadApiData';
-import { mapToBekreftelser, settInnFosterbarn } from './formToApiMaps/mapFunctions';
+import { mapToBekreftelser } from './formToApiMaps/mapFunctions';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { IntlShape } from 'react-intl';
 import { Locale } from 'common/types/Locale';
 import { settInnBosteder } from './formToApiMaps/mapBostedUtlandToApiData';
 import { settInnOpphold } from './formToApiMaps/mapUtenlandsoppholdToApiData';
-import { YesOrNo } from 'common/types/YesOrNo';
 import {
     listOfArbeidsforholdFormDataToListOfAttachmentStrings,
     listOfAttachmentsToListOfUrlStrings,
 } from './formToApiMaps/mapVedleggToApiData';
 import { mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer } from './formToApiMaps/mapArbeidsforholdToApiData';
-import { isFrilanser, isSelvstendig } from './selvstendigOgEllerFrilansUtils';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
+import { getAlleUtbetalingsperioder } from './arbeidsforholdUtils';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from './periodeUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -20,42 +20,31 @@ export const mapFormDataToApiData = (
         harBekreftetOpplysninger,
 
         // STEG 1: Situasjon
-        arbeidsforhold,
-        annetArbeidsforhold,
-
-        harFosterbarn,
-        fosterbarn,
-
         // STEG 2: Periode
-
-        // STEG 3: ANNET
+        arbeidsforhold,
         perioderHarVærtIUtlandet,
         perioderUtenlandsopphold,
-        harSøktAndreUtbetalinger,
-        andreUtbetalinger,
-        erSelvstendigOgEllerFrilans,
-        selvstendigOgEllerFrilans,
+
+        // Dokumenter
+        smittevernDokumenter,
+        dokumenterStengtBkgSkole,
 
         // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
         utenlandsoppholdSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
         utenlandsoppholdNeste12Mnd,
-
-        hjemmePgaSmittevernhensynYesOrNo,
-        smittevernDokumenter,
-        hjemmePgaStengtBhgSkole,
-        dokumenterStengtBkgSkole,
     }: SøknadFormData,
     intl: IntlShape
 ): SøknadApiData => {
-    const _vedleggSmittevern =
-        hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES
-            ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
-            : [];
+    const alleUtbetalingsperioder = getAlleUtbetalingsperioder(arbeidsforhold);
+
+    const _vedleggSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder)
+        ? listOfAttachmentsToListOfUrlStrings(smittevernDokumenter)
+        : [];
 
     const _vedleggStengtBhgSkole =
-        isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && hjemmePgaStengtBhgSkole === YesOrNo.YES
+        isFeatureEnabled(Feature.STENGT_BHG_SKOLE) && harFraværPgaStengBhgSkole(alleUtbetalingsperioder)
             ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
             : [];
 
@@ -69,21 +58,10 @@ export const mapFormDataToApiData = (
             intl.locale
         ),
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
-        arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([
-            ...arbeidsforhold,
-            annetArbeidsforhold,
-        ]),
+        arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([...arbeidsforhold]),
         bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
-        andreUtbetalinger: harSøktAndreUtbetalinger === YesOrNo.YES ? [...andreUtbetalinger] : [],
-        erSelvstendig: isSelvstendig(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
-        erFrilanser: isFrilanser(erSelvstendigOgEllerFrilans, selvstendigOgEllerFrilans),
-        fosterbarn: settInnFosterbarn(harFosterbarn, fosterbarn),
-        hjemmePgaSmittevernhensyn: hjemmePgaSmittevernhensynYesOrNo === YesOrNo.YES,
-        hjemmePgaStengtBhgSkole: isFeatureEnabled(Feature.STENGT_BHG_SKOLE)
-            ? hjemmePgaStengtBhgSkole === YesOrNo.YES
-            : undefined,
         vedlegg: [
-            ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold, annetArbeidsforhold]),
+            ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold]),
             ..._vedleggSmittevern,
             ..._vedleggStengtBhgSkole,
         ],

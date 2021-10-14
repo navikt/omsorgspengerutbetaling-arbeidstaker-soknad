@@ -6,28 +6,22 @@ import './arbeidsforholdSummary.less';
 import JaNeiSvar from './JaNeiSvar';
 import intlHelper from 'common/utils/intlUtils';
 import SummaryBlock from './SummaryBlock';
-import { ArbeidsgiverDetaljer, Begrunnelse } from '../../../types/SøknadApiData';
-import { getRadioTextIdHvorLengeJobbetFordi } from '../../../components/formik-arbeidsforhold/FormikArbeidsforholdArbeidslengde';
-import { begrunnelseTilHvorLengeJobbetFordi } from '../../../utils/formToApiMaps/mapAnsettelseslengdeToApiData';
+import { ArbeidsgiverDetaljer } from '../../../types/SøknadApiData';
 import UtbetalingsperioderSummaryView from './UtbetalingsperioderSummaryView';
+import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields, Utbetalingsårsak } from 'app/types/ArbeidsforholdTypes';
+import { SøknadFormData, SøknadFormField } from 'app/types/SøknadFormData';
+import { skalInkludereArbeidsforhold } from 'app/validation/components/arbeidsforholdValidations';
 import { useFormikContext } from 'formik';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
-import { skalInkludereArbeidsforhold } from '../../../validation/components/arbeidsforholdValidations';
-import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields } from '../../../types/ArbeidsforholdTypes';
 import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 const bem = bemUtils('arbeidsforholdSummary');
-
-export const getRadioTextIdBegrunnelseFordi = (begrunnelse: Begrunnelse): string => {
-    return getRadioTextIdHvorLengeJobbetFordi(begrunnelseTilHvorLengeJobbetFordi(begrunnelse), true);
-};
 
 const maybeArbeidsforholdToAttachmentList = (
     arbeidsforholdFormData: ArbeidsforholdFormData | undefined
 ): Attachment[] | undefined =>
     arbeidsforholdFormData ? arbeidsforholdFormData[ArbeidsforholdFormDataFields.dokumenter] : undefined;
-
 interface Props {
     listeAvArbeidsforhold: ArbeidsgiverDetaljer[];
 }
@@ -36,11 +30,15 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = [
-        ...values[SøknadFormField.arbeidsforhold],
-        values[SøknadFormField.annetArbeidsforhold],
-    ].filter(skalInkludereArbeidsforhold);
-
+    const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold].filter(
+        skalInkludereArbeidsforhold
+    );
+    const arbeidsgivereUtenFravær = values.arbeidsforhold.filter(
+        (arbeidsgiver) =>
+            arbeidsgiver.harHattFraværHosArbeidsgiver === YesOrNo.NO ||
+            (arbeidsgiver.harHattFraværHosArbeidsgiver === YesOrNo.YES &&
+                arbeidsgiver.arbeidsgiverHarUtbetaltLønn === YesOrNo.YES)
+    );
     return (
         <Box margin={'l'}>
             {listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsgiverDetaljer, index: number) => {
@@ -49,7 +47,6 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                     organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
                 };
 
-                const kreverVedlegg = arbeidsforhold.ansettelseslengde.merEnn4Uker;
                 const maybeListOfAttachments: Attachment[] | undefined = maybeArbeidsforholdToAttachmentList(
                     listeAvGjeldendeArbeidsforhold.find(
                         (a: ArbeidsforholdFormData) => a[ArbeidsforholdFormDataFields.navn] === arbeidsforhold.navn
@@ -66,7 +63,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                         {/* Content */}
                         <div className={'arbeidsforholdSummaryContent'}>
                             <Box margin={'s'}>
-                                <SummaryBlock header={intlHelper(intl, 'arbeidsforhold.harHattFravær.spm')}>
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.harHattFravær.spm')}>
                                     <JaNeiSvar harSvartJa={arbeidsforhold.harHattFraværHosArbeidsgiver} />
                                 </SummaryBlock>
                             </Box>
@@ -75,66 +73,61 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                                     <SummaryBlock
                                         header={intlHelper(
                                             intl,
-                                            'arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
+                                            'step.oppsummering.arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
                                         )}>
                                         <JaNeiSvar harSvartJa={arbeidsforhold.arbeidsgiverHarUtbetaltLønn} />
                                     </SummaryBlock>
                                 </Box>
                             )}
-                            {/* ansettelsesLengde */}
-
                             <Box margin={'s'}>
-                                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.hvorLengeJobbet.spørsmål')}>
-                                    {arbeidsforhold.ansettelseslengde.merEnn4Uker === true && (
-                                        <FormattedMessage id={'hvorLengeJobbet.mer'} />
-                                    )}
-                                    {arbeidsforhold.ansettelseslengde.merEnn4Uker === false && (
-                                        <FormattedMessage id={'hvorLengeJobbet.mindre'} />
-                                    )}
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'step.oppsummering.arbeidsforhold.utbetalingsårsak.spm')}>
+                                    <FormattedMessage
+                                        id={`step.oppsummering.arbeidsforhold.utbetalingsårsak.${arbeidsforhold.utbetalingsårsak}`}
+                                    />
                                 </SummaryBlock>
                             </Box>
-
-                            {/* Mindre enn 4 uker */}
-                            {!arbeidsforhold.ansettelseslengde.merEnn4Uker &&
-                                arbeidsforhold.ansettelseslengde.begrunnelse &&
-                                !arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring && (
+                            {arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.nyoppstartetHosArbeidsgiver &&
+                                arbeidsforhold.årsakNyoppstartet && (
                                     <Box margin={'s'}>
                                         <SummaryBlock
                                             header={intlHelper(
                                                 intl,
-                                                'steg.oppsummering.hvorLengeJobbet.fordi.legend-text'
+                                                'step.oppsummering.arbeidsforhold.årsakMinde4Uker.spm'
                                             )}>
                                             <FormattedMessage
-                                                id={getRadioTextIdBegrunnelseFordi(
-                                                    arbeidsforhold.ansettelseslengde.begrunnelse
-                                                )}
+                                                id={`step.oppsummering.arbeidsforhold.årsakMinde4Uker.${arbeidsforhold.årsakNyoppstartet}`}
                                             />
                                         </SummaryBlock>
                                     </Box>
                                 )}
 
-                            {!arbeidsforhold.ansettelseslengde.merEnn4Uker &&
-                                arbeidsforhold.ansettelseslengde.begrunnelse &&
-                                arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring && (
+                            {arbeidsforhold.utbetalingsårsak === Utbetalingsårsak.konfliktMedArbeidsgiver && (
+                                <Box margin={'s'}>
                                     <Box margin={'s'}>
                                         <SummaryBlock
                                             header={intlHelper(
                                                 intl,
-                                                'steg.oppsummering.hvorLengeJobbet.fordi.ingen.forklaring.label'
+                                                'step.oppsummering.arbeidsforhold.konflikt.forklaringTittel'
                                             )}>
-                                            {arbeidsforhold.ansettelseslengde.ingenAvSituasjoneneForklaring}
+                                            <p>{arbeidsforhold.konfliktForklaring}</p>
                                         </SummaryBlock>
                                     </Box>
-                                )}
-
-                            {kreverVedlegg && (
-                                <Box margin={'s'}>
                                     <SummaryBlock
-                                        header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.dokumenter.header')}>
+                                        header={intlHelper(
+                                            intl,
+                                            'step.oppsummering.arbeidsforhold.konflikt.dokumenter.header'
+                                        )}>
                                         {maybeListOfAttachments && maybeListOfAttachments.length > 0 ? (
                                             <AttachmentList attachments={maybeListOfAttachments} />
                                         ) : (
-                                            <i>Ikke lastet opp, må ettersendes</i>
+                                            <i>
+                                                {' '}
+                                                {intlHelper(
+                                                    intl,
+                                                    'step.oppsummering.arbeidsforhold.konflikt.dokumenter.ikkelastetopp'
+                                                )}
+                                            </i>
                                         )}
                                     </SummaryBlock>
                                 </Box>
@@ -146,6 +139,50 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                     </Box>
                 );
             })}
+            {arbeidsgivereUtenFravær.length > 0 &&
+                arbeidsgivereUtenFravær.map(
+                    (
+                        {
+                            navn,
+                            organisasjonsnummer,
+                            harHattFraværHosArbeidsgiver,
+                            arbeidsgiverHarUtbetaltLønn,
+                        }: ArbeidsforholdFormData,
+                        index: number
+                    ) => {
+                        return (
+                            <Box key={index} padBottom={'xl'}>
+                                {/* Title */}
+                                <div className={bem.element('org')}>
+                                    {navn} {organisasjonsnummer && <>(organisasjonsnummer: {organisasjonsnummer})</>}
+                                </div>
+                                {/* Content */}
+                                <div className={'arbeidsforholdSummaryContent'}>
+                                    <Box margin={'s'}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'step.oppsummering.arbeidsforhold.harHattFravær.spm'
+                                            )}>
+                                            <JaNeiSvar harSvartJa={harHattFraværHosArbeidsgiver === YesOrNo.YES} />
+                                        </SummaryBlock>
+                                    </Box>
+                                    {harHattFraværHosArbeidsgiver === YesOrNo.YES && (
+                                        <Box margin={'s'}>
+                                            <SummaryBlock
+                                                header={intlHelper(
+                                                    intl,
+                                                    'step.oppsummering.arbeidsforhold.harArbeidsgiverUtbetaltDegLønnForOmsorgsdagene.spm'
+                                                )}>
+                                                <JaNeiSvar harSvartJa={arbeidsgiverHarUtbetaltLønn === YesOrNo.YES} />
+                                            </SummaryBlock>
+                                        </Box>
+                                    )}
+                                </div>
+                            </Box>
+                        );
+                    }
+                )}
         </Box>
     );
 };

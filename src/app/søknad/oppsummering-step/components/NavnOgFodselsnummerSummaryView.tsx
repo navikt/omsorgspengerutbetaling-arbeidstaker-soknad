@@ -18,7 +18,7 @@ export const NavnOgFodselsnummerSummaryView: React.FC<Props> = (props: Props): J
     return (
         <Box margin={'l'}>
             {fornavn && etternavn && <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>}
-            <Normaltekst>{intlHelper(intl, `steg.oppsummering.søker.fnr`, { fødselsnummer })}</Normaltekst>
+            <Normaltekst>{intlHelper(intl, `step.oppsummering.søker.fnr`, { fødselsnummer })}</Normaltekst>
         </Box>
     );
 };

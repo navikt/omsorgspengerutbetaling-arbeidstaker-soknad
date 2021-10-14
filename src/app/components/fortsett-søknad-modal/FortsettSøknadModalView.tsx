@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Knapp } from 'nav-frontend-knapper';
-import Modal from '@navikt/sif-common-formik/lib/components/formik-modal-form-and-list/modal/Modal';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import Modal from '@navikt/sif-common-core/lib/components/modal/Modal';
 import './fortsettSøknadModalView.less';
 
 interface Props {
@@ -24,8 +24,7 @@ const FortsettSøknadModalView: React.FC<Props> = (props: Props): JSX.Element =>
                     onRequestClose();
                 }
             }}
-            contentLabel="Fortsette på påbegynt søknad?"
-            shouldCloseOnOverlayClick={false}>
+            contentLabel="Fortsette på påbegynt søknad?">
             <div className={'fortsett-soknad-modal-view-wrapper'}>
                 <Box padBottom={'xl'}>
                     <CounsellorPanel type={'plakat'} kompakt={true} fargetema={'info'}>

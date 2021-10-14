@@ -91,19 +91,12 @@ export const ugyldigSøknadFormData5: any = {
 
     // STEG 1: Situasjon
     [SøknadFormField.arbeidsforhold]: [],
-    [SøknadFormField.annetArbeidsforhold]: null,
-
-    [SøknadFormField.harFosterbarn]: YesOrNo.UNANSWERED,
-    [SøknadFormField.fosterbarn]: [],
 
     // STEG 2:
 
     // STEG 3
     [SøknadFormField.perioderHarVærtIUtlandet]: YesOrNo.UNANSWERED,
     [SøknadFormField.perioderUtenlandsopphold]: [],
-
-    [SøknadFormField.harSøktAndreUtbetalinger]: YesOrNo.UNANSWERED,
-    [SøknadFormField.andreUtbetalinger]: [],
 
     // STEG 4:
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
