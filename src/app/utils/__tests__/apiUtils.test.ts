@@ -23,7 +23,13 @@ describe('apiUtils', () => {
             name: '',
             message: '',
             toJSON: () => ({}),
-            response: { status: 200, data: {}, statusText: '', headers: [], config: {} },
+            response: {
+                status: 200,
+                data: {},
+                statusText: '',
+                headers: { 'Content-type': 'application/json; charset=utf-8' },
+                config: {},
+            },
         };
     });
 

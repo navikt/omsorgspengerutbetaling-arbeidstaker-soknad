@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { getYesOrNoValidator, ValidateYesOrNoError } from '@navikt/sif-common-formik/lib/validation';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
+import { validateAll } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import { fraværDagToFraværDateRange, fraværPeriodeToDateRange } from '@navikt/sif-common-forms/lib/fravær';
 import FraværDagerListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværDagerListAndDialog';
 import FraværPerioderListAndDialog from '@navikt/sif-common-forms/lib/fravær/FraværPerioderListAndDialog';
@@ -14,9 +17,6 @@ import {
     getFraværDagerValidator,
     getFraværPerioderValidator,
 } from '../../validation/fieldValidations';
-import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { validateAll } from '@navikt/sif-common-formik/lib/validation/validationUtils';
-import { getYesOrNoValidator, ValidateYesOrNoError } from '@navikt/sif-common-formik/lib/validation';
 
 export const minimumHarPeriodeEllerDelerAvDagYes = (
     harPerioder: YesOrNo,
@@ -126,8 +126,7 @@ const ArbeidsforholdFravær: React.FC<Props> = ({
                         ]);
                         if (error === ValidateYesOrNoError.yesOrNoIsUnanswered) {
                             return {
-                                key:
-                                    AppFieldValidationErrors.arbeidsforhold_harDagerMedDelvisFravær_yesOrNoIsUnanswered,
+                                key: AppFieldValidationErrors.arbeidsforhold_harDagerMedDelvisFravær_yesOrNoIsUnanswered,
                                 keepKeyUnaltered: true,
                             };
                         }

@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const webpackConfig = {
     entry: {
@@ -21,19 +22,6 @@ const webpackConfig = {
     },
     module: {
         rules: [
-            {
-                test: /\.(ts|tsx)$/,
-                enforce: 'pre',
-                use: [
-                    {
-                        options: {
-                            eslintPath: require.resolve('eslint'),
-                        },
-                        loader: require.resolve('eslint-loader'),
-                    },
-                ],
-                exclude: /node_modules/,
-            },
             {
                 test: /\.(ts|tsx)$/,
                 include: [path.resolve(__dirname, './../../app'), path.resolve(__dirname, './../../common')],
@@ -58,6 +46,9 @@ const webpackConfig = {
         ],
     },
     plugins: [
+        new ESLintPlugin({
+            extensions: ['.ts', '.tsx'],
+        }),
         new CaseSensitivePathsPlugin(),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css?[fullhash]-[chunkhash]-[name]',

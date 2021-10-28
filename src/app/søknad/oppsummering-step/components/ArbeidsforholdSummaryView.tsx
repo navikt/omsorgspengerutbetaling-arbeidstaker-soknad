@@ -1,20 +1,20 @@
 import * as React from 'react';
-import Box from 'common/components/box/Box';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { useFormikContext } from 'formik';
+import AttachmentList from 'common/components/attachment-list/AttachmentList';
+import Box from 'common/components/box/Box';
+import { Attachment } from 'common/types/Attachment';
 import bemUtils from 'common/utils/bemUtils';
-import './arbeidsforholdSummary.less';
-import JaNeiSvar from './JaNeiSvar';
 import intlHelper from 'common/utils/intlUtils';
-import SummaryBlock from './SummaryBlock';
-import { ArbeidsgiverDetaljer } from '../../../types/SøknadApiData';
-import UtbetalingsperioderSummaryView from './UtbetalingsperioderSummaryView';
 import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields, Utbetalingsårsak } from 'app/types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from 'app/types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from 'app/validation/components/arbeidsforholdValidations';
-import { useFormikContext } from 'formik';
-import { Attachment } from 'common/types/Attachment';
-import AttachmentList from 'common/components/attachment-list/AttachmentList';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeidsgiverDetaljer } from '../../../types/SøknadApiData';
+import JaNeiSvar from './JaNeiSvar';
+import SummaryBlock from './SummaryBlock';
+import UtbetalingsperioderSummaryView from './UtbetalingsperioderSummaryView';
+import './arbeidsforholdSummary.less';
 
 const bem = bemUtils('arbeidsforholdSummary');
 
@@ -30,9 +30,8 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold].filter(
-        skalInkludereArbeidsforhold
-    );
+    const listeAvGjeldendeArbeidsforhold: ArbeidsforholdFormData[] =
+        values[SøknadFormField.arbeidsforhold].filter(skalInkludereArbeidsforhold);
     const arbeidsgivereUtenFravær = values.arbeidsforhold.filter(
         (arbeidsgiver) =>
             arbeidsgiver.harHattFraværHosArbeidsgiver === YesOrNo.NO ||
