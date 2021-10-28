@@ -92,22 +92,19 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Pr
                                 switch (error) {
                                     case ValidateStringError.stringHasNoValue:
                                         return {
-                                            key:
-                                                'validation.arbeidsforhold.utbetalingsårsak.konfliktForklaring.stringHasNoValue',
+                                            key: 'validation.arbeidsforhold.utbetalingsårsak.konfliktForklaring.stringHasNoValue',
                                             keepKeyUnaltered: true,
                                             values: { min: 5, maks: 2000 },
                                         };
                                     case ValidateStringError.stringIsTooShort:
                                         return {
-                                            key:
-                                                'validation.arbeidsforhold.utbetalingsårsak.konfliktForklaring.stringIsTooShort',
+                                            key: 'validation.arbeidsforhold.utbetalingsårsak.konfliktForklaring.stringIsTooShort',
                                             values: { min: 5, maks: 2000 },
                                             keepKeyUnaltered: true,
                                         };
                                     case ValidateStringError.stringIsTooLong:
                                         return {
-                                            key:
-                                                'validation.arbeidsforhold.utbetalingsårsak.konfliktForklaring.stringIsTooLong',
+                                            key: 'validation.arbeidsforhold.utbetalingsårsak.konfliktForklaring.stringIsTooLong',
                                             values: { min: 5, maks: 2000 },
                                             keepKeyUnaltered: true,
                                         };

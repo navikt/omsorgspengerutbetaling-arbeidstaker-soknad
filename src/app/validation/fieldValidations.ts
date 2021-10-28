@@ -62,58 +62,50 @@ export const alleDokumenterISøknadenToFieldValidationResult = (
     return undefined;
 };
 
-export const getFraværPerioderValidator = ({
-    fraværDager,
-    årstall,
-}: {
-    fraværDager: FraværDag[];
-    årstall?: number;
-}) => (fraværPerioder: FraværPeriode[]) => {
-    return validateAll<ValidationError>([
-        () =>
-            getListValidator({ required: true })(fraværPerioder)
-                ? {
-                      key: AppFieldValidationErrors.arbeidsforhold_fraværPerioder_listIsEmpty,
-                      keepKeyUnaltered: true,
-                  }
-                : undefined,
-        () =>
-            fraværPerioderHarÅrstall(fraværPerioder, årstall) === false
-                ? AppFieldValidationErrors.fraværPeriodeIkkeSammeÅrstall
-                : undefined,
-        () =>
-            validateNoCollisions(fraværDager, fraværPerioder)
-                ? AppFieldValidationErrors.perioderEllerDagerOverlapper
-                : undefined,
-    ]);
-};
+export const getFraværPerioderValidator =
+    ({ fraværDager, årstall }: { fraværDager: FraværDag[]; årstall?: number }) =>
+    (fraværPerioder: FraværPeriode[]) => {
+        return validateAll<ValidationError>([
+            () =>
+                getListValidator({ required: true })(fraværPerioder)
+                    ? {
+                          key: AppFieldValidationErrors.arbeidsforhold_fraværPerioder_listIsEmpty,
+                          keepKeyUnaltered: true,
+                      }
+                    : undefined,
+            () =>
+                fraværPerioderHarÅrstall(fraværPerioder, årstall) === false
+                    ? AppFieldValidationErrors.fraværPeriodeIkkeSammeÅrstall
+                    : undefined,
+            () =>
+                validateNoCollisions(fraværDager, fraværPerioder)
+                    ? AppFieldValidationErrors.perioderEllerDagerOverlapper
+                    : undefined,
+        ]);
+    };
 
-export const getFraværDagerValidator = ({
-    fraværPerioder,
-    årstall,
-}: {
-    fraværPerioder: FraværPeriode[];
-    årstall?: number;
-}) => (fraværDager: FraværDag[]) => {
-    return validateAll<ValidationError>([
-        () =>
-            getListValidator({ required: true })(fraværDager)
-                ? {
-                      key: AppFieldValidationErrors.arbeidsforhold_fraværDager_listIsEmpty,
-                      keepKeyUnaltered: true,
-                  }
-                : undefined,
+export const getFraværDagerValidator =
+    ({ fraværPerioder, årstall }: { fraværPerioder: FraværPeriode[]; årstall?: number }) =>
+    (fraværDager: FraværDag[]) => {
+        return validateAll<ValidationError>([
+            () =>
+                getListValidator({ required: true })(fraværDager)
+                    ? {
+                          key: AppFieldValidationErrors.arbeidsforhold_fraværDager_listIsEmpty,
+                          keepKeyUnaltered: true,
+                      }
+                    : undefined,
 
-        () =>
-            fraværDagerHarÅrstall(fraværDager, årstall) === false
-                ? AppFieldValidationErrors.fraværDagIkkeSammeÅrstall
-                : undefined,
-        () =>
-            validateNoCollisions(fraværDager, fraværPerioder)
-                ? AppFieldValidationErrors.perioderEllerDagerOverlapper
-                : undefined,
-    ]);
-};
+            () =>
+                fraværDagerHarÅrstall(fraværDager, årstall) === false
+                    ? AppFieldValidationErrors.fraværDagIkkeSammeÅrstall
+                    : undefined,
+            () =>
+                validateNoCollisions(fraværDager, fraværPerioder)
+                    ? AppFieldValidationErrors.perioderEllerDagerOverlapper
+                    : undefined,
+        ]);
+    };
 
 const fraværPerioderHarÅrstall = (perioder: FraværPeriode[], årstall?: number): boolean => {
     if (årstall !== undefined) {
