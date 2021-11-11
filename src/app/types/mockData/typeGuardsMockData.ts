@@ -8,7 +8,6 @@ export const gyldigPerson: Person = {
     mellomnavn: 'Mc.',
     kjønn: 'mann',
     fødselsnummer: '12345678903',
-    myndig: true,
 };
 export const ugyldigPerson1: any = null;
 export const ugyldigPerson2: any = undefined;
@@ -76,7 +75,6 @@ export const gyldigSøkerdata2: Søkerdata = {
         mellomnavn: null,
         etternavn: 'Testesen',
         fødselsnummer: '12345123456',
-        myndig: true,
     },
 };
 
@@ -112,7 +110,6 @@ export const gyldigSøkerApiResponse: SøkerApiResponse = {
     fornavn: 'string',
     mellomnavn: 'string',
     etternavn: 'string',
-    myndig: true,
 };
 export const ugyldigSøkerApiResponse: any = {
     aktørId: 'string',

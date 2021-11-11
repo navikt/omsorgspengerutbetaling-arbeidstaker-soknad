@@ -1,5 +1,4 @@
 import * as React from 'react';
-import IkkeMyndigPage from '../components/pages/ikke-myndig-page/IkkeMyndigPage';
 import { StepID } from '../config/stepConfig';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadFormData } from '../types/SøknadFormData';
@@ -14,9 +13,6 @@ const Søknad: React.FC = (): JSX.Element => (
             formData: SøknadFormData,
             lastStepID: StepID | undefined
         ): JSX.Element => {
-            if (!søkerdata.person.myndig) {
-                return <IkkeMyndigPage />;
-            }
             return (
                 <SøknadFormComponents.FormikWrapper
                     initialValues={formData}

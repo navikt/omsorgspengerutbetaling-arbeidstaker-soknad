@@ -25,6 +25,7 @@
     "Fredag": "Fredag",
 
     "banner.title": "Søknad om utbetaling av omsorgspenger når arbeidsgiver ikke utbetaler",
+    "application.title": "Søknad om utbetaling av omsorgspenger",
 
     "page.loadingPage.tekst": "Laster ...",
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
@@ -87,11 +88,8 @@
     "introPage.stengtBhgSkole.1": "I søknaden må du laste opp en bekreftelse fra barnehagen eller skolen på at de har stengt.",
     "introPage.stengtBhgSkole.2": "Hvis du ikke har bekreftelsen tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
 
-    "page.ikkeMyndig.sidetittel": "Søknad om utbetaling av omsorgspenger - ikke myndig",
-    "page.ikkeMyndig.banner.tittel": "Hei!",
-    "page.ikkeMyndig.banner.tekst": "Fordi du er under 18 år, må en av foreldrene dine eller en foresatt skrive under på søknaden sammen med deg. Du må derfor fylle ut søknaden på papir og sende den i posten.",
-    "page.ikkeMyndig.banner.lastNed": "Her kan du laste ned papirsøknaden",
-    "page.ikkeMyndig.tittel": "Søknad om utbetaling av omsorgspenger",
+    "page.ikkeTilgang.sidetittel": "Søknad om utbetaling av omsorgspenger",
+    "page.ikkeTilgang.tekst": "Du har ikke tilgang til denne siden. Dersom du er under 18 år, må en av foreldrene dine eller en foresatt skrive under på søknaden sammen med deg. Du må derfor fylle ut søknaden på papir og sende den i posten.",
 
     "welcomingPage.sidetittel": "Søknad om utbetaling av omsorgspenger",
     "welcomingPage.banner.tittel": "Hei,",

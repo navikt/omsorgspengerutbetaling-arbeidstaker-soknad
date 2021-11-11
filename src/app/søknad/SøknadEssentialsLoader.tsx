@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
-import { getSøker, redirectIfForbiddenOrUnauthorized } from '../api/api';
+import { getSøker, redirectIfUnauthorized } from '../api/api';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import { StepID } from '../config/stepConfig';
 import { isSøkerApiResponse, isSøkerdata, SøkerApiResponse, Søkerdata } from '../types/Søkerdata';
@@ -13,6 +13,8 @@ import GeneralErrorPage from '../components/pages/general-error-page/GeneralErro
 import { WillRedirect } from '../types/types';
 import { isSøknadFormData } from '../types/SøknadFormDataTypeGuards';
 import appSentryLogger from '../utils/appSentryLogger';
+import { isForbidden } from '@navikt/sif-common-core/lib/utils/apiUtils';
+import IkkeTilgangPage from '../components/pages/ikke-tilgang-page/IkkeTilgangPage';
 
 interface Props {
     contentLoadedRenderer: (
@@ -27,6 +29,7 @@ interface State {
     formData: SøknadFormData;
     søkerdata?: Søkerdata;
     lastStepID?: StepID;
+    hasNoAccess?: boolean;
 }
 
 const initialState: State = {
@@ -85,8 +88,12 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
                     handleSøkerdataFetchSuccess(søkerApiResponse);
                 }
             } catch (error) {
-                const willRedirect = redirectIfForbiddenOrUnauthorized(error);
-                if (willRedirect === WillRedirect.No) {
+                console.log(error);
+
+                const willRedirect = redirectIfUnauthorized(error);
+                if (isForbidden(error)) {
+                    setState({ ...state, hasNoAccess: true, isLoading: false });
+                } else if (willRedirect === WillRedirect.No) {
                     setApiCallError(true);
                     appSentryLogger.logApiError(error);
                 } else {
@@ -105,6 +112,9 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
     }
     if (apiCallError) {
         return <GeneralErrorPage cause={'apiCallError set in SøknadEssestialsLoader'} />;
+    }
+    if (state.hasNoAccess) {
+        return <IkkeTilgangPage />;
     }
     return <LoadingPage />;
 };

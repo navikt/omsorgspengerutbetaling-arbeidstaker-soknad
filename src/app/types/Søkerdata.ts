@@ -6,7 +6,6 @@ export interface Person {
     fornavn: string | null;
     mellomnavn: string | null;
     fødselsnummer: string;
-    myndig: boolean;
     kjønn?: string;
 }
 
@@ -17,7 +16,6 @@ export interface SøkerApiResponse {
     fornavn: string | null; // TODO: Sendes det "null" eller null ? Hvordan ønsker vi å håndtere en bruker som ikke har et registrert navn?
     mellomnavn: string | null;
     etternavn: string | null;
-    myndig: boolean;
 }
 
 export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse is SøkerApiResponse => {
