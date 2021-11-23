@@ -15,9 +15,7 @@ export const ugyldigPerson3: any = {};
 export const ugyldigPerson4: any = 'ugyldig person';
 export const ugyldigPerson5: any = {
     etternavn: 'Duck',
-    fornavn: 'Donald',
     mellomnavn: 'Mc.',
-    kjønn: 'mann',
     fødselsnummer: '12345678903',
 };
 
@@ -117,5 +115,4 @@ export const ugyldigSøkerApiResponse: any = {
     fødselsnummer: 'string',
     fornavn: 'string',
     mellomnavn: 'string',
-    etternavn: 'string',
 };
