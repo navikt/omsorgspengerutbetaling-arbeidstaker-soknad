@@ -24,7 +24,7 @@ export const uploadFile = (file: File): Promise<AxiosResponse> => {
 
 export const deleteFile = (url: string): Promise<AxiosResponse> => axios.delete(url, axiosConfig);
 
-export const redirectIfForbiddenOrUnauthorized = (response: AxiosError): WillRedirect => {
+export const redirectIfUnauthorized = (response: AxiosError): WillRedirect => {
     if (isForbidden(response) || isUnauthorized(response)) {
         navigateToLoginPage();
         return WillRedirect.Yes;

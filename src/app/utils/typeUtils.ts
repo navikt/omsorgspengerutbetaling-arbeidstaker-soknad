@@ -6,6 +6,5 @@ export const søkerApiResponseToPerson = (søkerApiResponse: SøkerApiResponse):
         mellomnavn: søkerApiResponse.mellomnavn,
         etternavn: søkerApiResponse.etternavn,
         fødselsnummer: søkerApiResponse.fødselsnummer,
-        myndig: søkerApiResponse.myndig,
     };
 };

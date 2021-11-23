@@ -18,7 +18,7 @@ import SituasjonStepView from './situasjon-step/SituasjonStepView';
 import SøknadTempStorage from './SøknadTempStorage';
 import * as apiUtils from '../utils/apiUtils';
 import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
-import { redirectIfForbiddenOrUnauthorized } from '../api/api';
+import { redirectIfUnauthorized } from '../api/api';
 import { WillRedirect } from '../types/types';
 import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import appSentryLogger from '../utils/appSentryLogger';
@@ -110,7 +110,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
                 };
             });
         } catch (e) {
-            const willRedirect = await redirectIfForbiddenOrUnauthorized(e);
+            const willRedirect = await redirectIfUnauthorized(e);
             if (willRedirect === WillRedirect.No) {
                 setShowErrorMessage(true);
             } else {

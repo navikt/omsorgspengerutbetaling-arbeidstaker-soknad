@@ -71,7 +71,6 @@ export const sokerApiData: SøkerApiResponse = {
     fornavn: 'LOTTE',
     mellomnavn: null,
     etternavn: 'FAMILIE 5',
-    myndig: true,
 };
 
 export const mellomlagringResponse1 = {};

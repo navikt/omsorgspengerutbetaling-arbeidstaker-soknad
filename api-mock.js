@@ -50,7 +50,6 @@ const søkerMock1 = {
     fornavn: 'Test',
     mellomnavn: null,
     etternavn: 'Testesen',
-    myndig: true,
     fødselsnummer: '12345123456',
     fødselsdato: '2020-01-01',
 };
@@ -117,6 +116,10 @@ const startServer = () => {
 
     server.get('/soker', (req, res) => {
         res.send(søkerMock1);
+    });
+
+    server.get('/soker-umyndig', (req, res) => {
+        res.send(451);
     });
 
     server.post('/vedlegg', (req, res) => {

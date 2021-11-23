@@ -6,7 +6,6 @@ export interface Person {
     fornavn: string | null;
     mellomnavn: string | null;
     fødselsnummer: string;
-    myndig: boolean;
     kjønn?: string;
 }
 
@@ -17,7 +16,6 @@ export interface SøkerApiResponse {
     fornavn: string | null; // TODO: Sendes det "null" eller null ? Hvordan ønsker vi å håndtere en bruker som ikke har et registrert navn?
     mellomnavn: string | null;
     etternavn: string | null;
-    myndig: boolean;
 }
 
 export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse is SøkerApiResponse => {
@@ -28,8 +26,7 @@ export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse i
         isString(søkerApiResponse.fødselsnummer) &&
         isStringOrNull(søkerApiResponse.fornavn) &&
         isStringOrNull(søkerApiResponse.mellomnavn) &&
-        isStringOrNull(søkerApiResponse.etternavn) &&
-        søkerApiResponse.myndig
+        isStringOrNull(søkerApiResponse.etternavn)
     ) {
         return true;
     } else {
@@ -56,8 +53,10 @@ export const isPerson = (maybePerson: any): maybePerson is Person => {
         typeof maybePerson === 'object' &&
         maybePerson.fødselsnummer &&
         typeof maybePerson.fødselsnummer === 'string' &&
-        maybePerson.myndig &&
-        typeof maybePerson.myndig === 'boolean'
+        maybePerson.fornavn &&
+        typeof maybePerson.fornavn === 'string' &&
+        maybePerson.etternavn &&
+        typeof maybePerson.etternavn === 'string'
     ) {
         return true;
     }
