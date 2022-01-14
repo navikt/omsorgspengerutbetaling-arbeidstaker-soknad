@@ -16,6 +16,7 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadStep from '../SøknadStep';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemsskapFieldValidation';
+import dayjs from 'dayjs';
 
 const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -46,7 +47,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                     <BostedUtlandListAndDialog<SøknadFormField>
                         name={SøknadFormField.utenlandsoppholdSiste12Mnd}
                         minDate={date1YearAgo}
-                        maxDate={dateToday}
+                        maxDate={dayjs(dateToday).subtract(1, 'day').toDate()}
                         validate={validateUtenlandsoppholdSiste12Mnd}
                         labels={{
                             addLabel: intlHelper(intl, 'step.medlemsskap.utenlandsopphold.leggTilLabel'),
