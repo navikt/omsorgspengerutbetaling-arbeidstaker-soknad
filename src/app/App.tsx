@@ -20,6 +20,8 @@ appSentryLogger.init();
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
+/** Trigger build */
+
 const getAppStatusSanityConfig = ():
     | {
           projectId: string;
