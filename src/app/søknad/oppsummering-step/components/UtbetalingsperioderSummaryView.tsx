@@ -28,7 +28,7 @@ const isUtbetalingsperiode = (value: any): value is Utbetalingsperiode => {
 };
 
 export const timeToStringTemporaryFix = (time: Time, intl: IntlShape, hideZeroMinutes?: boolean): string => {
-    if (hideZeroMinutes && time.minutes === 0) {
+    if (hideZeroMinutes && time.minutes === '0') {
         return `${time.hours} timer`;
     }
     return `${time.hours} timer og ${time.minutes} minutter`;

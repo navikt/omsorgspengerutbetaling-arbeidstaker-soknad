@@ -26,11 +26,13 @@ const getAppStatusSanityConfig = ():
     | {
           projectId: string;
           dataset: string;
+          apiVersion: string;
       }
     | undefined => {
     const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');
     const dataset = getEnvironmentVariable('APPSTATUS_DATASET');
-    return !projectId || !dataset ? undefined : { projectId, dataset };
+    const apiVersion = '2022-03-07';
+    return !projectId || !dataset ? undefined : { projectId, dataset, apiVersion };
 };
 
 const APPLICATION_KEY = 'omsorgspengerutbetaling-arbeidstaker';
