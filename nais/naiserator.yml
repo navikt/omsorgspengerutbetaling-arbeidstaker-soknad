@@ -9,13 +9,13 @@ spec:
     image: {{ image }}
     port: 8080
     liveness:
-        path: /familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isAlive
+        path: {{livenessPath}}
         initialDelay: 20
         timeout: 1
         periodSeconds: 5
         failureThreshold: 10
     readiness:
-        path: /familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isReady
+        path: {{readinessPath}}
         initialDelay: 20
         timeout: 1
     resources:

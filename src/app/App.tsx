@@ -26,19 +26,17 @@ const getAppStatusSanityConfig = ():
     | {
           projectId: string;
           dataset: string;
-          apiVersion: string;
       }
     | undefined => {
     const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');
     const dataset = getEnvironmentVariable('APPSTATUS_DATASET');
-    const apiVersion = '2022-03-07';
-    return !projectId || !dataset ? undefined : { projectId, dataset, apiVersion };
+    return !projectId || !dataset ? undefined : { projectId, dataset };
 };
 
 const APPLICATION_KEY = 'omsorgspengerutbetaling-arbeidstaker';
 export const SKJEMANAVN = 'omsorgspengerutbetaling-arbeidstaker';
 
-const App: React.FunctionComponent = () => {
+const App: React.FC = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
     const appStatusSanityConfig = getAppStatusSanityConfig();
 

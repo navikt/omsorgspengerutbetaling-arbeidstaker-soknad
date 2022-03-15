@@ -6,8 +6,11 @@
     "minReplicas": "1",
     "maxReplicas": "1",
     "ingresses": ["https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no"],
+    "externalHosts": ["www.nav.no", "dekoratoren.dev.nav.no", "dekoratoren.ekstern.dev.nav.no"],
+    "livenessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isAlive",
+    "readinessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isReady",
     "env": {
-        "DECORATOR_URL": "https://www.nav.no/dekoratoren/?simple=true&chatbot=false",
+        "DEKORATOR_URL": "https://dekoratoren.dev.nav.no/?simple=true&chatbot=false&urlLookupTable=false",
         "API_URL": "https://omsorgspengerutbetalingsoknad-arbeidstaker-api.dev.nav.no",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
         "LOGIN_URL": "https://loginservice.dev.nav.no/login?redirect=https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/soknad",
