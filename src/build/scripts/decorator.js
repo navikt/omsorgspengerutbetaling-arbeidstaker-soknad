@@ -1,10 +1,11 @@
+require('dotenv').config();
 const jsdom = require('jsdom');
 const { default: axios } = require('axios');
 const { JSDOM } = jsdom;
 
 const getDecorator = async () => {
     try {
-        const data = await axios.get(process.env.DEKORATOR_URL).then((res) => {
+        const data = await axios.get(process.env.DECORATOR_URL).then((res) => {
             const { document } = new JSDOM(res.data).window;
             const prop = 'innerHTML';
             const data = {
