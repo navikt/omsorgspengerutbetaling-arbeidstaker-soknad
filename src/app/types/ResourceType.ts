@@ -1,8 +1,7 @@
 export enum ResourceType {
-    BARN = 'barn',
-    ARBEIDSGIVER = 'arbeidsgiver',
-    SEND_SØKNAD = 'soknad',
-    SØKER = 'soker',
-    MELLOMLAGRING = 'mellomlagring',
+    ARBEIDSGIVER = 'oppslag/arbeidsgiver?ytelse=omsorgspenger-utbetaling-arbeidstaker',
+    SEND_SØKNAD = 'omsorgspenger-utbetaling-arbeidstaker/innsending',
+    SØKER = 'oppslag/soker?ytelse=omsorgspenger-utbetaling-arbeidstaker',
+    MELLOMLAGRING = 'mellomlagring/OMSORGSPENGER_UTBETALING_ARBEIDSTAKER',
     VEDLEGG = 'vedlegg',
 }
