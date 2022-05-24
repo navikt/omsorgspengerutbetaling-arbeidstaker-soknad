@@ -11,7 +11,7 @@ export const getSøker: () => Promise<AxiosResponse<SøkerApiResponse>> = () =>
     axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
 
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<ArbeidsgiverResponse>> =>
-    axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
+    axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}&fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
 
 export const postApplication = (data: SøknadApiData): Promise<AxiosResponse> =>
     axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosConfig);
