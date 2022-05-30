@@ -11,7 +11,7 @@
     "readinessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isReady",
     "env": {
         "DEKORATOR_URL": "https://dekoratoren.dev.nav.no/?simple=true&chatbot=false&urlLookupTable=false",
-        "API_URL": "https://omsorgspengerutbetalingsoknad-arbeidstaker-api.dev.nav.no",
+        "API_URL": "https://k9-brukerdialog-api.dev.nav.no",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
         "LOGIN_URL": "https://loginservice.dev.nav.no/login?redirect=https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/soknad",
         "TOGGLE_LANGUAGE": "on",

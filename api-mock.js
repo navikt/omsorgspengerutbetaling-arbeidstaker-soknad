@@ -76,7 +76,7 @@ const arbeidsgivereMock = {
     organisasjoner: [],
 };*/
 
-const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
+const MELLOMLAGRING_JSON = `${os.tmpdir()}/omsorgspenger-utbetaling-arbeidstaker-mellomlagring.json`;
 
 const isJSON = (str) => {
     try {
@@ -104,7 +104,7 @@ const startServer = () => {
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
-    server.get('/arbeidsgiver', (req, res) => {
+    server.get('/oppslag/arbeidsgiver', (req, res) => {
         // Kan brukes for å se spinneren på arbeidstaker steget.
         // setTimeout(() => {
         //     res.send(arbeidsgivereMock);
@@ -114,11 +114,11 @@ const startServer = () => {
         //res.send(ingenArbeidsgivererMock);
     });
 
-    server.get('/soker', (req, res) => {
+    server.get('/oppslag/soker', (req, res) => {
         res.send(søkerMock1);
     });
 
-    server.get('/soker-umyndig', (req, res) => {
+    server.get('/oppslag/soker-umyndig', (req, res) => {
         res.send(451);
     });
 
@@ -133,14 +133,14 @@ const startServer = () => {
         req.pipe(busboy);
     });
 
-    server.get('/barn', (req, res) => res.send(barnMock));
+    server.get('/oppslag/barn', (req, res) => res.send(barnMock));
 
-    server.post('/soknad', (req, res) => {
+    server.post('/omsorgspenger-utbetaling-arbeidstaker/innsending', (req, res) => {
         console.log(req.body);
         res.sendStatus(200);
     });
 
-    server.get('/mellomlagring', (req, res) => {
+    server.get('/mellomlagring/OMSORGSPENGER_UTBETALING_ARBEIDSTAKER', (req, res) => {
         if (existsSync(MELLOMLAGRING_JSON)) {
             const body = readFileSync(MELLOMLAGRING_JSON);
             res.send(JSON.parse(body));
@@ -148,19 +148,19 @@ const startServer = () => {
             res.send({});
         }
     });
-    server.post('/mellomlagring', (req, res) => {
+    server.post('/mellomlagring/OMSORGSPENGER_UTBETALING_ARBEIDSTAKER', (req, res) => {
         const body = req.body;
         const jsBody = isJSON(body) ? JSON.parse(body) : body;
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
         res.sendStatus(200);
     });
-    server.put('/mellomlagring', (req, res) => {
+    server.put('/mellomlagring/OMSORGSPENGER_UTBETALING_ARBEIDSTAKER', (req, res) => {
         const body = req.body;
         const jsBody = isJSON(body) ? JSON.parse(body) : body;
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
         res.sendStatus(200);
     });
-    server.delete('/mellomlagring', (req, res) => {
+    server.delete('/mellomlagring/OMSORGSPENGER_UTBETALING_ARBEIDSTAKER', (req, res) => {
         // setTimeout(() => {
         //     writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
         //     res.sendStatus(202);
