@@ -38,6 +38,13 @@ const initialState: State = {
     formData: initialValues,
 };
 
+const isTempStorageValid = (tempStorage: TemporaryStorage): boolean => {
+    return (
+        Object.keys(tempStorage).length === 0 ||
+        (tempStorage.formData && tempStorage.metadata?.version === CurrentTemporaryStorageVersion)
+    );
+};
+
 const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => {
     const [state, setState]: [State, React.Dispatch<React.SetStateAction<State>>] = useState(initialState);
     const [apiCallError, setApiCallError] = useState<boolean>(false);
@@ -83,14 +90,17 @@ const SøknadEssentialsLoader: React.FC<Props> = (props: Props): JSX.Element => 
                         getSøker(),
                         SøknadTempStorage.rehydrate(),
                     ]);
-                    handleSøkerdataFetchSuccess(søkerApiResponse, tempStorage);
+                    /** Kontroller om mellomlagring er ok */
+                    const tempStorageIsValid = tempStorage.data !== undefined && isTempStorageValid(tempStorage.data);
+                    if (!tempStorageIsValid) {
+                        await SøknadTempStorage.purge();
+                    }
+                    handleSøkerdataFetchSuccess(søkerApiResponse, tempStorageIsValid ? tempStorage : undefined);
                 } else {
                     const søkerApiResponse: AxiosResponse<SøkerApiResponse> = await getSøker();
                     handleSøkerdataFetchSuccess(søkerApiResponse);
                 }
             } catch (error) {
-                console.log(error);
-
                 const willRedirect = redirectIfUnauthorized(error);
                 if (isForbidden(error)) {
                     setState({ ...state, hasNoAccess: true, isLoading: false });

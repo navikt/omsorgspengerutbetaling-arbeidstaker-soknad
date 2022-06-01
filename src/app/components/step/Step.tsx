@@ -41,14 +41,16 @@ const Step: React.FunctionComponent<Props> = ({ id, stepConfig, useValidationErr
                     {useValidationErrorSummary !== false && <FormikValidationErrorSummary />}
                 </>
             )}>
-            <BackLink
-                href={conf.backLinkHref}
-                className={bem.element('backLink')}
-                onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
-                    event.preventDefault();
-                    history.push(nextHref);
-                }}
-            />
+            {conf.backLinkHref && (
+                <BackLink
+                    href={conf.backLinkHref}
+                    className={bem.element('backLink')}
+                    onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
+                        event.preventDefault();
+                        history.push(nextHref);
+                    }}
+                />
+            )}
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xxl">
                 <Systemtittel tag="h1" className={bem.element('title')}>

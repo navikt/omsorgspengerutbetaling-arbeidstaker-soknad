@@ -13,6 +13,7 @@ import Søknad from './søknad/Søknad';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
+import '@navikt/ds-css';
 import 'common/styles/globalStyles.less';
 import './app.less';
 

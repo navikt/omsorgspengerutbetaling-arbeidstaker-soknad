@@ -2,7 +2,6 @@ import { SøknadFormData } from '../types/SøknadFormData';
 import { getAlleUtbetalingsperioder } from 'app/utils/arbeidsforholdUtils';
 import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from '../utils/periodeUtils';
 import { getMaybeSøknadRoute } from '../utils/routeUtils';
-import routeConfig from './routeConfig';
 
 export enum StepID {
     'SITUASJON' = 'situasjon',
@@ -70,7 +69,6 @@ export const getStepConfig = (values: SøknadFormData): StepConfigInterface => {
             ...getStepConfigItemTextKeys(StepID.SITUASJON),
             index: idx++,
             nextStep: StepID.FRAVÆR,
-            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
         },
         [StepID.FRAVÆR]: {
             ...getStepConfigItemTextKeys(StepID.FRAVÆR),
