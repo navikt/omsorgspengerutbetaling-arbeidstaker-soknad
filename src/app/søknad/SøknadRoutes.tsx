@@ -95,6 +95,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
 
     const doStartSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
+        await SøknadTempStorage.purge();
         await SøknadTempStorage.create();
         navigateToStep(StepID.SITUASJON);
     };
