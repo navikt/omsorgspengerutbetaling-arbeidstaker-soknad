@@ -99,6 +99,7 @@
         "babel-jest": "^28.1.0",
         "babel-polyfill": "^6.26.0",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
+        "cheerio": "1.0.0-rc.10",
         "css-loader": "^6.7.1",
         "enzyme": "^3.11.0",
         "eslint": "^8.16.0",
@@ -133,6 +134,9 @@
     },
     "resolutions": {
         "babel-core": "7.0.0-bridge.0"
+    },
+    "enzyme": {
+        "cheerio": "1.0.0-rc.10"
     },
     "snyk": true
 }
