@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { FormikProps, useFormikContext } from 'formik';
+import { Location } from 'history';
+import { redirectIfUnauthorized } from '../api/api';
+import { SKJEMANAVN } from '../App';
+import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
 import ConfirmationPage from '../components/pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../components/pages/general-error-page/GeneralErrorPage';
+import LoadingPage from '../components/pages/loading-page/LoadingPage';
 import WelcomingPage from '../components/pages/welcoming-page/WelcomingPage';
 import RouteConfig from '../config/routeConfig';
 import { StepID } from '../config/stepConfig';
+import useEffectOnce from '../hooks/useEffectOnce';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
-import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { initialValues, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
+import { WillRedirect } from '../types/types';
+import * as apiUtils from '../utils/apiUtils';
+import appSentryLogger from '../utils/appSentryLogger';
+import { getAlleUtbetalingsperioder } from '../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 import { navigateTo, navigateToLoginPage, navigateToWelcomePage } from '../utils/navigationUtils';
+import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from '../utils/periodeUtils';
 import { getMaybeSøknadRoute, getNextStepId, getSøknadRoute, isAvailable } from '../utils/routeUtils';
+import FraværStep from './fravær-step/FraværStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import SituasjonStepView from './situasjon-step/SituasjonStepView';
-import SøknadTempStorage from './SøknadTempStorage';
-import * as apiUtils from '../utils/apiUtils';
-import FortsettSøknadModalView from '../components/fortsett-søknad-modal/FortsettSøknadModalView';
-import { redirectIfUnauthorized } from '../api/api';
-import { WillRedirect } from '../types/types';
-import LoadingPage from '../components/pages/loading-page/LoadingPage';
-import appSentryLogger from '../utils/appSentryLogger';
-import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
-import { SKJEMANAVN } from '../App';
-import FraværStep from './fravær-step/FraværStep';
-import StengtBhgSkoleDokumenterStep from './stengt-bhg-skole-dokumenter-step/StengtBhgSkoleDokumenterStep';
 import SmittevernDokumenterStep from './smittevern-dokumenter-step/SmittvernDokumenterStep';
-import { getAlleUtbetalingsperioder } from '../utils/arbeidsforholdUtils';
-import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from '../utils/periodeUtils';
+import StengtBhgSkoleDokumenterStep from './stengt-bhg-skole-dokumenter-step/StengtBhgSkoleDokumenterStep';
+import SøknadTempStorage from './SøknadTempStorage';
 
 interface SøknadRoutesProps {
     lastStepID: StepID | undefined;
@@ -45,6 +47,10 @@ const ifAvailable = (stepID: StepID, values: SøknadFormData, component: JSX.Ele
     }
 };
 
+export const isOnVelkommenPage = (pathname: string): boolean => {
+    return pathname.indexOf(RouteConfig.WELCOMING_PAGE_ROUTE) >= 0;
+};
+
 const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps): JSX.Element => {
     const { lastStepID, formikProps, søkerdata } = props;
     const { values, resetForm } = useFormikContext<SøknadFormData>();
@@ -57,6 +63,18 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
     const { logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
+
+    useEffectOnce(() => {
+        /** Kontrollerer om bruker har brukt back-knapp og kommet til velkommen-siden */
+        return history.listen((location: Location) => {
+            const harStartet = values[SøknadFormField.harForståttRettigheterOgPlikter];
+            if (history.action === 'POP' && isOnVelkommenPage(location.pathname)) {
+                if (harStartet) {
+                    setHasBeenClosed(false);
+                }
+            }
+        });
+    });
 
     async function navigateToStep(stepID: StepID) {
         if (isFeatureEnabled(Feature.MELLOMLAGRING)) {
@@ -145,6 +163,7 @@ const SøknadRoutes: React.FC<SøknadRoutesProps> = (props: SøknadRoutesProps):
     if (showErrorMessage) {
         return <GeneralErrorPage cause={'showErrorMessage in SøknadRoutes'} />;
     }
+
     return (
         <Switch>
             <Route

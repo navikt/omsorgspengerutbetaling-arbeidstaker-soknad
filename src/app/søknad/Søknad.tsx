@@ -17,9 +17,9 @@ const Søknad: React.FC = (): JSX.Element => (
                 <SøknadFormComponents.FormikWrapper
                     initialValues={formData}
                     onSubmit={(): null => null}
-                    renderForm={(formikProps): JSX.Element => (
-                        <SøknadRoutes søkerdata={søkerdata} lastStepID={lastStepID} formikProps={formikProps} />
-                    )}
+                    renderForm={(formikProps): JSX.Element => {
+                        return <SøknadRoutes søkerdata={søkerdata} lastStepID={lastStepID} formikProps={formikProps} />;
+                    }}
                 />
             );
         }}
