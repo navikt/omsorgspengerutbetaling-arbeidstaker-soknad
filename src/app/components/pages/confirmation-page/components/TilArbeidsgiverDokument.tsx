@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Panel from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
-import { ArbeidsgiverDetaljer, Utbetalingsperiode } from '../../../../types/SøknadApiData';
+import { ApiAktivitet, ArbeidsgiverDetaljer, Utbetalingsperiode } from '../../../../types/SøknadApiData';
 import { Time } from 'common/types/Time';
 import { iso8601DurationToTime, isValidTime } from 'common/utils/timeUtils';
 import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
@@ -72,6 +72,7 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                                         antallTimerPlanlagt: maybePlanlagt,
                                         antallTimerBorte: maybeBorte,
                                         årsak: periode.årsak,
+                                        aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                                     })}
                                 </li>
                             ) : (

@@ -1,6 +1,6 @@
 import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
 import { Utbetalingsårsak } from '../ArbeidsforholdTypes';
-import { SøknadApiData } from '../SøknadApiData';
+import { ApiAktivitet, SøknadApiData } from '../SøknadApiData';
 
 export const gyldigSøknadApiData1: SøknadApiData = {
     språk: 'nb',
@@ -20,6 +20,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-05-04',
@@ -27,6 +28,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-05-06',
@@ -34,6 +36,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: 'PT5H0M',
                     antallTimerBorte: 'PT5H0M',
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-05-07',
@@ -41,6 +44,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: 'PT7H0M',
                     antallTimerBorte: 'PT7H0M',
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
             ],
         },
@@ -57,6 +61,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-04-03',
@@ -64,6 +69,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-04-06',
@@ -71,6 +77,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: 'PT2H30M',
                     antallTimerBorte: 'PT2H30M',
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-04-07',
@@ -78,6 +85,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: 'PT4H0M',
                     antallTimerBorte: 'PT4H0M',
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
             ],
         },
@@ -94,6 +102,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-03-04',
@@ -101,6 +110,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-03-09',
@@ -108,6 +118,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
                 {
                     fraOgMed: '2020-03-10',
@@ -115,6 +126,7 @@ export const gyldigSøknadApiData1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
             ],
         },

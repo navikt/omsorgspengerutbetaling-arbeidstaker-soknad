@@ -4,7 +4,7 @@ import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/Sum
 import { Time } from 'common/types/Time';
 import { apiStringDateToDate, prettifyDate, prettifyDateExtended } from 'common/utils/dateUtils';
 import { iso8601DurationToTime, timeToDecimalTime } from 'common/utils/timeUtils';
-import { Utbetalingsperiode } from '../../../types/SøknadApiData';
+import { ApiAktivitet, Utbetalingsperiode } from '../../../types/SøknadApiData';
 import SummaryBlock from './SummaryBlock';
 import { isString } from 'formik';
 import { FraværÅrsak, timeText, getFraværÅrsakTekstKort } from '@navikt/sif-common-forms/lib/fravær';
@@ -53,6 +53,7 @@ export const toMaybeUtbetalingsperiodeDag = (p: Utbetalingsperiode): Utbetalings
                 antallTimerPlanlagt: antallTimerPlanlagtTime,
                 antallTimerBorte: antallTimerBorteTime,
                 årsak: p.årsak,
+                aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
             };
         }
     }

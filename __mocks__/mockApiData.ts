@@ -1,4 +1,4 @@
-import { SøknadApiData } from '../src/app/types/SøknadApiData';
+import { ApiAktivitet, SøknadApiData } from '../src/app/types/SøknadApiData';
 import { SøkerApiResponse } from '../src/app/types/Søkerdata';
 import { Utbetalingsårsak } from '../src/app/types/ArbeidsforholdTypes';
 import { FraværÅrsak } from '@navikt/sif-common-forms/lib';
@@ -51,6 +51,7 @@ export const mock1: SøknadApiData = {
                     antallTimerPlanlagt: null,
                     antallTimerBorte: null,
                     årsak: FraværÅrsak.ordinært,
+                    aktivitetFravær: [ApiAktivitet.ARBEIDSTAKER],
                 },
             ],
         },
