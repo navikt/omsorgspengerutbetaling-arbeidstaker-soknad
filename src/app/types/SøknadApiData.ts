@@ -47,12 +47,17 @@ export interface ArbeidsgiverDetaljer {
     perioder: Utbetalingsperiode[];
 }
 
+export enum ApiAktivitet {
+    ARBEIDSTAKER = 'ARBEIDSTAKER',
+}
+
 export interface Utbetalingsperiode {
     fraOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     tilOgMed: ApiStringDate; // @JsonFormat(pattern = "yyyy-MM-dd")
     antallTimerBorte: string | null; // f eks PT5H30M | "null" (type Duration)
     antallTimerPlanlagt: string | null; // f eks PT5H30M | "null" (type Duration)
     årsak: FraværÅrsak;
+    aktivitetFravær: ApiAktivitet[];
 }
 
 export interface SøknadApiData {
