@@ -2,8 +2,9 @@ const { Issuer } = require('openid-client');
 let tokenxClient;
 
 async function initTokenX() {
+    console.log('initTokenX');
     const tokenxIssuer = await Issuer.discover(process.env.TOKEN_X_WELL_KNOWN_URL);
-
+    console.log('tokenxIssuer: ', tokenxIssuer);
     tokenxClient = new tokenxIssuer.Client(
         {
             client_id: process.env.TOKEN_X_CLIENT_ID,
@@ -13,6 +14,7 @@ async function initTokenX() {
             keys: [JSON.parse(process.env.TOKEN_X_PRIVATE_JWK)],
         }
     );
+    console.log('tokenxClient: ', tokenxClient);
 }
 
 async function getTokenXToken(token, additionalClaims) {
