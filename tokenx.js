@@ -1,7 +1,8 @@
-const { Issuer } = require('openid-client');
+import { Issuer } from 'openid-client';
 let tokenxClient;
 
 async function initTokenX() {
+    console.log('Initierer tokenX...');
     const tokenxIssuer = await Issuer.discover(process.env.TOKEN_X_WELL_KNOWN_URL);
 
     tokenxClient = new tokenxIssuer.Client(
@@ -13,6 +14,7 @@ async function initTokenX() {
             keys: [JSON.parse(process.env.TOKEN_X_PRIVATE_JWK)],
         }
     );
+    console.log('TokenX initiert');
 }
 
 async function getTokenXToken(token, additionalClaims) {
@@ -51,7 +53,7 @@ async function exchangeToken(token) {
     return await getTokenXToken(token, additionalClaims);
 }
 
-module.exports = {
+export default {
     initTokenX,
     exchangeToken,
 };
