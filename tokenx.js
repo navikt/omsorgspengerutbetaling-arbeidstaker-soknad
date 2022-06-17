@@ -1,4 +1,4 @@
-import { Issuer } from 'openid-client';
+const { Issuer } = require('openid-client');
 let tokenxClient;
 
 async function initTokenX() {
@@ -53,7 +53,7 @@ async function exchangeToken(token) {
     return await getTokenXToken(token, additionalClaims);
 }
 
-export default {
+module.exports = {
     initTokenX,
     exchangeToken,
 };
