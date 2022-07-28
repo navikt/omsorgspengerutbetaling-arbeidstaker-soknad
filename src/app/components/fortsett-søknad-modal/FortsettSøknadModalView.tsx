@@ -14,6 +14,7 @@ interface Props {
 }
 
 // TODO: Flytte til sif-common-core, og bruke intl
+// TODO: ta i bruk
 const FortsettSøknadModalView: React.FC<Props> = (props: Props): JSX.Element => {
     const { isOpen, onRequestClose, onFortsettPåSøknad, onStartNySøknad, buttonsAreDisabled } = props;
     return (

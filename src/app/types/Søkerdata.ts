@@ -1,6 +1,3 @@
-import { isObject, isString } from 'formik';
-import { isStringOrNull } from './typeGuardUtilities';
-
 export interface Person {
     etternavn: string | null;
     fornavn: string | null;
@@ -17,22 +14,6 @@ export interface SøkerApiResponse {
     mellomnavn: string | null;
     etternavn: string | null;
 }
-
-export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse is SøkerApiResponse => {
-    if (
-        isObject(søkerApiResponse) &&
-        isString(søkerApiResponse.aktørId) &&
-        isString(søkerApiResponse.fødselsdato) &&
-        isString(søkerApiResponse.fødselsnummer) &&
-        isStringOrNull(søkerApiResponse.fornavn) &&
-        isStringOrNull(søkerApiResponse.mellomnavn) &&
-        isStringOrNull(søkerApiResponse.etternavn)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
 
 export interface Søkerdata {
     person: Person;

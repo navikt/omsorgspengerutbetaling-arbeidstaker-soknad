@@ -6,26 +6,25 @@ import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormBlock from 'common/components/form-block/FormBlock';
 import FormSection from 'common/components/form-section/FormSection';
-import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from '../../validation/components/arbeidsforholdValidations';
-import SøknadStep from '../SøknadStep';
-import './periodeStep.less';
 import ArbeidsforholdFravær from '../../components/formik-arbeidsforhold/ArbeidsforholdFravær';
 import { cleanupStep } from './fraværStepUtils';
 import { date1YearAgo, DateRange, dateToday } from 'common/utils/dateUtils';
 import { useCallback, useEffect, useState } from 'react';
 import { getAlleFraværDager, getAlleFraværPerioder } from '../../utils/arbeidsforholdUtils';
 import { getTidsromFromÅrstall, getÅrstallFromFravær } from '../../utils/fraværUtils';
-import SøknadFormComponents from '../SøknadFormComponents';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { getYesOrNoValidator, getListValidator } from '@navikt/sif-common-formik/lib/validation';
+import SoknadFormStep from '../SoknadFormStep';
+import { StepID } from '../soknadStepsConfig';
+import SoknadFormComponents from '../SoknadFormComponents';
+import './periodeStep.less';
 
-const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
+const FraværStep: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
     const { perioderHarVærtIUtlandet } = values;
@@ -61,13 +60,7 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
     const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : dateToday;
 
     return (
-        <SøknadStep
-            id={StepID.FRAVÆR}
-            onValidFormSubmit={() => {
-                onValidSubmit();
-            }}
-            cleanupStep={cleanupStep}
-            showSubmitButton={true}>
+        <SoknadFormStep id={StepID.FRAVÆR} onStepCleanup={cleanupStep}>
             <FormBlock>
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage id={'step.fravær.info.1'} />
@@ -108,7 +101,7 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
             <FormBlock margin={'xxl'}>
                 <FormSection title={intlHelper(intl, 'step.fravær.utenlandsopphold.tittel')}>
                     <FormBlock margin={'l'}>
-                        <SøknadFormComponents.YesOrNoQuestion
+                        <SoknadFormComponents.YesOrNoQuestion
                             name={SøknadFormField.perioderHarVærtIUtlandet}
                             legend={intlHelper(intl, 'step.fravær.værtIUtlandet.spm')}
                             validate={getYesOrNoValidator()}
@@ -130,7 +123,7 @@ const FraværStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }
                     )}
                 </FormSection>
             </FormBlock>
-        </SøknadStep>
+        </SoknadFormStep>
     );
 };
 

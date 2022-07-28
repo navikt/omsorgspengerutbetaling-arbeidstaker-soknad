@@ -5,7 +5,7 @@ import AttachmentList from 'common/components/attachment-list/AttachmentList';
 import { Attachment } from 'common/types/Attachment';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import { removeElementFromArray } from 'common/utils/listUtils';
-import { deleteFile } from '../../api/api';
+import api from '../../api/api';
 import { SøknadFormData } from '../../types/SøknadFormData';
 
 interface Props {
@@ -15,11 +15,7 @@ interface Props {
     wrapNoAttachmentsInBox?: boolean;
 }
 
-const UploadedDocumentsList: React.FunctionComponent<Props> = ({
-    attachments,
-    formikFieldName,
-    includeDeletionFunctionality,
-}) => {
+const UploadedDocumentsList: React.FC<Props> = ({ attachments, formikFieldName, includeDeletionFunctionality }) => {
     const { setFieldValue } = useFormikContext<SøknadFormData>();
 
     const dokumenter: Attachment[] = attachments.filter(({ file }: Attachment) => {
@@ -38,7 +34,7 @@ const UploadedDocumentsList: React.FunctionComponent<Props> = ({
                     attachment.pending = true;
                     setFieldValue(formikFieldName, dokumenter);
                     attachment.url &&
-                        deleteFile(attachment.url).then(
+                        api.deleteFile(attachment.url).then(
                             () => {
                                 setFieldValue(formikFieldName, removeElementFromArray(attachment, dokumenter));
                             },

@@ -3,7 +3,7 @@ import Box from 'common/components/box/Box';
 import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
 import FormBlock from 'common/components/form-block/FormBlock';
 import { Attachment } from 'common/types/Attachment';
-import { navigateToLoginPage } from '../../utils/navigationUtils';
+import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { alleDokumenterISøknadenToFieldValidationResult } from '../../validation/fieldValidations';
 import FormikFileUploader from '../formik-file-uploader/FormikFileUploader';
 import UploadedDocumentsList from '../uploaded-documents-list/UploadedDocumentsList';
@@ -44,7 +44,7 @@ const FormikVedleggsKomponent: React.FC<Props> = ({
                             onFileInputClick={() => {
                                 setFilesThatDidntGetUploaded([]);
                             }}
-                            onUnauthorizedOrForbiddenUpload={() => navigateToLoginPage()}
+                            onUnauthorizedOrForbiddenUpload={() => relocateToLoginPage()}
                             validate={() => alleDokumenterISøknadenToFieldValidationResult(alleDokumenterISøknaden)}
                             listOfAttachments={dokumenter}
                         />

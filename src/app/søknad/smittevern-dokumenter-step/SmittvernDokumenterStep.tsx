@@ -7,13 +7,13 @@ import PictureScanningGuide from 'common/components/picture-scanning-guide/Pictu
 import { Attachment } from 'common/types/Attachment';
 import intlHelper from 'common/utils/intlUtils';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
-import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import SøknadStep from '../SøknadStep';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import SoknadFormStep from '../SoknadFormStep';
+import { StepID } from '../soknadStepsConfig';
 
-const SmittevernDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const SmittevernDokumenterStep: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
@@ -22,10 +22,9 @@ const SmittevernDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ on
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
-        <SøknadStep
+        <SoknadFormStep
             id={StepID.DOKUMENTER_SMITTEVERNHENSYN}
-            onValidFormSubmit={onValidSubmit}
-            useValidationErrorSummary={true}
+            includeValidationSummary={true}
             buttonDisabled={attachmentsSizeOver24Mb}>
             <>
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
@@ -46,7 +45,7 @@ const SmittevernDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ on
                     alleDokumenterISøknaden={alleDokumenterISøknaden}
                 />
             </>
-        </SøknadStep>
+        </SoknadFormStep>
     );
 };
 

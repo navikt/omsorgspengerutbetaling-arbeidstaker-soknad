@@ -8,13 +8,13 @@ import PictureScanningGuide from 'common/components/picture-scanning-guide/Pictu
 import { Attachment } from 'common/types/Attachment';
 import intlHelper from 'common/utils/intlUtils';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
-import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import SøknadStep from '../SøknadStep';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import SoknadFormStep from '../SoknadFormStep';
+import { StepID } from '../soknadStepsConfig';
 
-const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const StengtBhgSkoleDokumenterStep: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
@@ -23,10 +23,9 @@ const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = (
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
-        <SøknadStep
+        <SoknadFormStep
             id={StepID.DOKUMENTER_STENGT_SKOLE_BHG}
-            onValidFormSubmit={onValidSubmit}
-            useValidationErrorSummary={true}
+            includeValidationSummary={true}
             buttonDisabled={attachmentsSizeOver24Mb}>
             <FormBlock>
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
@@ -47,7 +46,7 @@ const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = (
                     alleDokumenterISøknaden={alleDokumenterISøknaden}
                 />
             </FormBlock>{' '}
-        </SøknadStep>
+        </SoknadFormStep>
     );
 };
 

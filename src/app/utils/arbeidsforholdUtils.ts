@@ -1,8 +1,6 @@
 import { Arbeidsgiver, ArbeidsgiverResponse } from '../types/Søkerdata';
-import { getArbeidsgiver } from '../api/api';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import { navigateToLoginPage } from './navigationUtils';
-import { apiUtils } from './apiUtils';
+import { relocateToLoginPage } from './navigationUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { AxiosResponse } from 'axios';
 import { ArbeidsforholdFormData, Utbetalingsårsak } from '../types/ArbeidsforholdTypes';
@@ -11,6 +9,8 @@ import { SøknadFormData } from '../types/SøknadFormData';
 import { FraværDag, FraværPeriode } from '@navikt/sif-common-forms/lib';
 import { Utbetalingsperiode } from '../types/SøknadApiData';
 import { mapFraværTilUtbetalingsperiode } from './formToApiMaps/mapPeriodeToApiData';
+import { getArbeidsgiver } from '../api/getArbeidsgiver';
+import { isForbidden, isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -49,8 +49,8 @@ export const getArbeidsgivere = async (
         );
         return response;
     } catch (error) {
-        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-            navigateToLoginPage();
+        if (isForbidden(error) || isUnauthorized(error)) {
+            relocateToLoginPage();
         } else {
             appSentryLogger.logApiError(error);
         }
