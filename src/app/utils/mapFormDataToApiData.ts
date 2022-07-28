@@ -1,5 +1,4 @@
 import { SøknadApiData } from '../types/SøknadApiData';
-import { mapToBekreftelser } from './formToApiMaps/mapFunctions';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { IntlShape } from 'react-intl';
 import { Locale } from 'common/types/Locale';
@@ -59,7 +58,10 @@ export const mapFormDataToApiData = (
         ),
         opphold: settInnOpphold(perioderHarVærtIUtlandet, perioderUtenlandsopphold, intl.locale), // periode siden, har du oppholdt
         arbeidsgivere: mapListeAvArbeidsforholdFormDataToListeAvArbeidsgiverDetaljer([...arbeidsforhold]),
-        bekreftelser: mapToBekreftelser(harForståttRettigheterOgPlikter, harBekreftetOpplysninger),
+        bekreftelser: {
+            harForståttRettigheterOgPlikter: harForståttRettigheterOgPlikter,
+            harBekreftetOpplysninger: harBekreftetOpplysninger,
+        },
         vedlegg: [
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold]),
             ..._vedleggSmittevern,
