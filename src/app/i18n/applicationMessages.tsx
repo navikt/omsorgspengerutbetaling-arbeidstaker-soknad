@@ -4,6 +4,7 @@ import bostedUtlandMessages from '@navikt/sif-common-forms/lib/bosted-utland/bos
 import fosterbarnMessages from '@navikt/sif-common-forms/lib/fosterbarn/fosterbarnMessages';
 import fraværMessages from '@navikt/sif-common-forms/lib/fravær/fraværMessages';
 import soknadIntlMessages from '@navikt/sif-common-soknad/lib/soknad-intl-messages/soknadIntlMessages';
+import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 
 export const appBokmålstekster = require('./nb.json');
 export const appNynorsktekster = require('./nn.json');
@@ -26,7 +27,17 @@ const nynorsktekster = {
     ...soknadIntlMessages.nn,
 };
 
-export const applicationIntlMessages: MessageFileFormat = {
-    nb: bokmålstekster,
-    nn: nynorsktekster,
+const getIntlMessages = (): MessageFileFormat => {
+    if (isFeatureEnabled(Feature.NYNORSK)) {
+        return {
+            nb: bokmålstekster,
+            nn: nynorsktekster,
+        };
+    } else {
+        return {
+            nb: bokmålstekster,
+        };
+    }
 };
+
+export const applicationIntlMessages = getIntlMessages();
