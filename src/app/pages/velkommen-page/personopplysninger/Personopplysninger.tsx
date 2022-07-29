@@ -10,67 +10,69 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
     return (
         <>
             <Systemtittel tag="h1">
-                <FormattedMessage id="modal.personopplysninger.1" />
+                <FormattedMessage id="modal.personalopplysninger.tittel" />
             </Systemtittel>
             <Box margin="xl">
-                <FormattedMessage id="modal.personopplysninger.2" />
+                <FormattedMessage id="modal.personalopplysninger.intro.1" />
             </Box>
             <Box margin="xl">
                 <Ingress tag="h2">
-                    <FormattedMessage id="modal.personopplysninger.3" />
+                    <FormattedMessage id="modal.personalopplysninger.opplysninger.tittel" />
                 </Ingress>
                 <p>
-                    <FormattedMessage id="modal.personopplysninger.4" />
+                    <FormattedMessage id="modal.personalopplysninger.opplysninger.part1" />
                 </p>
                 <ul>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.4.1" />
+                        <FormattedMessage id="modal.personalopplysninger.opplysninger.1" />
                     </li>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.4.2" />
+                        <FormattedMessage id="modal.personalopplysninger.opplysninger.2" />
                     </li>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.4.3" />
+                        <FormattedMessage id="modal.personalopplysninger.opplysninger.3" />
                     </li>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.4.4" />
+                        <FormattedMessage id="modal.personalopplysninger.opplysninger.4" />
                     </li>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.4.5" />
-                    </li>
-                    <li>
-                        <FormattedMessage id="modal.personopplysninger.4.6" />
+                        <FormattedMessage id="modal.personalopplysninger.opplysninger.5" />
                     </li>
                 </ul>
+                <p>
+                    <FormattedMessage id="modal.personalopplysninger.opplysninger.part2" />
+                </p>
             </Box>
 
             <Box margin="xl">
                 <Ingress tag="h2">
-                    <FormattedMessage id="modal.personopplysninger.5" />
+                    <FormattedMessage id="modal.personalopplysninger.svar.tittel" />
                 </Ingress>
                 <p>
-                    <FormattedMessage id="modal.personopplysninger.6" />
+                    <FormattedMessage id="modal.personalopplysninger.svar.part1" />
                 </p>
                 <ul>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.6.1" />
+                        <FormattedMessage id="modal.personalopplysninger.svar.1" />
                     </li>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.6.2" />
+                        <FormattedMessage id="modal.personalopplysninger.svar.2" />
                     </li>
                     <li>
-                        <FormattedMessage id="modal.personopplysninger.6.3" />
+                        <FormattedMessage id="modal.personalopplysninger.svar.3" />
                     </li>
                 </ul>
             </Box>
             <Box margin="xl">
+                <Ingress tag="h2">
+                    <FormattedMessage id="modal.personalopplysninger.personvern.tittel" />
+                </Ingress>
                 <p>
-                    <FormattedMessage id="modal.personopplysninger.7.1" />
+                    <FormattedMessage id="modal.personalopplysninger.personvern.part1a" />
                     {` `}
                     <Lenke href={getLenker(intl.locale).personvern} target="_blank">
-                        <FormattedMessage id="modal.personopplysninger.7.2" />
+                        <FormattedMessage id="modal.personalopplysninger.personvern.part1b" />
                     </Lenke>
-                    <FormattedMessage id="modal.personopplysninger.7.3" />
                 </p>
             </Box>
         </>
