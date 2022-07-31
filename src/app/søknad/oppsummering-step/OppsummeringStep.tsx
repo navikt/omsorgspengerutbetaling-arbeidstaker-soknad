@@ -14,7 +14,7 @@ import UtenlandsoppholdISøkeperiodeSummaryView from './components/Utenlandsopph
 import ArbeidsforholdSummaryView from './components/ArbeidsforholdSummaryView';
 import SmittevernDokumenterSummaryView from './components/SmittevernDokumenterSummaryView';
 import StengtBhgSkoleDokumenterSummaryView from './components/StengtBhgSkoleDokumenterSummaryView';
-import SummarySection from './components/summary-section/SummarySection';
+import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 import { getAlleUtbetalingsperioder } from 'app/utils/arbeidsforholdUtils';
 import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from 'app/utils/periodeUtils';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';

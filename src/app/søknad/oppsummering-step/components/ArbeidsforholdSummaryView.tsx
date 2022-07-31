@@ -11,8 +11,8 @@ import { ArbeidsforholdFormData, ArbeidsforholdFormDataFields, Utbetalingsårsak
 import { SøknadFormData, SøknadFormField } from 'app/types/SøknadFormData';
 import { skalInkludereArbeidsforhold } from 'app/validation/components/arbeidsforholdValidations';
 import { ArbeidsgiverDetaljer } from '../../../types/SøknadApiData';
-import JaNeiSvar from './JaNeiSvar';
-import SummaryBlock from './SummaryBlock';
+import JaNeiSvar from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/JaNeiSvar';
+import SummaryBlock from '@navikt/sif-common-soknad/lib/soknad-summary/summary-block/SummaryBlock';
 import UtbetalingsperioderSummaryView from './UtbetalingsperioderSummaryView';
 import './arbeidsforholdSummary.less';
 
