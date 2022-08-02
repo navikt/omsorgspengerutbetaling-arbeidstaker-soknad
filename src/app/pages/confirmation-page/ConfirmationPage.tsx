@@ -15,19 +15,28 @@ import { SøknadApiData } from '../../types/SøknadApiData';
 import TilArbeidsgiverDokumentListe from './components/TilArbeidsgiverDokumentListe';
 import './confirmationPage.less';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
+import { useEffect, useState } from 'react';
 
 const bem = bemUtils('confirmationPage');
 
 export interface Props {
     søker: Person | undefined;
     søknadApiData: SøknadApiData | undefined;
+    resetForm: () => void;
 }
 
-const ConfirmationPage: React.FC<Props> = (props: Props): JSX.Element => {
-    const { søker, søknadApiData } = props;
+const ConfirmationPage: React.FC<Props> = ({ søker, søknadApiData, resetForm }: Props): JSX.Element => {
     const intl = useIntl();
+    const [formReset, setFormReset] = useState<boolean>(false);
 
     useLogSidevisning(SIFCommonPageKey.kvittering);
+
+    useEffect(() => {
+        if (!formReset) {
+            resetForm();
+            setFormReset(true);
+        }
+    }, [formReset, resetForm]);
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>

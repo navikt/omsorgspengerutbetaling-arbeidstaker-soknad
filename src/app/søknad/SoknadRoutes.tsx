@@ -34,13 +34,11 @@ interface Props {
 
 const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => {
     const intl = useIntl();
-    const { values } = useFormikContext<SøknadFormData>();
-    const availableSteps = getAvailableSteps(values);
+
+    const { values, resetForm } = useFormikContext<SøknadFormData>();
     const { soknadStepsConfig, sendSoknadStatus } = useSoknadContext();
 
-    // const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
-    // const visStegDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
-    // const visStegDo
+    const availableSteps = getAvailableSteps(values);
 
     const renderSoknadStep = (søker: Person, stepID: StepID): React.ReactNode => {
         switch (stepID) {
@@ -78,12 +76,10 @@ const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => 
                 <LoadWrapper
                     isLoading={isPending(sendSoknadStatus.status) || isInitial(sendSoknadStatus.status)}
                     contentRenderer={() => {
-                        if (
-                            isSuccess(sendSoknadStatus.status) && (
-                                <ConfirmationPage søker={søker} søknadApiData={kvitteringInfo} />
-                            )
-                        ) {
-                            return <ConfirmationPage søker={søker} søknadApiData={kvitteringInfo} />;
+                        if (isSuccess(sendSoknadStatus.status)) {
+                            return (
+                                <ConfirmationPage søker={søker} søknadApiData={kvitteringInfo} resetForm={resetForm} />
+                            );
                         }
                         if (isFailure(sendSoknadStatus.status)) {
                             return <ErrorPage />;
