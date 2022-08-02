@@ -35,7 +35,7 @@ interface Props {
 const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => {
     const intl = useIntl();
 
-    const { values, resetForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const { soknadStepsConfig, sendSoknadStatus } = useSoknadContext();
 
     const availableSteps = getAvailableSteps(values);
@@ -77,9 +77,7 @@ const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => 
                     isLoading={isPending(sendSoknadStatus.status) || isInitial(sendSoknadStatus.status)}
                     contentRenderer={() => {
                         if (isSuccess(sendSoknadStatus.status)) {
-                            return (
-                                <ConfirmationPage søker={søker} søknadApiData={kvitteringInfo} resetForm={resetForm} />
-                            );
+                            return <ConfirmationPage søker={søker} søknadApiData={kvitteringInfo} />;
                         }
                         if (isFailure(sendSoknadStatus.status)) {
                             return <ErrorPage />;

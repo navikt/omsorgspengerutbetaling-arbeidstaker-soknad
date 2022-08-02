@@ -35,6 +35,8 @@ interface Props {
     route?: string;
 }
 
+type resetFormFunc = () => void;
+
 const Soknad = ({ søker, soknadTempStorage: tempStorage }: Props) => {
     const history = useHistory();
     const [initializing, setInitializing] = useState(true);
@@ -89,19 +91,20 @@ const Soknad = ({ søker, soknadTempStorage: tempStorage }: Props) => {
         relocateToNavFrontpage();
     };
 
-    const onSoknadSent = async (apiValues: SøknadApiData) => {
+    const onSoknadSent = async (apiValues: SøknadApiData, resetFormikForm: resetFormFunc) => {
         await soknadTempStorage.purge();
         await logSoknadSent(SKJEMANAVN);
         setSendSoknadStatus({ failures: 0, status: success(apiValues) });
         setSoknadId(undefined);
+        resetFormikForm();
         setKvitteringInfo(apiValues);
         navigateToKvitteringPage(history);
     };
 
-    const send = async (apiValues: SøknadApiData) => {
+    const send = async (apiValues: SøknadApiData, resetFormikForm: resetFormFunc) => {
         try {
             await sendSoknad(apiValues);
-            onSoknadSent(apiValues);
+            onSoknadSent(apiValues, resetFormikForm);
         } catch (error) {
             if (isUserLoggedOut(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
@@ -120,11 +123,11 @@ const Soknad = ({ søker, soknadTempStorage: tempStorage }: Props) => {
         }
     };
 
-    const triggerSend = (apiValues: SøknadApiData) => {
+    const triggerSend = (apiValues: SøknadApiData, resetForm: resetFormFunc) => {
         setTimeout(() => {
             setSendSoknadStatus({ ...sendSoknadStatus, status: pending });
             setTimeout(() => {
-                send(apiValues);
+                send(apiValues, resetForm);
             });
         });
     };
@@ -162,7 +165,7 @@ const Soknad = ({ søker, soknadTempStorage: tempStorage }: Props) => {
                     <SoknadFormComponents.FormikWrapper
                         initialValues={initialFormData}
                         onSubmit={() => null}
-                        renderForm={({ values }) => {
+                        renderForm={({ values, resetForm }) => {
                             const navigateToNextStepFromStep = async (stepID: StepID) => {
                                 const soknadStepsConfig = getSoknadStepsConfig(values);
                                 const stepToPersist = soknadStepsConfig[stepID].nextStep;
@@ -196,7 +199,7 @@ const Soknad = ({ søker, soknadTempStorage: tempStorage }: Props) => {
                                             ? (stepId) => continueSoknadLater(soknadId, stepId, values)
                                             : undefined,
                                         startSoknad,
-                                        sendSoknad: triggerSend,
+                                        sendSoknad: (values) => triggerSend(values, resetForm),
                                         gotoNextStepFromStep: (stepID: StepID) => {
                                             navigateToNextStepFromStep(stepID);
                                         },
