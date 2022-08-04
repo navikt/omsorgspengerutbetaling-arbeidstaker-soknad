@@ -1,7 +1,7 @@
 export enum ApiEndpoint {
-    ARBEIDSGIVER = 'oppslag/arbeidsgiver?ytelse=omsorgspenger-utbetaling-arbeidstaker',
+    ARBEIDSGIVER = 'oppslag/arbeidsgiver',
     SEND_SØKNAD = 'omsorgspenger-utbetaling-arbeidstaker/innsending',
-    SØKER = 'oppslag/soker?ytelse=omsorgspenger-utbetaling-arbeidstaker',
+    SØKER = 'oppslag/soker',
     MELLOMLAGRING = 'mellomlagring/OMSORGSPENGER_UTBETALING_ARBEIDSTAKER',
     VEDLEGG = 'vedlegg',
 }
