@@ -17,6 +17,9 @@ const SmittevernDokumenterStep: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
+    const hasPendingUploads: boolean =
+        (values.smittevernDokumenter || []).find((a: any) => a.pending === true) !== undefined;
+
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
     const totalSize = getTotalSizeOfAttachments(alleDokumenterISøknaden);
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
@@ -25,7 +28,7 @@ const SmittevernDokumenterStep: React.FC = () => {
         <SoknadFormStep
             id={StepID.DOKUMENTER_SMITTEVERNHENSYN}
             includeValidationSummary={true}
-            buttonDisabled={attachmentsSizeOver24Mb}>
+            buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
             <>
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <Box padBottom={'l'}>

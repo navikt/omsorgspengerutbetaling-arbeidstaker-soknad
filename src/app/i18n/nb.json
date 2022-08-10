@@ -28,6 +28,7 @@
     "application.title": "Søknad om utbetaling av omsorgspenger",
 
     "page.loadingPage.tekst": "Laster ...",
+    "page.error.pageTitle": "Noe gikk galt ...",
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
     "backlink.label": "Tilbake",
 

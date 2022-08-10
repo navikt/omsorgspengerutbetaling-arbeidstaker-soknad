@@ -33,7 +33,7 @@ interface FormikFileUploader extends TypedFormInputValidationProps<SøknadFormFi
 
 type Props = FormikFileUploader;
 
-const FormikFileUploader: React.FunctionComponent<Props> = ({
+const FormikFileUploader: React.FC<Props> = ({
     name,
     onFileInputClick,
     onErrorUploadingAttachments,
