@@ -17,7 +17,7 @@ import { SøknadFormField } from 'app/types/SøknadFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ApiEndpoint } from 'app/types/ApiEndpoint';
 import { isForbidden, isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
-import { getEnvironmentVariable } from 'app/utils/envUtils';
+import { getEnvironmentVariable } from '../../utils/envUtils';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
