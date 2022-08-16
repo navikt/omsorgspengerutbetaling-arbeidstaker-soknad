@@ -51,5 +51,7 @@ spec:
         enabled: true
     idporten:
         enabled: true
+        postLogoutRedirectURIs:
+            - {{ ingresses }}
         sidecar:
             enabled: true
