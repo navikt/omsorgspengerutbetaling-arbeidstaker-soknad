@@ -10,7 +10,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const Promise = require('promise');
 const helmet = require('helmet');
 const path = require('path');
-const jose = require('jose');
+// const jose = require('jose');
 
 const server = express();
 
@@ -45,19 +45,6 @@ const renderApp = (decoratorFragments) =>
             }
         });
     });
-
-export const isExpiredOrNotAuthorized = (token) => {
-    if (token) {
-        try {
-            const exp = jose.decodeJwt(token).exp;
-            return Date.now() >= exp * 1000;
-        } catch (err) {
-            console.error('Feilet med dekoding av token: ', err);
-            return true;
-        }
-    }
-    return true;
-};
 
 const startServer = async (html) => {
     await Promise.all([initTokenX()]);
