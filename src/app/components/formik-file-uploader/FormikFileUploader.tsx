@@ -17,6 +17,7 @@ import { SøknadFormField } from 'app/types/SøknadFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ApiEndpoint } from 'app/types/ApiEndpoint';
 import { isForbidden, isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
+import { getEnvironmentVariable } from 'app/utils/envUtils';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -92,7 +93,10 @@ const FormikFileUploader: React.FC<Props> = ({
             try {
                 const response = await api.uploadFile(ApiEndpoint.VEDLEGG, file);
                 attachment = setAttachmentPendingToFalse(attachment);
-                attachment.url = response.headers.location;
+                attachment.url = response.headers.location.replace(
+                    getEnvironmentVariable('API_URL'),
+                    getEnvironmentVariable('FRONTEND_VEDLEGG_URL')
+                );
                 attachment.uploaded = true;
             } catch (error) {
                 if (isForbidden(error) || isUnauthorized(error)) {

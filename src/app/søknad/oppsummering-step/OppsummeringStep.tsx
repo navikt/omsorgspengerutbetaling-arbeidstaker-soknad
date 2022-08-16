@@ -39,7 +39,7 @@ const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
 
     const { fornavn, mellomnavn, etternavn, fødselsnummer } = søker;
-
+    console.log('apiValues', apiValues);
     return (
         <SoknadFormStep
             id={StepID.OPPSUMMERING}
