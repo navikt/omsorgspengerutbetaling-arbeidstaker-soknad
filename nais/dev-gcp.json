@@ -15,7 +15,7 @@
         "FRONTEND_VEDLEGG_URL": "https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no/api",
         "FRONTEND_API_PATH": "/api",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
-        "LOGIN_URL": "https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no/oauth2/login?redirect=https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/soknad",
+        "LOGIN_URL": "https://omsorgspengerutbetaling-arbeidstaker-soknad.dev.nav.no/oauth2/login?redirect=/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/soknad",
         "TOGGLE_LANGUAGE": "on",
         "UTILGJENGELIG": "off",
         "STENGT_BHG_SKOLE": "on",
