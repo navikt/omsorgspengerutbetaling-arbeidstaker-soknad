@@ -4,7 +4,8 @@ const compression = require('compression');
 const getDecorator = require('./src/build/scripts/decorator');
 const envSettings = require('./envSettings');
 const cookieParser = require('cookie-parser');
-const { initTokenX, exchangeToken } = require('./tokenx');
+// const { initTokenX, exchangeToken } = require('./tokenx');
+const { initTokenX } = require('./tokenx');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const Promise = require('promise');
 const helmet = require('helmet');
@@ -45,7 +46,7 @@ const renderApp = (decoratorFragments) =>
         });
     });
 
-const isExpiredOrNotAuthorized = (token) => {
+export const isExpiredOrNotAuthorized = (token) => {
     if (token) {
         try {
             const exp = jose.decodeJwt(token).exp;
@@ -79,20 +80,6 @@ const startServer = async (html) => {
                 return path.replace(process.env.FRONTEND_API_PATH, '');
             },
 
-            router: async (req) => {
-                const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
-
-                if (isExpiredOrNotAuthorized(selvbetjeningIdtoken)) {
-                    return undefined;
-                }
-
-                const exchangedToken = await exchangeToken(selvbetjeningIdtoken);
-                if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
-                    req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
-                }
-
-                return undefined;
-            },
             secure: true,
             xfwd: true,
             logLevel: 'info',
