@@ -66,7 +66,11 @@ const startServer = async (html) => {
             pathRewrite: (path) => {
                 return path.replace(process.env.FRONTEND_API_PATH, '');
             },
+            router: async (req) => {
+                console.log('req.headers[authorization]: ', req.headers['authorization']);
 
+                return undefined;
+            },
             secure: true,
             xfwd: true,
             logLevel: 'info',
