@@ -82,8 +82,12 @@ const startServer = async (html) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
                 console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
 
+                if (req.cookies['selvbetjening-idtoken'] !== undefined) {
+                    delete req.cookies['selvbetjening-idtoken'];
+                }
+
                 if (req.headers['authorization'] === undefined) {
-                    return process.env.LOGIN_URL;
+                    return undefined;
                 }
 
                 const token = req.headers['authorization'].replace('Bearer ', '');
@@ -98,6 +102,7 @@ const startServer = async (html) => {
                     req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
                 }
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
+                console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
                 return undefined;
             },
             secure: true,
