@@ -100,15 +100,23 @@ const startServer = async (html) => {
             onProxyReq: (proxyReq, req) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
                 console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
-                console.log('proxyReq.headers[authorization]: ', proxyReq.headers['authorization']);
-                console.log('proxyReq.cookies[selvbetjening-idtoken]: ', proxyReq.cookies['selvbetjening-idtoken']);
-                if (req.cookies['selvbetjening-idtoken'] !== undefined) {
-                    proxyReq.cookies['selvbetjening-idtoken'] = undefined;
+                if (req.headers['authorization']) {
+                    console.log('proxyReq.headers[authorization]: ', proxyReq.headers['authorization']);
                 }
-                console.log(
-                    'proxyReq.cookies[selvbetjening-idtoken] etter slett: ',
-                    proxyReq.cookies['selvbetjening-idtoken']
-                );
+                if (req.cookies['selvbetjening-idtoken']) {
+                    console.log('proxyReq.cookies[selvbetjening-idtoken]: ', proxyReq.cookies['selvbetjening-idtoken']);
+                }
+                if (
+                    req.cookies['selvbetjening-idtoken'] !== undefined &&
+                    proxyReq.cookies['selvbetjening-idtoken'] !== undefined
+                ) {
+                    console.log('clear cookie');
+                    proxyReq.cookies['selvbetjening-idtoken'] = undefined;
+                    console.log(
+                        'proxyReq.cookies[selvbetjening-idtoken] etter slett: ',
+                        proxyReq.cookies['selvbetjening-idtoken']
+                    );
+                }
             },
             secure: true,
             xfwd: true,
