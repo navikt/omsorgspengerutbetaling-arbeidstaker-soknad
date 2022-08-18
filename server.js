@@ -88,7 +88,6 @@ const startServer = async (html) => {
                     if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
                         req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
                     }
-                    console.log('Brukes auth header fra wonderwall til tokenX');
                 } else if (req.cookies['selvbetjening-idtoken'] !== undefined) {
                     const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
                     if (isExpiredOrNotAuthorized(selvbetjeningIdtoken)) {
@@ -99,7 +98,6 @@ const startServer = async (html) => {
                     if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
                         req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
                     }
-                    console.log('Brukes selvbetjening-idtoken til tokenX');
                 } else return undefined;
 
                 return undefined;
