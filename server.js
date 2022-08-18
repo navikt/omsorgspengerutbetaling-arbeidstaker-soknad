@@ -68,12 +68,17 @@ const startServer = async (html) => {
             },
             router: async (req) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
-
+                console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
+                const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
                 const testToken = req.headers['authorization'];
                 if (testToken) {
                     console.log('req.headers[authorization] after replace: ', testToken.replace('Bearer ', ''));
                 }
 
+                if (selvbetjeningIdtoken) {
+                    req.cookies['selvbetjening-idtoken'] = undefined;
+                }
+                console.log('req.cookies[selvbetjening-idtoken] after slett: ', req.cookies['selvbetjening-idtoken']);
                 return undefined;
             },
             secure: true,
