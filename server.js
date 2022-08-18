@@ -91,22 +91,12 @@ const startServer = async (html) => {
 
                 const exchangedToken = await exchangeToken(token);
                 if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
-                    console.log('Byttet Token i authorization header ');
                     req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
                 }
 
                 return undefined;
             },
-            onProxyReq: (proxyReq, req) => {
-                console.log('req.headers[authorization]: ', req.headers['authorization']);
-                console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
-                if (req.headers['authorization']) {
-                    console.log('proxyReq.headers: ', proxyReq.headers);
-                }
-                if (req.cookies['selvbetjening-idtoken']) {
-                    console.log('proxyReq.cookies: ', proxyReq.cookies);
-                }
-            },
+
             secure: true,
             xfwd: true,
             logLevel: 'info',
