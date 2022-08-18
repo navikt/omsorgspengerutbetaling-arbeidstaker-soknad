@@ -82,12 +82,8 @@ const startServer = async (html) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
                 console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
 
-                if (req.cookies['selvbetjening-idtoken'] !== undefined) {
-                    req.cookies['selvbetjening-idtoken'] = undefined;
-                }
-
                 if (req.headers['authorization'] === undefined) {
-                    return undefined;
+                    return process.env.LOGIN_URL;
                 }
 
                 const token = req.headers['authorization'].replace('Bearer ', '');
@@ -98,10 +94,10 @@ const startServer = async (html) => {
 
                 const exchangedToken = await exchangeToken(token);
                 if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
+                    console.log('Byttet Token i authorization header ');
                     req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
                 }
-                console.log('req.headers[authorization]: after exchange', req.headers['authorization']);
-                console.log('req.cookies[selvbetjening-idtoken] after slett: ', req.cookies['selvbetjening-idtoken']);
+                console.log('req.headers[authorization]: ', req.headers['authorization']);
                 return undefined;
             },
             secure: true,
