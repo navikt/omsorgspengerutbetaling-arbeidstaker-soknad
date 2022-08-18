@@ -68,10 +68,12 @@ const startServer = async (html) => {
             },
             router: async (req) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
-                console.log(
-                    'req.headers[authorization] after replace: ',
-                    req.headers['authorization'].replace('Bearer ', '')
-                );
+
+                const testToken = req.headers['authorization'];
+                if (testToken) {
+                    console.log('req.headers[authorization] after replace: ', testToken.replace('Bearer ', ''));
+                }
+
                 return undefined;
             },
             secure: true,
