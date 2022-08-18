@@ -45,7 +45,7 @@ const renderApp = (decoratorFragments) =>
         });
     });
 
-export const isExpiredOrNotAuthorized = (token) => {
+const isExpiredOrNotAuthorized = (token) => {
     if (token) {
         try {
             const exp = jose.decodeJwt(token).exp;
