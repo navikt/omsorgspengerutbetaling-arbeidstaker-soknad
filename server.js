@@ -4,13 +4,12 @@ const compression = require('compression');
 const getDecorator = require('./src/build/scripts/decorator');
 const envSettings = require('./envSettings');
 const cookieParser = require('cookie-parser');
-// const { initTokenX, exchangeToken } = require('./tokenx');
-const { initTokenX } = require('./tokenx');
+const { initTokenX, exchangeToken } = require('./tokenx');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const Promise = require('promise');
 const helmet = require('helmet');
 const path = require('path');
-// const jose = require('jose');
+const jose = require('jose');
 
 const server = express();
 
@@ -46,6 +45,19 @@ const renderApp = (decoratorFragments) =>
         });
     });
 
+export const isExpiredOrNotAuthorized = (token) => {
+    if (token) {
+        try {
+            const exp = jose.decodeJwt(token).exp;
+            return Date.now() >= exp * 1000;
+        } catch (err) {
+            console.error('Feilet med dekoding av token: ', err);
+            return true;
+        }
+    }
+    return true;
+};
+
 const startServer = async (html) => {
     await Promise.all([initTokenX()]);
 
@@ -69,17 +81,28 @@ const startServer = async (html) => {
             router: async (req) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
                 console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
-                const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
-                const testToken = req.headers['authorization'];
-                if (testToken) {
-                    console.log('req.headers[authorization] after replace: ', testToken.replace('Bearer ', ''));
-                }
 
-                if (selvbetjeningIdtoken) {
+                if (req.cookies['selvbetjening-idtoken'] !== undefined) {
                     req.cookies['selvbetjening-idtoken'] = undefined;
                 }
+
+                if (req.headers['authorization'] === undefined) {
+                    return undefined;
+                }
+
+                const token = req.headers['authorization'].replace('Bearer ', '');
+
+                if (isExpiredOrNotAuthorized(token)) {
+                    return undefined;
+                }
+
+                const exchangedToken = await exchangeToken(token);
+                if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
+                    req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
+                }
+                console.log('req.headers[authorization]: after exchange', req.headers['authorization']);
                 console.log('req.cookies[selvbetjening-idtoken] after slett: ', req.cookies['selvbetjening-idtoken']);
-                // return undefined;
+                return undefined;
             },
             secure: true,
             xfwd: true,
