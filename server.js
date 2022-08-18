@@ -101,21 +101,10 @@ const startServer = async (html) => {
                 console.log('req.headers[authorization]: ', req.headers['authorization']);
                 console.log('req.cookies[selvbetjening-idtoken]: ', req.cookies['selvbetjening-idtoken']);
                 if (req.headers['authorization']) {
-                    console.log('proxyReq.headers[authorization]: ', proxyReq.headers['authorization']);
+                    console.log('proxyReq.headers: ', proxyReq.headers);
                 }
                 if (req.cookies['selvbetjening-idtoken']) {
-                    console.log('proxyReq.cookies[selvbetjening-idtoken]: ', proxyReq.cookies['selvbetjening-idtoken']);
-                }
-                if (
-                    req.cookies['selvbetjening-idtoken'] !== undefined &&
-                    proxyReq.cookies['selvbetjening-idtoken'] !== undefined
-                ) {
-                    console.log('clear cookie');
-                    proxyReq.cookies['selvbetjening-idtoken'] = undefined;
-                    console.log(
-                        'proxyReq.cookies[selvbetjening-idtoken] etter slett: ',
-                        proxyReq.cookies['selvbetjening-idtoken']
-                    );
+                    console.log('proxyReq.cookies: ', proxyReq.cookies);
                 }
             },
             secure: true,
