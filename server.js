@@ -79,20 +79,28 @@ const startServer = async (html) => {
                 return path.replace(process.env.FRONTEND_API_PATH, '');
             },
             router: async (req) => {
-                if (req.headers['authorization'] === undefined) {
-                    return undefined;
-                }
+                if (req.headers['authorization'] !== undefined) {
+                    const token = req.headers['authorization'].replace('Bearer ', '');
+                    if (isExpiredOrNotAuthorized(token)) {
+                        return undefined;
+                    }
+                    const exchangedToken = await exchangeToken(token);
+                    if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
+                        req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
+                    }
+                    console.log('Brukes auth header fra wonderwall til tokenX');
+                } else if (req.cookies['selvbetjening-idtoken'] !== undefined) {
+                    const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
+                    if (isExpiredOrNotAuthorized(selvbetjeningIdtoken)) {
+                        return undefined;
+                    }
 
-                const token = req.headers['authorization'].replace('Bearer ', '');
-
-                if (isExpiredOrNotAuthorized(token)) {
-                    return undefined;
-                }
-
-                const exchangedToken = await exchangeToken(token);
-                if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
-                    req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
-                }
+                    const exchangedToken = await exchangeToken(selvbetjeningIdtoken);
+                    if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
+                        req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
+                    }
+                    console.log('Brukes selvbetjening-idtoken til tokenX');
+                } else return undefined;
 
                 return undefined;
             },
