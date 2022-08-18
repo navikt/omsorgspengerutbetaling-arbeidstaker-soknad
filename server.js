@@ -79,7 +79,7 @@ const startServer = async (html) => {
                     req.cookies['selvbetjening-idtoken'] = undefined;
                 }
                 console.log('req.cookies[selvbetjening-idtoken] after slett: ', req.cookies['selvbetjening-idtoken']);
-                return undefined;
+                // return undefined;
             },
             secure: true,
             xfwd: true,
