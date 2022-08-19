@@ -8,7 +8,7 @@ import { Person } from '../types/Søkerdata';
 import { SoknadTempStorageData } from '../types/SoknadTempStorageData';
 import { ApiEndpoint } from '../types/ApiEndpoint';
 
-export const STORAGE_VERSION = '5.0';
+export const STORAGE_VERSION = '1.0';
 
 interface UserHashInfo {
     søker: Person;
