@@ -5,7 +5,7 @@ import {
     ArbeidsforholdFormDataFields,
     Utbetalingsårsak,
 } from '../../types/ArbeidsforholdTypes';
-import { getEnvironmentVariable } from '../envUtils';
+import { getAttachmentURLBackend } from '../attachmentUtilsAuthToken';
 
 const skalInkludereVedleggFraArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     if (
@@ -33,12 +33,7 @@ function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
 export const listOfAttachmentsToListOfUrlStrings = (attachments: Attachment[]): string[] => {
     return attachments
         .map((attachment: Attachment) => {
-            const attachmentUrl =
-                attachment.url &&
-                attachment.url.replace(
-                    getEnvironmentVariable('FRONTEND_VEDLEGG_URL'),
-                    getEnvironmentVariable('API_URL')
-                );
+            const attachmentUrl = getAttachmentURLBackend(attachment.url);
             return attachmentUrl;
         })
         .filter(notEmpty);
@@ -48,7 +43,7 @@ export const listOfAttachmentsToListOfDocumentName = (attachments: Attachment[])
     return attachments
         .filter((attachment: Attachment) => notEmpty(attachment.url))
         .map((attachment: Attachment) => {
-            return attachment.file.name; // TODO sjekke at det fungerer
+            return attachment.file.name;
         });
 };
 
