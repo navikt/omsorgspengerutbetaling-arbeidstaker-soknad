@@ -49,3 +49,7 @@ spec:
     {{/each}}
     tokenx:
         enabled: true
+    idporten:
+        enabled: true
+        sidecar:
+            enabled: true
