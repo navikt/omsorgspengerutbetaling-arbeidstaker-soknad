@@ -11,11 +11,13 @@ import {
     mapFileToPersistedFile,
     VALID_EXTENSIONS,
 } from 'common/utils/attachmentUtils';
-import { uploadFile } from '../../api/api';
-import * as apiUtils from '../../utils/apiUtils';
+import api from '../../api/api';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { SøknadFormField } from 'app/types/SøknadFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ApiEndpoint } from 'app/types/ApiEndpoint';
+import { isForbidden, isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
+import { getAttachmentURLFrontend } from '../../utils/attachmentUtilsAuthToken';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -32,7 +34,7 @@ interface FormikFileUploader extends TypedFormInputValidationProps<SøknadFormFi
 
 type Props = FormikFileUploader;
 
-const FormikFileUploader: React.FunctionComponent<Props> = ({
+const FormikFileUploader: React.FC<Props> = ({
     name,
     onFileInputClick,
     onErrorUploadingAttachments,
@@ -89,12 +91,13 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
         const { file } = attachment;
         if (isFileObject(file)) {
             try {
-                const response = await uploadFile(file);
+                const response = await api.uploadFile(ApiEndpoint.VEDLEGG, file);
                 attachment = setAttachmentPendingToFalse(attachment);
-                attachment.url = response.headers.location;
+                attachment.url = getAttachmentURLFrontend(response.headers.location);
+
                 attachment.uploaded = true;
             } catch (error) {
-                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                if (isForbidden(error) || isUnauthorized(error)) {
                     await logUserLoggedOut('Ved opplasting av dokument');
                     onUnauthorizedOrForbiddenUpload();
                 }

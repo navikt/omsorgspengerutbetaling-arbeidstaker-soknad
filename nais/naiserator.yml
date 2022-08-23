@@ -5,6 +5,8 @@ metadata:
     namespace: {{namespace}}
     labels:
         team: {{team}}
+    annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "100M"
 spec:
     image: {{ image }}
     port: 8080
@@ -47,3 +49,7 @@ spec:
     {{/each}}
     tokenx:
         enabled: true
+    idporten:
+        enabled: true
+        sidecar:
+            enabled: true

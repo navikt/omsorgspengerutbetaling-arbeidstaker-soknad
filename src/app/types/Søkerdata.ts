@@ -1,41 +1,9 @@
-import { isObject, isString } from 'formik';
-import { isStringOrNull } from './typeGuardUtilities';
-
 export interface Person {
-    etternavn: string | null;
-    fornavn: string | null;
-    mellomnavn: string | null;
+    etternavn: string;
+    fornavn: string;
+    mellomnavn?: string;
     fødselsnummer: string;
     kjønn?: string;
-}
-
-export interface SøkerApiResponse {
-    aktørId: string;
-    fødselsdato: string; // TODO: Verifiser riktig, og bruk isDate hvis behov
-    fødselsnummer: string;
-    fornavn: string | null; // TODO: Sendes det "null" eller null ? Hvordan ønsker vi å håndtere en bruker som ikke har et registrert navn?
-    mellomnavn: string | null;
-    etternavn: string | null;
-}
-
-export const isSøkerApiResponse = (søkerApiResponse: any): søkerApiResponse is SøkerApiResponse => {
-    if (
-        isObject(søkerApiResponse) &&
-        isString(søkerApiResponse.aktørId) &&
-        isString(søkerApiResponse.fødselsdato) &&
-        isString(søkerApiResponse.fødselsnummer) &&
-        isStringOrNull(søkerApiResponse.fornavn) &&
-        isStringOrNull(søkerApiResponse.mellomnavn) &&
-        isStringOrNull(søkerApiResponse.etternavn)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
-export interface Søkerdata {
-    person: Person;
 }
 
 export interface ArbeidsgiverResponse {
@@ -46,34 +14,6 @@ export interface Arbeidsgiver {
     navn: string;
     organisasjonsnummer: string;
 }
-
-export const isPerson = (maybePerson: any): maybePerson is Person => {
-    if (
-        maybePerson &&
-        typeof maybePerson === 'object' &&
-        maybePerson.fødselsnummer &&
-        typeof maybePerson.fødselsnummer === 'string' &&
-        maybePerson.fornavn &&
-        typeof maybePerson.fornavn === 'string' &&
-        maybePerson.etternavn &&
-        typeof maybePerson.etternavn === 'string'
-    ) {
-        return true;
-    }
-    return false;
-};
-
-export const isSøkerdata = (maybeSøkerdata: any): maybeSøkerdata is Søkerdata => {
-    if (
-        maybeSøkerdata &&
-        typeof maybeSøkerdata === 'object' &&
-        maybeSøkerdata.person &&
-        isPerson(maybeSøkerdata.person)
-    ) {
-        return true;
-    }
-    return false;
-};
 
 export const isArbeidsgiver = (maybeArbeidsgiver: any): maybeArbeidsgiver is Arbeidsgiver => {
     if (

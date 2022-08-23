@@ -5,6 +5,7 @@ import {
     ArbeidsforholdFormDataFields,
     Utbetalingsårsak,
 } from '../../types/ArbeidsforholdTypes';
+import { getAttachmentURLBackend } from '../attachmentUtilsAuthToken';
 
 const skalInkludereVedleggFraArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     if (
@@ -32,7 +33,8 @@ function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
 export const listOfAttachmentsToListOfUrlStrings = (attachments: Attachment[]): string[] => {
     return attachments
         .map((attachment: Attachment) => {
-            return attachment.url;
+            const attachmentUrl = getAttachmentURLBackend(attachment.url);
+            return attachmentUrl;
         })
         .filter(notEmpty);
 };

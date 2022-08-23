@@ -3,32 +3,33 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormBlock from 'common/components/form-block/FormBlock';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import intlHelper from 'common/utils/intlUtils';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
-import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
-import SøknadStep from '../SøknadStep';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
+import SoknadFormStep from '../SoknadFormStep';
+import { StepID } from '../soknadStepsConfig';
 
-const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const StengtBhgSkoleDokumenterStep: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
+
+    const hasPendingUploads: boolean =
+        (values.dokumenterStengtBkgSkole || []).find((a: any) => a.pending === true) !== undefined;
 
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
     const totalSize = getTotalSizeOfAttachments(alleDokumenterISøknaden);
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
-        <SøknadStep
+        <SoknadFormStep
             id={StepID.DOKUMENTER_STENGT_SKOLE_BHG}
-            onValidFormSubmit={onValidSubmit}
-            useValidationErrorSummary={true}
-            buttonDisabled={attachmentsSizeOver24Mb}>
-            <FormBlock>
+            includeValidationSummary={true}
+            buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
+            <>
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <Box padBottom={'l'}>
                         <FormattedMessage id="steg.vedlegg_stengtSkoleBhg.info.1" />
@@ -46,8 +47,8 @@ const StengtBhgSkoleDokumenterStep: React.FunctionComponent<StepConfigProps> = (
                     dokumenter={values.dokumenterStengtBkgSkole}
                     alleDokumenterISøknaden={alleDokumenterISøknaden}
                 />
-            </FormBlock>{' '}
-        </SøknadStep>
+            </>
+        </SoknadFormStep>
     );
 };
 

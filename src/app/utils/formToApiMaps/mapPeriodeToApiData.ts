@@ -34,6 +34,5 @@ export const mapFraværTilUtbetalingsperiode = (
         }
     );
 
-    // TODO: Ingen periode, ingen penger. Eskaler feil...
     return [...periodeMappedTilUtbetalingsperiode, ...fraværDeleravDagMappedTilUtbetalingsperiode];
 };

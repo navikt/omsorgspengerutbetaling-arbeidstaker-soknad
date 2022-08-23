@@ -5,7 +5,7 @@ import { Time } from 'common/types/Time';
 import { apiStringDateToDate, prettifyDate, prettifyDateExtended } from 'common/utils/dateUtils';
 import { iso8601DurationToTime, timeToDecimalTime } from 'common/utils/timeUtils';
 import { ApiAktivitet, Utbetalingsperiode } from '../../../types/SøknadApiData';
-import SummaryBlock from './SummaryBlock';
+import SummaryBlock from '@navikt/sif-common-soknad/lib/soknad-summary/summary-block/SummaryBlock';
 import { isString } from 'formik';
 import { FraværÅrsak, timeText, getFraværÅrsakTekstKort } from '@navikt/sif-common-forms/lib/fravær';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';

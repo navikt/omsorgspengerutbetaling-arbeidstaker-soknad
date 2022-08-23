@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { AxiosResponse } from 'axios';
-import { FormikProps, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
@@ -11,9 +11,8 @@ import FormBlock from 'common/components/form-block/FormBlock';
 import FormSection from 'common/components/form-section/FormSection';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
-import { StepConfigProps, StepID } from '../../config/stepConfig';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Søkerdata } from '../../types/Søkerdata';
+import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere } from '../../types/Søkerdata';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
 import {
@@ -21,7 +20,6 @@ import {
     checkHarKlikketNeiElleJajaBlanding,
     checkHarKlikketNeiPåAlle,
 } from '../../validation/components/arbeidsforholdValidations';
-import SøknadStep from '../SøknadStep';
 import ArbeidsforholdSituasjon from '../../components/formik-arbeidsforhold/ArbeidsforholdSituasjon';
 import ArbeidsforholdUtbetalingsårsak from '../../components/formik-arbeidsforhold/ArbeidsforholdUtbetalingsårsak';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
@@ -31,17 +29,11 @@ import {
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
+import SoknadFormStep from '../SoknadFormStep';
+import { StepID } from '../soknadStepsConfig';
 
-interface OwnProps {
-    søkerdata: Søkerdata;
-    formikProps: FormikProps<SøknadFormData>;
-}
-
-type SituasjonStepViewProps = StepConfigProps & OwnProps;
-
-const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement => {
-    const { onValidSubmit, formikProps } = props;
-    const { values } = useFormikContext<SøknadFormData>();
+const SituasjonStepView: React.FC = () => {
+    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
     const [doApiCalls, setDoApiCalls] = useState(true);
 
@@ -56,10 +48,10 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                 const arbeidsgivere = maybeArbeidsgivere;
                 const updatedArbeidsforholds: ArbeidsforholdFormData[] = syncArbeidsforholdWithArbeidsgivere(
                     arbeidsgivere,
-                    formikProps.values[SøknadFormField.arbeidsforhold]
+                    values[SøknadFormField.arbeidsforhold]
                 );
                 if (updatedArbeidsforholds.length > 0) {
-                    formikProps.setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
+                    setFieldValue(SøknadFormField.arbeidsforhold, updatedArbeidsforholds);
                 }
                 setIsLoading(false);
             } else {
@@ -77,7 +69,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
             fetchData(today);
             setDoApiCalls(false);
         }
-    }, [doApiCalls, formikProps]);
+    }, [doApiCalls, setFieldValue, values]);
 
     const arbeidsforhold: ArbeidsforholdFormData[] = values[SøknadFormField.arbeidsforhold];
     const harKlikketJaJaPåAlle = checkHarKlikketJaJaPåAlle([...arbeidsforhold]);
@@ -93,9 +85,8 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
         getTotalSizeOfAttachments(alleDokumenterISøknaden) > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     return (
-        <SøknadStep
+        <SoknadFormStep
             id={StepID.SITUASJON}
-            onValidFormSubmit={onValidSubmit}
             showSubmitButton={!isLoading && harIkkeMottatLønnHosEnEllerFlere}
             buttonDisabled={attachmentsSizeOver24Mb}>
             <>
@@ -161,7 +152,7 @@ const SituasjonStepView = (props: SituasjonStepViewProps): React.ReactElement =>
                     </FormBlock>
                 )}
             </>
-        </SøknadStep>
+        </SoknadFormStep>
     );
 };
 

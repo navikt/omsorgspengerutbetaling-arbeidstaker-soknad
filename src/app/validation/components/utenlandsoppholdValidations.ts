@@ -2,7 +2,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import dayjs from 'dayjs';
 import { evaluatePrevAndCurrent } from '../validationUtils';
-import { SøknadFormData } from 'app/types/SøknadFormData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 
 export const utenlandsoppholdIsValid = (utelandsopphold: Utenlandsopphold): boolean => {
     if (utelandsopphold.landkode && dayjs(utelandsopphold.fom).isValid() && dayjs(utelandsopphold.tom).isValid()) {

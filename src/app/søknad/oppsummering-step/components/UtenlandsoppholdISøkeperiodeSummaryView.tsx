@@ -4,8 +4,8 @@ import SummaryList from 'common/components/summary-list/SummaryList';
 import intlHelper from 'common/utils/intlUtils';
 import { Bosted } from '../../../types/SøknadApiData';
 import { renderUtenlandsoppholdIPeriodenSummary } from './renderUtenlandsoppholdSummary';
-import SummaryBlock from './SummaryBlock';
-import SummarySection from './summary-section/SummarySection';
+import SummaryBlock from '@navikt/sif-common-soknad/lib/soknad-summary/summary-block/SummaryBlock';
+import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 
 export interface Props {
     utenlandsopphold: Bosted[];

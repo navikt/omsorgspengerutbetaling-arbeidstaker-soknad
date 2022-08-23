@@ -1,6 +1,6 @@
 import * as React from 'react';
 import intlHelper from 'common/utils/intlUtils';
-import SummaryBlock from './SummaryBlock';
+import SummaryBlock from '@navikt/sif-common-soknad/lib/soknad-summary/summary-block/SummaryBlock';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useFormikContext } from 'formik';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
