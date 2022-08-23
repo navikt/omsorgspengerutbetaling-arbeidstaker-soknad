@@ -12,7 +12,7 @@
     "livenessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isAlive",
     "readinessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isReady",
     "env": {
-        "DEKORATOR_URL": "https://www.nav.no/dekoratoren/?simple=true&chatbot=false&logoutUrl=https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/oauth2/logout&redirectToApp=true",
+        "DEKORATOR_URL": "https://www.nav.no/dekoratoren/?simple=true&chatbot=false&logoutUrl=https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/oauth2/logout",
         "API_URL": "https://k9-brukerdialog-api.nav.no",
         "FRONTEND_API_PATH": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/api",
         "FRONTEND_VEDLEGG_URL": "https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/api",
