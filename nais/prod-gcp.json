@@ -5,10 +5,7 @@
     "team": "dusseldorf",
     "minReplicas": "1",
     "maxReplicas": "1",
-    "ingresses": [
-        "https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker",
-        "https://www.intern.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker"
-    ],
+    "ingresses": ["https://www.nav.no/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker"],
     "livenessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isAlive",
     "readinessPath": "/familie/sykdom-i-familien/soknad/omsorgspengerutbetaling-arbeidstaker/health/isReady",
     "env": {
