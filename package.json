@@ -30,7 +30,7 @@
         "@navikt/sif-common-core": "^12.0.5",
         "@navikt/sif-common-formik": "^23.1.1",
         "@navikt/sif-common-forms": "^17.4.1",
-        "@navikt/sif-common-sentry": "^0.3.1",
+        "@navikt/sif-common-sentry": "^0.3.2",
         "@navikt/sif-common-soknad": "^5.3.1",
         "@snyk/protect": "^1.988.0",
         "axios": "^0.27.2",
