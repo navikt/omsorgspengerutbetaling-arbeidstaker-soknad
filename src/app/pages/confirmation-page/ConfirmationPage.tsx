@@ -71,6 +71,11 @@ const ConfirmationPage: React.FC<Props> = ({ søker, søknadApiData }: Props): J
                             <FormattedMessage id="page.conformation.alert.info.3" />
                         </AlertStripe>
                     </li>
+                    <li>
+                        <AlertStripe type="info" form="inline">
+                            <FormattedMessage id="page.conformation.alert.info.4" />
+                        </AlertStripe>
+                    </li>
                 </ul>
             </Box>
 

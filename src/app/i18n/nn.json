@@ -232,9 +232,6 @@
     "page.confirmation.sidetittel": "Vi har fått søknaden din",
     "page.confirmation.tittel": "Vi har fått søknad frå deg om utbetaling av omsorgspengar",
     "page.confirmation.undertittel": "Kva skjer vidare no?",
-    "page.confirmation.hvaSkjer1": "Søknaden din blir synleg på Ditt NAV etter omkring ei veke. Då vil du også kunne sjå kva slags dokumentasjon vi har fått frå deg.",
-    "page.confirmation.hvaSkjer2": "Vi begynner å behandle søknaden din når vi har fått all nødvendig dokumentasjon. Vi kontaktar deg dersom vi treng fleire opplysningar i saka di.",
-    "page.confirmation.hvaSkjer3": "Når søknaden er ferdig behandla, får du eit svarbrev frå oss. Du kan sjå <a href=\"{lenke}\" class=\"lenke\" target=\"_blank\" rel=\"noopener noreferrer\">saksbehandlingstida</a> for fylket ditt her.",
 
     "psg-temp.innholdstittel": "Ta bilete av dokumentet og last opp",
     "psg-temp.section1.tittel": "Slik tek du eit godt bilete:",
