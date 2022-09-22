@@ -277,7 +277,7 @@
     "page.conformation.alert.infoForsvinner": "Obs! Denne informasjonen forsvinner når du lukker den. Det er derfor viktig at du leser gjennom før du går videre.",
     "page.conformation.alert.infoPrint": "Du kan skrive ut denne informasjonssiden, og gi utskriften til arbeidsgiveren din.",
     "page.conformation.alert.info.1.html": "<strong>Dette er en bekreftelse på at vi har mottatt søknaden din. </strong> <p>Når søknaden din er ferdigbehandlet, får du et svar fra oss.</p>",
-    "page.conformation.alert.info.2.html": "Du må be arbeidsgiver om å sende inntektsmelding til oss. Det er viktig at arbeidsgiver krysser av for at inntektsmeldingen gjelder omsorgspenger. <p>Vi kontakter deg hvis vi trenger flere opplysninger i saken din.</p>",
+    "page.conformation.alert.info.2.html": "Du må be arbeidsgiver om å sende inntektsmelding til oss. Det er viktig at arbeidsgiver krysser av for at inntektsmeldingen gjelder omsorgspenger.",
     "page.conformation.alert.info.3": "Vi kontakter deg hvis vi trenger flere opplysninger.",
     "page.conformation.alert.info.4": "Du kan skrive ut denne informasjonssiden, og gi utskriften til arbeidsgiveren din. Hvis du er registrert med flere arbeidsgivere, får du en utskrift til hver av dem.",
     "page.conformation.skrivUtKnapp": "Skriv ut denne siden nå",
