@@ -72,23 +72,6 @@
     "formikVedleggsKomponent.advarsel.totalstørrelse.1": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du ",
     "formikVedleggsKomponent.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
 
-    "introPage.tittel": "Søknad om utbetaling av omsorgspenger",
-    "introPage.stegTittel": "Kan jeg søke om utbetaling av omsorgspenger?",
-    "introPage.info.1": "Hvis du ikke får utbetalt omsorgspenger fra arbeidsgiveren din kan du ha rett til utbetaling fra NAV.",
-    "introPage.info.2": "Dette kan være i situasjoner hvor",
-    "introPage.info.2.item.1": "du ikke har jobbet hos denne arbeidsgiveren i minst 4 uker. Men, rett før du startet hos denne arbeidsgiveren har du for eksempel vært i annet arbeidsforhold, vært i ulønnet permisjon, vært selvstendig næringsdrivende eller frilanser.",
-    "introPage.info.2.item.2": "arbeidsgiver ikke har midler til å utbetale deg omsorgspenger på grunn av konkurs.",
-    "introPage.info.2.item.3": "det er uenighet mellom deg og arbeidsgiver som gjør at arbeidsgiver ikke vil utbetale omsorgspenger.",
-    "introPage.info.3": "Hvis én av disse situasjonene gjelder deg kan du søke NAV om utbetaling av omsorgspenger. I tillegg til å søke må du be arbeidsgiver om å sende inntektsmelding til oss så snart som mulig. Vi må ha den for å kunne behandle søknaden din.",
-    "introPage.info.skalViseSmittevernSpørsmål.title": "Hva menes med særlige smittevernhensyn?",
-    "introPage.info.smittevern.html": "Når barnehagen eller skolen er åpen, men du må være hjemme med barnet ditt på grunn <strong>av særlige smittevernhensyn</strong> i forbindelse med koronaviruset, kan du bruke omsorgsdager. Det er en lege som avgjør om det foreligger særlige smittevernhensyn. Det kan være smittevernhensyn til barnet eller andre familiemedlemmer som bor med barnet.",
-    "introPage.info.smittevern.1.html": "I søknaden må du laste opp en bekreftelse fra lege. Legen må bekrefte at barnet ikke kan gå i barnehage eller skole fordi det er <strong>særlige smittevernhensyn</strong> i forbindelse med koronaviruset som må ivaretas for enten barnet eller et familiemedlem som barnet bor sammen med. Legen skal ikke oppgi diagnose eller hvilket familiemedlem det gjelder.",
-    "introPage.info.smittevern.2": "Hvis du ikke har bekreftelse tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
-    "introPage.smittevern.spm": "Har du vært hjemme med barn grunnet særlige smittevernhensyn i forbindelse med koronaviruset?",
-    "introPage.form.spm.hjemmePgaStengt": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært stengt på grunn av koronaviruset?",
-    "introPage.stengtBhgSkole.1": "I søknaden må du laste opp en bekreftelse fra barnehagen eller skolen på at de har stengt.",
-    "introPage.stengtBhgSkole.2": "Hvis du ikke har bekreftelsen tilgjengelig når du søker, kan du ettersende den. Vi kan ikke behandle søknaden før vi mottar bekreftelsen.",
-
     "page.ikkeTilgang.sidetittel": "Søknad om utbetaling av omsorgspenger",
     "page.ikkeTilgang.tekst": "Du har ikke tilgang til denne siden. Dersom du er under 18 år, må en av foreldrene dine eller en foresatt skrive under på søknaden sammen med deg. Du må derfor fylle ut søknaden på papir og sende den i posten.",
 
