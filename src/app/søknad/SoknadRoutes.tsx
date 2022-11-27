@@ -48,9 +48,9 @@ const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => 
             case StepID.FRAVÆR:
                 return <FraværStep />;
             case StepID.DOKUMENTER_STENGT_SKOLE_BHG:
-                return <StengtBhgSkoleDokumenterStep />;
+                return <StengtBhgSkoleDokumenterStep søker={søker} soknadId={soknadId} />;
             case StepID.DOKUMENTER_SMITTEVERNHENSYN:
-                return <SmittevernDokumenterStep />;
+                return <SmittevernDokumenterStep søker={søker} soknadId={soknadId} />;
             case StepID.DOKUMENTER_LEGEERKLÆRING:
                 return <LegeerklæringDokumenterStep søker={søker} soknadId={soknadId} />;
             case StepID.MEDLEMSKAP:

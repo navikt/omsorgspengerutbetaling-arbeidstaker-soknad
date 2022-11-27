@@ -12,17 +12,44 @@ import { valuesToAlleDokumenterISøknaden } from '../../utils/attachmentUtils';
 import { getTotalSizeOfAttachments, MAX_TOTAL_ATTACHMENT_SIZE_BYTES } from 'common/utils/attachmentUtils';
 import SoknadFormStep from '../SoknadFormStep';
 import { StepID } from '../soknadStepsConfig';
+import { Person } from '../../types/Søkerdata';
+import SøknadTempStorage from '../SoknadTempStorage';
 
-const StengtBhgSkoleDokumenterStep: React.FC = () => {
+interface Props {
+    søker: Person;
+    soknadId: string;
+}
+
+const StengtBhgSkoleDokumenterStep: React.FC<Props> = ({ søker, soknadId }) => {
     const intl = useIntl();
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
 
-    const hasPendingUploads: boolean =
-        (values.dokumenterStengtBkgSkole || []).find((a: any) => a.pending === true) !== undefined;
+    const attachments: Attachment[] = React.useMemo(() => {
+        return values ? values[SøknadFormField.dokumenterStengtBkgSkole] : [];
+    }, [values]);
 
+    const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
     const totalSize = getTotalSizeOfAttachments(alleDokumenterISøknaden);
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
+    const ref = React.useRef({ attachments });
+
+    React.useEffect(() => {
+        const hasPendingAttachments = attachments.find((a) => a.pending === true);
+        if (hasPendingAttachments) {
+            return;
+        }
+        if (attachments.length !== ref.current.attachments.length) {
+            const formValues = { ...values, dokumenterStengtBkgSkole: attachments };
+            setFieldValue(SøknadFormField.dokumenterStengtBkgSkole, attachments);
+            SøknadTempStorage.update(soknadId, formValues, StepID.DOKUMENTER_STENGT_SKOLE_BHG, {
+                søker,
+            });
+        }
+        ref.current = {
+            attachments,
+        };
+    }, [attachments, setFieldValue, soknadId, søker, values]);
 
     return (
         <SoknadFormStep
