@@ -110,10 +110,10 @@ const SituasjonStepView: React.FC = () => {
                 )}
 
                 {!isLoading && arbeidsforhold.length > 0 && (
-                    <FormBlock>
+                    <FormBlock margin="xxl">
                         <div className="arbeidsforhold-liste">
                             {arbeidsforhold.map((forhold, index) => (
-                                <Box padBottom="xxl" key={forhold.organisasjonsnummer}>
+                                <Box padBottom="l" key={forhold.organisasjonsnummer}>
                                     <FormSection
                                         titleTag="h3"
                                         title={forhold.navn || forhold.organisasjonsnummer}

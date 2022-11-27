@@ -73,7 +73,7 @@ const FraværStep: React.FC = () => {
                 </CounsellorPanel>
             </FormBlock>
             {arbeidsforholdliste && arbeidsforholdliste.length > 0 && (
-                <FormBlock paddingBottom="l">
+                <FormBlock>
                     {values[SøknadFormField.arbeidsforhold].map((arbeidsforhold: ArbeidsforholdFormData, index) => {
                         if (skalInkludereArbeidsforhold(arbeidsforhold)) {
                             return (
@@ -98,31 +98,29 @@ const FraværStep: React.FC = () => {
                     })}
                 </FormBlock>
             )}
-            <FormBlock margin={'xxl'}>
-                <FormSection title={intlHelper(intl, 'step.fravær.utenlandsopphold.tittel')}>
-                    <FormBlock margin={'l'}>
-                        <SoknadFormComponents.YesOrNoQuestion
-                            name={SøknadFormField.perioderHarVærtIUtlandet}
-                            legend={intlHelper(intl, 'step.fravær.værtIUtlandet.spm')}
-                            validate={getYesOrNoValidator()}
+
+            <FormSection title={intlHelper(intl, 'step.fravær.utenlandsopphold.tittel')}>
+                <SoknadFormComponents.YesOrNoQuestion
+                    name={SøknadFormField.perioderHarVærtIUtlandet}
+                    legend={intlHelper(intl, 'step.fravær.værtIUtlandet.spm')}
+                    validate={getYesOrNoValidator()}
+                />
+
+                {perioderHarVærtIUtlandet === YesOrNo.YES && (
+                    <FormBlock margin="l">
+                        <BostedUtlandListAndDialog<SøknadFormField>
+                            name={SøknadFormField.perioderUtenlandsopphold}
+                            minDate={date1YearAgo}
+                            maxDate={dateToday}
+                            labels={{
+                                addLabel: intlHelper(intl, 'step.fravær.værtIUtlandet.leggTilLabel'),
+                                modalTitle: intlHelper(intl, 'step.fravær.værtIUtlandet.modalTittel'),
+                            }}
+                            validate={getListValidator({ required: true })}
                         />
                     </FormBlock>
-                    {perioderHarVærtIUtlandet === YesOrNo.YES && (
-                        <FormBlock margin="l">
-                            <BostedUtlandListAndDialog<SøknadFormField>
-                                name={SøknadFormField.perioderUtenlandsopphold}
-                                minDate={date1YearAgo}
-                                maxDate={dateToday}
-                                labels={{
-                                    addLabel: intlHelper(intl, 'step.fravær.værtIUtlandet.leggTilLabel'),
-                                    modalTitle: intlHelper(intl, 'step.fravær.værtIUtlandet.modalTittel'),
-                                }}
-                                validate={getListValidator({ required: true })}
-                            />
-                        </FormBlock>
-                    )}
-                </FormSection>
-            </FormBlock>
+                )}
+            </FormSection>
         </SoknadFormStep>
     );
 };
