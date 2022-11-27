@@ -9,6 +9,7 @@ export enum StepID {
     'FRAVÆR' = 'fravær',
     'DOKUMENTER_STENGT_SKOLE_BHG' = 'vedlegg_stengtSkoleBhg',
     'DOKUMENTER_SMITTEVERNHENSYN' = 'vedlegg_smittevernhensyn',
+    'DOKUMENTER_LEGEERKLÆRING' = 'vedlegg_legeerklæring',
     'MEDLEMSKAP' = 'medlemskap',
     'OPPSUMMERING' = 'oppsummering',
 }
@@ -26,6 +27,7 @@ const getSoknadSteps = (values: SøknadFormData): StepID[] => {
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.SITUASJON, included: true },
         { stepID: StepID.FRAVÆR, included: true },
+        { stepID: StepID.DOKUMENTER_LEGEERKLÆRING, included: true },
         { stepID: StepID.DOKUMENTER_STENGT_SKOLE_BHG, included: visDokumenterStengtBhgSkole },
         { stepID: StepID.DOKUMENTER_SMITTEVERNHENSYN, included: visDokumenterSmittevern },
         { stepID: StepID.MEDLEMSKAP, included: true },

@@ -23,6 +23,7 @@ import { StepID } from '../soknadStepsConfig';
 import { isPending } from '@devexperts/remote-data-ts';
 import { useSoknadContext } from '../SoknadContext';
 import { useFormikContext } from 'formik';
+import DokumenterLegeerklæringSummaryView from './components/DokumenterLegeerklæringSummaryView';
 
 interface Props {
     søker: Person;
@@ -81,12 +82,11 @@ const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
                             </SummarySection>
 
                             {/* Vedlegg */}
-                            {(visDokumenterSmittevern || visDokumenterStengtBhgSkole) && (
-                                <SummarySection header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
-                                    {visDokumenterSmittevern && <SmittevernDokumenterSummaryView />}
-                                    {visDokumenterStengtBhgSkole && <StengtBhgSkoleDokumenterSummaryView />}
-                                </SummarySection>
-                            )}
+                            <SummarySection header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
+                                <DokumenterLegeerklæringSummaryView />
+                                {visDokumenterSmittevern && <SmittevernDokumenterSummaryView />}
+                                {visDokumenterStengtBhgSkole && <StengtBhgSkoleDokumenterSummaryView />}
+                            </SummarySection>
                         </Panel>
                     </Box>
 

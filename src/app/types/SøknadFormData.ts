@@ -14,8 +14,10 @@ export enum SøknadFormField {
     perioderHarVærtIUtlandet = 'perioderHarVærtIUtlandet',
     perioderUtenlandsopphold = 'perioderUtenlandsopphold',
 
+    // Dokumenter
     smittevernDokumenter = 'smittevernDokumenter',
     dokumenterStengtBkgSkole = 'dokumenterStengtBkgSkole',
+    dokumenterLegeerklæring = 'dokumenterLegeerklæring',
 
     // Medlemskap
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -38,6 +40,7 @@ export interface SøknadFormData {
     // Dokumenter
     [SøknadFormField.smittevernDokumenter]: Attachment[];
     [SøknadFormField.dokumenterStengtBkgSkole]: Attachment[];
+    [SøknadFormField.dokumenterLegeerklæring]: Attachment[];
 
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
@@ -60,6 +63,7 @@ export const initialValues: SøknadFormData = {
     // Dokumenter
     [SøknadFormField.smittevernDokumenter]: [],
     [SøknadFormField.dokumenterStengtBkgSkole]: [],
+    [SøknadFormField.dokumenterLegeerklæring]: [],
 
     // Medlemskap
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,

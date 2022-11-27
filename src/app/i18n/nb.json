@@ -185,6 +185,15 @@
     "step.vedlegg_smittevernhensyn.info.2": "Hvis du ikke har bekreftelsen tilgjengelig nå, må du ettersende den til oss så snart du har  den. Vi kan ikke behandle søknaden før vi har mottatt bekreftelsen.",
     "steg.vedlegg_smittevernhensyn.spm": "Har du vært hjemme fra jobb fordi barnehagen eller skolen har vært stengt på grunn av koronaviruset?",
 
+    "step.vedlegg_legeerklæring.pageTitle": "Legeerklæring",
+    "step.vedlegg_legeerklæring.stepTitle": "Last opp legeerklæring",
+    "step.vedlegg_legeerklæring.stepIndicatorLabel": "Last opp din legeerklæring",
+    "step.vedlegg_legeerklæring.counsellorpanel.1": "Her skal du laste opp legeerklæringen. Det gjør du enten ved å ta bilde av leggerklæringen, eller ved å skanne den. Vær nøye med at all tekst er med, inkludert legens signatur.",
+    "step.vedlegg_legeerklæring.counsellorpanel.2": "Vi kan ikke behandle søknaden din før vi mottar legeerklæringen. Hvis du ikke har legeerklæringen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten legeerklæring, men da må du ettersende den så snart som mulig.",
+    "step.vedlegg_legeerklæring.counsellorpanel.3": "Her får du veiledning til hvordan du ettersender dokumentasjon",
+    "step.vedlegg_legeerklæring.uploadBtn": "Last opp legeerklæring",
+    "step.vedlegg_legeerklæring.nextButtonLabel": "Fortsett",
+
     "step.medlemskap.pageTitle": "Omsorgspengesøknad - medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygden",
@@ -245,6 +254,8 @@
 
     "steg.oppsummering.dokumenter.header": "Vedlegg",
 
+    "steg.oppsummering.dokumenterLegeerklæring.header": "Legeerklæring",
+    "steg.oppsummering.dokumenterLegeerklæring.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
     "step.oppsummering.smittevern.bekreftelse.header": "Bekreftelse fra lege",
     "step.oppsummering.smittevern.bekreftelse.ikkeLastetOpp": "Ikke lastet opp, må ettersendes",
 

@@ -7,6 +7,7 @@ import {
     fraværStepIsAvailable,
     situasjonStepIsAvailable,
     summaryStepAvailable,
+    legeerklæringStepIsAvailable,
 } from './stepUtils';
 
 export const getAvailableSteps = (values: SøknadFormData): StepID[] => {
@@ -27,9 +28,15 @@ export const getAvailableSteps = (values: SøknadFormData): StepID[] => {
     if (visDokumenterStengtBhgSkole) {
         steps.push(StepID.DOKUMENTER_STENGT_SKOLE_BHG);
     }
+
     if (visDokumenterSmittevern) {
         steps.push(StepID.DOKUMENTER_SMITTEVERNHENSYN);
     }
+
+    if (legeerklæringStepIsAvailable(values)) {
+        steps.push(StepID.DOKUMENTER_LEGEERKLÆRING);
+    }
+
     if (medlemskapStepIsAvailable(values)) {
         steps.push(StepID.MEDLEMSKAP);
     }

@@ -26,6 +26,7 @@ export const mapFormDataToApiData = (
         // Dokumenter
         smittevernDokumenter,
         dokumenterStengtBkgSkole,
+        dokumenterLegeerklæring,
 
         // STEG 4: Medlemskap
         harBoddUtenforNorgeSiste12Mnd,
@@ -46,6 +47,8 @@ export const mapFormDataToApiData = (
             ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
             : [];
 
+    const _vedleggLegeerklæring = listOfAttachmentsToListOfUrlStrings(dokumenterLegeerklæring);
+
     const apiData: SøknadApiData = {
         språk: getLocaleForApi(intl.locale),
         bosteder: settInnBosteder(
@@ -65,9 +68,11 @@ export const mapFormDataToApiData = (
             ...listOfArbeidsforholdFormDataToListOfAttachmentStrings([...arbeidsforhold]),
             ..._vedleggSmittevern,
             ..._vedleggStengtBhgSkole,
+            ..._vedleggLegeerklæring,
         ],
         _vedleggSmittevern,
         _vedleggStengtBhgSkole,
+        _vedleggLegeerklæring,
     };
 
     return apiData;

@@ -11,8 +11,10 @@ export const situasjonStepIsAvailable = (formData: SøknadFormData): boolean => 
 export const fraværStepIsAvailable = (formData: SøknadFormData): boolean =>
     situasjonStepIsAvailable(formData) && situasjonStepIsValid(formData);
 
-export const medlemskapStepIsAvailable = (formData: SøknadFormData): boolean =>
+export const legeerklæringStepIsAvailable = (formData: SøknadFormData): boolean =>
     fraværStepIsAvailable(formData) && fraværStepIsValid(formData);
+
+export const medlemskapStepIsAvailable = (formData: SøknadFormData): boolean => legeerklæringStepIsAvailable(formData);
 
 export const summaryStepAvailable = (formData: SøknadFormData): boolean =>
     medlemskapStepIsAvailable(formData) && medlemskapStepIsValid(formData);
