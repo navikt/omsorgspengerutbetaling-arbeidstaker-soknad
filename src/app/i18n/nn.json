@@ -50,21 +50,6 @@
     "step.sendButtonLabel": "Send inn søknaden",
     "step.sendButtonAriaLabel": "Send inn søknaden",
 
-    "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknaden",
-    "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
-    "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden, bli sletta, og du kjem tilbake til velkomstsida.",
-    "avbrytSøknadDialog.spørsmål": "Ønskjer du å slette søknaden?",
-    "avbrytSøknadDialog.tittel": "Avbryt og slett søknaden",
-
-    "fortsettSøknadSenereDialog.avbrytSøknadLabel": "Ja, fortset seinare",
-    "fortsettSøknadSenereDialog.fortsettSøknadLabel": "Nei",
-    "fortsettSøknadSenereDialog.intro": "Vi lagrar søknaden din for deg i 24 timar.",
-    "fortsettSøknadSenereDialog.spørsmål": "Vil du avslutte no og fortsetje seinare?",
-    "fortsettSøknadSenereDialog.tittel": "Avslutt og fortset seinare",
-
-    "steg.footer.avbryt": "Avbryt og slett søknaden",
-    "steg.footer.fortsettSenere": "Avslutt og fortset seinare",
-
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
 
     "formikVedleggsKomponent.advarsel.totalstørrelse.1": "Du har totalt lasta opp meir enn grensa på 24 Mb. Det betyr at du må fjerne nokre av dei vedlegga du har lasta opp. Dersom det betyr at du ikkje får plass til alt du ønskjer å sende nå, kan du ",
