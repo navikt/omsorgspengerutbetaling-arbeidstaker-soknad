@@ -31,7 +31,7 @@
         "@navikt/sif-common-formik": "^23.1.1",
         "@navikt/sif-common-forms": "17.6.0-beta.3",
         "@navikt/sif-common-sentry": "^0.3.1",
-        "@navikt/sif-common-soknad": "^5.3.1",
+        "@navikt/sif-common-soknad": "^5.3.2",
         "@snyk/protect": "^1.1061.0",
         "axios": "^0.27.2",
         "busboy": "^1.6.0",
