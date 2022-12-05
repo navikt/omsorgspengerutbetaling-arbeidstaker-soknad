@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import SoknadApplication from '@navikt/sif-common-soknad/lib/soknad-application-setup/SoknadApplication';
 import SoknadApplicationCommonRoutes from '@navikt/sif-common-soknad/lib/soknad-application-setup/SoknadApplicationCommonRoutes';
 import Modal from 'nav-frontend-modal';
-import IntroPage from './pages/intro-page/IntroPage';
 import RouteConfig from './config/routeConfig';
+import { applicationIntlMessages } from './i18n/applicationMessages';
+import SoknadRemoteDataFetcher from './søknad/SoknadRemoteDataFetcher';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import '@navikt/ds-css';
 import 'common/styles/globalStyles.less';
 import './app.less';
-import { applicationIntlMessages } from './i18n/applicationMessages';
-import SoknadRemoteDataFetcher from './søknad/SoknadRemoteDataFetcher';
 
 appSentryLogger.init();
 
@@ -39,7 +38,9 @@ const App: React.FC = () => {
                 publicPath={publicPath}>
                 <SoknadApplicationCommonRoutes
                     contentRoutes={[
-                        <Route path="/" key="intro" exact={true} component={IntroPage} />,
+                        <Route path="/" key="intro" exact={true}>
+                            <Redirect to={RouteConfig.SØKNAD_ROUTE_PREFIX} />
+                        </Route>,
                         <Route
                             path={RouteConfig.SØKNAD_ROUTE_PREFIX}
                             key="soknad"
