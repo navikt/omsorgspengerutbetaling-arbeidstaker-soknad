@@ -12,7 +12,7 @@ export const velkommenPageMessages: MessageFileFormat = {
         'page.velkommen.omSøknaden.tittel': 'Om søknaden',
         'page.velkommen.omSøknaden.1': 'Du får veiledning underveis i søknaden om hva du skal fylle ut, og hvordan.',
         'page.velkommen.omSøknaden.2':
-            'Vi tar vare på svarene dine i 72 timer. Så, hvis du innenfor den tiden for eksempel vil ta en pause eller blir automatisk logget ut, fortsetter du der du var når du kommer tilbake.',
+            'Vi tar vare på svarene dine i 72 timer. Hvis du innenfor den tiden for eksempel vil ta en pause eller blir automatisk logget ut, fortsetter du der du var når du kommer tilbake.',
         'page.velkommen.omSøknaden.3':
             'Du må svare på alle spørsmålene for å kunne gå videre. Hvis du mangler etterspurt dokumentasjon, kan du ettersende det så snart du kan.',
         'page.velkommen.omSøknaden.4': 'Om hvordan vi innhenter opplysninger om deg',
