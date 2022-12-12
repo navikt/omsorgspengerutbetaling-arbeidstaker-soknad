@@ -107,9 +107,9 @@ const TilArbeidsgiverDokument: React.FC<Props> = ({ arbeidsgiverDetaljer, søker
                 </Panel>
 
                 <div>
-                    <h4>
+                    <h3>
                         <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.tittel" />
-                    </h4>
+                    </h3>
 
                     <p>
                         <FormattedMessage id="page.conformation.tilArbeidsgiverDokument.info.1" />

@@ -115,7 +115,7 @@ const SituasjonStepView: React.FC = () => {
                             {arbeidsforhold.map((forhold, index) => (
                                 <Box padBottom="l" key={forhold.organisasjonsnummer}>
                                     <FormSection
-                                        titleTag="h3"
+                                        titleTag="h2"
                                         title={forhold.navn || forhold.organisasjonsnummer}
                                         titleIcon={<BuildingIcon />}>
                                         <ArbeidsforholdSituasjon
