@@ -24,6 +24,7 @@ import { isPending } from '@devexperts/remote-data-ts';
 import { useSoknadContext } from '../SoknadContext';
 import { useFormikContext } from 'formik';
 import DokumenterLegeerklæringSummaryView from './components/DokumenterLegeerklæringSummaryView';
+import { skalEndringeneFor2023Brukes } from '../../utils/dateUtils';
 
 interface Props {
     søker: Person;
@@ -38,6 +39,7 @@ const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
     const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
     const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
+    const visLegeerklæring = skalEndringeneFor2023Brukes();
 
     const { fornavn, mellomnavn, etternavn, fødselsnummer } = søker;
 
@@ -82,11 +84,13 @@ const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
                             </SummarySection>
 
                             {/* Vedlegg */}
-                            <SummarySection header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
-                                <DokumenterLegeerklæringSummaryView />
-                                {visDokumenterSmittevern && <SmittevernDokumenterSummaryView />}
-                                {visDokumenterStengtBhgSkole && <StengtBhgSkoleDokumenterSummaryView />}
-                            </SummarySection>
+                            {(visDokumenterSmittevern || visDokumenterStengtBhgSkole || visLegeerklæring) && (
+                                <SummarySection header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
+                                    {visLegeerklæring && <DokumenterLegeerklæringSummaryView />}
+                                    {visDokumenterSmittevern && <SmittevernDokumenterSummaryView />}
+                                    {visDokumenterStengtBhgSkole && <StengtBhgSkoleDokumenterSummaryView />}
+                                </SummarySection>
+                            )}
                         </Panel>
                     </Box>
 

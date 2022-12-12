@@ -3,6 +3,7 @@ import soknadStepUtils from '@navikt/sif-common-soknad/lib/soknad-step/soknadSte
 import { getAlleUtbetalingsperioder } from '../utils/arbeidsforholdUtils';
 import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from 'app/utils/periodeUtils';
 import { SøknadFormData } from '../types/SøknadFormData';
+import { skalEndringeneFor2023Brukes } from '../utils/dateUtils';
 
 export enum StepID {
     'SITUASJON' = 'situasjon',
@@ -23,11 +24,12 @@ const getSoknadSteps = (values: SøknadFormData): StepID[] => {
     const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
     const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
+    const visLegeerklæring = skalEndringeneFor2023Brukes();
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.SITUASJON, included: true },
         { stepID: StepID.FRAVÆR, included: true },
-        { stepID: StepID.DOKUMENTER_LEGEERKLÆRING, included: true },
+        { stepID: StepID.DOKUMENTER_LEGEERKLÆRING, included: visLegeerklæring },
         { stepID: StepID.DOKUMENTER_STENGT_SKOLE_BHG, included: visDokumenterStengtBhgSkole },
         { stepID: StepID.DOKUMENTER_SMITTEVERNHENSYN, included: visDokumenterSmittevern },
         { stepID: StepID.MEDLEMSKAP, included: true },
