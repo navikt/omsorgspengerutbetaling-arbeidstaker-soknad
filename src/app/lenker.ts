@@ -5,6 +5,7 @@ interface Lenker {
     personvern: string;
     rettOgPlikt: string;
     saksbehandlingstider: string;
+    ettersending: string;
 }
 
 const LenkerBokmål: Lenker = {
@@ -16,6 +17,7 @@ const LenkerBokmål: Lenker = {
         'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/personvern-i-arbeids-og-velferdsetaten/personvernerkl%C3%A6ring-for-arbeids-og-velferdsetaten',
     rettOgPlikt: 'https://nav.no/rettOgPlikt',
     saksbehandlingstider: 'https://www.nav.no/saksbehandlingstider',
+    ettersending: 'https://www.nav.no/soknader/nb/person/familie/omsorgspenger/NAV%2009-35.01/ettersendelse',
 };
 
 const LenkerNynorsk: Partial<Lenker> = {

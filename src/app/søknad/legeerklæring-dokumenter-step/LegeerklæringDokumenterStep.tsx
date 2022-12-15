@@ -18,6 +18,8 @@ import { StepID } from '../soknadStepsConfig';
 import FormikVedleggsKomponent from '../../components/VedleggComponent/FormikVedleggsKomponent';
 import SøknadTempStorage from '../SoknadTempStorage';
 import { Person } from '../../types/Søkerdata';
+import Lenke from 'nav-frontend-lenker';
+import getLenker from '../../lenker';
 
 interface Props {
     søker: Person;
@@ -63,7 +65,10 @@ const LegeerklæringDokumenterStep: React.FC<Props> = ({ søker, soknadId }) => 
             <FormBlock>
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
-                        <FormattedMessage id="step.vedlegg_legeerklæring.counsellorpanel.1" />
+                        <FormattedMessage id="step.vedlegg_legeerklæring.counsellorpanel.1" />{' '}
+                        <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker().ettersending}>
+                            <FormattedMessage id={'step.vedlegg_legeerklæring.counsellorpanel.1.lenkeEttersending'} />
+                        </Lenke>
                     </Box>
                     <Box padBottom={'l'}>
                         <FormattedMessage id="step.vedlegg_legeerklæring.counsellorpanel.2" />{' '}
