@@ -57,10 +57,7 @@ const FraværStep: React.FC = () => {
 
     const harRegistrertFravær = fraværDager.length + fraværPerioder.length > 0;
     const minDateForFravær = harRegistrertFravær ? gyldigTidsrom.from : date1YearAgo;
-    // const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : dateToday;
-
-    //OBS! TODO Bruk dette kun til test
-    const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : new Date('05.03.2023');
+    const maxDateForFravær = harRegistrertFravær ? gyldigTidsrom.to : dateToday;
 
     return (
         <SoknadFormStep id={StepID.FRAVÆR} onStepCleanup={cleanupStep}>

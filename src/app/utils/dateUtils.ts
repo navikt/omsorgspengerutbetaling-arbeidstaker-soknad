@@ -7,5 +7,5 @@ export const skalEndringeneFor2023Brukes = (values: SøknadFormData) => {
     const fraværDager = getAlleFraværDager(values);
     const fraværPerioder = getAlleFraværPerioder(values);
 
-    return dayjs().year() === 2022 && getÅrstallFromFravær(fraværDager, fraværPerioder) === 2023;
+    return dayjs().year() === 2023 && getÅrstallFromFravær(fraværDager, fraværPerioder) === 2023;
 };
