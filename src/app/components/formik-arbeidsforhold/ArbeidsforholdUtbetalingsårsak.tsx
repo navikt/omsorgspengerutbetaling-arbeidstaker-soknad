@@ -68,7 +68,7 @@ const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName, sokn
             attachments,
         };
     }, [attachments, setFieldValue, values, parentFieldName, soknadId, søker]);
-    console.log('arbeidsforhold: ', arbeidsforhold);
+
     return (
         <>
             <FormBlock>
