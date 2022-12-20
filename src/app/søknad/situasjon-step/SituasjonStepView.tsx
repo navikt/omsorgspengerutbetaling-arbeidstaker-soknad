@@ -12,7 +12,7 @@ import FormSection from 'common/components/form-section/FormSection';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { getArbeidsgivere, syncArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdTypes';
-import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere } from '../../types/Søkerdata';
+import { Arbeidsgiver, ArbeidsgiverResponse, isArbeidsgivere, Person } from '../../types/Søkerdata';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
 import {
@@ -32,7 +32,12 @@ import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 import SoknadFormStep from '../SoknadFormStep';
 import { StepID } from '../soknadStepsConfig';
 
-const SituasjonStepView: React.FC = () => {
+interface Props {
+    søker: Person;
+    soknadId: string;
+}
+
+const SituasjonStepView: React.FC<Props> = ({ søker, soknadId }: Props) => {
     const { values, setFieldValue } = useFormikContext<SøknadFormData>();
     const [isLoading, setIsLoading] = useState(true);
     const [doApiCalls, setDoApiCalls] = useState(true);
@@ -127,6 +132,8 @@ const SituasjonStepView: React.FC = () => {
                                                 <ArbeidsforholdUtbetalingsårsak
                                                     arbeidsforhold={forhold}
                                                     parentFieldName={`${SøknadFormField.arbeidsforhold}.${index}`}
+                                                    søker={søker}
+                                                    soknadId={soknadId}
                                                 />
                                             )}
                                     </FormSection>

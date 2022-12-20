@@ -26,6 +26,7 @@ import { mapFormDataToApiData } from '../utils/mapFormDataToApiData';
 import { SøknadApiData } from '../types/SøknadApiData';
 import VelkommenPage from '../pages/velkommen-page/VelkommenPage';
 import LegeerklæringDokumenterStep from './legeerklæring-dokumenter-step/LegeerklæringDokumenterStep';
+import { skalEndringeneFor2023Brukes } from '../utils/dateUtils';
 
 interface Props {
     søker: Person;
@@ -41,10 +42,12 @@ const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => 
 
     const availableSteps = getAvailableSteps(values);
 
+    const visLegeerklæring = skalEndringeneFor2023Brukes(values);
+
     const renderSoknadStep = (søker: Person, stepID: StepID, soknadId: string): React.ReactNode => {
         switch (stepID) {
             case StepID.SITUASJON:
-                return <SituasjonStepView />;
+                return <SituasjonStepView søker={søker} soknadId={soknadId} />;
             case StepID.FRAVÆR:
                 return <FraværStep />;
             case StepID.DOKUMENTER_STENGT_SKOLE_BHG:
@@ -56,8 +59,8 @@ const SoknadRoutes: React.FC<Props> = ({ søker, soknadId, kvitteringInfo }) => 
             case StepID.MEDLEMSKAP:
                 return <MedlemsskapStep />;
             case StepID.OPPSUMMERING:
-                const apiValues: SøknadApiData = mapFormDataToApiData(values, intl);
-                return <OppsummeringStep søker={søker} apiValues={apiValues} />;
+                const apiValues: SøknadApiData = mapFormDataToApiData(values, visLegeerklæring, intl);
+                return <OppsummeringStep søker={søker} visLegeerklæring={visLegeerklæring} apiValues={apiValues} />;
         }
     };
 

@@ -22,23 +22,53 @@ import {
     ValidateStringError,
 } from '@navikt/sif-common-formik/lib/validation';
 import { AppFieldValidationErrors } from 'app/validation/fieldValidations';
-// import { Element } from 'nav-frontend-typografi';
+import SøknadTempStorage from 'app/søknad/SoknadTempStorage';
+import { StepID } from '../../søknad/soknadStepsConfig';
+import { Person } from '../../types/Søkerdata';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdFormData;
     parentFieldName: string;
+    soknadId: string;
+    søker: Person;
 }
 
-const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName }: Props) => {
+const ArbeidsforholdUtbetalingsårsak = ({ arbeidsforhold, parentFieldName, soknadId, søker }: Props) => {
     const intl = useIntl();
+    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
 
     const getFieldName = (field: ArbeidsforholdFormDataFields) =>
         `${parentFieldName}.${field}` as ArbeidsforholdFormDataFields;
 
     const utbetalingsårsak: Utbetalingsårsak | undefined = arbeidsforhold.utbetalingsårsak;
-    const { values } = useFormikContext<SøknadFormData>();
-    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
     const arbeidsgivernavn = arbeidsforhold.navn;
+
+    const attachments: Attachment[] = React.useMemo(() => {
+        return arbeidsforhold ? arbeidsforhold.dokumenter : [];
+    }, [arbeidsforhold]);
+
+    const alleDokumenterISøknaden: Attachment[] = valuesToAlleDokumenterISøknaden(values);
+    const ref = React.useRef({ attachments });
+
+    React.useEffect(() => {
+        const hasPendingAttachments = attachments.find((a) => a.pending === true);
+        if (hasPendingAttachments) {
+            return;
+        }
+        if (attachments.length !== ref.current.attachments.length) {
+            setFieldValue(
+                `arbeidsforhold.${parentFieldName}.${ArbeidsforholdFormDataFields.dokumenter}` as ArbeidsforholdFormDataFields,
+                attachments
+            );
+            SøknadTempStorage.update(soknadId, values, StepID.SITUASJON, {
+                søker,
+            });
+        }
+        ref.current = {
+            attachments,
+        };
+    }, [attachments, setFieldValue, values, parentFieldName, soknadId, søker]);
+    console.log('arbeidsforhold: ', arbeidsforhold);
     return (
         <>
             <FormBlock>

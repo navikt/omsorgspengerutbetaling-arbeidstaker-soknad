@@ -12,6 +12,7 @@ import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { getAlleUtbetalingsperioder } from './arbeidsforholdUtils';
 import { harFraværPgaSmittevernhensyn, harFraværPgaStengBhgSkole } from './periodeUtils';
 import { getLocaleForApi } from '@navikt/sif-common-core/lib/utils/localeUtils';
+
 export const mapFormDataToApiData = (
     {
         harForståttRettigheterOgPlikter,
@@ -34,6 +35,7 @@ export const mapFormDataToApiData = (
         skalBoUtenforNorgeNeste12Mnd,
         utenlandsoppholdNeste12Mnd,
     }: SøknadFormData,
+    visLegeerklæring: boolean,
     intl: IntlShape
 ): SøknadApiData => {
     const alleUtbetalingsperioder = getAlleUtbetalingsperioder(arbeidsforhold);
@@ -47,7 +49,7 @@ export const mapFormDataToApiData = (
             ? listOfAttachmentsToListOfUrlStrings(dokumenterStengtBkgSkole)
             : [];
 
-    const _vedleggLegeerklæring = listOfAttachmentsToListOfUrlStrings(dokumenterLegeerklæring);
+    const _vedleggLegeerklæring = visLegeerklæring ? listOfAttachmentsToListOfUrlStrings(dokumenterLegeerklæring) : [];
 
     const apiData: SøknadApiData = {
         språk: getLocaleForApi(intl.locale),

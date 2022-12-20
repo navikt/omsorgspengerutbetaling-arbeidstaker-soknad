@@ -16,7 +16,7 @@ export const getAvailableSteps = (values: SøknadFormData): StepID[] => {
     const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
     const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
-    const visLegeerklæring = skalEndringeneFor2023Brukes();
+    const visLegeerklæring = skalEndringeneFor2023Brukes(values);
 
     if (situasjonStepIsAvailable(values)) {
         steps.push(StepID.SITUASJON);

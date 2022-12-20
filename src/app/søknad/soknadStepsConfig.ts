@@ -24,7 +24,8 @@ const getSoknadSteps = (values: SøknadFormData): StepID[] => {
     const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
     const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
-    const visLegeerklæring = skalEndringeneFor2023Brukes();
+
+    const visLegeerklæring = skalEndringeneFor2023Brukes(values);
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.SITUASJON, included: true },

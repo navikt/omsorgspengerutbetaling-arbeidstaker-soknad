@@ -24,14 +24,14 @@ import { isPending } from '@devexperts/remote-data-ts';
 import { useSoknadContext } from '../SoknadContext';
 import { useFormikContext } from 'formik';
 import DokumenterLegeerklæringSummaryView from './components/DokumenterLegeerklæringSummaryView';
-import { skalEndringeneFor2023Brukes } from '../../utils/dateUtils';
 
 interface Props {
     søker: Person;
+    visLegeerklæring: boolean;
     apiValues?: SøknadApiData;
 }
 
-const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
+const OppsummeringStep: React.FC<Props> = ({ søker, visLegeerklæring, apiValues }: Props) => {
     const intl = useIntl();
     const { sendSoknadStatus, sendSoknad } = useSoknadContext();
     const { values } = useFormikContext<SøknadFormData>();
@@ -39,7 +39,6 @@ const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
     const alleUtbetalingsperioder = getAlleUtbetalingsperioder(values.arbeidsforhold);
     const visDokumenterSmittevern = harFraværPgaSmittevernhensyn(alleUtbetalingsperioder);
     const visDokumenterStengtBhgSkole = harFraværPgaStengBhgSkole(alleUtbetalingsperioder);
-    const visLegeerklæring = skalEndringeneFor2023Brukes();
 
     const { fornavn, mellomnavn, etternavn, fødselsnummer } = søker;
 
