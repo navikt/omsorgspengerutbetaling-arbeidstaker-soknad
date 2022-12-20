@@ -67,6 +67,7 @@ export interface SøknadApiData {
     arbeidsgivere: ArbeidsgiverDetaljer[];
     bekreftelser: Bekreftelser;
     vedlegg: string[];
+    _vedleggLegeerklæring: string[]; // Used in summary view
     _vedleggSmittevern: string[]; // Used in summary view
     _vedleggStengtBhgSkole: string[]; // Used in summary view
 }

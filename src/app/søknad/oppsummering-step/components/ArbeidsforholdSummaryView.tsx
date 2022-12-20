@@ -39,7 +39,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                 arbeidsgiver.arbeidsgiverHarUtbetaltLønn === YesOrNo.YES)
     );
     return (
-        <Box margin={'l'}>
+        <>
             {listeAvArbeidsforhold.map((arbeidsforhold: ArbeidsgiverDetaljer, index: number) => {
                 const orgInfo = {
                     navn: arbeidsforhold.navn,
@@ -53,7 +53,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                 );
 
                 return (
-                    <Box key={index} padBottom={'xl'}>
+                    <Box key={index} margin="l">
                         {/* Title */}
                         <div className={bem.element('org')}>
                             {orgInfo.navn}{' '}
@@ -150,7 +150,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                         index: number
                     ) => {
                         return (
-                            <Box key={index} padBottom={'xl'}>
+                            <Box key={index} margin="l">
                                 {/* Title */}
                                 <div className={bem.element('org')}>
                                     {navn} {organisasjonsnummer && <>(organisasjonsnummer: {organisasjonsnummer})</>}
@@ -182,7 +182,7 @@ const ArbeidsforholdSummaryView: React.FC<Props> = ({ listeAvArbeidsforhold }: P
                         );
                     }
                 )}
-        </Box>
+        </>
     );
 };
 

@@ -90,8 +90,8 @@ export const utbetalingsperiodeDagToDagSummaryStringView = (
     );
 };
 
-const renderÅrsakElement = (årsak: FraværÅrsak, intl?: IntlShape): JSX.Element | null => {
-    return årsak !== FraværÅrsak.ordinært && intl ? (
+const renderÅrsakElement = (årsak?: FraværÅrsak, intl?: IntlShape): JSX.Element | null => {
+    return årsak && årsak !== FraværÅrsak.ordinært && intl ? (
         <div>
             {intlHelper(intl, 'steg.oppsummering.fravær.årsak', {
                 årsak: getFraværÅrsakTekstKort(årsak, intl),

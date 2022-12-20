@@ -23,13 +23,15 @@ import { StepID } from '../soknadStepsConfig';
 import { isPending } from '@devexperts/remote-data-ts';
 import { useSoknadContext } from '../SoknadContext';
 import { useFormikContext } from 'formik';
+import DokumenterLegeerklæringSummaryView from './components/DokumenterLegeerklæringSummaryView';
 
 interface Props {
     søker: Person;
+    visLegeerklæring: boolean;
     apiValues?: SøknadApiData;
 }
 
-const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
+const OppsummeringStep: React.FC<Props> = ({ søker, visLegeerklæring, apiValues }: Props) => {
     const intl = useIntl();
     const { sendSoknadStatus, sendSoknad } = useSoknadContext();
     const { values } = useFormikContext<SøknadFormData>();
@@ -81,8 +83,9 @@ const OppsummeringStep: React.FC<Props> = ({ søker, apiValues }: Props) => {
                             </SummarySection>
 
                             {/* Vedlegg */}
-                            {(visDokumenterSmittevern || visDokumenterStengtBhgSkole) && (
+                            {(visDokumenterSmittevern || visDokumenterStengtBhgSkole || visLegeerklæring) && (
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.dokumenter.header')}>
+                                    {visLegeerklæring && <DokumenterLegeerklæringSummaryView />}
                                     {visDokumenterSmittevern && <SmittevernDokumenterSummaryView />}
                                     {visDokumenterStengtBhgSkole && <StengtBhgSkoleDokumenterSummaryView />}
                                 </SummarySection>
