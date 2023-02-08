@@ -6,10 +6,7 @@ import { failure } from '@devexperts/remote-data-ts';
 
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<ArbeidsgiverResponse>> => {
     try {
-        return api.get<ArbeidsgiverResponse>(
-            ApiEndpoint.ARBEIDSGIVER,
-            `ytelse=omsorgspenger-utbetaling-arbeidstaker&fra_og_med=${fom}&til_og_med=${tom}`
-        );
+        return api.get<ArbeidsgiverResponse>(ApiEndpoint.ARBEIDSGIVER, `fra_og_med=${fom}&til_og_med=${tom}`);
     } catch (error) {
         return Promise.reject(failure(error));
     }
