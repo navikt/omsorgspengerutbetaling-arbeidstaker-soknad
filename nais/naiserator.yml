@@ -29,8 +29,14 @@ spec:
             memory: 128Mi
     accessPolicy:
         outbound:
+            rules: 
+             - application: k9-brukerdialog-api
+             - application: nav-dekoratoren
+               namespace: personbruker
             external:
-            - host: www.nav.no
+            {{#each externalHosts as |host|}}
+            - host: {{host}}
+            {{/each}}
     ingresses:
       {{#each ingresses as |url|}}
        - {{url}}
@@ -42,6 +48,8 @@ spec:
     prometheus:
         enabled: true
         path: /metrics
+    vault:
+        enabled: false
     env:
   {{#each env}}
      - name: {{@key}}
