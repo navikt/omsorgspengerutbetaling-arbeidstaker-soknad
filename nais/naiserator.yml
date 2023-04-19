@@ -29,8 +29,12 @@ spec:
             memory: 128Mi
     accessPolicy:
         outbound:
+            rules: 
+             - application: k9-brukerdialog-api
             external:
-            - host: www.nav.no
+            {{#each externalHosts as |host|}}
+            - host: {{host}}
+            {{/each}}
     ingresses:
       {{#each ingresses as |url|}}
        - {{url}}
