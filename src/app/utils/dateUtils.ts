@@ -9,3 +9,7 @@ export const skalEndringeneFor2023Brukes = (values: SøknadFormData) => {
 
     return dayjs().year() === 2023 && getÅrstallFromFravær(fraværDager, fraværPerioder) === 2023;
 };
+
+export const getNMonthsAgo = (numberOfMonths: number) => {
+    return dayjs().subtract(numberOfMonths, 'month').startOf('month').toDate();
+};
