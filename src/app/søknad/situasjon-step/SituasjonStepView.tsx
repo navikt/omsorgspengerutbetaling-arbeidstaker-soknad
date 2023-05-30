@@ -31,6 +31,7 @@ import {
 import { valuesToAlleDokumenterISøknaden } from 'app/utils/attachmentUtils';
 import SoknadFormStep from '../SoknadFormStep';
 import { StepID } from '../soknadStepsConfig';
+import { getNMonthsAgo } from '../../utils/dateUtils';
 
 interface Props {
     søker: Person;
@@ -43,10 +44,14 @@ const SituasjonStepView: React.FC<Props> = ({ søker, soknadId }: Props) => {
     const [doApiCalls, setDoApiCalls] = useState(true);
 
     useEffect(() => {
+        const threeMonthsAgo = getNMonthsAgo(3);
         const today: Date = dateToday;
 
         const fetchData = async (dtoday: Date): Promise<void> => {
-            const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(dtoday, dtoday);
+            const maybeResponse: AxiosResponse<ArbeidsgiverResponse> | null = await getArbeidsgivere(
+                threeMonthsAgo,
+                dtoday
+            );
             const maybeArbeidsgivere: Arbeidsgiver[] | undefined = maybeResponse?.data?.organisasjoner;
 
             if (isArbeidsgivere(maybeArbeidsgivere)) {
