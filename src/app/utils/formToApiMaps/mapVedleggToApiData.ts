@@ -6,6 +6,7 @@ import {
     Utbetalingsårsak,
 } from '../../types/ArbeidsforholdTypes';
 import { getAttachmentURLBackend } from '../attachmentUtilsAuthToken';
+import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 
 const skalInkludereVedleggFraArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
     if (
@@ -31,12 +32,16 @@ function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
 }
 
 export const listOfAttachmentsToListOfUrlStrings = (attachments: Attachment[]): string[] => {
-    return attachments
-        .map((attachment: Attachment) => {
-            const attachmentUrl = getAttachmentURLBackend(attachment.url);
-            return attachmentUrl;
-        })
-        .filter(notEmpty);
+    const apiData: string[] = [];
+    attachments
+        .filter((attachment) => !attachmentUploadHasFailed(attachment))
+        .forEach((a) => {
+            if (a.url) {
+                const attachmentUrl = getAttachmentURLBackend(a.url);
+                apiData.push(attachmentUrl);
+            }
+        });
+    return apiData;
 };
 
 export const listOfAttachmentsToListOfDocumentName = (attachments: Attachment[]): string[] => {

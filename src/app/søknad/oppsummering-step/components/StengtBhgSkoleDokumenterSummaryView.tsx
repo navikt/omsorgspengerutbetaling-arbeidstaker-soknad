@@ -11,8 +11,9 @@ const StengtBhgSkoleDokumenterSummaryView: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const attachments: Attachment[] = values[SøknadFormField.dokumenterStengtBkgSkole];
-
+    const attachments: Attachment[] = values[SøknadFormField.dokumenterStengtBkgSkole].filter(
+        (attachment) => attachment.uploaded === true && attachment.url
+    );
     return (
         <SummaryBlock header={intlHelper(intl, 'step.oppsummering.stengtBhgSkole.bekreftelse.header')}>
             {attachments.length > 0 ? (
