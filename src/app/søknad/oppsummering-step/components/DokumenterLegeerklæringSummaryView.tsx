@@ -12,7 +12,9 @@ const DokumenterLegeerklæringSummaryView: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const attachments: Attachment[] = values[SøknadFormField.dokumenterLegeerklæring];
+    const attachments: Attachment[] = values[SøknadFormField.dokumenterLegeerklæring].filter(
+        (attachment) => attachment.uploaded === true && attachment.url
+    );
 
     return (
         <Box margin="s">

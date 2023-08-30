@@ -27,7 +27,7 @@
         "@navikt/sif-common-amplitude": "^2.7.3",
         "@navikt/sif-common-core": "^12.0.6",
         "@navikt/sif-common-formik": "^23.5.1",
-        "@navikt/sif-common-forms": "17.7.1",
+        "@navikt/sif-common-forms": "17.7.2",
         "@navikt/sif-common-sentry": "^0.5.5",
         "@navikt/sif-common-soknad": "^6.0.1",
         "axios": "^0.27.2",
@@ -56,8 +56,8 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
-        "@babel/plugin-transform-modules-commonjs": "^7.22.5",
-        "@babel/preset-env": "^7.22.7",
+        "@babel/plugin-transform-modules-commonjs": "^7.22.11",
+        "@babel/preset-env": "^7.22.10",
         "@babel/preset-react": "^7.22.5",
         "@types/enzyme": "^3.10.13",
         "@types/intl": "^1.2.0",
@@ -96,7 +96,7 @@
         "ts-jest": "^28.0.8",
         "ts-loader": "^9.4.4",
         "typescript": "^4.9.5",
-        "webpack": "^5.88.1",
+        "webpack": "^5.88.2",
         "webpack-dev-server": "^4.15.1"
     },
     "resolutions": {

@@ -11,8 +11,9 @@ const SmittevernDokumenterSummaryView: React.FC = () => {
     const intl = useIntl();
     const { values } = useFormikContext<SøknadFormData>();
 
-    const attachments: Attachment[] = values[SøknadFormField.smittevernDokumenter];
-
+    const attachments: Attachment[] = values[SøknadFormField.smittevernDokumenter].filter(
+        (attachment) => attachment.uploaded === true && attachment.url
+    );
     return (
         <SummaryBlock header={intlHelper(intl, 'step.oppsummering.smittevern.bekreftelse.header')}>
             {attachments.length > 0 ? (
